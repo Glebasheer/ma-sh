@@ -233,6 +233,16 @@
             background: #F8FDF8;
         }
 
+        .search-input {
+            margin-bottom: 15px;
+            padding: 12px;
+            border: 2px solid #E8F5E9;
+            border-radius: 10px;
+            font-size: 16px;
+            width: 100%;
+            background: #F8FDF8;
+        }
+
         .form-actions {
             display: flex;
             gap: 10px;
@@ -293,7 +303,6 @@
         <button class="nav-btn" data-section="batches">📦 Партии</button>
         <button class="nav-btn" data-section="sales">💰 Продажи</button>
         <button class="nav-btn" data-section="clients">👥 Клиенты</button>
-        <button class="nav-btn" data-section="cups">🍵 Чаши</button>
     </nav>
 
     <!-- Дашборд -->
@@ -354,13 +363,8 @@
     <!-- Клиенты -->
     <section id="clients" class="section">
         <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
+        <input type="text" class="search-input" id="clientSearch" placeholder="🔍 Поиск клиента по имени..." onkeyup="filterClients()">
         <div id="clientsList"></div>
-    </section>
-
-    <!-- Чаши -->
-    <section id="cups" class="section">
-        <button class="btn" onclick="showModal('newCupModal')">🍵 Добавить чашу</button>
-        <div id="cupsList"></div>
     </section>
 
     <!-- Модальные окна -->
@@ -426,7 +430,8 @@
                 </div>
                 <div class="form-group">
                     <label>Клиент:</label>
-                    <select id="saleClient" required>
+                    <input type="text" id="clientSearchSelect" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterClientSelect()">
+                    <select id="saleClient" required style="margin-top: 10px;">
                         <option value="">Выберите клиента</option>
                     </select>
                 </div>
@@ -437,19 +442,6 @@
                 <div class="form-group">
                     <label>Вес проданного маша (г):</label>
                     <input type="number" id="saleWeight" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Объем упаковки:</label>
-                    <select id="packageSize">
-                        <option value="100">100г</option>
-                        <option value="300">300г</option>
-                        <option value="1000">1кг</option>
-                        <option value="custom">Другой</option>
-                    </select>
-                </div>
-                <div class="form-group" id="customPackageGroup" style="display: none;">
-                    <label>Свой объем (г):</label>
-                    <input type="number" id="customPackageSize" placeholder="250">
                 </div>
                 <div class="form-group">
                     <label>Планируемая цена (руб):</label>
@@ -497,33 +489,6 @@
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
                     <button type="submit" class="btn">Добавить клиента</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newCupModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🍵 Новая чаша</h3>
-                <button class="close-btn" onclick="hideModal('newCupModal')">×</button>
-            </div>
-            <form id="newCupForm">
-                <div class="form-group">
-                    <label>Название чаши:</label>
-                    <input type="text" id="cupName" placeholder="Фиолетовая чаша" required>
-                </div>
-                <div class="form-group">
-                    <label>Объем чаши (г):</label>
-                    <input type="number" id="cupVolume" placeholder="77" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес маша в чаше (г):</label>
-                    <input type="number" id="cupMashWeight" placeholder="200" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newCupModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить чашу</button>
                 </div>
             </form>
         </div>
@@ -613,12 +578,6 @@
             document.getElementById('batchDate').value = today;
             document.getElementById('saleDate').value = today;
             
-            // Обработчик выбора объема упаковки
-            document.getElementById('packageSize').addEventListener('change', function() {
-                const customGroup = document.getElementById('customPackageGroup');
-                customGroup.style.display = this.value === 'custom' ? 'block' : 'none';
-            });
-            
             console.log('🚀 Приложение загружено!');
         });
 
@@ -632,9 +591,6 @@
             }
             if (!localStorage.getItem('clients')) {
                 localStorage.setItem('clients', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('cups')) {
-                localStorage.setItem('cups', JSON.stringify([]));
             }
             console.log('💾 Local Storage инициализирован');
         }
@@ -656,7 +612,6 @@
             document.getElementById('newBatchForm').addEventListener('submit', addBatch);
             document.getElementById('newSaleForm').addEventListener('submit', addSale);
             document.getElementById('newClientForm').addEventListener('submit', addClient);
-            document.getElementById('newCupForm').addEventListener('submit', addCup);
             document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
         }
 
@@ -684,7 +639,6 @@
                 case 'batches': loadBatches(); break;
                 case 'sales': loadSales(); break;
                 case 'clients': loadClients(); break;
-                case 'cups': loadCups(); break;
             }
         }
 
@@ -725,9 +679,9 @@
                 `).join('');
             }
             
-            // Последние продажи
+            // Последние продажи - ПОСЛЕДНИЕ ПЕРВЫМИ
             const recentSalesList = document.getElementById('recentSalesList');
-            const recentSales = sales.slice(-2).reverse();
+            const recentSales = sales.slice(-3).reverse(); // Берем 3 последние и переворачиваем
             
             if (recentSales.length === 0) {
                 recentSalesList.innerHTML = '<div class="empty-state">Нет продаж</div>';
@@ -739,7 +693,7 @@
                             <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice}₽</div>
                         </div>
                         <div class="card-details">
-                            📦 ${sale.weight}г • 🏷️ ${sale.packageSize}г упаковка<br>
+                            📦 ${sale.weight}г<br>
                             💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}
                         </div>
                     </div>
@@ -792,7 +746,10 @@
                 return;
             }
             
-            batchesList.innerHTML = batches.map(batch => `
+            // Сортируем партии - новые первыми
+            const sortedBatches = batches.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            batchesList.innerHTML = sortedBatches.map(batch => `
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${batch.batchNumber}</div>
@@ -910,17 +867,24 @@
                 clients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
         }
 
+        function filterClientSelect() {
+            const searchTerm = document.getElementById('clientSearchSelect').value.toLowerCase();
+            const clients = DB.load('clients');
+            const select = document.getElementById('saleClient');
+            
+            const filteredClients = clients.filter(client => 
+                client.name.toLowerCase().includes(searchTerm)
+            );
+            
+            select.innerHTML = '<option value="">Выберите клиента</option>' +
+                filteredClients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
+        }
+
         function addSale(e) {
             e.preventDefault();
             
             const batchId = parseInt(document.getElementById('saleBatch').value);
             const clientId = parseInt(document.getElementById('saleClient').value);
-            const packageSizeSelect = document.getElementById('packageSize');
-            let packageSize = packageSizeSelect.value;
-            
-            if (packageSize === 'custom') {
-                packageSize = document.getElementById('customPackageSize').value;
-            }
             
             const batches = DB.load('batches');
             const clients = DB.load('clients');
@@ -941,7 +905,6 @@
                 clientName: client.name,
                 date: document.getElementById('saleDate').value,
                 weight: parseInt(document.getElementById('saleWeight').value),
-                packageSize: parseInt(packageSize),
                 plannedPrice: parseInt(document.getElementById('plannedPrice').value),
                 actualPrice: parseInt(document.getElementById('actualPrice').value),
                 notes: document.getElementById('saleNotes').value,
@@ -969,14 +932,17 @@
                 return;
             }
             
-            salesList.innerHTML = sales.map(sale => `
+            // Сортируем продажи - новые первыми
+            const sortedSales = sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            salesList.innerHTML = sortedSales.map(sale => `
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${sale.clientName}</div>
                         <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice}₽</div>
                     </div>
                     <div class="card-details">
-                        📦 ${sale.weight}г • 🏷️ ${sale.packageSize}г упаковка<br>
+                        📦 ${sale.weight}г<br>
                         💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽)<br>
                         📦 Партия: ${sale.batchNumber} • 📅 ${sale.date}
                     </div>
@@ -1009,16 +975,33 @@
             alert('✅ Клиент добавлен!');
         }
 
-        function loadClients() {
+        function filterClients() {
+            const searchTerm = document.getElementById('clientSearch').value.toLowerCase();
+            loadClients(searchTerm);
+        }
+
+        function loadClients(searchTerm = '') {
             const clients = DB.load('clients');
             const clientsList = document.getElementById('clientsList');
             
-            if (clients.length === 0) {
-                clientsList.innerHTML = '<div class="empty-state">Нет добавленных клиентов</div>';
+            let filteredClients = clients;
+            if (searchTerm) {
+                filteredClients = clients.filter(client => 
+                    client.name.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Сортируем клиентов - новые первыми
+            const sortedClients = filteredClients.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            
+            if (sortedClients.length === 0) {
+                clientsList.innerHTML = '<div class="empty-state">' + 
+                    (searchTerm ? 'Клиенты не найдены' : 'Нет добавленных клиентов') + 
+                    '</div>';
                 return;
             }
             
-            clientsList.innerHTML = clients.map(client => `
+            clientsList.innerHTML = sortedClients.map(client => `
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${client.name}</div>
@@ -1029,51 +1012,6 @@
                         📅 Добавлен: ${new Date(client.createdAt).toLocaleDateString('ru-RU')}
                     </div>
                     ${client.notes ? `<div class="card-details">📝 ${client.notes}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function addCup(e) {
-            e.preventDefault();
-            
-            const cup = {
-                id: DB.getNextId('cups'),
-                name: document.getElementById('cupName').value,
-                volume: parseInt(document.getElementById('cupVolume').value),
-                mashWeight: parseInt(document.getElementById('cupMashWeight').value),
-                createdAt: new Date().toISOString()
-            };
-            
-            const cups = DB.load('cups');
-            cups.push(cup);
-            DB.save('cups', cups);
-            
-            hideModal('newCupModal');
-            document.getElementById('newCupForm').reset();
-            loadCups();
-            
-            alert('✅ Чаша добавлена!');
-        }
-
-        function loadCups() {
-            const cups = DB.load('cups');
-            const cupsList = document.getElementById('cupsList');
-            
-            if (cups.length === 0) {
-                cupsList.innerHTML = '<div class="empty-state">Нет добавленных чаш</div>';
-                return;
-            }
-            
-            cupsList.innerHTML = cups.map(cup => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${cup.name}</div>
-                    </div>
-                    <div class="card-details">
-                        🍵 Объем чаши: ${cup.volume}г<br>
-                        🌱 Вес маша: ${cup.mashWeight}г<br>
-                        📅 Добавлена: ${new Date(cup.createdAt).toLocaleDateString('ru-RU')}
-                    </div>
                 </div>
             `).join('');
         }
