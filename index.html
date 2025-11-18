@@ -123,13 +123,52 @@
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 10px;
         }
 
         .card-title {
             font-weight: 600;
             font-size: 16px;
+            flex: 1;
+        }
+
+        .status-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-left: 10px;
+        }
+
+        .status-btn {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .status-btn-paid {
+            background: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .status-btn-unpaid {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .status-btn-delivered {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-btn-pending {
+            background: #FFF3E0;
+            color: #EF6C00;
         }
 
         .status {
@@ -294,12 +333,21 @@
             .stats-grid, .finance-stats {
                 grid-template-columns: 1fr;
             }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-buttons {
+                margin-left: 0;
+                margin-top: 8px;
+                flex-direction: row;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🌱 Маш Булочки</h1>
+        <h1>🌱 Производство</h1>
         <div class="date-display" id="currentDate"></div>
     </div>
 
@@ -622,6 +670,121 @@
         </div>
     </div>
 
+    <!-- Модальное окно редактирования продажи -->
+    <div id="editSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать продажу</h3>
+                <button class="close-btn" onclick="hideModal('editSaleModal')">×</button>
+            </div>
+            <form id="editSaleForm">
+                <input type="hidden" id="editSaleId">
+                <div class="form-group">
+                    <label>Партия:</label>
+                    <select id="editSaleBatch" required>
+                        <option value="">Выберите партию</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <select id="editSaleClient" required>
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата продажи:</label>
+                    <input type="date" id="editSaleDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес проданного маша (г):</label>
+                    <input type="number" id="editSaleWeight" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="editSalePlannedPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="editSaleActualPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="editSalePaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editSaleNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteSale()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editSaleModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования заказа -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать заказ</h3>
+                <button class="close-btn" onclick="hideModal('editOrderModal')">×</button>
+            </div>
+            <form id="editOrderForm">
+                <input type="hidden" id="editOrderId">
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <select id="editOrderClient" required>
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата заказа:</label>
+                    <input type="date" id="editOrderDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес маша (г):</label>
+                    <input type="number" id="editOrderWeight" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="editOrderPlannedPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="editOrderActualPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="editOrderPaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Статус выдачи:</label>
+                    <select id="editOrderDeliveryStatus">
+                        <option value="Не выдан">Не выдан</option>
+                        <option value="Выдан">Выдан</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editOrderNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteOrder()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editOrderModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         // База данных - ИСПРАВЛЕННАЯ ВЕРСИЯ (Local Storage)
         const DB = {
@@ -693,6 +856,8 @@
             document.getElementById('newSaleForm').addEventListener('submit', addSale);
             document.getElementById('newClientForm').addEventListener('submit', addClient);
             document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
+            document.getElementById('editSaleForm').addEventListener('submit', updateSale);
+            document.getElementById('editOrderForm').addEventListener('submit', updateOrder);
         }
 
         function updateCurrentDate() {
@@ -961,9 +1126,15 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${order.clientName}</div>
-                        <div>
-                            <span class="status status-${order.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}">${order.paymentStatus}</span>
-                            <span class="status status-${order.deliveryStatus === 'Выдан' ? 'delivered' : 'pending'}" style="margin-left: 5px;">${order.deliveryStatus}</span>
+                        <div class="status-buttons">
+                            <button class="status-btn status-btn-${order.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
+                                    onclick="toggleOrderPayment(${order.id})">
+                                ${order.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
+                            </button>
+                            <button class="status-btn status-btn-${order.deliveryStatus === 'Выдан' ? 'delivered' : 'pending'}" 
+                                    onclick="toggleOrderDelivery(${order.id})">
+                                ${order.deliveryStatus === 'Выдан' ? '📦 Выдан' : '📦 Выдать'}
+                            </button>
                         </div>
                     </div>
                     <div class="card-details">
@@ -973,12 +1144,7 @@
                     </div>
                     ${order.notes ? `<div class="card-details">📝 ${order.notes}</div>` : ''}
                     <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="toggleOrderPayment(${order.id})">
-                            ${order.paymentStatus === 'Оплачен' ? '❌ Отменить оплату' : '✅ Оплатить'}
-                        </button>
-                        <button class="btn btn-small btn-secondary" onclick="toggleOrderDelivery(${order.id})">
-                            ${order.deliveryStatus === 'Выдан' ? '❌ Отменить выдачу' : '📦 Выдать'}
-                        </button>
+                        <button class="btn btn-small btn-secondary" onclick="editOrder(${order.id})">✏️ Редактировать</button>
                     </div>
                 </div>
             `).join('');
@@ -1043,6 +1209,76 @@
                 DB.save('orders', orders);
                 loadOrders();
             }
+        }
+
+        function editOrder(orderId) {
+            const orders = DB.load('orders');
+            const order = orders.find(o => o.id === orderId);
+            const clients = DB.load('clients');
+            
+            if (order) {
+                document.getElementById('editOrderId').value = order.id;
+                document.getElementById('editOrderClient').value = order.clientId;
+                document.getElementById('editOrderDate').value = order.date;
+                document.getElementById('editOrderWeight').value = order.weight;
+                document.getElementById('editOrderPlannedPrice').value = order.plannedPrice;
+                document.getElementById('editOrderActualPrice').value = order.actualPrice;
+                document.getElementById('editOrderPaymentStatus').value = order.paymentStatus;
+                document.getElementById('editOrderDeliveryStatus').value = order.deliveryStatus;
+                document.getElementById('editOrderNotes').value = order.notes || '';
+                
+                // Заполняем селект клиентов
+                const clientSelect = document.getElementById('editOrderClient');
+                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
+                    clients.map(client => `<option value="${client.id}" ${client.id === order.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
+                
+                showModal('editOrderModal');
+            }
+        }
+
+        function updateOrder(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editOrderId').value);
+            const orders = DB.load('orders');
+            const orderIndex = orders.findIndex(o => o.id === id);
+            const clients = DB.load('clients');
+            
+            if (orderIndex !== -1) {
+                const client = clients.find(c => c.id === parseInt(document.getElementById('editOrderClient').value));
+                
+                orders[orderIndex].clientId = parseInt(document.getElementById('editOrderClient').value);
+                orders[orderIndex].clientName = client.name;
+                orders[orderIndex].date = document.getElementById('editOrderDate').value;
+                orders[orderIndex].weight = parseInt(document.getElementById('editOrderWeight').value);
+                orders[orderIndex].plannedPrice = parseInt(document.getElementById('editOrderPlannedPrice').value);
+                orders[orderIndex].actualPrice = parseInt(document.getElementById('editOrderActualPrice').value);
+                orders[orderIndex].paymentStatus = document.getElementById('editOrderPaymentStatus').value;
+                orders[orderIndex].deliveryStatus = document.getElementById('editOrderDeliveryStatus').value;
+                orders[orderIndex].notes = document.getElementById('editOrderNotes').value;
+                
+                DB.save('orders', orders);
+                hideModal('editOrderModal');
+                loadDashboard();
+                loadOrders();
+                
+                alert('✅ Заказ обновлен!');
+            }
+        }
+
+        function deleteOrder() {
+            if (!confirm('🗑️ Удалить этот заказ?')) return;
+            
+            const id = parseInt(document.getElementById('editOrderId').value);
+            const orders = DB.load('orders');
+            const filteredOrders = orders.filter(o => o.id !== id);
+            
+            DB.save('orders', filteredOrders);
+            hideModal('editOrderModal');
+            loadDashboard();
+            loadOrders();
+            
+            alert('✅ Заказ удален!');
         }
 
         function fillOrderClientSelect() {
@@ -1152,7 +1388,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${sale.clientName}</div>
-                        <div class="status status-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}">${sale.paymentStatus}</div>
+                        <div class="status-buttons">
+                            <button class="status-btn status-btn-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
+                                    onclick="toggleSalePayment(${sale.id})">
+                                ${sale.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
+                            </button>
+                        </div>
                     </div>
                     <div class="card-details">
                         📦 ${sale.weight}г<br>
@@ -1161,9 +1402,7 @@
                     </div>
                     ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
                     <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="toggleSalePayment(${sale.id})">
-                            ${sale.paymentStatus === 'Оплачен' ? '❌ Отменить оплату' : '✅ Оплатить'}
-                        </button>
+                        <button class="btn btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button>
                     </div>
                 </div>
             `).join('');
@@ -1179,6 +1418,84 @@
                 loadSales();
                 loadDashboard();
             }
+        }
+
+        function editSale(saleId) {
+            const sales = DB.load('sales');
+            const sale = sales.find(s => s.id === saleId);
+            const batches = DB.load('batches');
+            const clients = DB.load('clients');
+            
+            if (sale) {
+                document.getElementById('editSaleId').value = sale.id;
+                document.getElementById('editSaleBatch').value = sale.batchId;
+                document.getElementById('editSaleClient').value = sale.clientId;
+                document.getElementById('editSaleDate').value = sale.date;
+                document.getElementById('editSaleWeight').value = sale.weight;
+                document.getElementById('editSalePlannedPrice').value = sale.plannedPrice;
+                document.getElementById('editSaleActualPrice').value = sale.actualPrice;
+                document.getElementById('editSalePaymentStatus').value = sale.paymentStatus;
+                document.getElementById('editSaleNotes').value = sale.notes || '';
+                
+                // Заполняем селекты
+                const batchSelect = document.getElementById('editSaleBatch');
+                batchSelect.innerHTML = '<option value="">Выберите партию</option>' +
+                    batches.map(batch => `<option value="${batch.id}" ${batch.id === sale.batchId ? 'selected' : ''}>${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
+                    
+                const clientSelect = document.getElementById('editSaleClient');
+                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
+                    clients.map(client => `<option value="${client.id}" ${client.id === sale.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
+                
+                showModal('editSaleModal');
+            }
+        }
+
+        function updateSale(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editSaleId').value);
+            const sales = DB.load('sales');
+            const saleIndex = sales.findIndex(s => s.id === id);
+            const batches = DB.load('batches');
+            const clients = DB.load('clients');
+            
+            if (saleIndex !== -1) {
+                const batch = batches.find(b => b.id === parseInt(document.getElementById('editSaleBatch').value));
+                const client = clients.find(c => c.id === parseInt(document.getElementById('editSaleClient').value));
+                
+                sales[saleIndex].batchId = parseInt(document.getElementById('editSaleBatch').value);
+                sales[saleIndex].batchNumber = batch.batchNumber;
+                sales[saleIndex].clientId = parseInt(document.getElementById('editSaleClient').value);
+                sales[saleIndex].clientName = client.name;
+                sales[saleIndex].date = document.getElementById('editSaleDate').value;
+                sales[saleIndex].weight = parseInt(document.getElementById('editSaleWeight').value);
+                sales[saleIndex].plannedPrice = parseInt(document.getElementById('editSalePlannedPrice').value);
+                sales[saleIndex].actualPrice = parseInt(document.getElementById('editSaleActualPrice').value);
+                sales[saleIndex].paymentStatus = document.getElementById('editSalePaymentStatus').value;
+                sales[saleIndex].notes = document.getElementById('editSaleNotes').value;
+                
+                DB.save('sales', sales);
+                hideModal('editSaleModal');
+                loadDashboard();
+                loadSales();
+                
+                alert('✅ Продажа обновлена!');
+            }
+        }
+
+        function deleteSale() {
+            if (!confirm('🗑️ Удалить эту продажу?')) return;
+            
+            const id = parseInt(document.getElementById('editSaleId').value);
+            const sales = DB.load('sales');
+            const filteredSales = sales.filter(s => s.id !== id);
+            
+            DB.save('sales', filteredSales);
+            hideModal('editSaleModal');
+            loadDashboard();
+            loadSales();
+            
+            alert('✅ Продажа удалена!');
         }
 
         function addClient(e) {
