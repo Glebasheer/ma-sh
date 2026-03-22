@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌱 Производство</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>🌱 VITARAY — Управление производством</title>
     <style>
         * {
             margin: 0;
@@ -12,207 +12,275 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #F8FDF8;
-            color: #2E7D32;
-            line-height: 1.6;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
+            background: linear-gradient(135deg, #F8FDF8 0%, #E8F5E9 100%);
+            color: #1A3A1A;
+            line-height: 1.4;
+            min-height: 100vh;
+            padding: 16px 16px 80px;
         }
 
+        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
-
         .header h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
         }
-
         .date-display {
-            color: #81C784;
-            font-size: 16px;
+            color: #6B8C6B;
+            font-size: 13px;
+            margin-top: 4px;
         }
 
+        /* Navigation */
         .nav {
             display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
         }
-
         .nav-btn {
-            background: #C8E6C9;
-            border: none;
-            padding: 15px 12px;
-            border-radius: 15px;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid #C8E6C9;
+            padding: 10px 16px;
+            border-radius: 40px;
             color: #2E7D32;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
             cursor: pointer;
-            flex: 1;
-            min-width: 110px;
-            transition: all 0.3s ease;
-            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.2s;
         }
-
         .nav-btn.active {
-            background: #81C784;
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
+            border-color: transparent;
         }
 
+        /* Sections */
         .section {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
-
         .section.active {
             display: block;
         }
 
+        /* Stats Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 16px;
         }
-
         .stat-card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
-            border: 2px solid #E8F5E9;
+            border-radius: 20px;
+            padding: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #E8F5E9;
         }
-
         .stat-number {
             font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-weight: 800;
+            color: #2E7D32;
         }
-
         .stat-label {
-            font-size: 12px;
-            color: #666;
+            font-size: 11px;
+            color: #81C784;
+            font-weight: 500;
         }
 
+        /* Finance Cards */
+        .balance-card {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+            color: white;
+        }
+        .balance-amount {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        .balance-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .finance-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .finance-card {
+            background: white;
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #E8F5E9;
+        }
+        .finance-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+        .finance-period {
+            font-size: 10px;
+            color: #81C784;
+        }
+
+        /* Expense Stats */
+        .expense-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .expense-card {
+            background: white;
+            border-radius: 14px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #FFEBEE;
+        }
+        .expense-amount {
+            font-size: 14px;
+            font-weight: 700;
+            color: #C62828;
+        }
+        .expense-period {
+            font-size: 9px;
+            color: #999;
+        }
+
+        /* Buttons */
         .btn {
-            background: #81C784;
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
             border: none;
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            margin: 10px 0;
             width: 100%;
-            transition: all 0.3s ease;
+            margin: 8px 0;
+            transition: all 0.2s;
+        }
+        .btn-secondary {
+            background: white;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+        }
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 11px;
+            width: auto;
+            margin: 0;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #EF5350, #E53935);
         }
 
-        .btn:hover {
-            background: #4CAF50;
-        }
-
+        /* Cards */
         .card {
             background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
-            border: 2px solid #E8F5E9;
+            border-radius: 20px;
+            padding: 14px;
+            margin: 10px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #E8F5E9;
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 10px;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-
         .card-title {
-            font-weight: 600;
-            font-size: 16px;
-            flex: 1;
+            font-weight: 700;
+            font-size: 14px;
         }
-
-        .status-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-left: 10px;
-        }
-
-        .status-btn {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 10px;
-            font-weight: 500;
-            border: none;
-            cursor: pointer;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .status-btn-paid {
-            background: #C8E6C9;
-            color: #1B5E20;
-        }
-
-        .status-btn-unpaid {
-            background: #FFEBEE;
-            color: #C62828;
-        }
-
-        .status-btn-delivered {
-            background: #E8F5E9;
-            color: #2E7D32;
-        }
-
-        .status-btn-pending {
-            background: #FFF3E0;
-            color: #EF6C00;
-        }
-
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
+        .card-details {
             font-size: 12px;
-            font-weight: 500;
+            color: #666;
+            margin: 6px 0;
         }
 
-        .status-soaking { background: #E3F2FD; color: #1976D2; }
-        .status-sprouting { background: #E8F5E9; color: #2E7D32; }
-        .status-peeling { background: #FFF3E0; color: #EF6C00; }
-        .status-blanching { background: #FCE4EC; color: #C2185B; }
-        .status-packing { background: #F3E5F5; color: #7B1FA2; }
-        .status-ready { background: #C8E6C9; color: #1B5E20; }
+        /* Progress Bar */
+        .progress-bar {
+            background: #E8F5E9;
+            border-radius: 20px;
+            height: 6px;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #2E7D32, #4CAF50);
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        /* Status Badges */
+        .status {
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 600;
+        }
         .status-paid { background: #C8E6C9; color: #1B5E20; }
         .status-unpaid { background: #FFEBEE; color: #C62828; }
-        .status-delivered { background: #E8F5E9; color: #2E7D32; }
+        .status-delivered { background: #E0F2FE; color: #0369a1; }
         .status-pending { background: #FFF3E0; color: #EF6C00; }
+        .status-zomachivanie { background: #E3F2FD; color: #1976D2; }
+        .status-posev { background: #E8F5E9; color: #2E7D32; }
+        .status-v_temi { background: #F3E5F5; color: #7B1FA2; }
+        .status-pod_lampoy { background: #FFF3E0; color: #EF6C00; }
+        .status-srezka { background: #FCE4EC; color: #C2185B; }
+        .status-sbor { background: #C8E6C9; color: #1B5E20; }
 
-        .card-details {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 16px;
+            background: white;
         }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .btn-small {
-            padding: 8px 12px;
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 12px;
-            width: auto;
         }
-
-        .btn-secondary {
-            background: #E8F5E9;
+        .data-table th {
+            text-align: left;
+            padding: 10px 8px;
+            background: #F8FDF8;
             color: #2E7D32;
-            border: 2px solid #C8E6C9;
+            font-weight: 600;
+            border-bottom: 1px solid #E8F5E9;
+        }
+        .data-table td {
+            padding: 8px;
+            border-bottom: 1px solid #F0F4F0;
         }
 
+        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -221,1692 +289,849 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             padding: 20px;
             overflow-y: auto;
         }
-
         .modal-content {
             background: white;
-            padding: 25px;
-            border-radius: 20px;
-            width: 100%;
+            padding: 20px;
+            border-radius: 28px;
             max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 40px auto;
         }
-
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
-
         .modal-title {
             font-size: 20px;
-            font-weight: 600;
+            font-weight: 700;
+            color: #2E7D32;
         }
-
         .close-btn {
             background: none;
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: #999;
         }
 
+        /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
-
         .form-group label {
             display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2E7D32;
         }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        input, select, textarea {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #E8F5E9;
-            border-radius: 10px;
-            font-size: 16px;
-            background: #F8FDF8;
+            padding: 10px 12px;
+            border: 1px solid #E8F5E9;
+            border-radius: 14px;
+            font-size: 14px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
         }
 
-        .search-input {
-            margin-bottom: 15px;
-            padding: 12px;
-            border: 2px solid #E8F5E9;
-            border-radius: 10px;
-            font-size: 16px;
-            width: 100%;
-            background: #F8FDF8;
-        }
-
-        .form-actions {
+        .flex-btns {
             display: flex;
             gap: 10px;
-            margin-top: 25px;
+            margin-top: 16px;
+            flex-wrap: wrap;
         }
 
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #81C784;
+            font-size: 13px;
         }
 
-        .finance-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #E8F5E9;
+            border-radius: 30px;
+            font-size: 13px;
+            margin-bottom: 12px;
         }
 
-        .finance-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 2px solid #E8F5E9;
-        }
-
-        .finance-amount {
-            font-size: 18px;
-            font-weight: bold;
-            color: #2E7D32;
-            margin-bottom: 5px;
-        }
-
-        .finance-period {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .expenses-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .expense-card {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 2px solid #FFEBEE;
-        }
-
-        .expense-amount {
-            font-size: 18px;
-            font-weight: bold;
-            color: #C62828;
-            margin-bottom: 5px;
-        }
-
-        .expense-period {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .balance-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 2px solid #E8F5E9;
-            margin-bottom: 20px;
-        }
-
-        .balance-amount {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .balance-positive {
-            color: #2E7D32;
-        }
-
-        .balance-negative {
-            color: #C62828;
-        }
-
-        .balance-label {
-            font-size: 14px;
-            color: #666;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 480px) {
-            .nav {
-                flex-direction: column;
-            }
-            .stats-grid, .finance-stats, .expenses-stats {
-                grid-template-columns: 1fr;
-            }
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .status-buttons {
-                margin-left: 0;
-                margin-top: 8px;
-                flex-direction: row;
-            }
+            body { padding: 12px; }
+            .expense-stats { grid-template-columns: repeat(2, 1fr); }
+            .finance-row { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🌱 Производство</h1>
+        <h1>🌱 VITARAY</h1>
         <div class="date-display" id="currentDate"></div>
     </div>
 
     <nav class="nav">
-        <button class="nav-btn active" data-section="dashboard">📊 Главная</button>
-        <button class="nav-btn" data-section="batches">📦 Партии</button>
-        <button class="nav-btn" data-section="orders">📋 Заказы</button>
-        <button class="nav-btn" data-section="sales">💰 Продажи</button>
+        <button class="nav-btn active" data-section="dashboard">🏠 Главная</button>
+        <button class="nav-btn" data-section="parties">🌱 Партии</button>
+        <button class="nav-btn" data-section="orders">📦 Заказы</button>
         <button class="nav-btn" data-section="clients">👥 Клиенты</button>
+        <button class="nav-btn" data-section="expenses">💰 Расходы</button>
         <button class="nav-btn" data-section="achievements">🏆 Достижения</button>
-        <button class="nav-btn" data-section="expenses">💸 Расходы</button>
     </nav>
 
-    <!-- Дашборд -->
+    <!-- DASHBOARD -->
     <section id="dashboard" class="section active">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalBatches">0</div>
-                <div class="stat-label">Всего партий</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalProfit">0₽</div>
-                <div class="stat-label">Общая прибыль</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="activeBatches">0</div>
-                <div class="stat-label">Активные</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalClients">0</div>
-                <div class="stat-label">Клиенты</div>
-            </div>
-        </div>
-
+        <div class="stats-grid" id="mainStats"></div>
         <div class="balance-card">
-            <div class="balance-amount balance-positive" id="currentBalance">0₽</div>
+            <div class="balance-amount" id="currentBalance">0₽</div>
             <div class="balance-label">Текущий баланс</div>
         </div>
-
-        <div class="finance-stats">
-            <div class="finance-card">
-                <div class="finance-amount" id="dayProfit">0₽</div>
-                <div class="finance-period">За сегодня</div>
-            </div>
-            <div class="finance-card">
-                <div class="finance-amount" id="weekProfit">0₽</div>
-                <div class="finance-period">За неделю</div>
-            </div>
-            <div class="finance-card">
-                <div class="finance-amount" id="monthProfit">0₽</div>
-                <div class="finance-period">За месяц</div>
-            </div>
+        <div class="finance-row" id="financeStats"></div>
+        
+        <h3 style="font-size: 14px; margin: 12px 0 8px;">📦 Активные партии</h3>
+        <div id="activePartiesList"></div>
+        
+        <h3 style="font-size: 14px; margin: 12px 0 8px;">💰 Последние заказы</h3>
+        <div id="recentOrdersList"></div>
+        
+        <div class="flex-btns">
+            <button class="btn" onclick="showModal('newPartyModal')">🌱 Новая партия</button>
+            <button class="btn btn-secondary" onclick="showModal('newOrderModal')">📦 Новый заказ</button>
         </div>
-
-        <h3>🔄 Активные партии</h3>
-        <div id="activeBatchesList"></div>
-
-        <h3>💰 Последние продажи</h3>
-        <div id="recentSalesList"></div>
     </section>
 
-    <!-- Партии -->
-    <section id="batches" class="section">
-        <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
-        <div id="batchesList"></div>
+    <!-- PARTIES -->
+    <section id="parties" class="section">
+        <button class="btn" onclick="showModal('newPartyModal')">🌱 Создать партию</button>
+        <div id="partiesList"></div>
     </section>
 
-    <!-- Заказы -->
+    <!-- ORDERS -->
     <section id="orders" class="section">
         <button class="btn" onclick="showModal('newOrderModal')">📋 Создать заказ</button>
         <div id="ordersList"></div>
     </section>
 
-    <!-- Продажи -->
-    <section id="sales" class="section">
-        <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
-        <div id="salesList"></div>
-    </section>
-
-    <!-- Клиенты -->
+    <!-- CLIENTS -->
     <section id="clients" class="section">
         <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
-        <input type="text" class="search-input" id="clientSearch" placeholder="🔍 Поиск клиента по имени..." onkeyup="filterClients()">
+        <input type="text" id="clientSearch" class="search-input" placeholder="🔍 Поиск клиента..." onkeyup="filterClients()">
         <div id="clientsList"></div>
     </section>
 
-    <!-- Достижения -->
+    <!-- EXPENSES -->
+    <section id="expenses" class="section">
+        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
+        <div class="balance-card" style="background: linear-gradient(135deg, #C62828, #EF5350); margin-top: 12px;">
+            <div class="balance-amount" id="expensesBalance">0₽</div>
+            <div class="balance-label">Баланс с учетом расходов</div>
+        </div>
+        <div class="expense-stats" id="expenseStats"></div>
+        <h3 style="font-size: 14px; margin: 12px 0 8px;">📋 Все расходы</h3>
+        <div id="expensesTable"></div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
     <section id="achievements" class="section">
         <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
         <div id="achievementsList"></div>
     </section>
 
-    <!-- Расходы -->
-    <section id="expenses" class="section">
-        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
-        
-        <div class="balance-card">
-            <div class="balance-amount" id="expensesBalance">0₽</div>
-            <div class="balance-label">Баланс с учетом расходов</div>
-        </div>
-
-        <div class="expenses-stats">
-            <div class="expense-card">
-                <div class="expense-amount" id="dayExpenses">0₽</div>
-                <div class="expense-period">Расходы за сегодня</div>
-            </div>
-            <div class="expense-card">
-                <div class="expense-amount" id="weekExpenses">0₽</div>
-                <div class="expense-period">Расходы за неделю</div>
-            </div>
-            <div class="expense-card">
-                <div class="expense-amount" id="monthExpenses">0₽</div>
-                <div class="expense-period">Расходы за месяц</div>
-            </div>
-            <div class="expense-card">
-                <div class="expense-amount" id="totalExpenses">0₽</div>
-                <div class="expense-period">Всего расходов</div>
-            </div>
-        </div>
-
-        <h3>📋 Последние расходы</h3>
-        <div id="expensesList"></div>
-    </section>
-
-    <!-- Модальные окна -->
-    <!-- Существующие модальные окна остаются без изменений -->
-
-    <!-- Новое модальное окно для достижений -->
-    <div id="newAchievementModal" class="modal">
+    <!-- MODALS -->
+    <div id="newPartyModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🏆 Новое достижение</h3>
-                <button class="close-btn" onclick="hideModal('newAchievementModal')">×</button>
-            </div>
-            <form id="newAchievementForm">
-                <div class="form-group">
-                    <label>Дата достижения:</label>
-                    <input type="date" id="achievementDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Описание достижения:</label>
-                    <textarea id="achievementDescription" placeholder="Например: Побил рекорд по производству за день!" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Категория:</label>
-                    <select id="achievementCategory">
-                        <option value="Производство">Производство</option>
-                        <option value="Продажи">Продажи</option>
-                        <option value="Клиенты">Клиенты</option>
-                        <option value="Личное">Личное</option>
-                        <option value="Финансы">Финансы</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newAchievementModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить достижение</button>
-                </div>
+            <div class="modal-header"><h3 class="modal-title">🌱 Новая партия</h3><button class="close-btn" onclick="hideModal('newPartyModal')">×</button></div>
+            <form id="newPartyForm">
+                <div class="form-group"><label>Культура</label><input type="text" id="partyCulture" placeholder="горох, маш, редис" required></div>
+                <div class="form-group"><label>Тип</label><select id="partyType"><option value="microgreen">Микрозелень (5 этапов)</option><option value="sprouts">Проростки (3 этапа)</option></select></div>
+                <div class="form-group"><label>Формат лотка</label><input type="text" id="partyFormat" value="15×11"></div>
+                <div class="form-group"><label>Вес сухих семян (г)</label><input type="number" id="partyWeightDry" value="30" required></div>
+                <div class="form-group"><label>Дата посева</label><input type="date" id="partyDateSown" required></div>
+                <div class="form-group"><label>Субстрат</label><input type="text" id="partySubstrate" value="джут"></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newPartyModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
             </form>
         </div>
     </div>
 
-    <!-- Новое модальное окно для расходов -->
-    <div id="newExpenseModal" class="modal">
+    <div id="newOrderModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">💸 Новый расход</h3>
-                <button class="close-btn" onclick="hideModal('newExpenseModal')">×</button>
-            </div>
-            <form id="newExpenseForm">
-                <div class="form-group">
-                    <label>Дата расхода:</label>
-                    <input type="date" id="expenseDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Наименование:</label>
-                    <input type="text" id="expenseName" placeholder="Например: Пакеты для упаковки" required>
-                </div>
-                <div class="form-group">
-                    <label>Сумма (руб):</label>
-                    <input type="number" id="expenseAmount" placeholder="500" required>
-                </div>
-                <div class="form-group">
-                    <label>Категория:</label>
-                    <select id="expenseCategory">
-                        <option value="Материалы">Материалы</option>
-                        <option value="Упаковка">Упаковка</option>
-                        <option value="Транспорт">Транспорт</option>
-                        <option value="Коммунальные">Коммунальные</option>
-                        <option value="Прочее">Прочее</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="expenseNotes" placeholder="Дополнительная информация..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newExpenseModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить расход</button>
-                </div>
+            <div class="modal-header"><h3 class="modal-title">📋 Новый заказ</h3><button class="close-btn" onclick="hideModal('newOrderModal')">×</button></div>
+            <form id="newOrderForm">
+                <div class="form-group"><label>Клиент</label><select id="orderClient" required></select></div>
+                <div class="form-group"><label>Дата</label><input type="date" id="orderDate" required></div>
+                <div class="form-group"><label>Продукт</label><input type="text" id="orderProduct" placeholder="горох, маш..." required></div>
+                <div class="form-group"><label>Количество (лотков)</label><input type="number" id="orderQty" value="1" required></div>
+                <div class="form-group"><label>Цена за лоток (₽)</label><input type="number" id="orderPrice" required></div>
+                <div class="form-group"><label>Партия (опционально)</label><select id="orderPartyId"><option value="">Не выбрано</option></select></div>
+                <div class="form-group"><label>Оплачен</label><select id="orderPaid"><option value="false">Нет</option><option value="true">Да</option></select></div>
+                <div class="form-group"><label>Выдан</label><select id="orderDelivered"><option value="false">Нет</option><option value="true">Да</option></select></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
             </form>
         </div>
+    </div>
+
+    <div id="newClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">👥 Новый клиент</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
+            <form id="newClientForm">
+                <div class="form-group"><label>Имя</label><input type="text" id="clientName" required></div>
+                <div class="form-group"><label>Место/Адрес</label><input type="text" id="clientAddress"></div>
+                <div class="form-group"><label>Контакт</label><input type="text" id="clientContact"></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newExpenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">💸 Новый расход</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
+            <form id="newExpenseForm">
+                <div class="form-group"><label>Дата</label><input type="date" id="expenseDate" required></div>
+                <div class="form-group"><label>Наименование</label><input type="text" id="expenseName" required></div>
+                <div class="form-group"><label>Сумма (₽)</label><input type="number" id="expenseAmount" required></div>
+                <div class="form-group"><label>Категория</label><select id="expenseCategory"><option value="Оборудование">Оборудование</option><option value="Контейнеры">Контейнеры</option><option value="Семена">Семена</option><option value="Субстрат">Субстрат</option><option value="Упаковка">Упаковка</option><option value="Прочее">Прочее</option></select></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newAchievementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">🏆 Новое достижение</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
+            <form id="newAchievementForm">
+                <div class="form-group"><label>Дата</label><input type="date" id="achievementDate" required></div>
+                <div class="form-group"><label>Описание</label><input type="text" id="achievementDesc" required></div>
+                <div class="form-group"><label>Категория</label><select id="achievementCategory"><option value="Производство">Производство</option><option value="Продажи">Продажи</option><option value="Клиенты">Клиенты</option></select></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editExpenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать расход</h3><button class="close-btn" onclick="hideModal('editExpenseModal')">×</button></div>
+            <form id="editExpenseForm">
+                <input type="hidden" id="editExpenseId">
+                <div class="form-group"><label>Дата</label><input type="date" id="editExpenseDate" required></div>
+                <div class="form-group"><label>Наименование</label><input type="text" id="editExpenseName" required></div>
+                <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editExpenseAmount" required></div>
+                <div class="form-group"><label>Категория</label><select id="editExpenseCategory"></select></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать заказ</h3><button class="close-btn" onclick="hideModal('editOrderModal')">×</button></div>
+            <form id="editOrderForm">
+                <input type="hidden" id="editOrderId">
+                <div class="form-group"><label>Клиент</label><select id="editOrderClient" required></select></div>
+                <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate" required></div>
+                <div class="form-group"><label>Продукт</label><input type="text" id="editOrderProduct" required></div>
+                <div class="form-group"><label>Количество</label><input type="number" id="editOrderQty" required></div>
+                <div class="form-group"><label>Цена (₽)</label><input type="number" id="editOrderPrice" required></div>
+                <div class="form-group"><label>Оплачен</label><select id="editOrderPaid"><option value="false">Нет</option><option value="true">Да</option></select></div>
+                <div class="form-group"><label>Выдан</label><select id="editOrderDelivered"><option value="false">Нет</option><option value="true">Да</option></select></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editPartyModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать партию</h3><button class="close-btn" onclick="hideModal('editPartyModal')">×</button></div>
+            <form id="editPartyForm">
+                <input type="hidden" id="editPartyId">
+                <div class="form-group"><label>Культура</label><input type="text" id="editPartyCulture" required></div>
+                <div class="form-group"><label>Тип</label><select id="editPartyType"><option value="microgreen">Микрозелень</option><option value="sprouts">Проростки</option></select></div>
+                <div class="form-group"><label>Формат</label><input type="text" id="editPartyFormat"></div>
+                <div class="form-group"><label>Вес сухих семян (г)</label><input type="number" id="editPartyWeightDry" required></div>
+                <div class="form-group"><label>Дата посева</label><input type="date" id="editPartyDateSown" required></div>
+                <div class="form-group"><label>Текущий этап</label><select id="editPartyStage"></select></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deletePartyFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editPartyModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="viewClientModal" class="modal">
+        <div class="modal-content" id="viewClientContent"></div>
     </div>
 
     <script>
-        // База данных - ИСПРАВЛЕННАЯ ВЕРСИЯ (Local Storage)
-        const DB = {
-            save: function(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
-                console.log('✅ Данные сохранены:', key, data.length, 'записей');
-            },
-            load: function(key) {
-                const data = localStorage.getItem(key);
-                const result = data ? JSON.parse(data) : [];
-                console.log('📁 Данные загружены:', key, result.length, 'записей');
-                return result;
-            },
-            getNextId: function(key) {
-                const items = this.load(key);
-                return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        const STORAGE_KEYS = {
+            parties: 'vitaray_parties',
+            orders: 'vitaray_orders',
+            clients: 'vitaray_clients',
+            expenses: 'vitaray_expenses',
+            achievements: 'vitaray_achievements'
+        };
+
+        // Начальные данные
+        function initData() {
+            // Клиенты
+            let clients = JSON.parse(localStorage.getItem(STORAGE_KEYS.clients)) || [];
+            if (clients.length === 0) {
+                clients = [
+                    { id: 'c1', name: 'Казарян', address: 'Мон', contact: '406', createdAt: new Date().toISOString() },
+                    { id: 'c2', name: 'Денисова', address: 'Мон', contact: '304', createdAt: new Date().toISOString() },
+                    { id: 'c3', name: 'ЯМАНАСИ', address: 'Ул красных Партизан 1/4к9', contact: 'Анатолий', createdAt: new Date().toISOString() },
+                    { id: 'c4', name: 'Полихраниди', address: 'Мон', contact: '304', createdAt: new Date().toISOString() },
+                    { id: 'c5', name: 'Настена', address: 'Мон', contact: '406 (НБН)', createdAt: new Date().toISOString() },
+                    { id: 'c6', name: 'Валерия', address: 'МОН', contact: '303 (БН)', createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(STORAGE_KEYS.clients, JSON.stringify(clients));
+            }
+
+            // Расходы
+            let expenses = JSON.parse(localStorage.getItem(STORAGE_KEYS.expenses)) || [];
+            if (expenses.length === 0) {
+                expenses = [
+                    { id: 'e1', date: '2026-03-01', name: 'Фитосветильник', amount: 629, category: 'Оборудование', createdAt: new Date().toISOString() },
+                    { id: 'e2', date: '2026-03-01', name: 'Пульверизатор', amount: 143, category: 'Оборудование', createdAt: new Date().toISOString() },
+                    { id: 'e3', date: '2026-03-01', name: 'Джутовый коврик', amount: 374, category: 'Субстрат', createdAt: new Date().toISOString() },
+                    { id: 'e4', date: '2026-03-01', name: 'Наклейки', amount: 176, category: 'Упаковка', createdAt: new Date().toISOString() },
+                    { id: 'e5', date: '2026-03-01', name: 'Контейнеры 250 мл (1000 шт)', amount: 1500, category: 'Контейнеры', createdAt: new Date().toISOString() },
+                    { id: 'e6', date: '2026-03-01', name: 'Контейнеры 125 мл (1000 шт)', amount: 1000, category: 'Контейнеры', createdAt: new Date().toISOString() },
+                    { id: 'e7', date: '2026-03-01', name: 'Набор для редиса', amount: 225, category: 'Контейнеры', createdAt: new Date().toISOString() },
+                    { id: 'e8', date: '2026-03-01', name: 'Набор для гороха', amount: 294, category: 'Контейнеры', createdAt: new Date().toISOString() },
+                    { id: 'e9', date: '2026-03-01', name: 'Горох Мадрас 1 кг', amount: 163, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e10', date: '2026-03-01', name: 'Редис Санго 50 г', amount: 196, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e11', date: '2026-03-01', name: 'Маш 450 г', amount: 92, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e12', date: '2026-03-01', name: 'Нут 450 г', amount: 52, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e13', date: '2026-03-01', name: 'Соя 200 г', amount: 88, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e14', date: '2026-01-12', name: 'Маш (10 шт по 450 г)', amount: 930, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e15', date: '2025-12-20', name: 'Весы', amount: 300, category: 'Оборудование', createdAt: new Date().toISOString() },
+                    { id: 'e16', date: '2025-12-20', name: 'Нут (10 шт)', amount: 464, category: 'Семена', createdAt: new Date().toISOString() },
+                    { id: 'e17', date: '2025-12-16', name: 'Контейнеры (2000 шт)', amount: 5500, category: 'Контейнеры', createdAt: new Date().toISOString() },
+                    { id: 'e18', date: '2025-12-15', name: 'Наклейки новогодние', amount: 387, category: 'Упаковка', createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(expenses));
+            }
+
+            // Заказы
+            let orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.orders)) || [];
+            if (orders.length === 0) {
+                const clientsList = JSON.parse(localStorage.getItem(STORAGE_KEYS.clients));
+                const kazaryan = clientsList.find(c => c.name === 'Казарян');
+                const denisova = clientsList.find(c => c.name === 'Денисова');
+                orders = [
+                    { id: 'o1', clientId: kazaryan?.id || 'c1', date: '2026-03-17', items: [{ product: 'маш', format: '15×11', quantity: 1, price: 150 }], total: 150, paid: true, delivered: true, partyId: null, createdAt: new Date().toISOString() },
+                    { id: 'o2', clientId: denisova?.id || 'c2', date: '2026-03-17', items: [{ product: 'маш', format: '15×11', quantity: 1, price: 100 }], total: 100, paid: false, delivered: false, partyId: null, createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(STORAGE_KEYS.orders, JSON.stringify(orders));
+            }
+
+            // Достижения
+            let achievements = JSON.parse(localStorage.getItem(STORAGE_KEYS.achievements)) || [];
+            if (achievements.length === 0) {
+                achievements = [
+                    { id: 'a1', date: '2025-12-11', description: 'Придумала идею! Я буду делать готовые чипсы!', category: 'Производство', createdAt: new Date().toISOString() },
+                    { id: 'a2', date: '2025-12-07', description: 'ЯМАНАСИ заказали еще 200г. 6 тысяч за месяц!', category: 'Продажи', createdAt: new Date().toISOString() },
+                    { id: 'a3', date: '2025-12-06', description: 'Взяла контакт управляющего ресторана!', category: 'Клиенты', createdAt: new Date().toISOString() },
+                    { id: 'a4', date: '2025-12-05', description: 'Отдала 425г нут. Заказали 700г на понедельник!', category: 'Продажи', createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(STORAGE_KEYS.achievements, JSON.stringify(achievements));
+            }
+
+            // Партии
+            let parties = JSON.parse(localStorage.getItem(STORAGE_KEYS.parties)) || [];
+            if (parties.length === 0) {
+                parties = [
+                    { id: 'p1', culture: 'горох', cultureType: 'microgreen', format: '15×11', dateSown: '2026-03-17', weightDry: 500, substrate: 'джут', currentStage: 'zomachivanie', stages: { zomachivanie: new Date().toISOString(), posev: null, v_temi: null, pod_lampoy: null, srezka: null, sbor: null }, createdAt: new Date().toISOString() },
+                    { id: 'p2', culture: 'маш', cultureType: 'sprouts', format: '15×11', dateSown: '2026-03-15', weightDry: 300, substrate: 'джут', currentStage: 'sbor', stages: { zomachivanie: new Date().toISOString(), posev: new Date().toISOString(), sbor: new Date().toISOString() }, createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(STORAGE_KEYS.parties, JSON.stringify(parties));
+            }
+        }
+
+        initData();
+
+        function saveKey(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
+        function loadKey(key) { return JSON.parse(localStorage.getItem(key)) || []; }
+
+        // Финансовые расчеты
+        function getFinancialStats() {
+            const orders = loadKey(STORAGE_KEYS.orders);
+            const expenses = loadKey(STORAGE_KEYS.expenses);
+            const now = new Date();
+            const today = now.toISOString().slice(0,10);
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
+            
+            const paidOrders = orders.filter(o => o.paid === true);
+            const totalIncome = paidOrders.reduce((s, o) => s + o.total, 0);
+            const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
+            const currentBalance = totalIncome - totalExpenses;
+            
+            const todayIncome = paidOrders.filter(o => o.date === today).reduce((s, o) => s + o.total, 0);
+            const weekIncome = paidOrders.filter(o => o.date >= weekAgo).reduce((s, o) => s + o.total, 0);
+            const monthIncome = paidOrders.filter(o => o.date >= monthAgo).reduce((s, o) => s + o.total, 0);
+            
+            const todayExpenses = expenses.filter(e => e.date === today).reduce((s, e) => s + e.amount, 0);
+            const weekExpenses = expenses.filter(e => e.date >= weekAgo).reduce((s, e) => s + e.amount, 0);
+            const monthExpenses = expenses.filter(e => e.date >= monthAgo).reduce((s, e) => s + e.amount, 0);
+            
+            return { totalIncome, totalExpenses, currentBalance, todayIncome, weekIncome, monthIncome, todayExpenses, weekExpenses, monthExpenses };
+        }
+
+        function getStageName(stage) {
+            const names = { zomachivanie: 'Замачивание', posev: 'Посев', v_temi: 'В тени', pod_lampoy: 'Под лампой', srezka: 'Срезка', sbor: 'Сбор' };
+            return names[stage] || stage;
+        }
+
+        function getProgressPercent(party) {
+            const stages = party.cultureType === 'microgreen' 
+                ? ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka']
+                : ['zomachivanie', 'posev', 'sbor'];
+            const index = stages.indexOf(party.currentStage);
+            return ((index + 1) / stages.length) * 100;
+        }
+
+        function getClientName(clientId) {
+            const clients = loadKey(STORAGE_KEYS.clients);
+            const client = clients.find(c => c.id === clientId);
+            return client ? client.name : 'Клиент';
+        }
+
+        // Рендеры
+        function renderDashboard() {
+            const parties = loadKey(STORAGE_KEYS.parties);
+            const orders = loadKey(STORAGE_KEYS.orders);
+            const clients = loadKey(STORAGE_KEYS.clients);
+            const finances = getFinancialStats();
+            
+            document.getElementById('mainStats').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${parties.length}</div><div class="stat-label">Всего партий</div></div>
+                <div class="stat-card"><div class="stat-number">${finances.totalIncome}₽</div><div class="stat-label">Общая прибыль</div></div>
+                <div class="stat-card"><div class="stat-number">${parties.filter(p => p.currentStage !== 'srezka' && p.currentStage !== 'sbor').length}</div><div class="stat-label">Активные</div></div>
+                <div class="stat-card"><div class="stat-number">${clients.length}</div><div class="stat-label">Клиенты</div></div>
+            `;
+            document.getElementById('currentBalance').textContent = finances.currentBalance + '₽';
+            document.getElementById('financeStats').innerHTML = `
+                <div class="finance-card"><div class="finance-amount">${finances.todayIncome}₽</div><div class="finance-period">За сегодня</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.weekIncome}₽</div><div class="finance-period">За неделю</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.monthIncome}₽</div><div class="finance-period">За месяц</div></div>
+            `;
+            
+            const activeParties = parties.filter(p => p.currentStage !== 'srezka' && p.currentStage !== 'sbor').slice(0, 3);
+            document.getElementById('activePartiesList').innerHTML = activeParties.length ? activeParties.map(p => `
+                <div class="card"><div class="card-header"><b>${p.culture} (${p.format})</b><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(p)}%"></div></div>
+                <div class="card-details">📦 ${p.weightDry}г • 📅 ${p.dateSown}</div>
+                <button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button></div>
+            `).join('') : '<div class="empty-state">Нет активных партий</div>';
+            
+            const recentOrders = orders.slice(-3).reverse();
+            document.getElementById('recentOrdersList').innerHTML = recentOrders.length ? recentOrders.map(o => `
+                <div class="card"><div class="card-header"><b>${getClientName(o.clientId)}</b><span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span></div>
+                <div class="card-details">📦 ${o.items.map(i => `${i.product} x${i.quantity}`).join(', ')} • 💰 ${o.total}₽ • 📅 ${o.date}</div>
+                <div class="flex-btns">${!o.paid ? `<button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ Оплатить</button>` : ''}</div></div>
+            `).join('') : '<div class="empty-state">Нет заказов</div>';
+        }
+
+        window.nextStage = (id) => {
+            let parties = loadKey(STORAGE_KEYS.parties);
+            const party = parties.find(p => p.id === id);
+            if (!party) return;
+            const stages = party.cultureType === 'microgreen' 
+                ? ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka']
+                : ['zomachivanie', 'posev', 'sbor'];
+            const idx = stages.indexOf(party.currentStage);
+            if (idx < stages.length - 1) {
+                party.currentStage = stages[idx + 1];
+                if (!party.stages) party.stages = {};
+                party.stages[party.currentStage] = new Date().toISOString();
+                saveKey(STORAGE_KEYS.parties, parties);
+                renderDashboard();
+                renderParties();
+            } else {
+                alert('🎉 Партия завершена!');
             }
         };
 
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            initData();
-            updateCurrentDate();
-            setupEventListeners();
-            loadDashboard();
-            
-            // Установка сегодняшней даты по умолчанию
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('batchDate').value = today;
-            document.getElementById('saleDate').value = today;
-            document.getElementById('orderDate').value = today;
-            document.getElementById('achievementDate').value = today;
-            document.getElementById('expenseDate').value = today;
-            
-            console.log('🚀 Приложение загружено!');
+        function renderParties() {
+            const parties = loadKey(STORAGE_KEYS.parties);
+            const div = document.getElementById('partiesList');
+            if (!parties.length) { div.innerHTML = '<div class="empty-state">Нет партий</div>'; return; }
+            div.innerHTML = parties.slice().reverse().map(p => `
+                <div class="card"><div class="card-header"><b>${p.culture} (${p.format})</b><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(p)}%"></div></div>
+                <div class="card-details">📦 ${p.weightDry}г • 📅 ${p.dateSown}</div>
+                <div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button><button class="btn-small btn-secondary" onclick="editParty('${p.id}')">✏️ Редактировать</button></div></div>
+            `).join('');
+        }
+
+        window.editParty = (id) => {
+            const parties = loadKey(STORAGE_KEYS.parties);
+            const party = parties.find(p => p.id === id);
+            if (party) {
+                document.getElementById('editPartyId').value = party.id;
+                document.getElementById('editPartyCulture').value = party.culture;
+                document.getElementById('editPartyType').value = party.cultureType;
+                document.getElementById('editPartyFormat').value = party.format;
+                document.getElementById('editPartyWeightDry').value = party.weightDry;
+                document.getElementById('editPartyDateSown').value = party.dateSown;
+                const stages = party.cultureType === 'microgreen' 
+                    ? ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka']
+                    : ['zomachivanie', 'posev', 'sbor'];
+                const stageSelect = document.getElementById('editPartyStage');
+                stageSelect.innerHTML = stages.map(s => `<option value="${s}" ${party.currentStage === s ? 'selected' : ''}>${getStageName(s)}</option>`).join('');
+                showModal('editPartyModal');
+            }
+        };
+
+        window.deletePartyFromModal = () => {
+            if (!confirm('Удалить партию?')) return;
+            const id = document.getElementById('editPartyId').value;
+            let parties = loadKey(STORAGE_KEYS.parties);
+            parties = parties.filter(p => p.id !== id);
+            saveKey(STORAGE_KEYS.parties, parties);
+            hideModal('editPartyModal');
+            renderParties();
+            renderDashboard();
+        };
+
+        function renderOrders() {
+            const orders = loadKey(STORAGE_KEYS.orders);
+            const div = document.getElementById('ordersList');
+            if (!orders.length) { div.innerHTML = '<div class="empty-state">Нет заказов</div>'; return; }
+            div.innerHTML = orders.slice().reverse().map(o => `
+                <div class="card"><div class="card-header"><b>${getClientName(o.clientId)}</b><div><span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span><span class="status ${o.delivered ? 'status-delivered' : 'status-pending'}" style="margin-left:6px">${o.delivered ? 'Выдан' : 'Не выдан'}</span></div></div>
+                <div class="card-details">📦 ${o.items.map(i => `${i.product} x${i.quantity} = ${i.price * i.quantity}₽`).join(', ')} • 📅 ${o.date}</div>
+                <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editOrder('${o.id}')">✏️ Редактировать</button></div></div>
+            `).join('');
+        }
+
+        window.toggleOrderPaid = (id) => {
+            let orders = loadKey(STORAGE_KEYS.orders);
+            const order = orders.find(o => o.id === id);
+            if (order) { order.paid = !order.paid; saveKey(STORAGE_KEYS.orders, orders); renderDashboard(); renderOrders(); }
+        };
+
+        window.editOrder = (id) => {
+            const orders = loadKey(STORAGE_KEYS.orders);
+            const clients = loadKey(STORAGE_KEYS.clients);
+            const order = orders.find(o => o.id === id);
+            if (order) {
+                document.getElementById('editOrderId').value = order.id;
+                const clientSelect = document.getElementById('editOrderClient');
+                clientSelect.innerHTML = clients.map(c => `<option value="${c.id}" ${c.id === order.clientId ? 'selected' : ''}>${c.name}</option>`).join('');
+                document.getElementById('editOrderDate').value = order.date;
+                document.getElementById('editOrderProduct').value = order.items[0]?.product || '';
+                document.getElementById('editOrderQty').value = order.items[0]?.quantity || 1;
+                document.getElementById('editOrderPrice').value = order.items[0]?.price || 0;
+                document.getElementById('editOrderPaid').value = order.paid;
+                document.getElementById('editOrderDelivered').value = order.delivered;
+                showModal('editOrderModal');
+            }
+        };
+
+        window.deleteOrderFromModal = () => {
+            if (!confirm('Удалить заказ?')) return;
+            const id = document.getElementById('editOrderId').value;
+            let orders = loadKey(STORAGE_KEYS.orders);
+            orders = orders.filter(o => o.id !== id);
+            saveKey(STORAGE_KEYS.orders, orders);
+            hideModal('editOrderModal');
+            renderOrders();
+            renderDashboard();
+        };
+
+        function renderClients(filter = '') {
+            let clients = loadKey(STORAGE_KEYS.clients);
+            const orders = loadKey(STORAGE_KEYS.orders);
+            if (filter) clients = clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+            const div = document.getElementById('clientsList');
+            if (!clients.length) { div.innerHTML = '<div class="empty-state">Нет клиентов</div>'; return; }
+            div.innerHTML = clients.map(c => {
+                const clientOrders = orders.filter(o => o.clientId === c.id);
+                const totalSpent = clientOrders.filter(o => o.paid).reduce((s, o) => s + o.total, 0);
+                return `<div class="card"><div class="card-header"><b>${c.name}</b><button class="btn-small btn-secondary" onclick="viewClient('${c.id}')">📋 Подробнее</button></div>
+                <div class="card-details">📍 ${c.address || '—'} • 📞 ${c.contact || '—'}</div>
+                <div class="card-details">📦 Заказов: ${clientOrders.length} • 💰 ${totalSpent}₽</div>
+                <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder('${c.id}')">📦 Новая поставка</button><button class="btn-small btn-danger" onclick="deleteClient('${c.id}')">🗑️ Удалить</button></div></div>`;
+            }).join('');
+        }
+
+        window.viewClient = (id) => {
+            const clients = loadKey(STORAGE_KEYS.clients);
+            const orders = loadKey(STORAGE_KEYS.orders);
+            const client = clients.find(c => c.id === id);
+            const clientOrders = orders.filter(o => o.clientId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const totalSpent = clientOrders.filter(o => o.paid).reduce((s, o) => s + o.total, 0);
+            document.getElementById('viewClientContent').innerHTML = `<div><h3>${client.name}</h3><p>📍 ${client.address || '—'}<br>📞 ${client.contact || '—'}</p>
+            <div style="background:#F8FDF8; padding:12px; border-radius:16px; margin:12px 0"><div>📊 Статистика:</div><div>• Заказов: ${clientOrders.length}</div><div>• На сумму: ${totalSpent}₽</div></div>
+            <hr><h4>📦 История заказов:</h4>${clientOrders.map(o => `<div style="padding:8px 0; border-bottom:1px solid #E8F5E9">📅 ${o.date} — ${o.items.map(i => `${i.product} x${i.quantity}`).join(', ')} — ${o.total}₽ ${o.paid ? '✅' : '❌'}</div>`).join('') || '<p>Нет заказов</p>'}
+            <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder('${client.id}'); hideModal('viewClientModal')">📦 Новая поставка</button><button class="btn-small" onclick="hideModal('viewClientModal')">Закрыть</button></div></div>`;
+            showModal('viewClientModal');
+        };
+
+        window.quickOrder = (clientId) => { showModal('newOrderModal'); setTimeout(() => { const select = document.getElementById('orderClient'); if(select) select.value = clientId; }, 100); };
+        window.deleteClient = (id) => { if(confirm('Удалить клиента?')) { let clients = loadKey(STORAGE_KEYS.clients); clients = clients.filter(c => c.id !== id); saveKey(STORAGE_KEYS.clients, clients); renderClients(); } };
+        window.filterClients = () => renderClients(document.getElementById('clientSearch').value);
+
+        function renderExpenses() {
+            const expenses = loadKey(STORAGE_KEYS.expenses);
+            const finances = getFinancialStats();
+            document.getElementById('expensesBalance').textContent = finances.currentBalance + '₽';
+            document.getElementById('expenseStats').innerHTML = `
+                <div class="expense-card"><div class="expense-amount">${finances.todayExpenses}₽</div><div class="expense-period">За сегодня</div></div>
+                <div class="expense-card"><div class="expense-amount">${finances.weekExpenses}₽</div><div class="expense-period">За неделю</div></div>
+                <div class="expense-card"><div class="expense-amount">${finances.monthExpenses}₽</div><div class="expense-period">За месяц</div></div>
+                <div class="expense-card"><div class="expense-amount">${finances.totalExpenses}₽</div><div class="expense-period">Всего</div></div>
+            `;
+            if (!expenses.length) { document.getElementById('expensesTable').innerHTML = '<div class="empty-state">Нет расходов</div>'; return; }
+            document.getElementById('expensesTable').innerHTML = `<div class="table-wrapper"><table class="data-table"><thead><tr><th>Дата</th><th>Наименование</th><th>Категория</th><th>Сумма</th><th></th></tr></thead><tbody>${expenses.slice().reverse().map(e => `<tr><td>${e.date}</td><td>${e.name}</td><td><span class="status status-pending">${e.category}</span></td><td><b>-${e.amount}₽</b></td><td><button class="btn-small btn-secondary" onclick="editExpense('${e.id}')">✏️</button></td></tr>`).join('')}</tbody></table></div>`;
+        }
+
+        window.editExpense = (id) => {
+            const expenses = loadKey(STORAGE_KEYS.expenses);
+            const expense = expenses.find(e => e.id === id);
+            if (expense) {
+                document.getElementById('editExpenseId').value = expense.id;
+                document.getElementById('editExpenseDate').value = expense.date;
+                document.getElementById('editExpenseName').value = expense.name;
+                document.getElementById('editExpenseAmount').value = expense.amount;
+                const catSelect = document.getElementById('editExpenseCategory');
+                catSelect.innerHTML = ['Оборудование', 'Контейнеры', 'Семена', 'Субстрат', 'Упаковка', 'Прочее'].map(c => `<option value="${c}" ${c === expense.category ? 'selected' : ''}>${c}</option>`).join('');
+                showModal('editExpenseModal');
+            }
+        };
+
+        window.deleteExpenseFromModal = () => {
+            if (!confirm('Удалить расход?')) return;
+            const id = document.getElementById('editExpenseId').value;
+            let expenses = loadKey(STORAGE_KEYS.expenses);
+            expenses = expenses.filter(e => e.id !== id);
+            saveKey(STORAGE_KEYS.expenses, expenses);
+            hideModal('editExpenseModal');
+            renderExpenses();
+            renderDashboard();
+        };
+
+        function renderAchievements() {
+            const achievements = loadKey(STORAGE_KEYS.achievements);
+            const div = document.getElementById('achievementsList');
+            if (!achievements.length) { div.innerHTML = '<div class="empty-state">Нет достижений</div>'; return; }
+            div.innerHTML = achievements.slice().reverse().map(a => `<div class="card"><div class="card-header"><b>🏆 ${a.description}</b><button class="btn-small btn-danger" onclick="deleteAchievement('${a.id}')">🗑️</button></div><div class="card-details">📅 ${a.date} • ${a.category}</div></div>`).join('');
+        }
+
+        window.deleteAchievement = (id) => { if(confirm('Удалить достижение?')) { let achievements = loadKey(STORAGE_KEYS.achievements); achievements = achievements.filter(a => a.id !== id); saveKey(STORAGE_KEYS.achievements, achievements); renderAchievements(); } };
+
+        // Формы
+        function fillSelectors() {
+            const clients = loadKey(STORAGE_KEYS.clients);
+            const parties = loadKey(STORAGE_KEYS.parties);
+            const clientSelect = document.getElementById('orderClient');
+            if (clientSelect) clientSelect.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            const partySelect = document.getElementById('orderPartyId');
+            if (partySelect) partySelect.innerHTML = '<option value="">Не выбрано</option>' + parties.map(p => `<option value="${p.id}">${p.culture} (${p.dateSown})</option>`).join('');
+        }
+
+        document.getElementById('newPartyForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let parties = loadKey(STORAGE_KEYS.parties);
+            const cultureType = document.getElementById('partyType').value;
+            const now = new Date().toISOString();
+            parties.push({
+                id: `p${Date.now()}`,
+                culture: document.getElementById('partyCulture').value,
+                cultureType: cultureType,
+                format: document.getElementById('partyFormat').value,
+                dateSown: document.getElementById('partyDateSown').value,
+                weightDry: parseInt(document.getElementById('partyWeightDry').value),
+                substrate: document.getElementById('partySubstrate').value,
+                currentStage: 'zomachivanie',
+                stages: { zomachivanie: now, posev: null, v_temi: null, pod_lampoy: null, srezka: null, sbor: null },
+                createdAt: now
+            });
+            saveKey(STORAGE_KEYS.parties, parties);
+            hideModal('newPartyModal');
+            renderParties();
+            renderDashboard();
         });
 
-        function initData() {
-            // Проверяем и инициализируем каждую таблицу отдельно в Local Storage
-            if (!localStorage.getItem('batches')) {
-                localStorage.setItem('batches', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('sales')) {
-                localStorage.setItem('sales', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('clients')) {
-                localStorage.setItem('clients', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('orders')) {
-                localStorage.setItem('orders', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('achievements')) {
-                localStorage.setItem('achievements', JSON.stringify([]));
-            }
-            if (!localStorage.getItem('expenses')) {
-                localStorage.setItem('expenses', JSON.stringify([]));
-            }
-            console.log('💾 Local Storage инициализирован');
-        }
-
-        function setupEventListeners() {
-            // Навигация
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                    this.classList.add('active');
-                    const sectionId = this.getAttribute('data-section');
-                    document.getElementById(sectionId).classList.add('active');
-                    loadSectionData(sectionId);
-                });
-            });
-
-            // Формы
-            document.getElementById('newBatchForm').addEventListener('submit', addBatch);
-            document.getElementById('newOrderForm').addEventListener('submit', addOrder);
-            document.getElementById('newSaleForm').addEventListener('submit', addSale);
-            document.getElementById('newClientForm').addEventListener('submit', addClient);
-            document.getElementById('newAchievementForm').addEventListener('submit', addAchievement);
-            document.getElementById('newExpenseForm').addEventListener('submit', addExpense);
-            document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
-            document.getElementById('editSaleForm').addEventListener('submit', updateSale);
-            document.getElementById('editOrderForm').addEventListener('submit', updateOrder);
-        }
-
-        function updateCurrentDate() {
-            const now = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('ru-RU', options);
-        }
-
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            if (modalId === 'newSaleModal') {
-                fillBatchSelect();
-                fillClientSelect();
-            }
-            if (modalId === 'newOrderModal') {
-                fillOrderClientSelect();
-            }
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function loadSectionData(sectionName) {
-            switch(sectionName) {
-                case 'dashboard': loadDashboard(); break;
-                case 'batches': loadBatches(); break;
-                case 'orders': loadOrders(); break;
-                case 'sales': loadSales(); break;
-                case 'clients': loadClients(); break;
-                case 'achievements': loadAchievements(); break;
-                case 'expenses': loadExpenses(); break;
-            }
-        }
-
-        function loadDashboard() {
-            const batches = DB.load('batches');
-            const sales = DB.load('sales');
-            const clients = DB.load('clients');
-            const orders = DB.load('orders');
-            const expenses = DB.load('expenses');
-            
-            document.getElementById('totalBatches').textContent = batches.length;
-            document.getElementById('totalClients').textContent = clients.length;
-            document.getElementById('activeBatches').textContent = batches.filter(b => b.status !== 'Готово к отправке').length;
-            
-            // Общая прибыль (только оплаченные продажи)
-            const totalProfit = sales
-                .filter(sale => sale.paymentStatus === 'Оплачен')
-                .reduce((sum, sale) => sum + sale.actualPrice, 0);
-            document.getElementById('totalProfit').textContent = totalProfit + '₽';
-            
-            // Прибыль за периоды (только оплаченные продажи)
-            calculatePeriodProfit(sales);
-            
-            // Баланс (прибыль - расходы)
-            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const currentBalance = totalProfit - totalExpenses;
-            const balanceElement = document.getElementById('currentBalance');
-            balanceElement.textContent = currentBalance + '₽';
-            balanceElement.className = currentBalance >= 0 ? 'balance-amount balance-positive' : 'balance-amount balance-negative';
-            
-            // Активные партии
-            const activeBatchesList = document.getElementById('activeBatchesList');
-            const activeBatches = batches.filter(b => b.status !== 'Готово к отправке').slice(0, 3);
-            
-            if (activeBatches.length === 0) {
-                activeBatchesList.innerHTML = '<div class="empty-state">Нет активных партий</div>';
-            } else {
-                activeBatchesList.innerHTML = activeBatches.map(batch => `
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">${batch.batchNumber}</div>
-                            <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
-                        </div>
-                        <div class="card-details">
-                            📦 ${batch.dryWeight}г сухого → ${batch.finalWeight || '?'}г после сушки<br>
-                            📅 ${batch.date} • 🕒 ${batch.time}
-                        </div>
-                    </div>
-                `).join('');
-            }
-            
-            // Последние продажи - ПОСЛЕДНИЕ ПЕРВЫМИ
-            const recentSalesList = document.getElementById('recentSalesList');
-            const recentSales = sales.slice(-3).reverse();
-            
-            if (recentSales.length === 0) {
-                recentSalesList.innerHTML = '<div class="empty-state">Нет продаж</div>';
-            } else {
-                recentSalesList.innerHTML = recentSales.map(sale => `
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">${sale.clientName}</div>
-                            <div class="status status-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}">${sale.paymentStatus}</div>
-                        </div>
-                        <div class="card-details">
-                            📦 ${sale.weight}г<br>
-                            💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function calculatePeriodProfit(sales) {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-    
-    const dayProfit = sales
-        .filter(sale => new Date(sale.date) >= today && sale.paymentStatus === 'Оплачен')
-        .reduce((sum, sale) => sum + sale.actualPrice, 0);
-        
-    const weekProfit = sales
-        .filter(sale => new Date(sale.date) >= weekAgo && sale.paymentStatus === 'Оплачен')
-        .reduce((sum, sale) => sum + sale.actualPrice, 0);
-        
-    const monthProfit = sales
-        .filter(sale => new Date(sale.date) >= monthAgo && sale.paymentStatus === 'Оплачен')
-        .reduce((sum, sale) => sum + sale.actualPrice, 0);
-    
-    document.getElementById('dayProfit').textContent = dayProfit + '₽';
-    document.getElementById('weekProfit').textContent = weekProfit + '₽';
-    document.getElementById('monthProfit').textContent = monthProfit + '₽';
-}
-
-        function getStatusClass(status) {
-            const statusMap = {
-                'Замачивание': 'soaking',
-                'Проращивание': 'sprouting',
-                'Шелушение': 'peeling',
-                'Бланширование': 'blanching',
-                'Сушка': 'packing',
-                'Фасовка': 'packing',
-                'Готово к отправке': 'ready',
-                'Оплачен': 'paid',
-                'Не оплачен': 'unpaid',
-                'Выдан': 'delivered',
-                'Не выдан': 'pending'
-            };
-            return statusMap[status] || 'sprouting';
-        }
-
-        // Функции для достижений
-        function loadAchievements() {
-            const achievements = DB.load('achievements');
-            const achievementsList = document.getElementById('achievementsList');
-            
-            if (achievements.length === 0) {
-                achievementsList.innerHTML = '<div class="empty-state">Нет достижений. Добавьте первое! 🏆</div>';
-                return;
-            }
-            
-            // Сортируем достижения - новые первыми
-            const sortedAchievements = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            achievementsList.innerHTML = sortedAchievements.map(achievement => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${achievement.category}</div>
-                        <div class="status status-ready">🏆</div>
-                    </div>
-                    <div class="card-details">
-                        ${achievement.description}<br>
-                        📅 ${achievement.date}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addAchievement(e) {
+        document.getElementById('newOrderForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const achievement = {
-                id: DB.getNextId('achievements'),
-                date: document.getElementById('achievementDate').value,
-                description: document.getElementById('achievementDescription').value,
-                category: document.getElementById('achievementCategory').value,
+            let orders = loadKey(STORAGE_KEYS.orders);
+            const qty = parseInt(document.getElementById('orderQty').value);
+            const price = parseInt(document.getElementById('orderPrice').value);
+            orders.push({
+                id: `o${Date.now()}`,
+                clientId: document.getElementById('orderClient').value,
+                date: document.getElementById('orderDate').value,
+                items: [{ product: document.getElementById('orderProduct').value, format: '15×11', quantity: qty, price: price }],
+                total: qty * price,
+                paid: document.getElementById('orderPaid').value === 'true',
+                delivered: document.getElementById('orderDelivered').value === 'true',
+                partyId: document.getElementById('orderPartyId').value || null,
                 createdAt: new Date().toISOString()
-            };
-            
-            const achievements = DB.load('achievements');
-            achievements.push(achievement);
-            DB.save('achievements', achievements);
-            
-            hideModal('newAchievementModal');
-            document.getElementById('newAchievementForm').reset();
-            loadAchievements();
-            
-            alert('✅ Достижение добавлено!');
-        }
+            });
+            saveKey(STORAGE_KEYS.orders, orders);
+            hideModal('newOrderModal');
+            renderOrders();
+            renderDashboard();
+        });
 
-        // Функции для расходов
-        function loadExpenses() {
-            const expenses = DB.load('expenses');
-            const sales = DB.load('sales');
-            const expensesList = document.getElementById('expensesList');
-            
-            // Рассчитываем баланс
-            const totalProfit = sales
-                .filter(sale => sale.paymentStatus === 'Оплачен')
-                .reduce((sum, sale) => sum + sale.actualPrice, 0);
-            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-            const currentBalance = totalProfit - totalExpenses;
-            
-            const balanceElement = document.getElementById('expensesBalance');
-            balanceElement.textContent = currentBalance + '₽';
-            balanceElement.className = currentBalance >= 0 ? 'balance-amount balance-positive' : 'balance-amount balance-negative';
-            
-            // Рассчитываем расходы за периоды
-            calculatePeriodExpenses(expenses);
-            
-            if (expenses.length === 0) {
-                expensesList.innerHTML = '<div class="empty-state">Нет записей о расходах</div>';
-                return;
-            }
-            
-            // Сортируем расходы - новые первыми
-            const sortedExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            expensesList.innerHTML = sortedExpenses.slice(0, 5).map(expense => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${expense.name}</div>
-                        <div class="status status-unpaid">-${expense.amount}₽</div>
-                    </div>
-                    <div class="card-details">
-                        📅 ${expense.date} • 🏷️ ${expense.category}
-                        ${expense.notes ? `<br>📝 ${expense.notes}` : ''}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function calculatePeriodExpenses(expenses) {
-            const now = new Date();
-            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-            
-            const dayExpenses = expenses
-                .filter(expense => new Date(expense.date) >= today)
-                .reduce((sum, expense) => sum + expense.amount, 0);
-                
-            const weekExpenses = expenses
-                .filter(expense => new Date(expense.date) >= weekAgo)
-                .reduce((sum, expense) => sum + expense.amount, 0);
-                
-            const monthExpenses = expenses
-                .filter(expense => new Date(expense.date) >= monthAgo)
-                .reduce((sum, expense) => sum + expense.amount, 0);
-                
-            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
-            
-            document.getElementById('dayExpenses').textContent = dayExpenses + '₽';
-            document.getElementById('weekExpenses').textContent = weekExpenses + '₽';
-            document.getElementById('monthExpenses').textContent = monthExpenses + '₽';
-            document.getElementById('totalExpenses').textContent = totalExpenses + '₽';
-        }
-
-        function addExpense(e) {
+        document.getElementById('newClientForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const expense = {
-                id: DB.getNextId('expenses'),
+            let clients = loadKey(STORAGE_KEYS.clients);
+            clients.push({
+                id: `c${Date.now()}`,
+                name: document.getElementById('clientName').value,
+                address: document.getElementById('clientAddress').value,
+                contact: document.getElementById('clientContact').value,
+                createdAt: new Date().toISOString()
+            });
+            saveKey(STORAGE_KEYS.clients, clients);
+            hideModal('newClientModal');
+            renderClients();
+            fillSelectors();
+        });
+
+        document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let expenses = loadKey(STORAGE_KEYS.expenses);
+            expenses.push({
+                id: `e${Date.now()}`,
                 date: document.getElementById('expenseDate').value,
                 name: document.getElementById('expenseName').value,
                 amount: parseInt(document.getElementById('expenseAmount').value),
                 category: document.getElementById('expenseCategory').value,
-                notes: document.getElementById('expenseNotes').value,
                 createdAt: new Date().toISOString()
-            };
-            
-            const expenses = DB.load('expenses');
-            expenses.push(expense);
-            DB.save('expenses', expenses);
-            
+            });
+            saveKey(STORAGE_KEYS.expenses, expenses);
             hideModal('newExpenseModal');
-            document.getElementById('newExpenseForm').reset();
-            loadExpenses();
-            loadDashboard();
-            
-            alert('✅ Расход добавлен!');
-        }
+            renderExpenses();
+            renderDashboard();
+        });
 
-
-        function loadBatches() {
-            const batches = DB.load('batches');
-            const batchesList = document.getElementById('batchesList');
-            
-            if (batches.length === 0) {
-                batchesList.innerHTML = '<div class="empty-state">Нет созданных партий</div>';
-                return;
-            }
-            
-            // Сортируем партии - новые первыми
-            const sortedBatches = batches.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            
-            batchesList.innerHTML = sortedBatches.map(batch => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${batch.batchNumber}</div>
-                        <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
-                    </div>
-                    <div class="card-details">
-                        📦 ${batch.dryWeight}г сухого → ${batch.finalWeight || '?'}г после сушки<br>
-                        📅 ${batch.date} • 🕒 ${batch.time}
-                    </div>
-                    ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
-                    <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addBatch(e) {
+        document.getElementById('newAchievementForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const batch = {
-                id: DB.getNextId('batches'),
-                batchNumber: document.getElementById('batchNumber').value,
-                date: document.getElementById('batchDate').value,
-                time: document.getElementById('batchTime').value,
-                dryWeight: parseInt(document.getElementById('batchWeight').value),
-                finalWeight: null,
-                status: document.getElementById('batchStatus').value,
-                notes: document.getElementById('batchNotes').value,
+            let achievements = loadKey(STORAGE_KEYS.achievements);
+            achievements.push({
+                id: `a${Date.now()}`,
+                date: document.getElementById('achievementDate').value,
+                description: document.getElementById('achievementDesc').value,
+                category: document.getElementById('achievementCategory').value,
                 createdAt: new Date().toISOString()
-            };
-            
-            const batches = DB.load('batches');
-            batches.push(batch);
-            DB.save('batches', batches);
-            
-            hideModal('newBatchModal');
-            document.getElementById('newBatchForm').reset();
-            loadDashboard();
-            loadBatches();
-            
-            alert('✅ Партия создана!');
-        }
+            });
+            saveKey(STORAGE_KEYS.achievements, achievements);
+            hideModal('newAchievementModal');
+            renderAchievements();
+        });
 
-        function editBatch(id) {
-            const batches = DB.load('batches');
-            const batch = batches.find(b => b.id === id);
-            
-            if (batch) {
-                document.getElementById('editBatchId').value = batch.id;
-                document.getElementById('editBatchNumber').value = batch.batchNumber;
-                document.getElementById('editBatchDate').value = batch.date;
-                document.getElementById('editBatchTime').value = batch.time;
-                document.getElementById('editBatchWeight').value = batch.dryWeight;
-                document.getElementById('editBatchDryWeight').value = batch.finalWeight || '';
-                document.getElementById('editBatchStatus').value = batch.status;
-                document.getElementById('editBatchNotes').value = batch.notes || '';
-                
-                showModal('editBatchModal');
-            }
-        }
-
-        function updateBatch(e) {
+        document.getElementById('editPartyForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editBatchId').value);
-            const batches = DB.load('batches');
-            const batchIndex = batches.findIndex(b => b.id === id);
-            
-            if (batchIndex !== -1) {
-                batches[batchIndex].batchNumber = document.getElementById('editBatchNumber').value;
-                batches[batchIndex].date = document.getElementById('editBatchDate').value;
-                batches[batchIndex].time = document.getElementById('editBatchTime').value;
-                batches[batchIndex].dryWeight = parseInt(document.getElementById('editBatchWeight').value);
-                batches[batchIndex].finalWeight = document.getElementById('editBatchDryWeight').value ? 
-                    parseInt(document.getElementById('editBatchDryWeight').value) : null;
-                batches[batchIndex].status = document.getElementById('editBatchStatus').value;
-                batches[batchIndex].notes = document.getElementById('editBatchNotes').value;
-                
-                DB.save('batches', batches);
-                hideModal('editBatchModal');
-                loadDashboard();
-                loadBatches();
-                
-                alert('✅ Партия обновлена!');
+            const id = document.getElementById('editPartyId').value;
+            let parties = loadKey(STORAGE_KEYS.parties);
+            const index = parties.findIndex(p => p.id === id);
+            if (index !== -1) {
+                parties[index] = {
+                    ...parties[index],
+                    culture: document.getElementById('editPartyCulture').value,
+                    cultureType: document.getElementById('editPartyType').value,
+                    format: document.getElementById('editPartyFormat').value,
+                    weightDry: parseInt(document.getElementById('editPartyWeightDry').value),
+                    dateSown: document.getElementById('editPartyDateSown').value,
+                    currentStage: document.getElementById('editPartyStage').value
+                };
+                saveKey(STORAGE_KEYS.parties, parties);
+                hideModal('editPartyModal');
+                renderParties();
+                renderDashboard();
             }
-        }
+        });
 
-        function deleteBatch() {
-            if (!confirm('🗑️ Удалить эту партию?')) return;
-            
-            const id = parseInt(document.getElementById('editBatchId').value);
-            const batches = DB.load('batches');
-            const filteredBatches = batches.filter(b => b.id !== id);
-            
-            DB.save('batches', filteredBatches);
-            hideModal('editBatchModal');
-            loadDashboard();
-            loadBatches();
-            
-            alert('✅ Партия удалена!');
-        }
-
-        // Функции для заказов
-        function loadOrders() {
-            const orders = DB.load('orders');
-            const ordersList = document.getElementById('ordersList');
-            
-            if (orders.length === 0) {
-                ordersList.innerHTML = '<div class="empty-state">Нет созданных заказов</div>';
-                return;
-            }
-            
-            // Сортируем заказы - новые первыми
-            const sortedOrders = orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            
-            ordersList.innerHTML = sortedOrders.map(order => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${order.clientName}</div>
-                        <div class="status-buttons">
-                            <button class="status-btn status-btn-${order.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
-                                    onclick="toggleOrderPayment(${order.id})">
-                                ${order.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
-                            </button>
-                            <button class="status-btn status-btn-${order.deliveryStatus === 'Выдан' ? 'delivered' : 'pending'}" 
-                                    onclick="toggleOrderDelivery(${order.id})">
-                                ${order.deliveryStatus === 'Выдан' ? '📦 Выдан' : '📦 Выдать'}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-details">
-                        📦 Вес: ${order.weight}г<br>
-                        💰 Цена: ${order.actualPrice}₽ (план: ${order.plannedPrice}₽)<br>
-                        📅 Дата: ${order.date}
-                    </div>
-                    ${order.notes ? `<div class="card-details">📝 ${order.notes}</div>` : ''}
-                    <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="editOrder(${order.id})">✏️ Редактировать</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addOrder(e) {
+        document.getElementById('editOrderForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const clientId = parseInt(document.getElementById('orderClient').value);
-            const clients = DB.load('clients');
-            const client = clients.find(c => c.id === clientId);
-            
-            if (!client) {
-                alert('❌ Выберите клиента!');
-                return;
-            }
-            
-            const order = {
-                id: DB.getNextId('orders'),
-                clientId: clientId,
-                clientName: client.name,
-                date: document.getElementById('orderDate').value,
-                weight: parseInt(document.getElementById('orderWeight').value),
-                plannedPrice: parseInt(document.getElementById('orderPlannedPrice').value),
-                actualPrice: parseInt(document.getElementById('orderActualPrice').value),
-                paymentStatus: document.getElementById('orderPaymentStatus').value,
-                deliveryStatus: document.getElementById('orderDeliveryStatus').value,
-                notes: document.getElementById('orderNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const orders = DB.load('orders');
-            orders.push(order);
-            DB.save('orders', orders);
-            
-            hideModal('newOrderModal');
-            document.getElementById('newOrderForm').reset();
-            loadDashboard();
-            loadOrders();
-            
-            alert('✅ Заказ создан!');
-        }
-
-        function toggleOrderPayment(orderId) {
-            const orders = DB.load('orders');
-            const orderIndex = orders.findIndex(o => o.id === orderId);
-            
-            if (orderIndex !== -1) {
-                orders[orderIndex].paymentStatus = orders[orderIndex].paymentStatus === 'Оплачен' ? 'Не оплачен' : 'Оплачен';
-                DB.save('orders', orders);
-                loadOrders();
-                loadDashboard();
-            }
-        }
-
-        function toggleOrderDelivery(orderId) {
-            const orders = DB.load('orders');
-            const orderIndex = orders.findIndex(o => o.id === orderId);
-            
-            if (orderIndex !== -1) {
-                orders[orderIndex].deliveryStatus = orders[orderIndex].deliveryStatus === 'Выдан' ? 'Не выдан' : 'Выдан';
-                DB.save('orders', orders);
-                loadOrders();
-            }
-        }
-
-        function editOrder(orderId) {
-            const orders = DB.load('orders');
-            const order = orders.find(o => o.id === orderId);
-            const clients = DB.load('clients');
-            
-            if (order) {
-                document.getElementById('editOrderId').value = order.id;
-                document.getElementById('editOrderClient').value = order.clientId;
-                document.getElementById('editOrderDate').value = order.date;
-                document.getElementById('editOrderWeight').value = order.weight;
-                document.getElementById('editOrderPlannedPrice').value = order.plannedPrice;
-                document.getElementById('editOrderActualPrice').value = order.actualPrice;
-                document.getElementById('editOrderPaymentStatus').value = order.paymentStatus;
-                document.getElementById('editOrderDeliveryStatus').value = order.deliveryStatus;
-                document.getElementById('editOrderNotes').value = order.notes || '';
-                
-                // Заполняем селект клиентов
-                const clientSelect = document.getElementById('editOrderClient');
-                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
-                    clients.map(client => `<option value="${client.id}" ${client.id === order.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
-                
-                showModal('editOrderModal');
-            }
-        }
-
-        function updateOrder(e) {
-            e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editOrderId').value);
-            const orders = DB.load('orders');
-            const orderIndex = orders.findIndex(o => o.id === id);
-            const clients = DB.load('clients');
-            
-            if (orderIndex !== -1) {
-                const client = clients.find(c => c.id === parseInt(document.getElementById('editOrderClient').value));
-                
-                orders[orderIndex].clientId = parseInt(document.getElementById('editOrderClient').value);
-                orders[orderIndex].clientName = client.name;
-                orders[orderIndex].date = document.getElementById('editOrderDate').value;
-                orders[orderIndex].weight = parseInt(document.getElementById('editOrderWeight').value);
-                orders[orderIndex].plannedPrice = parseInt(document.getElementById('editOrderPlannedPrice').value);
-                orders[orderIndex].actualPrice = parseInt(document.getElementById('editOrderActualPrice').value);
-                orders[orderIndex].paymentStatus = document.getElementById('editOrderPaymentStatus').value;
-                orders[orderIndex].deliveryStatus = document.getElementById('editOrderDeliveryStatus').value;
-                orders[orderIndex].notes = document.getElementById('editOrderNotes').value;
-                
-                DB.save('orders', orders);
+            const id = document.getElementById('editOrderId').value;
+            let orders = loadKey(STORAGE_KEYS.orders);
+            const index = orders.findIndex(o => o.id === id);
+            if (index !== -1) {
+                const qty = parseInt(document.getElementById('editOrderQty').value);
+                const price = parseInt(document.getElementById('editOrderPrice').value);
+                orders[index] = {
+                    ...orders[index],
+                    clientId: document.getElementById('editOrderClient').value,
+                    date: document.getElementById('editOrderDate').value,
+                    items: [{ product: document.getElementById('editOrderProduct').value, format: '15×11', quantity: qty, price: price }],
+                    total: qty * price,
+                    paid: document.getElementById('editOrderPaid').value === 'true',
+                    delivered: document.getElementById('editOrderDelivered').value === 'true'
+                };
+                saveKey(STORAGE_KEYS.orders, orders);
                 hideModal('editOrderModal');
-                loadDashboard();
-                loadOrders();
-                
-                alert('✅ Заказ обновлен!');
+                renderOrders();
+                renderDashboard();
             }
-        }
+        });
 
-        function deleteOrder() {
-            if (!confirm('🗑️ Удалить этот заказ?')) return;
-            
-            const id = parseInt(document.getElementById('editOrderId').value);
-            const orders = DB.load('orders');
-            const filteredOrders = orders.filter(o => o.id !== id);
-            
-            DB.save('orders', filteredOrders);
-            hideModal('editOrderModal');
-            loadDashboard();
-            loadOrders();
-            
-            alert('✅ Заказ удален!');
-        }
-
-        function fillOrderClientSelect() {
-            const clients = DB.load('clients');
-            const select = document.getElementById('orderClient');
-            select.innerHTML = '<option value="">Выберите клиента</option>' +
-                clients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
-        }
-
-        function filterOrderClientSelect() {
-            const searchTerm = document.getElementById('orderClientSearch').value.toLowerCase();
-            const clients = DB.load('clients');
-            const select = document.getElementById('orderClient');
-            
-            const filteredClients = clients.filter(client => 
-                client.name.toLowerCase().includes(searchTerm)
-            );
-            
-            select.innerHTML = '<option value="">Выберите клиента</option>' +
-                filteredClients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
-        }
-
-        function fillBatchSelect() {
-            const batches = DB.load('batches');
-            const select = document.getElementById('saleBatch');
-            select.innerHTML = '<option value="">Выберите партию</option>' +
-                batches.map(batch => `<option value="${batch.id}">${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
-        }
-
-        function fillClientSelect() {
-            const clients = DB.load('clients');
-            const select = document.getElementById('saleClient');
-            select.innerHTML = '<option value="">Выберите клиента</option>' +
-                clients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
-        }
-
-        function filterClientSelect() {
-            const searchTerm = document.getElementById('clientSearchSelect').value.toLowerCase();
-            const clients = DB.load('clients');
-            const select = document.getElementById('saleClient');
-            
-            const filteredClients = clients.filter(client => 
-                client.name.toLowerCase().includes(searchTerm)
-            );
-            
-            select.innerHTML = '<option value="">Выберите клиента</option>' +
-                filteredClients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
-        }
-
-        function addSale(e) {
+        document.getElementById('editExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            
-            const batchId = parseInt(document.getElementById('saleBatch').value);
-            const clientId = parseInt(document.getElementById('saleClient').value);
-            
-            const batches = DB.load('batches');
-            const clients = DB.load('clients');
-            
-            const batch = batches.find(b => b.id === batchId);
-            const client = clients.find(c => c.id === clientId);
-            
-            if (!batch || !client) {
-                alert('❌ Выберите партию и клиента!');
-                return;
+            const id = document.getElementById('editExpenseId').value;
+            let expenses = loadKey(STORAGE_KEYS.expenses);
+            const index = expenses.findIndex(e => e.id === id);
+            if (index !== -1) {
+                expenses[index] = {
+                    ...expenses[index],
+                    date: document.getElementById('editExpenseDate').value,
+                    name: document.getElementById('editExpenseName').value,
+                    amount: parseInt(document.getElementById('editExpenseAmount').value),
+                    category: document.getElementById('editExpenseCategory').value
+                };
+                saveKey(STORAGE_KEYS.expenses, expenses);
+                hideModal('editExpenseModal');
+                renderExpenses();
+                renderDashboard();
             }
-            
-            const sale = {
-                id: DB.getNextId('sales'),
-                batchId: batchId,
-                batchNumber: batch.batchNumber,
-                clientId: clientId,
-                clientName: client.name,
-                date: document.getElementById('saleDate').value,
-                weight: parseInt(document.getElementById('saleWeight').value),
-                plannedPrice: parseInt(document.getElementById('plannedPrice').value),
-                actualPrice: parseInt(document.getElementById('actualPrice').value),
-                paymentStatus: document.getElementById('salePaymentStatus').value,
-                notes: document.getElementById('saleNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const sales = DB.load('sales');
-            sales.push(sale);
-            DB.save('sales', sales);
-            
-            hideModal('newSaleModal');
-            document.getElementById('newSaleForm').reset();
-            loadDashboard();
-            loadSales();
-            
-            alert('✅ Продажа записана!');
-        }
+        });
 
-        function loadSales() {
-            const sales = DB.load('sales');
-            const salesList = document.getElementById('salesList');
-            
-            if (sales.length === 0) {
-                salesList.innerHTML = '<div class="empty-state">Нет записей о продажах</div>';
-                return;
-            }
-            
-            // Сортируем продажи - новые первыми
-            const sortedSales = sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            
-            salesList.innerHTML = sortedSales.map(sale => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${sale.clientName}</div>
-                        <div class="status-buttons">
-                            <button class="status-btn status-btn-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
-                                    onclick="toggleSalePayment(${sale.id})">
-                                ${sale.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-details">
-                        📦 ${sale.weight}г<br>
-                        💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽)<br>
-                        📦 Партия: ${sale.batchNumber} • 📅 ${sale.date}
-                    </div>
-                    ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
-                    <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button>
-                    </div>
-                </div>
-            `).join('');
-        }
+        window.showModal = (id) => { fillSelectors(); document.getElementById(id).style.display = 'block'; };
+        window.hideModal = (id) => document.getElementById(id).style.display = 'none';
 
-        function toggleSalePayment(saleId) {
-            const sales = DB.load('sales');
-            const saleIndex = sales.findIndex(s => s.id === saleId);
-            
-            if (saleIndex !== -1) {
-                sales[saleIndex].paymentStatus = sales[saleIndex].paymentStatus === 'Оплачен' ? 'Не оплачен' : 'Оплачен';
-                DB.save('sales', sales);
-                loadSales();
-                loadDashboard();
-            }
-        }
+        // Навигация
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                const section = this.getAttribute('data-section');
+                document.getElementById(section).classList.add('active');
+                if (section === 'dashboard') renderDashboard();
+                if (section === 'parties') renderParties();
+                if (section === 'orders') renderOrders();
+                if (section === 'clients') renderClients();
+                if (section === 'expenses') renderExpenses();
+                if (section === 'achievements') renderAchievements();
+            });
+        });
 
-        function editSale(saleId) {
-            const sales = DB.load('sales');
-            const sale = sales.find(s => s.id === saleId);
-            const batches = DB.load('batches');
-            const clients = DB.load('clients');
-            
-            if (sale) {
-                document.getElementById('editSaleId').value = sale.id;
-                document.getElementById('editSaleBatch').value = sale.batchId;
-                document.getElementById('editSaleClient').value = sale.clientId;
-                document.getElementById('editSaleDate').value = sale.date;
-                document.getElementById('editSaleWeight').value = sale.weight;
-                document.getElementById('editSalePlannedPrice').value = sale.plannedPrice;
-                document.getElementById('editSaleActualPrice').value = sale.actualPrice;
-                document.getElementById('editSalePaymentStatus').value = sale.paymentStatus;
-                document.getElementById('editSaleNotes').value = sale.notes || '';
-                
-                // Заполняем селекты
-                const batchSelect = document.getElementById('editSaleBatch');
-                batchSelect.innerHTML = '<option value="">Выберите партию</option>' +
-                    batches.map(batch => `<option value="${batch.id}" ${batch.id === sale.batchId ? 'selected' : ''}>${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
-                    
-                const clientSelect = document.getElementById('editSaleClient');
-                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
-                    clients.map(client => `<option value="${client.id}" ${client.id === sale.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
-                
-                showModal('editSaleModal');
-            }
-        }
-
-        function updateSale(e) {
-            e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editSaleId').value);
-            const sales = DB.load('sales');
-            const saleIndex = sales.findIndex(s => s.id === id);
-            const batches = DB.load('batches');
-            const clients = DB.load('clients');
-            
-            if (saleIndex !== -1) {
-                const batch = batches.find(b => b.id === parseInt(document.getElementById('editSaleBatch').value));
-                const client = clients.find(c => c.id === parseInt(document.getElementById('editSaleClient').value));
-                
-                sales[saleIndex].batchId = parseInt(document.getElementById('editSaleBatch').value);
-                sales[saleIndex].batchNumber = batch.batchNumber;
-                sales[saleIndex].clientId = parseInt(document.getElementById('editSaleClient').value);
-                sales[saleIndex].clientName = client.name;
-                sales[saleIndex].date = document.getElementById('editSaleDate').value;
-                sales[saleIndex].weight = parseInt(document.getElementById('editSaleWeight').value);
-                sales[saleIndex].plannedPrice = parseInt(document.getElementById('editSalePlannedPrice').value);
-                sales[saleIndex].actualPrice = parseInt(document.getElementById('editSaleActualPrice').value);
-                sales[saleIndex].paymentStatus = document.getElementById('editSalePaymentStatus').value;
-                sales[saleIndex].notes = document.getElementById('editSaleNotes').value;
-                
-                DB.save('sales', sales);
-                hideModal('editSaleModal');
-                loadDashboard();
-                loadSales();
-                
-                alert('✅ Продажа обновлена!');
-            }
-        }
-
-        function deleteSale() {
-            if (!confirm('🗑️ Удалить эту продажу?')) return;
-            
-            const id = parseInt(document.getElementById('editSaleId').value);
-            const sales = DB.load('sales');
-            const filteredSales = sales.filter(s => s.id !== id);
-            
-            DB.save('sales', filteredSales);
-            hideModal('editSaleModal');
-            loadDashboard();
-            loadSales();
-            
-            alert('✅ Продажа удалена!');
-        }
-
-        function addClient(e) {
-            e.preventDefault();
-            
-            const client = {
-                id: DB.getNextId('clients'),
-                name: document.getElementById('clientName').value,
-                place: document.getElementById('clientPlace').value,
-                contact: document.getElementById('clientContact').value,
-                notes: document.getElementById('clientNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const clients = DB.load('clients');
-            clients.push(client);
-            DB.save('clients', clients);
-            
-            hideModal('newClientModal');
-            document.getElementById('newClientForm').reset();
-            loadDashboard();
-            loadClients();
-            
-            alert('✅ Клиент добавлен!');
-        }
-
-        function filterClients() {
-            const searchTerm = document.getElementById('clientSearch').value.toLowerCase();
-            loadClients(searchTerm);
-        }
-
-        function loadClients(searchTerm = '') {
-            const clients = DB.load('clients');
-            const clientsList = document.getElementById('clientsList');
-            
-            let filteredClients = clients;
-            if (searchTerm) {
-                filteredClients = clients.filter(client => 
-                    client.name.toLowerCase().includes(searchTerm)
-                );
-            }
-            
-            // Сортируем клиентов - новые первыми
-            const sortedClients = filteredClients.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            
-            if (sortedClients.length === 0) {
-                clientsList.innerHTML = '<div class="empty-state">' + 
-                    (searchTerm ? 'Клиенты не найдены' : 'Нет добавленных клиентов') + 
-                    '</div>';
-                return;
-            }
-            
-            clientsList.innerHTML = sortedClients.map(client => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${client.name}</div>
-                    </div>
-                    <div class="card-details">
-                        ${client.place ? `📍 ${client.place}<br>` : ''}
-                        ${client.contact ? `📞 ${client.contact}<br>` : ''}
-                        📅 Добавлен: ${new Date(client.createdAt).toLocaleDateString('ru-RU')}
-                    </div>
-                    ${client.notes ? `<div class="card-details">📝 ${client.notes}</div>` : ''}
-                </div>
-            `).join('');
-        }
+        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        
+        renderDashboard();
+        renderParties();
+        renderOrders();
+        renderClients();
+        renderExpenses();
+        renderAchievements();
+        fillSelectors();
     </script>
-        <!-- Модальное окно новой партии -->
-    <div id="newBatchModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🎯 Новая партия</h3>
-                <button class="close-btn" onclick="hideModal('newBatchModal')">×</button>
-            </div>
-            <form id="newBatchForm">
-                <div class="form-group">
-                    <label>Номер партии:</label>
-                    <input type="text" id="batchNumber" placeholder="Партия #1" required>
-                </div>
-                <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="batchDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="batchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес сухого маша (г):</label>
-                    <input type="number" id="batchWeight" placeholder="500" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="batchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Сушка">Сушка</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="batchNotes" placeholder="Особенности партии..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Создать партию</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно нового заказа -->
-    <div id="newOrderModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">📋 Новый заказ</h3>
-                <button class="close-btn" onclick="hideModal('newOrderModal')">×</button>
-            </div>
-            <form id="newOrderForm">
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <input type="text" id="orderClientSearch" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterOrderClientSelect()">
-                    <select id="orderClient" required style="margin-top: 10px;">
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата заказа:</label>
-                    <input type="date" id="orderDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес маша (г):</label>
-                    <input type="number" id="orderWeight" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="orderPlannedPrice" placeholder="400" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="orderActualPrice" placeholder="600" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="orderPaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Статус выдачи:</label>
-                    <select id="orderDeliveryStatus">
-                        <option value="Не выдан">Не выдан</option>
-                        <option value="Выдан">Выдан</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="orderNotes" placeholder="Особенности заказа..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newOrderModal')">Отмена</button>
-                    <button type="submit" class="btn">Создать заказ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно новой продажи -->
-    <div id="newSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">💰 Новая продажа</h3>
-                <button class="close-btn" onclick="hideModal('newSaleModal')">×</button>
-            </div>
-            <form id="newSaleForm">
-                <div class="form-group">
-                    <label>Партия:</label>
-                    <select id="saleBatch" required>
-                        <option value="">Выберите партию</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <input type="text" id="clientSearchSelect" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterClientSelect()">
-                    <select id="saleClient" required style="margin-top: 10px;">
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата продажи:</label>
-                    <input type="date" id="saleDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес проданного маша (г):</label>
-                    <input type="number" id="saleWeight" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="plannedPrice" placeholder="400" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="actualPrice" placeholder="600" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="salePaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="saleNotes" placeholder="Особенности продажи..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newSaleModal')">Отмена</button>
-                    <button type="submit" class="btn">Записать продажу</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно нового клиента -->
-    <div id="newClientModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">👥 Новый клиент</h3>
-                <button class="close-btn" onclick="hideModal('newClientModal')">×</button>
-            </div>
-            <form id="newClientForm">
-                <div class="form-group">
-                    <label>Имя клиента:</label>
-                    <input type="text" id="clientName" placeholder="Кафе Утро" required>
-                </div>
-                <div class="form-group">
-                    <label>Место:</label>
-                    <input type="text" id="clientPlace" placeholder="ул. Пушкина, 10">
-                </div>
-                <div class="form-group">
-                    <label>Контакт:</label>
-                    <input type="text" id="clientContact" placeholder="+7 999 123-45-67">
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="clientNotes" placeholder="Предпочтения клиента..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить клиента</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно редактирования партии -->
-    <div id="editBatchModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✏️ Редактировать партию</h3>
-                <button class="close-btn" onclick="hideModal('editBatchModal')">×</button>
-            </div>
-            <form id="editBatchForm">
-                <input type="hidden" id="editBatchId">
-                <div class="form-group">
-                    <label>Номер партии:</label>
-                    <input type="text" id="editBatchNumber" required>
-                </div>
-                <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="editBatchDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="editBatchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес сухого маша (г):</label>
-                    <input type="number" id="editBatchWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес после сушки (г):</label>
-                    <input type="number" id="editBatchDryWeight" placeholder="Автоматически">
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="editBatchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Сушка">Сушка</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="editBatchNotes"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="deleteBatch()">Удалить</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('editBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно редактирования продажи -->
-    <div id="editSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✏️ Редактировать продажу</h3>
-                <button class="close-btn" onclick="hideModal('editSaleModal')">×</button>
-            </div>
-            <form id="editSaleForm">
-                <input type="hidden" id="editSaleId">
-                <div class="form-group">
-                    <label>Партия:</label>
-                    <select id="editSaleBatch" required>
-                        <option value="">Выберите партию</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <select id="editSaleClient" required>
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата продажи:</label>
-                    <input type="date" id="editSaleDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес проданного маша (г):</label>
-                    <input type="number" id="editSaleWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="editSalePlannedPrice" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="editSaleActualPrice" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="editSalePaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="editSaleNotes"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="deleteSale()">Удалить</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('editSaleModal')">Отмена</button>
-                    <button type="submit" class="btn">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Модальное окно редактирования заказа -->
-    <div id="editOrderModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✏️ Редактировать заказ</h3>
-                <button class="close-btn" onclick="hideModal('editOrderModal')">×</button>
-            </div>
-            <form id="editOrderForm">
-                <input type="hidden" id="editOrderId">
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <select id="editOrderClient" required>
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата заказа:</label>
-                    <input type="date" id="editOrderDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес маша (г):</label>
-                    <input type="number" id="editOrderWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="editOrderPlannedPrice" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="editOrderActualPrice" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="editOrderPaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Статус выдачи:</label>
-                    <select id="editOrderDeliveryStatus">
-                        <option value="Не выдан">Не выдан</option>
-                        <option value="Выдан">Выдан</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="editOrderNotes"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="deleteOrder()">Удалить</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('editOrderModal')">Отмена</button>
-                    <button type="submit" class="btn">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
 </body>
 </html>
