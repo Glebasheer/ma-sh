@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>VitaRay — Управление производством</title>
+    <title>🌱 Маш Булочки — Производство</title>
     <style>
         * {
             margin: 0;
@@ -12,134 +12,216 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #F5F7FA 0%, #E8F0E8 100%);
-            color: #1A2E1A;
-            line-height: 1.4;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Pro Text', system-ui, sans-serif;
+            background: linear-gradient(135deg, #F8FDF8 0%, #E8F5E9 100%);
+            color: #2E7D32;
+            line-height: 1.5;
+            padding: 16px;
+            padding-bottom: 80px;
             min-height: 100vh;
-        }
-
-        .app-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 20px 24px 100px;
         }
 
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 32px;
-            animation: fadeInDown 0.5s ease;
+            margin-bottom: 24px;
+            animation: fadeInDown 0.4s ease;
         }
         .header h1 {
-            font-size: 36px;
+            font-size: 28px;
             font-weight: 700;
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .date-display {
-            color: #6B8C6B;
+            color: #81C784;
             font-size: 14px;
-            margin-top: 6px;
+            margin-top: 4px;
             font-weight: 500;
         }
 
         /* Navigation */
         .nav {
             display: flex;
-            gap: 10px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
-            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-btn {
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(46,125,50,0.2);
-            padding: 12px 24px;
+            border: 1px solid #C8E6C9;
+            padding: 12px 20px;
             border-radius: 40px;
             color: #2E7D32;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            background: white;
-            border-color: #4CAF50;
-            box-shadow: 0 8px 20px rgba(46,125,50,0.15);
+            white-space: nowrap;
+            transition: all 0.2s ease;
         }
         .nav-btn.active {
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
             border-color: transparent;
+            box-shadow: 0 4px 12px rgba(46,125,50,0.3);
         }
 
         /* Sections */
         .section {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
         .section.active {
             display: block;
         }
 
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            border: 1px solid #E8F5E9;
+            transition: all 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46,125,50,0.1);
+        }
+        .stat-number {
+            font-size: 24px;
+            font-weight: 800;
+            color: #2E7D32;
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 11px;
+            color: #81C784;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Finance Row */
+        .finance-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .finance-card {
+            background: linear-gradient(135deg, white, #FEFEFE);
+            border-radius: 16px;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #E8F5E9;
+        }
+        .finance-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2E7D32;
+        }
+        .finance-label {
+            font-size: 10px;
+            color: #81C784;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 40px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s;
+            margin: 8px 0;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(46,125,50,0.3);
+        }
+        .btn-secondary {
+            background: white;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
+        }
+        .btn-small {
+            padding: 8px 16px;
+            font-size: 13px;
+            width: auto;
+            margin: 0;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #EF5350, #E53935);
+        }
+
         /* Cards */
         .card {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 20px;
-            margin: 16px 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid rgba(76,175,80,0.2);
-            transition: all 0.3s ease;
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin: 12px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #E8F5E9;
+            transition: all 0.2s;
         }
         .card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 12px;
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 8px;
         }
         .card-title {
-            font-size: 18px;
             font-weight: 700;
-            color: #1A2E1A;
+            font-size: 16px;
+            color: #1B5E20;
         }
 
-        /* Status badges */
+        /* Status Badges */
         .status {
-            padding: 6px 14px;
+            padding: 4px 12px;
             border-radius: 30px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
-        .status-paid { background: linear-gradient(135deg, #C8E6C9, #A5D6A7); color: #1B5E20; }
-        .status-unpaid { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); color: #C62828; }
-        .status-delivered { background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0369a1; }
-        .status-pending { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); color: #EF6C00; }
-        .status-zomachivanie { background: linear-gradient(135deg, #E3F2FD, #BBDEFB); color: #0b5e7c; }
-        .status-posev { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); color: #2E7D32; }
-        .status-v_temi { background: linear-gradient(135deg, #F3E5F5, #E1BEE7); color: #6A1B9A; }
-        .status-pod_lampoy { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); color: #EF6C00; }
-        .status-srezka, .status-sbor { background: linear-gradient(135deg, #FCE4EC, #F8BBD9); color: #AD1457; }
+        .status-paid { background: #C8E6C9; color: #1B5E20; }
+        .status-unpaid { background: #FFEBEE; color: #C62828; }
+        .status-delivered { background: #E0F2FE; color: #0369a1; }
+        .status-pending { background: #FFF3E0; color: #EF6C00; }
+        .status-soaking { background: #E3F2FD; color: #1976D2; }
+        .status-sprouting { background: #E8F5E9; color: #2E7D32; }
+        .status-peeling { background: #FFF3E0; color: #EF6C00; }
+        .status-blanching { background: #FCE4EC; color: #C2185B; }
+        .status-packing { background: #F3E5F5; color: #7B1FA2; }
+        .status-ready { background: #C8E6C9; color: #1B5E20; }
 
-        /* Progress bar */
+        /* Progress Bar */
         .progress-bar {
             background: #E8F5E9;
             border-radius: 20px;
-            height: 8px;
+            height: 6px;
             margin: 12px 0;
             overflow: hidden;
         }
@@ -148,142 +230,34 @@
             width: 0%;
             height: 100%;
             border-radius: 20px;
-            transition: width 0.6s ease;
-        }
-
-        /* Buttons */
-        .btn {
-            background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
-            color: white;
-            border: none;
-            padding: 14px 24px;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(46,125,50,0.4);
-        }
-        .btn-secondary {
-            background: rgba(255,255,255,0.9);
-            color: #2E7D32;
-            border: 1px solid #C8E6C9;
-        }
-        .btn-small {
-            padding: 8px 18px;
-            font-size: 13px;
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, #EF5350, #E53935);
-        }
-        .btn-icon {
-            padding: 8px 12px;
-            background: transparent;
-            color: #666;
-            box-shadow: none;
-        }
-        .btn-icon:hover {
-            background: #F5F5F5;
-            transform: none;
-        }
-
-        /* Stats grid */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-        .stat-card {
-            background: linear-gradient(135deg, white 0%, #FEFEFE 100%);
-            border-radius: 28px;
-            padding: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.05);
-            border: 1px solid rgba(76,175,80,0.2);
-            transition: all 0.3s;
-        }
-        .stat-card:hover {
-            transform: translateY(-4px);
-        }
-        .stat-number {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 8px;
-        }
-        .stat-label {
-            font-size: 13px;
-            color: #6B8C6B;
-            font-weight: 500;
+            transition: width 0.4s ease;
         }
 
         /* Tables */
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 20px;
+            border-radius: 16px;
             background: white;
         }
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
         .data-table th {
             text-align: left;
-            padding: 14px 12px;
+            padding: 12px 10px;
             background: #F8FDF8;
             color: #2E7D32;
             font-weight: 600;
             border-bottom: 2px solid #E8F5E9;
         }
         .data-table td {
-            padding: 12px;
+            padding: 10px;
             border-bottom: 1px solid #F0F4F0;
         }
         .data-table tr:hover {
             background: #FAFFFA;
-        }
-
-        /* Timeline */
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 8px 0;
-            border-bottom: 1px solid #E8F5E9;
-        }
-        .timeline-marker {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        .timeline-marker.completed {
-            background: #C8E6C9;
-            color: #2E7D32;
-        }
-        .timeline-marker.pending {
-            background: #F5F5F5;
-            color: #9E9E9E;
-        }
-        .timeline-content {
-            flex: 1;
-        }
-        .timeline-title {
-            font-weight: 600;
-        }
-        .timeline-time {
-            font-size: 12px;
-            color: #6B8C6B;
         }
 
         /* Modal */
@@ -295,26 +269,27 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             padding: 20px;
             overflow-y: auto;
         }
         .modal-content {
             background: white;
-            padding: 28px;
-            border-radius: 32px;
+            padding: 24px;
+            border-radius: 28px;
             max-width: 500px;
             margin: 40px auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
         }
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
         .modal-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             -webkit-background-clip: text;
@@ -336,22 +311,23 @@
 
         /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         .form-group label {
             display: block;
             font-size: 13px;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             color: #2E7D32;
         }
         input, select, textarea {
             width: 100%;
-            padding: 14px 16px;
+            padding: 12px 14px;
             border: 2px solid #E8F5E9;
-            border-radius: 20px;
+            border-radius: 16px;
             font-size: 15px;
-            transition: all 0.2s;
+            background: #FEFEFE;
+            transition: 0.2s;
         }
         input:focus, select:focus, textarea:focus {
             outline: none;
@@ -361,870 +337,898 @@
 
         .flex-btns {
             display: flex;
-            gap: 12px;
-            margin-top: 24px;
+            gap: 10px;
+            margin-top: 20px;
             flex-wrap: wrap;
         }
 
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
-            color: #9ACD9A;
-            font-size: 16px;
-        }
-
-        .task-item {
-            background: linear-gradient(135deg, #F1F8E9, #E8F5E9);
-            padding: 16px;
-            border-radius: 20px;
-            margin: 10px 0;
-            border-left: 4px solid #4CAF50;
+            padding: 40px 20px;
+            color: #81C784;
+            font-size: 14px;
         }
 
         .search-input {
             width: 100%;
-            padding: 14px 20px;
+            padding: 12px 16px;
             border: 2px solid #E8F5E9;
-            border-radius: 40px;
-            font-size: 15px;
+            border-radius: 30px;
+            font-size: 14px;
             margin-bottom: 16px;
         }
 
+        .task-item {
+            background: linear-gradient(135deg, #F1F8E9, #E8F5E9);
+            padding: 12px 16px;
+            border-radius: 16px;
+            margin: 8px 0;
+            border-left: 4px solid #4CAF50;
+            font-size: 13px;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(-15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 768px) {
-            .app-container { padding: 16px; }
-            .nav-btn { padding: 10px 18px; font-size: 13px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .card { padding: 16px; }
+        @media (max-width: 480px) {
+            body { padding: 12px; }
+            .finance-row { grid-template-columns: repeat(2, 1fr); }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .nav-btn { padding: 10px 16px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <div class="header">
-            <h1>🌱 VitaRay</h1>
-            <div class="date-display" id="currentDate"></div>
+    <div class="header">
+        <h1>🌱 Маш Булочки</h1>
+        <div class="date-display" id="currentDate"></div>
+    </div>
+
+    <nav class="nav">
+        <button class="nav-btn active" data-section="dashboard">📊 Главная</button>
+        <button class="nav-btn" data-section="batches">📦 Партии</button>
+        <button class="nav-btn" data-section="sales">💰 Продажи</button>
+        <button class="nav-btn" data-section="clients">👥 Клиенты</button>
+        <button class="nav-btn" data-section="expenses">💸 Расходы</button>
+        <button class="nav-btn" data-section="achievements">🏆 Достижения</button>
+    </nav>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="section active">
+        <div class="stats-grid" id="mainStats"></div>
+        
+        <div class="finance-row" id="balanceStats"></div>
+        
+        <h3 style="margin: 16px 0 8px;">📋 Активные партии</h3>
+        <div id="activeBatchesList"></div>
+        
+        <h3 style="margin: 16px 0 8px;">💰 Последние продажи</h3>
+        <div id="recentSalesList"></div>
+        
+        <div class="flex-btns">
+            <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
+            <button class="btn btn-secondary" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
         </div>
+    </section>
 
-        <nav class="nav">
-            <button class="nav-btn active" data-section="dashboard">🏠 Главная</button>
-            <button class="nav-btn" data-section="batches">📦 Партии</button>
-            <button class="nav-btn" data-section="orders">📋 Заказы</button>
-            <button class="nav-btn" data-section="clients">👥 Клиенты</button>
-            <button class="nav-btn" data-section="expenses">💰 Расходы</button>
-            <button class="nav-btn" data-section="reports">📊 Отчёты</button>
-        </nav>
+    <!-- BATCHES -->
+    <section id="batches" class="section">
+        <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
+        <div id="batchesList"></div>
+    </section>
 
-        <!-- Dashboard -->
-        <section id="dashboard" class="section active">
-            <div class="stats-grid" id="statsGrid"></div>
-            <h3 style="margin: 24px 0 12px;">📦 Текущие заказы</h3>
-            <div id="pendingOrdersList"></div>
-            <h3 style="margin: 24px 0 12px;">⏰ Планы на сегодня</h3>
-            <div id="todayTasks"></div>
-            <div class="flex-btns">
-                <button class="btn" onclick="showModal('newBatchModal')">➕ Новая партия</button>
-                <button class="btn btn-secondary" onclick="showModal('newOrderModal')">📦 Новый заказ</button>
-            </div>
-        </section>
+    <!-- SALES -->
+    <section id="sales" class="section">
+        <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
+        <div id="salesList"></div>
+    </section>
 
-        <!-- Batches -->
-        <section id="batches" class="section">
-            <button class="btn" onclick="showModal('newBatchModal')">🌱 Создать партию</button>
-            <div id="batchesList"></div>
-        </section>
+    <!-- CLIENTS -->
+    <section id="clients" class="section">
+        <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
+        <input type="text" id="clientSearch" class="search-input" placeholder="🔍 Поиск клиента..." onkeyup="filterClients()">
+        <div id="clientsList"></div>
+    </section>
 
-        <!-- Orders -->
-        <section id="orders" class="section">
-            <button class="btn" onclick="showModal('newOrderModal')">📋 Создать заказ</button>
-            <div id="ordersList"></div>
-        </section>
+    <!-- EXPENSES -->
+    <section id="expenses" class="section">
+        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
+        <div id="expensesTable"></div>
+    </section>
 
-        <!-- Clients -->
-        <section id="clients" class="section">
-            <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
-            <input type="text" id="clientSearch" placeholder="🔍 Поиск клиента..." class="search-input" onkeyup="filterClients()">
-            <div id="clientsList"></div>
-        </section>
+    <!-- ACHIEVEMENTS -->
+    <section id="achievements" class="section">
+        <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
+        <div id="achievementsList"></div>
+    </section>
 
-        <!-- Expenses -->
-        <section id="expenses" class="section">
-            <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
-            <div id="expensesTable"></div>
-            <div class="card" style="margin-top: 20px;">
-                <h3>📊 Калькулятор себестоимости</h3>
-                <div id="costCalculatorView"></div>
-            </div>
-        </section>
-
-        <!-- Reports -->
-        <section id="reports" class="section">
-            <div class="stats-grid" id="reportStats"></div>
-            <div class="card">
-                <h3>📈 Детальный отчёт по продажам</h3>
-                <div id="detailedReport"></div>
-            </div>
-            <div class="card">
-                <h3>🏆 Достижения</h3>
-                <div id="achievementsList"></div>
-                <button class="btn btn-secondary btn-small" style="margin-top: 16px;" onclick="showModal('newAchievementModal')">✨ Добавить достижение</button>
-            </div>
-        </section>
-
-        <!-- Modals -->
-        <div id="newBatchModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">🌱 Новая партия</h3><button class="close-btn" onclick="hideModal('newBatchModal')">×</button></div>
-                <form id="newBatchForm">
-                    <div class="form-group"><label>Культура</label><input type="text" id="batchCulture" placeholder="горох, маш, редис" required></div>
-                    <div class="form-group"><label>Формат (лоток)</label><input type="text" id="batchFormat" placeholder="15×11 / 8×5" value="15×11"></div>
-                    <div class="form-group"><label>Тип</label><select id="batchType"><option value="microgreen">Микрозелень (6 этапов)</option><option value="sprouts">Проростки (4 этапа)</option></select></div>
-                    <div class="form-group"><label>Вес сухих семян (г)</label><input type="number" id="batchWeightDry" value="25" required></div>
-                    <div class="form-group"><label>Субстрат</label><input type="text" id="batchSubstrate" value="джут"></div>
-                    <div class="form-group"><label>Дата посева</label><input type="date" id="batchDateSown" required></div>
-                    <div class="form-group"><label>Заметки</label><textarea id="batchNotes" rows="2"></textarea></div>
-                    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newBatchModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="newOrderModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">📋 Новый заказ</h3><button class="close-btn" onclick="hideModal('newOrderModal')">×</button></div>
-                <form id="newOrderForm">
-                    <div class="form-group"><label>Клиент</label><select id="orderClient" required></select></div>
-                    <div class="form-group"><label>Дата</label><input type="date" id="orderDate" required></div>
-                    <div class="form-group"><label>Продукт / культура</label><input type="text" id="orderProduct" placeholder="горох, маш..." required></div>
-                    <div class="form-group"><label>Количество (лотков)</label><input type="number" id="orderQty" value="1" required></div>
-                    <div class="form-group"><label>Цена за лоток (₽)</label><input type="number" id="orderPrice" required></div>
-                    <div class="form-group"><label>Статус оплаты</label><select id="orderPaid"><option value="false">Не оплачен</option><option value="true">Оплачен</option></select></div>
-                    <div class="form-group"><label>Статус выдачи</label><select id="orderDelivered"><option value="false">Не выдан</option><option value="true">Выдан</option></select></div>
-                    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="newClientModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">👥 Новый клиент</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
-                <form id="newClientForm">
-                    <div class="form-group"><label>Имя</label><input type="text" id="clientName" required></div>
-                    <div class="form-group"><label>Адрес/Место</label><input type="text" id="clientAddress"></div>
-                    <div class="form-group"><label>Контакт</label><input type="text" id="clientContact"></div>
-                    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="newExpenseModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">💸 Новый расход</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
-                <form id="newExpenseForm">
-                    <div class="form-group"><label>Дата</label><input type="date" id="expenseDate" required></div>
-                    <div class="form-group"><label>Категория</label><select id="expenseCategory"><option value="seeds">🌱 Семена</option><option value="containers">📦 Контейнеры</option><option value="substrate">🧵 Субстрат</option></select></div>
-                    <div class="form-group"><label>Детали</label><input type="text" id="expenseDetail" placeholder="горох / 8×5×3 / джут" required></div>
-                    <div class="form-group"><label>Количество (г/шт/м)</label><input type="number" id="expenseQty" required></div>
-                    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="expenseTotal" required></div>
-                    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="editExpenseModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">✏️ Редактировать расход</h3><button class="close-btn" onclick="hideModal('editExpenseModal')">×</button></div>
-                <form id="editExpenseForm">
-                    <input type="hidden" id="editExpenseId">
-                    <div class="form-group"><label>Дата</label><input type="date" id="editExpenseDate" required></div>
-                    <div class="form-group"><label>Категория</label><select id="editExpenseCategory"><option value="seeds">🌱 Семена</option><option value="containers">📦 Контейнеры</option><option value="substrate">🧵 Субстрат</option></select></div>
-                    <div class="form-group"><label>Детали</label><input type="text" id="editExpenseDetail" required></div>
-                    <div class="form-group"><label>Количество (г/шт/м)</label><input type="number" id="editExpenseQty" required></div>
-                    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editExpenseTotal" required></div>
-                    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="newAchievementModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header"><h3 class="modal-title">🏆 Новое достижение</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
-                <form id="newAchievementForm">
-                    <div class="form-group"><label>Описание</label><input type="text" id="achievementDesc" placeholder="Первая продажа! 🎉" required></div>
-                    <div class="form-group"><label>Категория</label><input type="text" id="achievementCat" placeholder="sales, production"></div>
-                    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
-                </form>
-            </div>
-        </div>
-
-        <div id="viewClientModal" class="modal">
-            <div class="modal-content" id="viewClientContent"></div>
+    <!-- MODALS -->
+    <div id="newBatchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">🎯 Новая партия</h3><button class="close-btn" onclick="hideModal('newBatchModal')">×</button></div>
+            <form id="newBatchForm">
+                <div class="form-group"><label>Номер партии:</label><input type="text" id="batchNumber" placeholder="Партия #1" required></div>
+                <div class="form-group"><label>Дата начала:</label><input type="date" id="batchDate" required></div>
+                <div class="form-group"><label>Время начала:</label><input type="time" id="batchTime" required></div>
+                <div class="form-group"><label>Вес сухого маша (г):</label><input type="number" id="batchWeight" placeholder="500" required></div>
+                <div class="form-group"><label>Статус:</label><select id="batchStatus"><option value="Замачивание">Замачивание</option><option value="Проращивание">Проращивание</option><option value="Шелушение">Шелушение</option><option value="Бланширование">Бланширование</option><option value="Сушка">Сушка</option><option value="Фасовка">Фасовка</option><option value="Готово к отправке">Готово к отправке</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="batchNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newBatchModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
+            </form>
         </div>
     </div>
 
-    <script>
-        // ==================== ИНИЦИАЛИЗАЦИЯ И МИГРАЦИЯ ДАННЫХ ====================
-        
-        // Функция для получения времени суток (УТРО/ВЕЧЕР)
-        function getTimeOfDay(dateStr) {
-            if (!dateStr) return null;
-            const hour = new Date(dateStr).getHours();
-            return hour < 12 ? 'УТРО' : 'ВЕЧЕР';
-        }
+    <div id="newSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">💰 Новая продажа</h3><button class="close-btn" onclick="hideModal('newSaleModal')">×</button></div>
+            <form id="newSaleForm">
+                <div class="form-group"><label>Клиент:</label><select id="saleClient" required><option value="">Выберите клиента</option></select></div>
+                <div class="form-group"><label>Дата продажи:</label><input type="date" id="saleDate" required></div>
+                <div class="form-group"><label>Вес (г):</label><input type="number" id="saleWeight" placeholder="150" required></div>
+                <div class="form-group"><label>Планируемая цена (руб):</label><input type="number" id="plannedPrice" placeholder="400" required></div>
+                <div class="form-group"><label>Фактическая цена (руб):</label><input type="number" id="actualPrice" placeholder="600" required></div>
+                <div class="form-group"><label>Статус оплаты:</label><select id="salePaymentStatus"><option value="Не оплачен">Не оплачен</option><option value="Оплачен">Оплачен</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="saleNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать</button></div>
+            </form>
+        </div>
+    </div>
 
-        // Миграция старых данных из предыдущих версий
-        function migrateOldData() {
-            // Читаем старые данные
-            const oldBatches = JSON.parse(localStorage.getItem('batches')) || [];
-            const oldSales = JSON.parse(localStorage.getItem('sales')) || [];
-            const oldClients = JSON.parse(localStorage.getItem('clients')) || [];
+    <div id="newClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">👥 Новый клиент</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
+            <form id="newClientForm">
+                <div class="form-group"><label>Имя клиента:</label><input type="text" id="clientName" required></div>
+                <div class="form-group"><label>Место:</label><input type="text" id="clientPlace"></div>
+                <div class="form-group"><label>Контакт:</label><input type="text" id="clientContact"></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="clientNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newExpenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">💸 Новый расход</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
+            <form id="newExpenseForm">
+                <div class="form-group"><label>Дата расхода:</label><input type="date" id="expenseDate" required></div>
+                <div class="form-group"><label>Наименование:</label><input type="text" id="expenseName" placeholder="Например: Пакеты для упаковки" required></div>
+                <div class="form-group"><label>Сумма (руб):</label><input type="number" id="expenseAmount" placeholder="500" required></div>
+                <div class="form-group"><label>Категория:</label><select id="expenseCategory"><option value="Материалы">Материалы</option><option value="Семена">Семена</option><option value="Упаковка">Упаковка</option><option value="Транспорт">Транспорт</option><option value="Прочее">Прочее</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="expenseNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить расход</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editExpenseModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать расход</h3><button class="close-btn" onclick="hideModal('editExpenseModal')">×</button></div>
+            <form id="editExpenseForm">
+                <input type="hidden" id="editExpenseId">
+                <div class="form-group"><label>Дата расхода:</label><input type="date" id="editExpenseDate" required></div>
+                <div class="form-group"><label>Наименование:</label><input type="text" id="editExpenseName" required></div>
+                <div class="form-group"><label>Сумма (руб):</label><input type="number" id="editExpenseAmount" required></div>
+                <div class="form-group"><label>Категория:</label><select id="editExpenseCategory"><option value="Материалы">Материалы</option><option value="Семена">Семена</option><option value="Упаковка">Упаковка</option><option value="Транспорт">Транспорт</option><option value="Прочее">Прочее</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="editExpenseNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newAchievementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">🏆 Новое достижение</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
+            <form id="newAchievementForm">
+                <div class="form-group"><label>Дата достижения:</label><input type="date" id="achievementDate" required></div>
+                <div class="form-group"><label>Описание:</label><input type="text" id="achievementDesc" placeholder="Например: Побил рекорд по производству!" required></div>
+                <div class="form-group"><label>Категория:</label><select id="achievementCategory"><option value="Производство">Производство</option><option value="Продажи">Продажи</option><option value="Клиенты">Клиенты</option></select></div>
+                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать продажу</h3><button class="close-btn" onclick="hideModal('editSaleModal')">×</button></div>
+            <form id="editSaleForm">
+                <input type="hidden" id="editSaleId">
+                <div class="form-group"><label>Клиент:</label><select id="editSaleClient" required></select></div>
+                <div class="form-group"><label>Дата продажи:</label><input type="date" id="editSaleDate" required></div>
+                <div class="form-group"><label>Вес (г):</label><input type="number" id="editSaleWeight" required></div>
+                <div class="form-group"><label>Планируемая цена:</label><input type="number" id="editPlannedPrice" required></div>
+                <div class="form-group"><label>Фактическая цена:</label><input type="number" id="editActualPrice" required></div>
+                <div class="form-group"><label>Статус оплаты:</label><select id="editSalePaymentStatus"><option value="Не оплачен">Не оплачен</option><option value="Оплачен">Оплачен</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="editSaleNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editBatchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать партию</h3><button class="close-btn" onclick="hideModal('editBatchModal')">×</button></div>
+            <form id="editBatchForm">
+                <input type="hidden" id="editBatchId">
+                <div class="form-group"><label>Номер партии:</label><input type="text" id="editBatchNumber" required></div>
+                <div class="form-group"><label>Дата начала:</label><input type="date" id="editBatchDate" required></div>
+                <div class="form-group"><label>Время начала:</label><input type="time" id="editBatchTime" required></div>
+                <div class="form-group"><label>Вес сухого маша (г):</label><input type="number" id="editBatchWeight" required></div>
+                <div class="form-group"><label>Статус:</label><select id="editBatchStatus"><option value="Замачивание">Замачивание</option><option value="Проращивание">Проращивание</option><option value="Шелушение">Шелушение</option><option value="Бланширование">Бланширование</option><option value="Сушка">Сушка</option><option value="Фасовка">Фасовка</option><option value="Готово к отправке">Готово к отправке</option></select></div>
+                <div class="form-group"><label>Заметки:</label><textarea id="editBatchNotes" rows="2"></textarea></div>
+                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteBatchFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editBatchModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
+            </form>
+        </div>
+    </div>
+
+    <div id="viewClientModal" class="modal">
+        <div class="modal-content" id="viewClientContent"></div>
+    </div>
+
+    <script>
+        // ==================== БАЗА ДАННЫХ ====================
+        const DB = {
+            save: function(key, data) { localStorage.setItem(key, JSON.stringify(data)); },
+            load: function(key) { return JSON.parse(localStorage.getItem(key)) || []; },
+            getNextId: function(key) {
+                const items = this.load(key);
+                return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
+            }
+        };
+
+        // Инициализация и миграция старых данных
+        function initData() {
+            // Миграция из старого формата
+            const oldBatches = DB.load('batches');
+            const oldSales = DB.load('sales');
+            const oldClients = DB.load('clients');
+            const oldExpenses = JSON.parse(localStorage.getItem('expenses_new')) || [];
+            const oldAchievements = JSON.parse(localStorage.getItem('achievements')) || [];
             
-            // Сохраняем копии старых данных
-            if (oldBatches.length) localStorage.setItem('_old_batches_backup', JSON.stringify(oldBatches));
-            if (oldSales.length) localStorage.setItem('_old_sales_backup', JSON.stringify(oldSales));
-            if (oldClients.length) localStorage.setItem('_old_clients_backup', JSON.stringify(oldClients));
-            
-            // Мигрируем партии
-            let parties = JSON.parse(localStorage.getItem('parties')) || [];
-            if (parties.length === 0 && oldBatches.length > 0) {
-                parties = oldBatches.map((b, idx) => ({
-                    id: `party_${Date.now()}_${idx}`,
-                    culture: b.batchNumber?.toLowerCase().replace('партия #', '').trim() || 'горох',
-                    format: '15×11',
-                    dateSown: b.date || new Date().toISOString().slice(0,10),
-                    weightDry: b.dryWeight || 30,
-                    finalWeight: null,
-                    substrate: 'джут',
-                    currentStage: b.status === 'Готово к отправке' ? 'sbor' : (b.status === 'Сушка' ? 'srezka' : 'zomachivanie'),
-                    stages: {
-                        zomachivanie: b.createdAt || new Date().toISOString(),
-                        posev: null,
-                        v_temi: null,
-                        pod_lampoy: null,
-                        srezka: null,
-                        sbor: null
-                    },
-                    cultureType: (b.batchNumber?.includes('маш') || b.batchNumber?.includes('нут') || b.batchNumber?.includes('соя')) ? 'sprouts' : 'microgreen',
-                    notes: b.notes || '',
-                    createdAt: b.createdAt || new Date().toISOString()
-                }));
-                localStorage.setItem('parties', JSON.stringify(parties));
+            // Если есть старые партии, но нет в новом формате
+            let batches = DB.load('batches_new');
+            if ((!batches || batches.length === 0) && oldBatches.length > 0) {
+                batches = oldBatches;
+                DB.save('batches_new', batches);
+            } else if (!batches) {
+                batches = [];
+                DB.save('batches_new', batches);
             }
             
-            // Мигрируем клиентов
-            let clients = JSON.parse(localStorage.getItem('clients')) || [];
-            if (clients.length === 0 && oldClients.length > 0) {
-                clients = oldClients.map(c => ({
-                    id: c.id || `client_${Date.now()}_${Math.random()}`,
-                    name: c.name || c.clientName || 'Клиент',
-                    address: c.place || c.address || '',
-                    contact: c.contact || c.phone || '',
-                    createdAt: c.createdAt || new Date().toISOString()
-                }));
-                localStorage.setItem('clients', JSON.stringify(clients));
+            let sales = DB.load('sales_new');
+            if ((!sales || sales.length === 0) && oldSales.length > 0) {
+                sales = oldSales;
+                DB.save('sales_new', sales);
+            } else if (!sales) {
+                sales = [];
+                DB.save('sales_new', sales);
             }
             
-            // Мигрируем продажи в заказы
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            if (orders.length === 0 && oldSales.length > 0) {
-                orders = oldSales.map((s, idx) => ({
-                    id: `order_${Date.now()}_${idx}`,
-                    clientId: s.clientId || (clients[0]?.id || ''),
-                    clientName: s.clientName || s.client || 'Клиент',
-                    date: s.date || new Date().toISOString().slice(0,10),
-                    items: [{ product: s.batchNumber || 'маш', format: '15×11', quantity: 1, price: s.actualPrice || s.price || 100 }],
-                    total: s.actualPrice || s.price || 100,
-                    plannedPrice: s.plannedPrice || 80,
-                    actualPrice: s.actualPrice || 100,
-                    paid: s.paymentStatus === 'Оплачен' || s.paid === true,
-                    delivered: s.delivered === true,
-                    paymentStatus: s.paymentStatus || (s.paid ? 'Оплачен' : 'Не оплачен'),
-                    notes: s.notes || '',
-                    createdAt: s.createdAt || new Date().toISOString()
-                }));
-                localStorage.setItem('orders', JSON.stringify(orders));
+            let clients = DB.load('clients_new');
+            if ((!clients || clients.length === 0) && oldClients.length > 0) {
+                clients = oldClients;
+                DB.save('clients_new', clients);
+            } else if (!clients) {
+                clients = [];
+                DB.save('clients_new', clients);
             }
             
-            // Инициализируем пустые данные если ничего нет
-            if (!localStorage.getItem('parties')) localStorage.setItem('parties', JSON.stringify([]));
-            if (!localStorage.getItem('orders')) localStorage.setItem('orders', JSON.stringify([]));
-            if (!localStorage.getItem('clients')) localStorage.setItem('clients', JSON.stringify([]));
-            if (!localStorage.getItem('expenses')) localStorage.setItem('expenses', JSON.stringify([]));
-            if (!localStorage.getItem('achievements')) localStorage.setItem('achievements', JSON.stringify([]));
+            let expenses = DB.load('expenses_new');
+            if (!expenses) {
+                expenses = oldExpenses;
+                DB.save('expenses_new', expenses);
+            }
             
-            // Добавляем демо-достижения если пусто
-            let achievements = JSON.parse(localStorage.getItem('achievements'));
+            let achievements = DB.load('achievements_new');
+            if (!achievements || achievements.length === 0) {
+                achievements = oldAchievements;
+                DB.save('achievements_new', achievements);
+            }
+            
+            // Добавляем демо-данные если совсем пусто
+            if (clients.length === 0) {
+                clients = [
+                    { id: 1, name: "ЯМАНАСИ", place: "Ул красных Партизан 1/4к9", contact: "Анатолий", notes: "", createdAt: new Date().toISOString() },
+                    { id: 2, name: "Полихраниди", place: "Мон", contact: "304", notes: "", createdAt: new Date().toISOString() },
+                    { id: 3, name: "Настена", place: "Мон", contact: "406", notes: "НБН", createdAt: new Date().toISOString() },
+                    { id: 4, name: "Валерия", place: "МОН", contact: "303", notes: "БН", createdAt: new Date().toISOString() }
+                ];
+                DB.save('clients_new', clients);
+            }
+            
+            if (batches.length === 0) {
+                batches = [
+                    { id: 1, batchNumber: "Партия #1", date: "2025-12-13", time: "01:42", dryWeight: 170, status: "Замачивание", notes: "", createdAt: new Date().toISOString() },
+                    { id: 2, batchNumber: "Партия #2", date: "2025-12-11", time: "21:58", dryWeight: 160, status: "Проращивание", notes: "", createdAt: new Date().toISOString() }
+                ];
+                DB.save('batches_new', batches);
+            }
+            
+            if (sales.length === 0) {
+                sales = [
+                    { id: 1, clientId: 1, clientName: "ЯМАНАСИ", date: "2025-12-07", weight: 200, plannedPrice: 300, actualPrice: 600, paymentStatus: "Оплачен", notes: "Сегодня ЯМАНАСИ заказали еще 200г. И я сделала за месяц 6 тысяч рублей!!!", createdAt: new Date().toISOString() },
+                    { id: 2, clientId: 2, clientName: "Полихраниди", date: "2025-12-05", weight: 425, plannedPrice: 400, actualPrice: 700, paymentStatus: "Оплачен", notes: "Отдала 425г по Министерству нут. Всем понравилось и у меня заказали 700г только на понедельник !", createdAt: new Date().toISOString() }
+                ];
+                DB.save('sales_new', sales);
+            }
+            
+            if (expenses.length === 0) {
+                expenses = [
+                    { id: 1, date: "2026-01-12", name: "Маш", amount: 930, category: "Материалы", notes: "10 шт", createdAt: new Date().toISOString() },
+                    { id: 2, date: "2025-12-20", name: "Весы", amount: 300, category: "Материалы", notes: "Со скидкой", createdAt: new Date().toISOString() },
+                    { id: 3, date: "2025-12-20", name: "Нут", amount: 464, category: "Материалы", notes: "За 8 шт", createdAt: new Date().toISOString() },
+                    { id: 4, date: "2025-12-16", name: "Контейнеры", amount: 5500, category: "Материалы", notes: "125-1000 и 250 - 1000", createdAt: new Date().toISOString() },
+                    { id: 5, date: "2025-12-15", name: "Наклейки новогодние", amount: 387, category: "Материалы", notes: "", createdAt: new Date().toISOString() }
+                ];
+                DB.save('expenses_new', expenses);
+            }
+            
             if (achievements.length === 0) {
                 achievements = [
-                    { id: `ach_${Date.now()}_1`, date: new Date().toISOString().slice(0,10), description: '🎉 Первая партия создана!', category: 'production' }
+                    { id: 1, date: "2025-12-11", description: "Придумала идею!!! Я буду делать готовые чипсы !!!", category: "Производство", createdAt: new Date().toISOString() },
+                    { id: 2, date: "2025-12-07", description: "Сегодня ЯМАНАСИ заказали еще 200г. И я сделала за месяц 6 тысяч рублей!!!", category: "Продажи", createdAt: new Date().toISOString() },
+                    { id: 3, date: "2025-12-06", description: "Вчера взяла контактный номер одного ресторана управляющего, которому предложу сотрудничество! Попросила номер лично", category: "Клиенты", createdAt: new Date().toISOString() },
+                    { id: 4, date: "2025-12-05", description: "Отдала 425г по Министерству нут. Всем понравилось и у меня заказали 700г только на понедельник !", category: "Продажи", createdAt: new Date().toISOString() }
                 ];
-                localStorage.setItem('achievements', JSON.stringify(achievements));
+                DB.save('achievements_new', achievements);
             }
         }
         
-        migrateOldData();
+        initData();
         
-        // ==================== ОСНОВНЫЕ ФУНКЦИИ ====================
-        
-        function saveKey(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
-        function loadKey(key) { return JSON.parse(localStorage.getItem(key)) || []; }
-        
-        function getStageName(stage) {
-            const names = { zomachivanie: 'Замачивание', posev: 'Посев', v_temi: 'В тени', pod_lampoy: 'Под лампой', srezka: 'Срезка', sbor: 'Сбор' };
-            return names[stage] || stage;
+        // ==================== ФИНАНСОВЫЕ РАСЧЕТЫ ====================
+        function getFinancialStats() {
+            const sales = DB.load('sales_new');
+            const expenses = DB.load('expenses_new');
+            const today = new Date().toISOString().slice(0,10);
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
+            const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
+            const yearStart = "2026-03-01";
+            
+            // Доходы (только оплаченные продажи)
+            const paidSales = sales.filter(s => s.paymentStatus === "Оплачен");
+            const totalIncome = paidSales.reduce((sum, s) => sum + s.actualPrice, 0);
+            
+            // Расходы
+            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const currentBalance = totalIncome - totalExpenses;
+            
+            // За сегодня
+            const todayIncome = paidSales.filter(s => s.date === today).reduce((sum, s) => sum + s.actualPrice, 0);
+            const todayExpenses = expenses.filter(e => e.date === today).reduce((sum, e) => sum + e.amount, 0);
+            const todayBalance = todayIncome - todayExpenses;
+            
+            // За неделю
+            const weekIncome = paidSales.filter(s => s.date >= weekAgo).reduce((sum, s) => sum + s.actualPrice, 0);
+            const weekExpenses = expenses.filter(e => e.date >= weekAgo).reduce((sum, e) => sum + e.amount, 0);
+            const weekBalance = weekIncome - weekExpenses;
+            
+            // За месяц
+            const monthIncome = paidSales.filter(s => s.date >= monthAgo).reduce((sum, s) => sum + s.actualPrice, 0);
+            const monthExpenses = expenses.filter(e => e.date >= monthAgo).reduce((sum, e) => sum + e.amount, 0);
+            const monthBalance = monthIncome - monthExpenses;
+            
+            // За год (с 1 марта)
+            const yearIncome = paidSales.filter(s => s.date >= yearStart).reduce((sum, s) => sum + s.actualPrice, 0);
+            const yearExpenses = expenses.filter(e => e.date >= yearStart).reduce((sum, e) => sum + e.amount, 0);
+            const yearBalance = yearIncome - yearExpenses;
+            
+            return {
+                totalIncome, totalExpenses, currentBalance,
+                todayBalance, weekBalance, monthBalance, yearBalance,
+                todayIncome, weekIncome, monthIncome, yearIncome,
+                todayExpenses, weekExpenses, monthExpenses, yearExpenses
+            };
         }
         
-        function getTimeLabel(dateStr) {
-            if (!dateStr) return null;
-            const hour = new Date(dateStr).getHours();
-            return hour < 12 ? 'УТРО' : 'ВЕЧЕР';
+        function getStatusClass(status) {
+            const map = {
+                'Замачивание': 'soaking',
+                'Проращивание': 'sprouting',
+                'Шелушение': 'peeling',
+                'Бланширование': 'blanching',
+                'Сушка': 'packing',
+                'Фасовка': 'packing',
+                'Готово к отправке': 'ready'
+            };
+            return map[status] || 'sprouting';
         }
         
-        function getClientName(clientId) {
-            const clients = loadKey('clients');
-            const client = clients.find(c => c.id === clientId);
-            return client ? client.name : 'Клиент';
+        function getProgressPercent(status) {
+            const stages = ['Замачивание', 'Проращивание', 'Шелушение', 'Бланширование', 'Сушка', 'Фасовка', 'Готово к отправке'];
+            const index = stages.indexOf(status);
+            return ((index + 1) / stages.length) * 100;
         }
         
-        // ==================== ДАШБОРД ====================
+        // ==================== РЕНДЕР ДАШБОРДА ====================
         function renderDashboard() {
-            const orders = loadKey('orders');
-            const parties = loadKey('parties');
-            const expenses = loadKey('expenses');
-            const now = new Date();
+            const batches = DB.load('batches_new');
+            const sales = DB.load('sales_new');
+            const clients = DB.load('clients_new');
+            const finances = getFinancialStats();
             
-            // Выручка за месяц (последние 30 дней)
-            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-            const monthOrders = orders.filter(o => new Date(o.date) >= monthAgo && o.paid);
-            const monthRevenue = monthOrders.reduce((s, o) => s + o.total, 0);
-            const monthExpenses = expenses.filter(e => new Date(e.date) >= monthAgo).reduce((s, e) => s + e.totalPrice, 0);
-            
-            // Выручка за неделю
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const weekRevenue = orders.filter(o => new Date(o.date) >= weekAgo && o.paid).reduce((s, o) => s + o.total, 0);
-            
-            document.getElementById('statsGrid').innerHTML = `
-                <div class="stat-card"><div class="stat-number">${monthRevenue.toLocaleString()}₽</div><div class="stat-label">Выручка за месяц</div></div>
-                <div class="stat-card"><div class="stat-number">${(monthRevenue - monthExpenses).toLocaleString()}₽</div><div class="stat-label">Прибыль за месяц</div></div>
-                <div class="stat-card"><div class="stat-number">${weekRevenue.toLocaleString()}₽</div><div class="stat-label">Выручка за неделю</div></div>
-                <div class="stat-card"><div class="stat-number">${orders.filter(o => !o.paid || !o.delivered).length}</div><div class="stat-label">Активных заказов</div></div>
+            // Основные статистики
+            document.getElementById('mainStats').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${batches.length}</div><div class="stat-label">Всего партий</div></div>
+                <div class="stat-card"><div class="stat-number">${finances.totalIncome}₽</div><div class="stat-label">Общая выручка</div></div>
+                <div class="stat-card"><div class="stat-number">${batches.filter(b => b.status !== 'Готово к отправке').length}</div><div class="stat-label">Активные</div></div>
+                <div class="stat-card"><div class="stat-number">${clients.length}</div><div class="stat-label">Клиенты</div></div>
             `;
             
-            // Текущие заказы
-            const pendingOrders = orders.filter(o => !o.paid || !o.delivered).slice(0, 5);
-            const pendingDiv = document.getElementById('pendingOrdersList');
-            if (!pendingOrders.length) {
-                pendingDiv.innerHTML = '<div class="empty-state">✨ Все заказы выполнены</div>';
+            // Финансовые показатели
+            document.getElementById('balanceStats').innerHTML = `
+                <div class="finance-card"><div class="finance-amount">${finances.currentBalance}₽</div><div class="finance-label">Текущий баланс</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.todayBalance}₽</div><div class="finance-label">За сегодня</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.weekBalance}₽</div><div class="finance-label">За неделю</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.monthBalance}₽</div><div class="finance-label">За месяц</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.yearBalance}₽</div><div class="finance-label">С 1 марта</div></div>
+                <div class="finance-card"><div class="finance-amount">${finances.totalIncome - finances.totalExpenses}₽</div><div class="finance-label">Общая прибыль</div></div>
+            `;
+            
+            // Активные партии
+            const activeBatches = batches.filter(b => b.status !== 'Готово к отправке').slice(0, 3);
+            const activeDiv = document.getElementById('activeBatchesList');
+            if (activeBatches.length === 0) {
+                activeDiv.innerHTML = '<div class="empty-state">Нет активных партий</div>';
             } else {
-                pendingDiv.innerHTML = pendingOrders.map(o => `
+                activeDiv.innerHTML = activeBatches.map(batch => `
                     <div class="card">
                         <div class="card-header">
-                            <b>${getClientName(o.clientId)}</b>
-                            <span>📅 ${o.date}</span>
+                            <div class="card-title">${batch.batchNumber}</div>
+                            <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
                         </div>
-                        <div>${o.items.map(i => `${i.product} x${i.quantity}`).join(', ')} — <b>${o.total}₽</b></div>
-                        <div class="flex-btns" style="margin-top: 8px">
-                            ${!o.paid ? `<button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ Оплатить</button>` : ''}
-                            ${!o.delivered ? `<button class="btn-small btn-secondary" onclick="toggleOrderDelivered('${o.id}')">📦 Выдать</button>` : ''}
-                        </div>
+                        <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(batch.status)}%"></div></div>
+                        <div class="card-details">📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}</div>
+                        ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
+                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button></div>
                     </div>
                 `).join('');
             }
             
-            // Планы на сегодня
-            const todayStr = now.toISOString().slice(0,10);
-            let tasks = [];
-            parties.forEach(p => {
-                if (p.currentStage === 'srezka') tasks.push(`🌅 Срезка: ${p.culture} (партия от ${p.dateSown})`);
-                if (p.currentStage === 'sbor') tasks.push(`🌅 Сбор: ${p.culture} (партия от ${p.dateSown})`);
-                if (p.currentStage === 'v_temi') tasks.push(`🌙 Проветрить: ${p.culture}`);
-                if (p.currentStage === 'pod_lampoy') tasks.push(`🌙 Проветрить под лампой: ${p.culture}`);
-                if (p.currentStage === 'zomachivanie' && p.dateSown === todayStr) tasks.push(`🌙 Посеять: ${p.culture} (замачивание завершено)`);
-            });
-            document.getElementById('todayTasks').innerHTML = tasks.length ? 
-                tasks.map(t => `<div class="task-item">📌 ${t}</div>`).join('') : 
-                '<div class="empty-state">🎉 Нет задач на сегодня</div>';
+            // Последние продажи
+            const recentSales = sales.slice(-3).reverse();
+            const recentDiv = document.getElementById('recentSalesList');
+            if (recentSales.length === 0) {
+                recentDiv.innerHTML = '<div class="empty-state">Нет продаж</div>';
+            } else {
+                recentDiv.innerHTML = recentSales.map(sale => `
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">${sale.clientName}</div>
+                            <div class="status ${sale.paymentStatus === 'Оплачен' ? 'status-paid' : 'status-unpaid'}">${sale.paymentStatus}</div>
+                        </div>
+                        <div class="card-details">📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}</div>
+                        ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
+                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button></div>
+                    </div>
+                `).join('');
+            }
         }
         
         // ==================== ПАРТИИ ====================
         function renderBatches() {
-            const parties = loadKey('parties');
+            const batches = DB.load('batches_new');
             const div = document.getElementById('batchesList');
-            if (!parties.length) {
-                div.innerHTML = '<div class="empty-state">🌱 Нет партий. Создайте первую!</div>';
+            if (batches.length === 0) {
+                div.innerHTML = '<div class="empty-state">Нет созданных партий</div>';
                 return;
             }
-            
-            const stagesMap = {
-                microgreen: ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka', 'sbor'],
-                sprouts: ['zomachivanie', 'posev', 'srezka', 'sbor']
-            };
-            
-            div.innerHTML = parties.map(p => {
-                const stages = stagesMap[p.cultureType] || stagesMap.microgreen;
-                const currentIdx = stages.indexOf(p.currentStage);
-                const percent = ((currentIdx + 1) / stages.length) * 100;
-                
-                // История этапов с УТРО/ВЕЧЕР
-                const timeline = stages.map((stage, idx) => {
-                    const date = p.stages?.[stage];
-                    const isCompleted = !!date;
-                    const timeLabel = date ? getTimeLabel(date) : null;
-                    return `
-                        <div class="timeline-item">
-                            <div class="timeline-marker ${isCompleted ? 'completed' : 'pending'}">
-                                ${isCompleted ? '✓' : '○'}
-                            </div>
-                            <div class="timeline-content">
-                                <div class="timeline-title">${getStageName(stage)}</div>
-                                ${isCompleted ? `<div class="timeline-time">${timeLabel} ${new Date(date).toLocaleDateString('ru-RU', {day:'numeric', month:'numeric'})}</div>` : ''}
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-                
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <b class="card-title">${p.culture} (${p.format})</b>
-                            <span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span>
-                        </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width:${percent}%"></div></div>
-                        <div style="margin: 12px 0">🌱 ${p.weightDry}г сухих семян | 📅 ${p.dateSown}</div>
-                        ${p.notes ? `<div style="color:#6B8C6B; font-size:13px">📝 ${p.notes}</div>` : ''}
-                        <div style="margin: 12px 0 8px 0; font-size:13px; color:#6B8C6B">📅 История этапов:</div>
-                        ${timeline}
-                        <div class="flex-btns" style="margin-top: 16px">
-                            <button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button>
-                            <button class="btn-small btn-danger" onclick="deleteParty('${p.id}')">🗑️ Удалить</button>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        window.nextStage = (id) => {
-            let parties = loadKey('parties');
-            const p = parties.find(p => p.id === id);
-            if (!p) return;
-            
-            const stagesMap = {
-                microgreen: ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka', 'sbor'],
-                sprouts: ['zomachivanie', 'posev', 'srezka', 'sbor']
-            };
-            const stages = stagesMap[p.cultureType];
-            let idx = stages.indexOf(p.currentStage);
-            
-            if (idx < stages.length - 1) {
-                p.currentStage = stages[idx + 1];
-                if (!p.stages) p.stages = {};
-                p.stages[p.currentStage] = new Date().toISOString();
-                saveKey('parties', parties);
-                renderBatches();
-                renderDashboard();
-            } else {
-                alert('🎉 Партия завершена!');
-            }
-        };
-        
-        window.deleteParty = (id) => {
-            if (confirm('🗑️ Удалить эту партию?')) {
-                let parties = loadKey('parties');
-                parties = parties.filter(p => p.id !== id);
-                saveKey('parties', parties);
-                renderBatches();
-                renderDashboard();
-            }
-        };
-        
-        // ==================== ЗАКАЗЫ ====================
-        function renderOrders() {
-            const orders = loadKey('orders');
-            const div = document.getElementById('ordersList');
-            if (!orders.length) {
-                div.innerHTML = '<div class="empty-state">📋 Нет заказов</div>';
-                return;
-            }
-            
-            div.innerHTML = orders.slice().reverse().map(o => `
+            const sorted = batches.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            div.innerHTML = sorted.map(batch => `
                 <div class="card">
                     <div class="card-header">
-                        <b>${getClientName(o.clientId)}</b>
-                        <div>
-                            <span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span>
-                            <span class="status ${o.delivered ? 'status-delivered' : 'status-pending'}">${o.delivered ? 'Выдан' : 'Не выдан'}</span>
-                        </div>
+                        <div class="card-title">${batch.batchNumber}</div>
+                        <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
                     </div>
-                    <div>${o.items.map(i => `${i.product} x${i.quantity} = ${i.price * i.quantity}₽`).join(', ')}</div>
-                    <div style="margin-top: 8px">📅 ${o.date} | Итого: <b>${o.total}₽</b></div>
-                    ${o.notes ? `<div style="color:#6B8C6B; font-size:13px">📝 ${o.notes}</div>` : ''}
-                    <div class="flex-btns" style="margin-top: 12px">
-                        ${!o.paid ? `<button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ Оплатить</button>` : `<button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">❌ Отменить оплату</button>`}
-                        ${!o.delivered ? `<button class="btn-small btn-secondary" onclick="toggleOrderDelivered('${o.id}')">📦 Выдать</button>` : `<button class="btn-small btn-secondary" onclick="toggleOrderDelivered('${o.id}')">❌ Отменить выдачу</button>`}
-                    </div>
+                    <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(batch.status)}%"></div></div>
+                    <div class="card-details">📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}</div>
+                    ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
+                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button></div>
                 </div>
             `).join('');
         }
         
-        window.toggleOrderPaid = (id) => {
-            let orders = loadKey('orders');
-            const o = orders.find(o => o.id === id);
-            if (o) { o.paid = !o.paid; saveKey('orders', orders); renderOrders(); renderDashboard(); }
+        window.editBatch = (id) => {
+            const batches = DB.load('batches_new');
+            const batch = batches.find(b => b.id === id);
+            if (batch) {
+                document.getElementById('editBatchId').value = batch.id;
+                document.getElementById('editBatchNumber').value = batch.batchNumber;
+                document.getElementById('editBatchDate').value = batch.date;
+                document.getElementById('editBatchTime').value = batch.time;
+                document.getElementById('editBatchWeight').value = batch.dryWeight;
+                document.getElementById('editBatchStatus').value = batch.status;
+                document.getElementById('editBatchNotes').value = batch.notes || '';
+                showModal('editBatchModal');
+            }
         };
         
-        window.toggleOrderDelivered = (id) => {
-            let orders = loadKey('orders');
-            const o = orders.find(o => o.id === id);
-            if (o) { o.delivered = !o.delivered; saveKey('orders', orders); renderOrders(); renderDashboard(); }
+        window.deleteBatchFromModal = () => {
+            const id = parseInt(document.getElementById('editBatchId').value);
+            if (confirm('Удалить эту партию?')) {
+                let batches = DB.load('batches_new');
+                batches = batches.filter(b => b.id !== id);
+                DB.save('batches_new', batches);
+                hideModal('editBatchModal');
+                renderBatches();
+                renderDashboard();
+            }
+        };
+        
+        // ==================== ПРОДАЖИ ====================
+        function renderSales() {
+            const sales = DB.load('sales_new');
+            const div = document.getElementById('salesList');
+            if (sales.length === 0) {
+                div.innerHTML = '<div class="empty-state">Нет записанных продаж</div>';
+                return;
+            }
+            const sorted = sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            div.innerHTML = sorted.map(sale => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${sale.clientName}</div>
+                        <div class="status ${sale.paymentStatus === 'Оплачен' ? 'status-paid' : 'status-unpaid'}">${sale.paymentStatus}</div>
+                    </div>
+                    <div class="card-details">📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}</div>
+                    ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
+                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button></div>
+                </div>
+            `).join('');
+        }
+        
+        window.editSale = (id) => {
+            const sales = DB.load('sales_new');
+            const clients = DB.load('clients_new');
+            const sale = sales.find(s => s.id === id);
+            if (sale) {
+                document.getElementById('editSaleId').value = sale.id;
+                const clientSelect = document.getElementById('editSaleClient');
+                clientSelect.innerHTML = clients.map(c => `<option value="${c.id}" ${c.id === sale.clientId ? 'selected' : ''}>${c.name}</option>`).join('');
+                document.getElementById('editSaleDate').value = sale.date;
+                document.getElementById('editSaleWeight').value = sale.weight;
+                document.getElementById('editPlannedPrice').value = sale.plannedPrice;
+                document.getElementById('editActualPrice').value = sale.actualPrice;
+                document.getElementById('editSalePaymentStatus').value = sale.paymentStatus;
+                document.getElementById('editSaleNotes').value = sale.notes || '';
+                showModal('editSaleModal');
+            }
+        };
+        
+        window.deleteSaleFromModal = () => {
+            const id = parseInt(document.getElementById('editSaleId').value);
+            if (confirm('Удалить эту продажу?')) {
+                let sales = DB.load('sales_new');
+                sales = sales.filter(s => s.id !== id);
+                DB.save('sales_new', sales);
+                hideModal('editSaleModal');
+                renderSales();
+                renderDashboard();
+            }
         };
         
         // ==================== КЛИЕНТЫ ====================
         function renderClients(filter = '') {
-            let clients = loadKey('clients');
-            const orders = loadKey('orders');
+            let clients = DB.load('clients_new');
+            const sales = DB.load('sales_new');
             if (filter) clients = clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
             const div = document.getElementById('clientsList');
-            if (!clients.length) {
-                div.innerHTML = '<div class="empty-state">👥 Нет клиентов</div>';
+            if (clients.length === 0) {
+                div.innerHTML = '<div class="empty-state">Нет добавленных клиентов</div>';
                 return;
             }
-            
-            div.innerHTML = clients.map(c => {
-                const clientOrders = orders.filter(o => o.clientId === c.id);
-                const totalSpent = clientOrders.reduce((s, o) => s + (o.paid ? o.total : 0), 0);
+            div.innerHTML = clients.map(client => {
+                const clientSales = sales.filter(s => s.clientId === client.id);
+                const totalSpent = clientSales.reduce((sum, s) => sum + (s.paymentStatus === 'Оплачен' ? s.actualPrice : 0), 0);
                 return `
                     <div class="card">
                         <div class="card-header">
-                            <b class="card-title">${c.name}</b>
-                            <button class="btn-small btn-secondary" onclick="viewClient('${c.id}')">📋 Подробнее</button>
+                            <div class="card-title">${client.name}</div>
+                            <button class="btn-small btn-secondary" onclick="viewClient(${client.id})">📋 Подробнее</button>
                         </div>
-                        <div>📍 ${c.address || '—'} | 📞 ${c.contact || '—'}</div>
-                        <div style="margin-top: 8px; font-size:13px; color:#6B8C6B">
-                            📦 Заказов: ${clientOrders.length} | 💰 На сумму: ${totalSpent}₽
-                        </div>
-                        <div class="flex-btns" style="margin-top: 12px">
-                            <button class="btn-small btn-secondary" onclick="quickOrder('${c.id}')">📦 Новая поставка</button>
-                            <button class="btn-small btn-danger" onclick="deleteClient('${c.id}')">🗑️ Удалить</button>
-                        </div>
+                        <div class="card-details">${client.place ? `📍 ${client.place}<br>` : ''}${client.contact ? `📞 ${client.contact}<br>` : ''}</div>
+                        <div class="card-details">📦 Заказов: ${clientSales.length} | 💰 На сумму: ${totalSpent}₽</div>
+                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(${client.id})">📦 Новая поставка</button></div>
                     </div>
                 `;
             }).join('');
         }
         
-        window.viewClient = (clientId) => {
-            const clients = loadKey('clients');
-            const orders = loadKey('orders');
-            const client = clients.find(c => c.id === clientId);
-            const clientOrders = orders.filter(o => o.clientId === clientId).sort((a, b) => new Date(b.date) - new Date(a.date));
-            const totalSpent = clientOrders.reduce((s, o) => s + (o.paid ? o.total : 0), 0);
-            
+        window.viewClient = (id) => {
+            const clients = DB.load('clients_new');
+            const sales = DB.load('sales_new');
+            const client = clients.find(c => c.id === id);
+            const clientSales = sales.filter(s => s.clientId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
+            const totalSpent = clientSales.reduce((sum, s) => sum + (s.paymentStatus === 'Оплачен' ? s.actualPrice : 0), 0);
             const modalDiv = document.getElementById('viewClientContent');
             modalDiv.innerHTML = `
                 <div>
                     <h3>${client.name}</h3>
-                    <p>📍 ${client.address || '—'}<br>📞 ${client.contact || '—'}</p>
-                    <div style="background:#F8FDF8; padding:12px; border-radius:16px; margin:16px 0">
+                    <p>📍 ${client.place || '—'}<br>📞 ${client.contact || '—'}</p>
+                    <div style="background:#F8FDF8; padding:12px; border-radius:16px; margin:12px 0">
                         <div>📊 Статистика:</div>
-                        <div>• Всего заказов: ${clientOrders.length}</div>
+                        <div>• Всего заказов: ${clientSales.length}</div>
                         <div>• На сумму: ${totalSpent}₽</div>
-                        <div>• Последний заказ: ${clientOrders[0]?.date || '—'}</div>
+                        <div>• Последний заказ: ${clientSales[0]?.date || '—'}</div>
                     </div>
                     <hr>
                     <h4>📦 История заказов:</h4>
-                    ${clientOrders.map(o => `
-                        <div style="padding: 8px 0; border-bottom: 1px solid #E8F5E9">
-                            📅 ${o.date} — ${o.items.map(i => i.product).join(', ')} — ${o.total}₽ ${o.paid ? '✅' : '❌'}
-                        </div>
-                    `).join('') || '<p>Нет заказов</p>'}
-                    <div class="flex-btns" style="margin-top: 20px">
-                        <button class="btn-small btn-secondary" onclick="quickOrder('${client.id}'); hideModal('viewClientModal')">📦 Новая поставка</button>
-                        <button class="btn-small" onclick="hideModal('viewClientModal')">Закрыть</button>
-                    </div>
+                    ${clientSales.map(s => `<div style="padding:8px 0; border-bottom:1px solid #E8F5E9">📅 ${s.date} — ${s.weight}г — ${s.actualPrice}₽ ${s.paymentStatus === 'Оплачен' ? '✅' : '❌'}</div>`).join('') || '<p>Нет заказов</p>'}
+                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(${client.id}); hideModal('viewClientModal')">📦 Новая поставка</button><button class="btn-small" onclick="hideModal('viewClientModal')">Закрыть</button></div>
                 </div>
             `;
             showModal('viewClientModal');
         };
         
         window.quickOrder = (clientId) => {
-            const client = loadKey('clients').find(c => c.id === clientId);
-            if (client) {
-                showModal('newOrderModal');
-                setTimeout(() => {
-                    const select = document.getElementById('orderClient');
-                    if (select) select.value = clientId;
-                }, 100);
-            }
-        };
-        
-        window.deleteClient = (id) => {
-            if (confirm('Удалить клиента? Все его заказы останутся, но клиент будет отвязан.')) {
-                let clients = loadKey('clients');
-                clients = clients.filter(c => c.id !== id);
-                saveKey('clients', clients);
-                renderClients();
-            }
+            showModal('newSaleModal');
+            setTimeout(() => {
+                const select = document.getElementById('saleClient');
+                if (select) select.value = clientId;
+            }, 100);
         };
         
         window.filterClients = () => renderClients(document.getElementById('clientSearch').value);
         
         // ==================== РАСХОДЫ ====================
         function renderExpenses() {
-            const expenses = loadKey('expenses');
+            const expenses = DB.load('expenses_new');
+            const finances = getFinancialStats();
             const div = document.getElementById('expensesTable');
-            if (!expenses.length) {
-                div.innerHTML = '<div class="empty-state">💸 Нет расходов</div>';
+            
+            // Верхние статистики расходов
+            const expensesHeader = `
+                <div class="stats-grid" style="margin-bottom:16px">
+                    <div class="stat-card"><div class="stat-number">${finances.todayExpenses}₽</div><div class="stat-label">Расходы за сегодня</div></div>
+                    <div class="stat-card"><div class="stat-number">${finances.weekExpenses}₽</div><div class="stat-label">Расходы за неделю</div></div>
+                    <div class="stat-card"><div class="stat-number">${finances.monthExpenses}₽</div><div class="stat-label">Расходы за месяц</div></div>
+                    <div class="stat-card"><div class="stat-number">${finances.totalExpenses}₽</div><div class="stat-label">Всего расходов</div></div>
+                </div>
+            `;
+            
+            if (expenses.length === 0) {
+                div.innerHTML = expensesHeader + '<div class="empty-state">Нет расходов</div>';
                 return;
             }
             
-            const categoryIcons = { seeds: '🌱', containers: '📦', substrate: '🧵' };
-            const categoryNames = { seeds: 'Семена', containers: 'Контейнеры', substrate: 'Субстрат' };
-            
-            div.innerHTML = `
+            const sorted = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+            div.innerHTML = expensesHeader + `
                 <div class="table-wrapper">
                     <table class="data-table">
-                        <thead>
-                            <tr><th>Дата</th><th>Категория</th><th>Детали</th><th>Кол-во</th><th>Сумма</th><th style="width:80px"></th></tr>
-                        </thead>
+                        <thead><tr><th>Дата</th><th>Наименование</th><th>Категория</th><th>Сумма</th><th></th></tr></thead>
                         <tbody>
-                            ${expenses.slice().reverse().map(e => `
+                            ${sorted.map(e => `
                                 <tr>
                                     <td>${e.date}</td>
-                                    <td>${categoryIcons[e.category]} ${categoryNames[e.category]}</td>
-                                    <td>${e.detail}</td>
-                                    <td>${e.quantity} ${e.category === 'seeds' ? 'г' : e.category === 'containers' ? 'шт' : 'м'}</td>
-                                    <td><b>${e.totalPrice}₽</b></td>
-                                    <td><button class="btn-icon btn-small" onclick="editExpense('${e.id}')">✏️</button></td>
+                                    <td>${e.name}</td>
+                                    <td><span class="status status-pending" style="background:#F3E5F5">${e.category}</span></td>
+                                    <td><b>-${e.amount}₽</b></td>
+                                    <td><button class="btn-icon btn-small" onclick="editExpense(${e.id})">✏️</button></td>
                                 </tr>
                             `).join('')}
                         </tbody>
                     </table>
                 </div>
             `;
-            
-            // Калькулятор
-            const lastSeeds = expenses.filter(e => e.category === 'seeds').pop();
-            const lastContainers = expenses.filter(e => e.category === 'containers').pop();
-            const lastSubstrate = expenses.filter(e => e.category === 'substrate').pop();
-            
-            document.getElementById('costCalculatorView').innerHTML = `
-                <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px">
-                    <div style="background:#F8FDF8; padding:12px; border-radius:16px">
-                        <div>🌾 Семена</div>
-                        <div style="font-size:20px; font-weight:700">${lastSeeds ? (lastSeeds.totalPrice/lastSeeds.quantity).toFixed(2) : '0'}₽/г</div>
-                        <div style="font-size:12px; color:#6B8C6B">${lastSeeds?.detail || 'нет данных'}</div>
-                    </div>
-                    <div style="background:#F8FDF8; padding:12px; border-radius:16px">
-                        <div>📦 Контейнеры</div>
-                        <div style="font-size:20px; font-weight:700">${lastContainers ? (lastContainers.totalPrice/lastContainers.quantity).toFixed(2) : '0'}₽/шт</div>
-                        <div style="font-size:12px; color:#6B8C6B">${lastContainers?.detail || 'нет данных'}</div>
-                    </div>
-                    <div style="background:#F8FDF8; padding:12px; border-radius:16px">
-                        <div>🧵 Субстрат</div>
-                        <div style="font-size:20px; font-weight:700">${lastSubstrate ? (lastSubstrate.totalPrice/lastSubstrate.quantity).toFixed(2) : '0'}₽/м</div>
-                        <div style="font-size:12px; color:#6B8C6B">${lastSubstrate?.detail || 'нет данных'}</div>
-                    </div>
-                </div>
-            `;
         }
         
         window.editExpense = (id) => {
-            const expenses = loadKey('expenses');
+            const expenses = DB.load('expenses_new');
             const expense = expenses.find(e => e.id === id);
             if (expense) {
                 document.getElementById('editExpenseId').value = expense.id;
                 document.getElementById('editExpenseDate').value = expense.date;
+                document.getElementById('editExpenseName').value = expense.name;
+                document.getElementById('editExpenseAmount').value = expense.amount;
                 document.getElementById('editExpenseCategory').value = expense.category;
-                document.getElementById('editExpenseDetail').value = expense.detail;
-                document.getElementById('editExpenseQty').value = expense.quantity;
-                document.getElementById('editExpenseTotal').value = expense.totalPrice;
+                document.getElementById('editExpenseNotes').value = expense.notes || '';
                 showModal('editExpenseModal');
             }
         };
         
         window.deleteExpenseFromModal = () => {
-            const id = document.getElementById('editExpenseId').value;
-            if (confirm('Удалить расход?')) {
-                let expenses = loadKey('expenses');
+            const id = parseInt(document.getElementById('editExpenseId').value);
+            if (confirm('Удалить этот расход?')) {
+                let expenses = DB.load('expenses_new');
                 expenses = expenses.filter(e => e.id !== id);
-                saveKey('expenses', expenses);
+                DB.save('expenses_new', expenses);
                 hideModal('editExpenseModal');
                 renderExpenses();
                 renderDashboard();
             }
         };
         
-        // ==================== ОТЧЁТЫ ====================
-        function renderReports() {
-            const orders = loadKey('orders');
-            const expenses = loadKey('expenses');
-            const now = new Date();
-            
-            // Неделя
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const weekOrders = orders.filter(o => new Date(o.date) >= weekAgo && o.paid);
-            const weekRevenue = weekOrders.reduce((s, o) => s + o.total, 0);
-            const weekExpenses = expenses.filter(e => new Date(e.date) >= weekAgo).reduce((s, e) => s + e.totalPrice, 0);
-            
-            // Месяц
-            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-            const monthOrders = orders.filter(o => new Date(o.date) >= monthAgo && o.paid);
-            const monthRevenue = monthOrders.reduce((s, o) => s + o.total, 0);
-            const monthExpenses = expenses.filter(e => new Date(e.date) >= monthAgo).reduce((s, e) => s + e.totalPrice, 0);
-            
-            // Год (с 1 марта 2026)
-            const yearStart = new Date(2026, 2, 1);
-            const yearOrders = orders.filter(o => new Date(o.date) >= yearStart && o.paid);
-            const yearRevenue = yearOrders.reduce((s, o) => s + o.total, 0);
-            const yearExpenses = expenses.filter(e => new Date(e.date) >= yearStart).reduce((s, e) => s + e.totalPrice, 0);
-            
-            document.getElementById('reportStats').innerHTML = `
-                <div class="stat-card"><div class="stat-number">${weekRevenue.toLocaleString()}₽</div><div class="stat-label">Выручка за неделю</div><div style="font-size:12px">💰 Прибыль: ${(weekRevenue - weekExpenses).toLocaleString()}₽</div></div>
-                <div class="stat-card"><div class="stat-number">${monthRevenue.toLocaleString()}₽</div><div class="stat-label">Выручка за месяц</div><div style="font-size:12px">💰 Прибыль: ${(monthRevenue - monthExpenses).toLocaleString()}₽</div></div>
-                <div class="stat-card"><div class="stat-number">${yearRevenue.toLocaleString()}₽</div><div class="stat-label">Выручка с 1 марта</div><div style="font-size:12px">💰 Прибыль: ${(yearRevenue - yearExpenses).toLocaleString()}₽</div></div>
-            `;
-            
-            // Детальный отчёт по продуктам
-            const products = {};
-            weekOrders.forEach(o => {
-                o.items.forEach(i => {
-                    products[i.product] = (products[i.product] || 0) + i.quantity;
-                });
-            });
-            
-            document.getElementById('detailedReport').innerHTML = `
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead><tr><th>Продукт</th><th>Продано (лотков)</th><th>Выручка</th></tr></thead>
-                        <tbody>
-                            ${Object.entries(products).map(([p, q]) => {
-                                const revenue = weekOrders.filter(o => o.items.some(i => i.product === p))
-                                    .reduce((s, o) => s + o.items.filter(i => i.product === p).reduce((s2, i2) => s2 + i2.price * i2.quantity, 0), 0);
-                                return `<tr><td>${p}</td><td>${q}</td><td>${revenue}₽</td></tr>`;
-                            }).join('') || '<tr><td colspan="3">Нет данных за неделю</td></tr>'}
-                        </tbody>
-                    </table>
+        // ==================== ДОСТИЖЕНИЯ ====================
+        function renderAchievements() {
+            const achievements = DB.load('achievements_new');
+            const div = document.getElementById('achievementsList');
+            if (achievements.length === 0) {
+                div.innerHTML = '<div class="empty-state">Нет достижений. Добавьте первое!</div>';
+                return;
+            }
+            const sorted = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
+            div.innerHTML = sorted.map(a => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">🏆 ${a.description}</div>
+                        <button class="btn-icon btn-small" onclick="deleteAchievement(${a.id})" style="color:#E53935">🗑️</button>
+                    </div>
+                    <div class="card-details">📅 ${a.date} • ${a.category}</div>
                 </div>
-            `;
-            
-            // Достижения с кнопкой удаления
-            const achievements = loadKey('achievements');
-            document.getElementById('achievementsList').innerHTML = achievements.slice().reverse().map(a => `
-                <div class="task-item" style="display:flex; justify-content:space-between; align-items:center">
-                    <span>🏆 ${a.description} (${a.date})</span>
-                    <button class="btn-icon" onclick="deleteAchievement('${a.id}')" style="color:#E53935">🗑️</button>
-                </div>
-            `).join('') || '<div class="empty-state">✨ Добавьте первое достижение</div>';
+            `).join('');
         }
         
         window.deleteAchievement = (id) => {
-            let achievements = loadKey('achievements');
-            achievements = achievements.filter(a => a.id !== id);
-            saveKey('achievements', achievements);
-            renderReports();
+            if (confirm('Удалить достижение?')) {
+                let achievements = DB.load('achievements_new');
+                achievements = achievements.filter(a => a.id !== id);
+                DB.save('achievements_new', achievements);
+                renderAchievements();
+            }
         };
         
-        // ==================== ФОРМЫ СОЗДАНИЯ ====================
+        // ==================== ФОРМЫ ====================
+        function fillSelectors() {
+            const clients = DB.load('clients_new');
+            const clientSelect = document.getElementById('saleClient');
+            const editClientSelect = document.getElementById('editSaleClient');
+            if (clientSelect) clientSelect.innerHTML = '<option value="">Выберите клиента</option>' + clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            if (editClientSelect) editClientSelect.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        }
+        
         document.getElementById('newBatchForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let parties = loadKey('parties');
-            const cultureType = document.getElementById('batchType').value;
-            const now = new Date().toISOString();
-            parties.push({
-                id: `party_${Date.now()}`,
-                culture: document.getElementById('batchCulture').value,
-                format: document.getElementById('batchFormat').value,
-                dateSown: document.getElementById('batchDateSown').value,
-                weightDry: parseInt(document.getElementById('batchWeightDry').value),
-                substrate: document.getElementById('batchSubstrate').value,
-                currentStage: 'zomachivanie',
-                stages: { zomachivanie: now, posev: null, v_temi: null, pod_lampoy: null, srezka: null, sbor: null },
-                cultureType: cultureType,
+            const batches = DB.load('batches_new');
+            batches.push({
+                id: DB.getNextId('batches_new'),
+                batchNumber: document.getElementById('batchNumber').value,
+                date: document.getElementById('batchDate').value,
+                time: document.getElementById('batchTime').value,
+                dryWeight: parseInt(document.getElementById('batchWeight').value),
+                status: document.getElementById('batchStatus').value,
                 notes: document.getElementById('batchNotes').value,
-                createdAt: now
+                createdAt: new Date().toISOString()
             });
-            saveKey('parties', parties);
+            DB.save('batches_new', batches);
             hideModal('newBatchModal');
+            document.getElementById('newBatchForm').reset();
             renderBatches();
             renderDashboard();
         });
         
-        document.getElementById('newOrderForm')?.addEventListener('submit', (e) => {
+        document.getElementById('editBatchForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let orders = loadKey('orders');
-            const qty = parseInt(document.getElementById('orderQty').value);
-            const price = parseInt(document.getElementById('orderPrice').value);
-            orders.push({
-                id: `order_${Date.now()}`,
-                clientId: document.getElementById('orderClient').value,
-                clientName: getClientName(document.getElementById('orderClient').value),
-                date: document.getElementById('orderDate').value,
-                items: [{ product: document.getElementById('orderProduct').value, format: '15×11', quantity: qty, price: price }],
-                total: qty * price,
-                paid: document.getElementById('orderPaid').value === 'true',
-                delivered: document.getElementById('orderDelivered').value === 'true',
-                notes: '',
+            const id = parseInt(document.getElementById('editBatchId').value);
+            let batches = DB.load('batches_new');
+            const index = batches.findIndex(b => b.id === id);
+            if (index !== -1) {
+                batches[index] = {
+                    ...batches[index],
+                    batchNumber: document.getElementById('editBatchNumber').value,
+                    date: document.getElementById('editBatchDate').value,
+                    time: document.getElementById('editBatchTime').value,
+                    dryWeight: parseInt(document.getElementById('editBatchWeight').value),
+                    status: document.getElementById('editBatchStatus').value,
+                    notes: document.getElementById('editBatchNotes').value
+                };
+                DB.save('batches_new', batches);
+                hideModal('editBatchModal');
+                renderBatches();
+                renderDashboard();
+            }
+        });
+        
+        document.getElementById('newSaleForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const clientId = parseInt(document.getElementById('saleClient').value);
+            const clients = DB.load('clients_new');
+            const client = clients.find(c => c.id === clientId);
+            if (!client) { alert('Выберите клиента!'); return; }
+            const sales = DB.load('sales_new');
+            sales.push({
+                id: DB.getNextId('sales_new'),
+                clientId: clientId,
+                clientName: client.name,
+                date: document.getElementById('saleDate').value,
+                weight: parseInt(document.getElementById('saleWeight').value),
+                plannedPrice: parseInt(document.getElementById('plannedPrice').value),
+                actualPrice: parseInt(document.getElementById('actualPrice').value),
+                paymentStatus: document.getElementById('salePaymentStatus').value,
+                notes: document.getElementById('saleNotes').value,
                 createdAt: new Date().toISOString()
             });
-            saveKey('orders', orders);
-            hideModal('newOrderModal');
-            renderOrders();
+            DB.save('sales_new', sales);
+            hideModal('newSaleModal');
+            document.getElementById('newSaleForm').reset();
+            renderSales();
             renderDashboard();
+        });
+        
+        document.getElementById('editSaleForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const id = parseInt(document.getElementById('editSaleId').value);
+            const clientId = parseInt(document.getElementById('editSaleClient').value);
+            const clients = DB.load('clients_new');
+            const client = clients.find(c => c.id === clientId);
+            let sales = DB.load('sales_new');
+            const index = sales.findIndex(s => s.id === id);
+            if (index !== -1) {
+                sales[index] = {
+                    ...sales[index],
+                    clientId: clientId,
+                    clientName: client.name,
+                    date: document.getElementById('editSaleDate').value,
+                    weight: parseInt(document.getElementById('editSaleWeight').value),
+                    plannedPrice: parseInt(document.getElementById('editPlannedPrice').value),
+                    actualPrice: parseInt(document.getElementById('editActualPrice').value),
+                    paymentStatus: document.getElementById('editSalePaymentStatus').value,
+                    notes: document.getElementById('editSaleNotes').value
+                };
+                DB.save('sales_new', sales);
+                hideModal('editSaleModal');
+                renderSales();
+                renderDashboard();
+            }
         });
         
         document.getElementById('newClientForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let clients = loadKey('clients');
+            const clients = DB.load('clients_new');
             clients.push({
-                id: `client_${Date.now()}`,
+                id: DB.getNextId('clients_new'),
                 name: document.getElementById('clientName').value,
-                address: document.getElementById('clientAddress').value,
+                place: document.getElementById('clientPlace').value,
                 contact: document.getElementById('clientContact').value,
+                notes: document.getElementById('clientNotes').value,
                 createdAt: new Date().toISOString()
             });
-            saveKey('clients', clients);
+            DB.save('clients_new', clients);
             hideModal('newClientModal');
+            document.getElementById('newClientForm').reset();
             renderClients();
+            fillSelectors();
         });
         
         document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let expenses = loadKey('expenses');
+            const expenses = DB.load('expenses_new');
             expenses.push({
-                id: `exp_${Date.now()}`,
+                id: DB.getNextId('expenses_new'),
                 date: document.getElementById('expenseDate').value,
+                name: document.getElementById('expenseName').value,
+                amount: parseInt(document.getElementById('expenseAmount').value),
                 category: document.getElementById('expenseCategory').value,
-                detail: document.getElementById('expenseDetail').value,
-                quantity: parseFloat(document.getElementById('expenseQty').value),
-                totalPrice: parseFloat(document.getElementById('expenseTotal').value)
+                notes: document.getElementById('expenseNotes').value,
+                createdAt: new Date().toISOString()
             });
-            saveKey('expenses', expenses);
+            DB.save('expenses_new', expenses);
             hideModal('newExpenseModal');
+            document.getElementById('newExpenseForm').reset();
             renderExpenses();
             renderDashboard();
         });
         
         document.getElementById('editExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let expenses = loadKey('expenses');
-            const id = document.getElementById('editExpenseId').value;
+            const id = parseInt(document.getElementById('editExpenseId').value);
+            let expenses = DB.load('expenses_new');
             const index = expenses.findIndex(e => e.id === id);
             if (index !== -1) {
                 expenses[index] = {
                     ...expenses[index],
                     date: document.getElementById('editExpenseDate').value,
+                    name: document.getElementById('editExpenseName').value,
+                    amount: parseInt(document.getElementById('editExpenseAmount').value),
                     category: document.getElementById('editExpenseCategory').value,
-                    detail: document.getElementById('editExpenseDetail').value,
-                    quantity: parseFloat(document.getElementById('editExpenseQty').value),
-                    totalPrice: parseFloat(document.getElementById('editExpenseTotal').value)
+                    notes: document.getElementById('editExpenseNotes').value
                 };
-                saveKey('expenses', expenses);
+                DB.save('expenses_new', expenses);
                 hideModal('editExpenseModal');
                 renderExpenses();
                 renderDashboard();
@@ -1233,28 +1237,24 @@
         
         document.getElementById('newAchievementForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            let achievements = loadKey('achievements');
+            const achievements = DB.load('achievements_new');
             achievements.push({
-                id: `ach_${Date.now()}`,
-                date: new Date().toISOString().slice(0,10),
+                id: DB.getNextId('achievements_new'),
+                date: document.getElementById('achievementDate').value,
                 description: document.getElementById('achievementDesc').value,
-                category: document.getElementById('achievementCat').value
+                category: document.getElementById('achievementCategory').value,
+                createdAt: new Date().toISOString()
             });
-            saveKey('achievements', achievements);
+            DB.save('achievements_new', achievements);
             hideModal('newAchievementModal');
-            renderReports();
+            document.getElementById('newAchievementForm').reset();
+            renderAchievements();
         });
         
-        function fillSelectors() {
-            const clients = loadKey('clients');
-            const clientSelect = document.getElementById('orderClient');
-            if (clientSelect) clientSelect.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        }
-        
+        // ==================== НАВИГАЦИЯ ====================
         window.showModal = (id) => { fillSelectors(); document.getElementById(id).style.display = 'block'; };
         window.hideModal = (id) => document.getElementById(id).style.display = 'none';
         
-        // ==================== НАВИГАЦИЯ ====================
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1264,10 +1264,10 @@
                 document.getElementById(section).classList.add('active');
                 if (section === 'dashboard') renderDashboard();
                 if (section === 'batches') renderBatches();
-                if (section === 'orders') renderOrders();
+                if (section === 'sales') renderSales();
                 if (section === 'clients') renderClients();
                 if (section === 'expenses') renderExpenses();
-                if (section === 'reports') renderReports();
+                if (section === 'achievements') renderAchievements();
             });
         });
         
@@ -1276,10 +1276,11 @@
         // Стартовый рендер
         renderDashboard();
         renderBatches();
-        renderOrders();
+        renderSales();
         renderClients();
         renderExpenses();
-        renderReports();
+        renderAchievements();
+        fillSelectors();
     </script>
 </body>
 </html>
