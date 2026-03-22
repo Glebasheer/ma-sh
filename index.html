@@ -18,10 +18,8 @@
             --primary-dark: #1B5E20;
             --primary-light: #4CAF50;
             --primary-bg: #E8F5E9;
-            --accent: #FF9800;
             --danger: #C62828;
             --danger-bg: #FFEBEE;
-            --success: #2E7D32;
             --text: #1A3A1A;
             --text-secondary: #6B8C6B;
             --bg: #F5FBF5;
@@ -285,6 +283,7 @@
         }
         .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .hint-text { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+        .total-income { font-size: 14px; font-weight: 600; color: var(--primary); margin-top: 8px; text-align: center; }
     </style>
 </head>
 <body>
@@ -335,6 +334,7 @@
     <section id="sales" class="section">
         <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
         <div id="salesList"></div>
+        <div class="total-income" id="totalIncomeDisplay"></div>
     </section>
 
     <section id="clients" class="section">
@@ -396,27 +396,9 @@
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
     <script>
-        // ==================== ДАННЫЕ ====================
-        const STORAGE_KEYS = {
-            parties: 'vitaray_parties',
-            sales: 'vitaray_sales',
-            clients: 'vitaray_clients',
-            expenses: 'vitaray_expenses',
-            achievements: 'vitaray_achievements',
-            cultures: 'vitaray_cultures'
-        };
-
-        // БИБЛИОТЕКА КУЛЬТУР
-        const DEFAULT_CULTURES = {
-            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов\n2. Посеять на влажный джут\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
-            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов\n2. Посеять на влажный джут\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
-            "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, normPro: 6, seedPrice: 2.5, daysToReady: 7, instructions: "1. Замочить на 3–4 часа\n2. Посеять на влажный джут\n3. В темноте 1–2 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 5–8 день" },
-            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
-            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день" },
-            "соя": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.44, daysToReady: 6, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" }
-        };
-
-        // КЛИЕНТЫ (из ваших скриншотов)
+        // ==================== ВСЕ ДАННЫЕ ИЗ ВАШИХ СКРИНШОТОВ ====================
+        
+        // КЛИЕНТЫ (25 уникальных)
         const DEFAULT_CLIENTS = [
             { id: 'c1', name: 'ЯМАНАСИ', place: 'Ул красных Партизан 1/4к9', contact: 'Анатолий' },
             { id: 'c2', name: 'Ежкин кот', place: 'КП 1/4к9', contact: '+7 989 228 4153, Елизавета' },
@@ -445,10 +427,10 @@
             { id: 'c25', name: 'Екатерина', place: 'Дальний проезд 3', contact: '89182860856' }
         ];
 
-        // ВСЕ ПРОДАЖИ ИЗ ВАШИХ СКРИНШОТОВ (синхронизировано!)
+        // ВСЕ ПРОДАЖИ (96 продаж, общая сумма 15,463 ₽)
         const DEFAULT_SALES = [
-            // Ноябрь 2025
-            { id: 's1', clientId: 'c8', date: '2025-11-09', culture: 'маш', weight: 1200, amount: 600, paid: true },
+            // Ноябрь 2025 (38 продаж)
+            { id: 's1', clientId: 'c25', date: '2025-11-09', culture: 'маш', weight: 1200, amount: 600, paid: true },
             { id: 's2', clientId: 'c9', date: '2025-11-12', culture: 'маш', weight: 150, amount: 150, paid: true },
             { id: 's3', clientId: 'c3', date: '2025-11-13', culture: 'маш', weight: 150, amount: 100, paid: true },
             { id: 's4', clientId: 'c24', date: '2025-11-13', culture: 'маш', weight: 150, amount: 45, paid: true },
@@ -486,6 +468,7 @@
             { id: 's36', clientId: 'c13', date: '2025-11-27', culture: 'нут', weight: 50, amount: 80, paid: true },
             { id: 's37', clientId: 'c5', date: '2025-11-27', culture: 'маш', weight: 100, amount: 80, paid: true },
             { id: 's38', clientId: 'c4', date: '2025-11-28', culture: 'маш', weight: 100, amount: 100, paid: true },
+            // Декабрь 2025 (49 продаж)
             { id: 's39', clientId: 'c7', date: '2025-12-01', culture: 'маш', weight: 200, amount: 200, paid: true },
             { id: 's40', clientId: 'c11', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
             { id: 's41', clientId: 'c6', date: '2025-12-01', culture: 'маш', weight: 300, amount: 200, paid: true },
@@ -511,43 +494,44 @@
             { id: 's61', clientId: 'c10', date: '2025-12-08', culture: 'маш', weight: 300, amount: 240, paid: true },
             { id: 's62', clientId: 'c11', date: '2025-12-08', culture: 'нут', weight: 100, amount: 50, paid: true },
             { id: 's63', clientId: 'c7', date: '2025-12-08', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's64', clientId: 'c10', date: '2025-12-12', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's65', clientId: 'c11', date: '2025-12-12', culture: 'нут', weight: 100, amount: 50, paid: true },
-            { id: 's66', clientId: 'c8', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's67', clientId: 'c7', date: '2025-12-12', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's68', clientId: 'c14', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's69', clientId: 'c1', date: '2025-12-13', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's70', clientId: 'c3', date: '2025-12-15', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's71', clientId: 'c6', date: '2025-12-15', culture: 'маш', weight: 400, amount: 360, paid: true },
-            { id: 's72', clientId: 'c6', date: '2025-12-17', culture: 'маш', weight: 200, amount: 100, paid: true },
-            { id: 's73', clientId: 'c5', date: '2025-12-17', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's74', clientId: 'c10', date: '2025-12-17', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's75', clientId: 'c6', date: '2025-12-19', culture: 'маш', weight: 200, amount: 400, paid: true },
-            { id: 's76', clientId: 'c7', date: '2025-12-19', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's77', clientId: 'c8', date: '2025-12-19', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's78', clientId: 'c1', date: '2025-12-20', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's79', clientId: 'c3', date: '2025-12-24', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's80', clientId: 'c7', date: '2025-12-24', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's81', clientId: 'c4', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's82', clientId: 'c5', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's83', clientId: 'c1', date: '2025-12-24', culture: 'маш', weight: 200, amount: 100, paid: true },
-            { id: 's84', clientId: 'c6', date: '2025-12-26', culture: 'маш', weight: 500, amount: 400, paid: true },
-            { id: 's85', clientId: 'c5', date: '2025-12-29', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's86', clientId: 'c1', date: '2025-12-31', culture: 'маш', weight: 300, amount: 300, paid: true },
-            // Январь 2026
-            { id: 's87', clientId: 'c1', date: '2026-01-09', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's88', clientId: 'c1', date: '2026-01-15', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's89', clientId: 'c6', date: '2026-01-15', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's90', clientId: 'c6', date: '2026-01-15', culture: 'нут', weight: 300, amount: 200, paid: true },
-            { id: 's91', clientId: 'c1', date: '2026-01-23', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's92', clientId: 'c3', date: '2026-01-31', culture: 'маш', weight: 43, amount: 43, paid: true },
-            // Март 2026
-            { id: 's93', clientId: 'c3', date: '2026-03-17', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's94', clientId: 'c4', date: '2026-03-17', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's95', clientId: 'c1', date: '2026-03-20', culture: 'маш', weight: 1170, amount: 1170, paid: true }
+            { id: 's64', clientId: 'c12', date: '2025-12-10', culture: 'маш', weight: 200, amount: 160, paid: true },
+            { id: 's65', clientId: 'c10', date: '2025-12-12', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's66', clientId: 'c11', date: '2025-12-12', culture: 'нут', weight: 100, amount: 50, paid: true },
+            { id: 's67', clientId: 'c8', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's68', clientId: 'c7', date: '2025-12-12', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's69', clientId: 'c14', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's70', clientId: 'c1', date: '2025-12-13', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's71', clientId: 'c3', date: '2025-12-15', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's72', clientId: 'c6', date: '2025-12-15', culture: 'маш', weight: 400, amount: 360, paid: true },
+            { id: 's73', clientId: 'c6', date: '2025-12-17', culture: 'маш', weight: 200, amount: 100, paid: true },
+            { id: 's74', clientId: 'c5', date: '2025-12-17', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's75', clientId: 'c10', date: '2025-12-17', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's76', clientId: 'c6', date: '2025-12-19', culture: 'маш', weight: 200, amount: 400, paid: true },
+            { id: 's77', clientId: 'c7', date: '2025-12-19', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's78', clientId: 'c8', date: '2025-12-19', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's79', clientId: 'c1', date: '2025-12-20', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's80', clientId: 'c3', date: '2025-12-24', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's81', clientId: 'c7', date: '2025-12-24', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's82', clientId: 'c4', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's83', clientId: 'c5', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's84', clientId: 'c1', date: '2025-12-24', culture: 'маш', weight: 200, amount: 100, paid: true },
+            { id: 's85', clientId: 'c6', date: '2025-12-26', culture: 'маш', weight: 500, amount: 400, paid: true },
+            { id: 's86', clientId: 'c5', date: '2025-12-29', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's87', clientId: 'c1', date: '2025-12-31', culture: 'маш', weight: 300, amount: 300, paid: true },
+            // Январь 2026 (6 продаж)
+            { id: 's88', clientId: 'c1', date: '2026-01-09', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's89', clientId: 'c1', date: '2026-01-15', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's90', clientId: 'c6', date: '2026-01-15', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's91', clientId: 'c6', date: '2026-01-15', culture: 'нут', weight: 300, amount: 200, paid: true },
+            { id: 's92', clientId: 'c1', date: '2026-01-23', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's93', clientId: 'c3', date: '2026-01-31', culture: 'маш', weight: 43, amount: 43, paid: true },
+            // Март 2026 (3 продажи)
+            { id: 's94', clientId: 'c3', date: '2026-03-17', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's95', clientId: 'c4', date: '2026-03-17', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's96', clientId: 'c1', date: '2026-03-20', culture: 'маш', weight: 1170, amount: 1170, paid: true }
         ];
 
-        // ДОСТИЖЕНИЯ
+        // ДОСТИЖЕНИЯ (9 штук)
         const DEFAULT_ACHIEVEMENTS = [
             { id: 'a1', date: '2025-11-06', description: 'Рождение бизнес-идеи по производству маша', category: 'Производство' },
             { id: 'a2', date: '2025-11-07', description: 'Приобрела первый маш (нашла в Фермере)', category: 'Производство' },
@@ -582,26 +566,33 @@
             { id: 'e18', date: '2026-03-01', name: 'Соя 200 г', amount: 88, category: 'Семена' }
         ];
 
+        // КУЛЬТУРЫ
+        const DEFAULT_CULTURES = {
+            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов\n2. Посеять на влажный джут\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
+            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов\n2. Посеять на влажный джут\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
+            "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, normPro: 6, seedPrice: 2.5, daysToReady: 7, instructions: "1. Замочить на 3–4 часа\n2. Посеять на влажный джут\n3. В темноте 1–2 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 5–8 день" },
+            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
+            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день" },
+            "соя": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.44, daysToReady: 6, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" }
+        };
+
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
+        const STORAGE_KEYS = {
+            parties: 'vitaray_parties',
+            sales: 'vitaray_sales',
+            clients: 'vitaray_clients',
+            expenses: 'vitaray_expenses',
+            achievements: 'vitaray_achievements',
+            cultures: 'vitaray_cultures'
+        };
+
         function initData() {
-            if (!localStorage.getItem(STORAGE_KEYS.cultures)) {
-                localStorage.setItem(STORAGE_KEYS.cultures, JSON.stringify(DEFAULT_CULTURES));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.clients)) {
-                localStorage.setItem(STORAGE_KEYS.clients, JSON.stringify(DEFAULT_CLIENTS));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.sales)) {
-                localStorage.setItem(STORAGE_KEYS.sales, JSON.stringify(DEFAULT_SALES));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.achievements)) {
-                localStorage.setItem(STORAGE_KEYS.achievements, JSON.stringify(DEFAULT_ACHIEVEMENTS));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.expenses)) {
-                localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(DEFAULT_EXPENSES));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.parties)) {
-                localStorage.setItem(STORAGE_KEYS.parties, JSON.stringify([]));
-            }
+            if (!localStorage.getItem(STORAGE_KEYS.cultures)) localStorage.setItem(STORAGE_KEYS.cultures, JSON.stringify(DEFAULT_CULTURES));
+            if (!localStorage.getItem(STORAGE_KEYS.clients)) localStorage.setItem(STORAGE_KEYS.clients, JSON.stringify(DEFAULT_CLIENTS));
+            if (!localStorage.getItem(STORAGE_KEYS.sales)) localStorage.setItem(STORAGE_KEYS.sales, JSON.stringify(DEFAULT_SALES));
+            if (!localStorage.getItem(STORAGE_KEYS.achievements)) localStorage.setItem(STORAGE_KEYS.achievements, JSON.stringify(DEFAULT_ACHIEVEMENTS));
+            if (!localStorage.getItem(STORAGE_KEYS.expenses)) localStorage.setItem(STORAGE_KEYS.expenses, JSON.stringify(DEFAULT_EXPENSES));
+            if (!localStorage.getItem(STORAGE_KEYS.parties)) localStorage.setItem(STORAGE_KEYS.parties, JSON.stringify([]));
         }
 
         function loadKey(key) { return JSON.parse(localStorage.getItem(key)) || []; }
@@ -616,9 +607,7 @@
 
         function getStagesForCulture(culture, cultures) {
             const cult = cultures[culture];
-            if (cult?.type === 'microgreen') {
-                return ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka'];
-            }
+            if (cult?.type === 'microgreen') return ['zomachivanie', 'posev', 'v_temi', 'pod_lampoy', 'srezka'];
             return ['zomachivanie', 'posev', 'sbor'];
         }
 
@@ -654,14 +643,12 @@
         function generateTasks() {
             const parties = loadKey(STORAGE_KEYS.parties);
             const cultures = getCultures();
-            const morning = [];
-            const evening = [];
+            const morning = [], evening = [];
             const today = new Date().toISOString().slice(0, 10);
             
             parties.forEach(p => {
                 const cult = cultures[p.culture];
                 if (!cult) return;
-                
                 if (p.currentStage === 'v_temi' || p.currentStage === 'pod_lampoy') {
                     morning.push(`🌱 Проветрить ${p.culture} #${p.id.slice(-4)}`);
                     evening.push(`🌱 Проветрить ${p.culture} #${p.id.slice(-4)}`);
@@ -670,15 +657,11 @@
                     morning.push(`💧 Промыть ${p.culture} #${p.id.slice(-4)}`);
                     evening.push(`💧 Промыть ${p.culture} #${p.id.slice(-4)}`);
                 }
-                if (p.currentStage === 'srezka' || p.currentStage === 'sbor') {
-                    morning.push(`✂️ Срезать ${p.culture} #${p.id.slice(-4)}`);
-                }
+                if (p.currentStage === 'srezka' || p.currentStage === 'sbor') morning.push(`✂️ Срезать ${p.culture} #${p.id.slice(-4)}`);
                 if (p.currentStage === 'zomachivanie') {
                     const soakDate = new Date(p.createdAt);
                     const readyDate = new Date(soakDate.getTime() + 12 * 60 * 60 * 1000);
-                    if (readyDate.toISOString().slice(0, 10) === today) {
-                        evening.push(`🌱 Посеять ${p.culture} #${p.id.slice(-4)} (замачивание закончено)`);
-                    }
+                    if (readyDate.toISOString().slice(0, 10) === today) evening.push(`🌱 Посеять ${p.culture} #${p.id.slice(-4)} (замачивание закончено)`);
                 }
             });
             
@@ -738,9 +721,7 @@
                 saveKey(STORAGE_KEYS.parties, parties);
                 renderDashboard();
                 renderParties();
-            } else {
-                alert('🎉 Партия завершена!');
-            }
+            } else alert('🎉 Партия завершена!');
         };
 
         window.deleteParty = (id) => {
@@ -754,9 +735,11 @@
 
         function renderSales() {
             const sales = loadKey(STORAGE_KEYS.sales);
+            const totalIncome = sales.filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
             document.getElementById('salesList').innerHTML = sales.length ? sales.slice().reverse().map(s => `
                 <div class="card"><div class="card-header"><span class="card-title">💰 ${getClientName(s.clientId)}</span><span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.culture} • ${s.weight}г • ${s.amount}₽</div><div class="card-details">📅 ${s.date}</div><div class="flex-btns">${!s.paid ? `<button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ Оплатить</button>` : ''}<button class="btn-small btn-danger" onclick="deleteSale('${s.id}')">🗑️</button></div></div>
             `).join('') : '<div class="empty-state">Нет продаж</div>';
+            document.getElementById('totalIncomeDisplay').innerHTML = `💰 ВСЕГО ДОХОД: ${totalIncome}₽ (${sales.length} продаж)`;
         }
 
         window.toggleSalePaid = (id) => {
@@ -975,9 +958,12 @@
         fillSelectors();
         
         console.log('✅ Приложение загружено!');
+        const totalIncome = loadKey(STORAGE_KEYS.sales).filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
         console.log(`📊 Всего продаж: ${loadKey(STORAGE_KEYS.sales).length}`);
         console.log(`👥 Всего клиентов: ${loadKey(STORAGE_KEYS.clients).length}`);
-        console.log(`💰 Общая выручка: ${getFinancialStats().totalIncome}₽`);
+        console.log(`💰 Общая выручка: ${totalIncome}₽`);
+        console.log(`💸 Всего расходов: ${loadKey(STORAGE_KEYS.expenses).reduce((s, e) => s + e.amount, 0)}₽`);
+        console.log(`💎 Текущий баланс: ${totalIncome - loadKey(STORAGE_KEYS.expenses).reduce((s, e) => s + e.amount, 0)}₽`);
     </script>
 </body>
 </html>
