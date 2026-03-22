@@ -1,949 +1,4 @@
- <!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌱 Маш Булочки</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #F8FDF8;
-            color: #2E7D32;
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .date-display {
-            color: #81C784;
-            font-size: 16px;
-        }
-
-        .nav {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            background: #C8E6C9;
-            border: none;
-            padding: 15px 12px;
-            border-radius: 15px;
-            color: #2E7D32;
-            font-size: 14px;
-            cursor: pointer;
-            flex: 1;
-            min-width: 110px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .nav-btn.active {
-            background: #81C784;
-            color: white;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
-            border: 2px solid #E8F5E9;
-        }
-
-        .stat-number {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .btn {
-            background: #81C784;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 12px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px 0;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            background: #4CAF50;
-        }
-
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            margin: 15px 0;
-            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
-            border: 2px solid #E8F5E9;
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .card-title {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .status {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-soaking { background: #E3F2FD; color: #1976D2; }
-        .status-sprouting { background: #E8F5E9; color: #2E7D32; }
-        .status-peeling { background: #FFF3E0; color: #EF6C00; }
-        .status-blanching { background: #FCE4EC; color: #C2185B; }
-        .status-packing { background: #F3E5F5; color: #7B1FA2; }
-        .status-ready { background: #C8E6C9; color: #1B5E20; }
-
-        .card-details {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 10px;
-        }
-
-        .card-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .btn-small {
-            padding: 8px 12px;
-            font-size: 12px;
-            width: auto;
-        }
-
-        .btn-secondary {
-            background: #E8F5E9;
-            color: #2E7D32;
-            border: 2px solid #C8E6C9;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #666;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #E8F5E9;
-            border-radius: 10px;
-            font-size: 16px;
-            background: #F8FDF8;
-        }
-
-        .form-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 25px;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #81C784;
-        }
-
-        @media (max-width: 480px) {
-            .nav {
-                flex-direction: column;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>🌱 Маш Булочки</h1>
-        <div class="date-display" id="currentDate"></div>
-    </div>
-
-    <nav class="nav">
-        <button class="nav-btn active" data-section="dashboard">📊 Дашборд</button>
-        <button class="nav-btn" data-section="batches">📦 Партии</button>
-        <button class="nav-btn" data-section="sales">💰 Продажи</button>
-        <button class="nav-btn" data-section="clients">👥 Клиенты</button>
-        <button class="nav-btn" data-section="cups">🍵 Чаши</button>
-    </nav>
-
-    <!-- Дашборд -->
-    <section id="dashboard" class="section active">
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="totalBatches">0</div>
-                <div class="stat-label">Всего партий</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalProfit">0₽</div>
-                <div class="stat-label">Общая прибыль</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="activeBatches">0</div>
-                <div class="stat-label">Активные</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="totalClients">0</div>
-                <div class="stat-label">Клиенты</div>
-            </div>
-        </div>
-
-        <h3>🔄 Активные партии</h3>
-        <div id="activeBatchesList"></div>
-
-        <h3>💰 Последние продажи</h3>
-        <div id="recentSalesList"></div>
-    </section>
-
-    <!-- Партии -->
-    <section id="batches" class="section">
-        <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
-        <div id="batchesList"></div>
-    </section>
-
-    <!-- Продажи -->
-    <section id="sales" class="section">
-        <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
-        <div id="salesList"></div>
-    </section>
-
-    <!-- Клиенты -->
-    <section id="clients" class="section">
-        <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
-        <div id="clientsList"></div>
-    </section>
-
-    <!-- Чаши -->
-    <section id="cups" class="section">
-        <button class="btn" onclick="showModal('newCupModal')">🍵 Добавить чашу</button>
-        <div id="cupsList"></div>
-    </section>
-
-    <!-- Модальные окна -->
-    <div id="newBatchModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🎯 Новая партия</h3>
-                <button class="close-btn" onclick="hideModal('newBatchModal')">×</button>
-            </div>
-            <form id="newBatchForm">
-                <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="batchDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="batchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес сухого маша (г):</label>
-                    <input type="number" id="batchWeight" placeholder="500" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="batchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="batchNotes" placeholder="Особенности партии..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Создать партию</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">💰 Новая продажа</h3>
-                <button class="close-btn" onclick="hideModal('newSaleModal')">×</button>
-            </div>
-            <form id="newSaleForm">
-                <div class="form-group">
-                    <label>Партия:</label>
-                    <select id="saleBatch" required>
-                        <option value="">Выберите партию</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <select id="saleClient" required>
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата продажи:</label>
-                    <input type="date" id="saleDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес проданного маша (г):</label>
-                    <input type="number" id="saleWeight" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="plannedPrice" placeholder="40" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="actualPrice" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="saleNotes" placeholder="Особенности продажи..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newSaleModal')">Отмена</button>
-                    <button type="submit" class="btn">Записать продажу</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newClientModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">👥 Новый клиент</h3>
-                <button class="close-btn" onclick="hideModal('newClientModal')">×</button>
-            </div>
-            <form id="newClientForm">
-                <div class="form-group">
-                    <label>Имя клиента:</label>
-                    <input type="text" id="clientName" placeholder="Кафе Утро" required>
-                </div>
-                <div class="form-group">
-                    <label>Место:</label>
-                    <input type="text" id="clientPlace" placeholder="ул. Пушкина, 10">
-                </div>
-                <div class="form-group">
-                    <label>Контакт:</label>
-                    <input type="text" id="clientContact" placeholder="+7 999 123-45-67">
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="clientNotes" placeholder="Предпочтения клиента..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить клиента</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newCupModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">🍵 Новая чаша</h3>
-                <button class="close-btn" onclick="hideModal('newCupModal')">×</button>
-            </div>
-            <form id="newCupForm">
-                <div class="form-group">
-                    <label>Название чаши:</label>
-                    <input type="text" id="cupName" placeholder="Фиолетовая чаша" required>
-                </div>
-                <div class="form-group">
-                    <label>Объем чаши (г):</label>
-                    <input type="number" id="cupVolume" placeholder="77" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес маша в чаше (г):</label>
-                    <input type="number" id="cupMashWeight" placeholder="200" required>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newCupModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить чашу</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editBatchModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✏️ Редактировать партию</h3>
-                <button class="close-btn" onclick="hideModal('editBatchModal')">×</button>
-            </div>
-            <form id="editBatchForm">
-                <input type="hidden" id="editBatchId">
-                <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="editBatchDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="editBatchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="editBatchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="editBatchNotes"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="deleteBatch()">Удалить</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('editBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        // База данных
-        const DB = {
-            save: function(key, data) {
-                localStorage.setItem(key, JSON.stringify(data));
-            },
-            load: function(key) {
-                return JSON.parse(localStorage.getItem(key)) || [];
-            },
-            getNextId: function(key) {
-                const items = this.load(key);
-                return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
-            }
-        };
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            initData();
-            updateCurrentDate();
-            setupEventListeners();
-            loadDashboard();
-            
-            // Установка сегодняшней даты по умолчанию
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('batchDate').value = today;
-            document.getElementById('saleDate').value = today;
-        });
-
-        function initData() {
-            if (!DB.load('batches').length) DB.save('batches', []);
-            if (!DB.load('sales').length) DB.save('sales', []);
-            if (!DB.load('clients').length) DB.save('clients', []);
-            if (!DB.load('cups').length) DB.save('cups', []);
-        }
-
-        function setupEventListeners() {
-            // Навигация
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                    this.classList.add('active');
-                    const sectionId = this.getAttribute('data-section');
-                    document.getElementById(sectionId).classList.add('active');
-                    loadSectionData(sectionId);
-                });
-            });
-
-            // Формы
-            document.getElementById('newBatchForm').addEventListener('submit', addBatch);
-            document.getElementById('newSaleForm').addEventListener('submit', addSale);
-            document.getElementById('newClientForm').addEventListener('submit', addClient);
-            document.getElementById('newCupForm').addEventListener('submit', addCup);
-            document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
-        }
-
-        function updateCurrentDate() {
-            const now = new Date();
-            const options = { day: 'numeric', month: 'long', year: 'numeric' };
-            document.getElementById('currentDate').textContent = now.toLocaleDateString('ru-RU', options);
-        }
-
-        function showModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            if (modalId === 'newSaleModal') {
-                fillBatchSelect();
-                fillClientSelect();
-            }
-        }
-
-        function hideModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-
-        function loadSectionData(sectionName) {
-            switch(sectionName) {
-                case 'dashboard': loadDashboard(); break;
-                case 'batches': loadBatches(); break;
-                case 'sales': loadSales(); break;
-                case 'clients': loadClients(); break;
-                case 'cups': loadCups(); break;
-            }
-        }
-
-        function loadDashboard() {
-            const batches = DB.load('batches');
-            const sales = DB.load('sales');
-            const clients = DB.load('clients');
-            
-            document.getElementById('totalBatches').textContent = batches.length;
-            document.getElementById('totalClients').textContent = clients.length;
-            document.getElementById('activeBatches').textContent = batches.filter(b => b.status !== 'Готово к отправке').length;
-            
-            const totalProfit = sales.reduce((sum, sale) => sum + (sale.actualPrice - sale.plannedPrice), 0);
-            document.getElementById('totalProfit').textContent = totalProfit + '₽';
-            
-            // Активные партии
-            const activeBatchesList = document.getElementById('activeBatchesList');
-            const activeBatches = batches.filter(b => b.status !== 'Готово к отправке').slice(0, 3);
-            
-            if (activeBatches.length === 0) {
-                activeBatchesList.innerHTML = '<div class="empty-state">Нет активных партий</div>';
-            } else {
-                activeBatchesList.innerHTML = activeBatches.map(batch => `
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">${batch.batchNumber}</div>
-                            <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
-                        </div>
-                        <div class="card-details">
-                            📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}
-                        </div>
-                    </div>
-                `).join('');
-            }
-            
-            // Последние продажи
-            const recentSalesList = document.getElementById('recentSalesList');
-            const recentSales = sales.slice(-2).reverse();
-            
-            if (recentSales.length === 0) {
-                recentSalesList.innerHTML = '<div class="empty-state">Нет продаж</div>';
-            } else {
-                recentSalesList.innerHTML = recentSales.map(sale => `
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">${sale.clientName}</div>
-                            <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice - sale.plannedPrice}₽</div>
-                        </div>
-                        <div class="card-details">
-                            📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ • 📅 ${sale.date}
-                        </div>
-                    </div>
-                `).join('');
-            }
-        }
-
-        function getStatusClass(status) {
-            const statusMap = {
-                'Замачивание': 'soaking',
-                'Проращивание': 'sprouting',
-                'Шелушение': 'peeling',
-                'Бланширование': 'blanching',
-                'Фасовка': 'packing',
-                'Готово к отправке': 'ready'
-            };
-            return statusMap[status] || 'sprouting';
-        }
-
-        function loadBatches() {
-            const batches = DB.load('batches');
-            const batchesList = document.getElementById('batchesList');
-            
-            if (batches.length === 0) {
-                batchesList.innerHTML = '<div class="empty-state">Нет созданных партий</div>';
-                return;
-            }
-            
-            batchesList.innerHTML = batches.map(batch => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${batch.batchNumber}</div>
-                        <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
-                    </div>
-                    <div class="card-details">
-                        📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}
-                    </div>
-                    ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
-                    <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addBatch(e) {
-            e.preventDefault();
-            
-            const batch = {
-                id: DB.getNextId('batches'),
-                batchNumber: `Партия #${DB.getNextId('batches')}`,
-                date: document.getElementById('batchDate').value,
-                time: document.getElementById('batchTime').value,
-                dryWeight: parseInt(document.getElementById('batchWeight').value),
-                status: document.getElementById('batchStatus').value,
-                notes: document.getElementById('batchNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const batches = DB.load('batches');
-            batches.push(batch);
-            DB.save('batches', batches);
-            
-            hideModal('newBatchModal');
-            document.getElementById('newBatchForm').reset();
-            loadDashboard();
-            loadBatches();
-            
-            alert('✅ Партия создана!');
-        }
-
-        function editBatch(id) {
-            const batches = DB.load('batches');
-            const batch = batches.find(b => b.id === id);
-            
-            if (batch) {
-                document.getElementById('editBatchId').value = batch.id;
-                document.getElementById('editBatchDate').value = batch.date;
-                document.getElementById('editBatchTime').value = batch.time;
-                document.getElementById('editBatchStatus').value = batch.status;
-                document.getElementById('editBatchNotes').value = batch.notes || '';
-                
-                showModal('editBatchModal');
-            }
-        }
-
-        function updateBatch(e) {
-            e.preventDefault();
-            
-            const id = parseInt(document.getElementById('editBatchId').value);
-            const batches = DB.load('batches');
-            const batchIndex = batches.findIndex(b => b.id === id);
-            
-            if (batchIndex !== -1) {
-                batches[batchIndex].date = document.getElementById('editBatchDate').value;
-                batches[batchIndex].time = document.getElementById('editBatchTime').value;
-                batches[batchIndex].status = document.getElementById('editBatchStatus').value;
-                batches[batchIndex].notes = document.getElementById('editBatchNotes').value;
-                
-                DB.save('batches', batches);
-                hideModal('editBatchModal');
-                loadDashboard();
-                loadBatches();
-                
-                alert('✅ Партия обновлена!');
-            }
-        }
-
-        function deleteBatch() {
-            if (!confirm('🗑️ Удалить эту партию?')) return;
-            
-            const id = parseInt(document.getElementById('editBatchId').value);
-            const batches = DB.load('batches');
-            const filteredBatches = batches.filter(b => b.id !== id);
-            
-            DB.save('batches', filteredBatches);
-            hideModal('editBatchModal');
-            loadDashboard();
-            loadBatches();
-            
-            alert('✅ Партия удалена!');
-        }
-
-        function fillBatchSelect() {
-            const batches = DB.load('batches');
-            const select = document.getElementById('saleBatch');
-            select.innerHTML = '<option value="">Выберите партию</option>' +
-                batches.map(batch => `<option value="${batch.id}">${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
-        }
-
-        function fillClientSelect() {
-            const clients = DB.load('clients');
-            const select = document.getElementById('saleClient');
-            select.innerHTML = '<option value="">Выберите клиента</option>' +
-                clients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
-        }
-
-        function addSale(e) {
-            e.preventDefault();
-            
-            const batchId = parseInt(document.getElementById('saleBatch').value);
-            const clientId = parseInt(document.getElementById('saleClient').value);
-            const batches = DB.load('batches');
-            const clients = DB.load('clients');
-            
-            const batch = batches.find(b => b.id === batchId);
-            const client = clients.find(c => c.id === clientId);
-            
-            if (!batch || !client) {
-                alert('❌ Выберите партию и клиента!');
-                return;
-            }
-            
-            const sale = {
-                id: DB.getNextId('sales'),
-                batchId: batchId,
-                clientId: clientId,
-                batchNumber: batch.batchNumber,
-                clientName: client.name,
-                date: document.getElementById('saleDate').value,
-                weight: parseInt(document.getElementById('saleWeight').value),
-                plannedPrice: parseInt(document.getElementById('plannedPrice').value),
-                actualPrice: parseInt(document.getElementById('actualPrice').value),
-                notes: document.getElementById('saleNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const sales = DB.load('sales');
-            sales.push(sale);
-            DB.save('sales', sales);
-            
-            hideModal('newSaleModal');
-            document.getElementById('newSaleForm').reset();
-            loadDashboard();
-            loadSales();
-            
-            alert('✅ Продажа записана!');
-        }
-
-        function loadSales() {
-            const sales = DB.load('sales');
-            const salesList = document.getElementById('salesList');
-            
-            if (sales.length === 0) {
-                salesList.innerHTML = '<div class="empty-state">Нет записанных продаж</div>';
-                return;
-            }
-            
-            salesList.innerHTML = sales.map(sale => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${sale.clientName}</div>
-                        <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice - sale.plannedPrice}₽</div>
-                    </div>
-                    <div class="card-details">
-                        📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}
-                    </div>
-                    <div class="card-details">
-                        🏷️ ${sale.batchNumber}
-                    </div>
-                    ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function addClient(e) {
-            e.preventDefault();
-            
-            const client = {
-                id: DB.getNextId('clients'),
-                name: document.getElementById('clientName').value,
-                place: document.getElementById('clientPlace').value,
-                contact: document.getElementById('clientContact').value,
-                notes: document.getElementById('clientNotes').value,
-                createdAt: new Date().toISOString()
-            };
-            
-            const clients = DB.load('clients');
-            clients.push(client);
-            DB.save('clients', clients);
-            
-            hideModal('newClientModal');
-            document.getElementById('newClientForm').reset();
-            loadDashboard();
-            loadClients();
-            
-            alert('✅ Клиент добавлен!');
-        }
-
-        function loadClients() {
-            const clients = DB.load('clients');
-            const clientsList = document.getElementById('clientsList');
-            
-            if (clients.length === 0) {
-                clientsList.innerHTML = '<div class="empty-state">Нет добавленных клиентов</div>';
-                return;
-            }
-            
-            clientsList.innerHTML = clients.map(client => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${client.name}</div>
-                    </div>
-                    <div class="card-details">
-                        ${client.place ? `🏠 ${client.place}<br>` : ''}
-                        ${client.contact ? `📞 ${client.contact}<br>` : ''}
-                        📅 Добавлен: ${new Date(client.createdAt).toLocaleDateString('ru-RU')}
-                    </div>
-                    ${client.notes ? `<div class="card-details">📝 ${client.notes}</div>` : ''}
-                </div>
-            `).join('');
-        }
-
-        function addCup(e) {
-            e.preventDefault();
-            
-            const cupVolume = parseInt(document.getElementById('cupVolume').value);
-            const mashWeight = parseInt(document.getElementById('cupMashWeight').value);
-            
-            const cup = {
-                id: DB.getNextId('cups'),
-                name: document.getElementById('cupName').value,
-                cupVolume: cupVolume,
-                mashWeight: mashWeight,
-                totalWeight: cupVolume + mashWeight,
-                createdAt: new Date().toISOString()
-            };
-            
-            const cups = DB.load('cups');
-            cups.push(cup);
-            DB.save('cups', cups);
-            
-            hideModal('newCupModal');
-            document.getElementById('newCupForm').reset();
-            loadCups();
-            
-            alert('✅ Чаша добавлена!');
-        }
-
-        function loadCups() {
-            const cups = DB.load('cups');
-            const cupsList = document.getElementById('cupsList');
-            
-            if (cups.length === 0) {
-                cupsList.innerHTML = '<div class="empty-state">Нет добавленных чаш</div>';
-                return;
-            }
-            
-            cupsList.innerHTML = cups.map(cup => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${cup.name}</div>
-                        <div>${cup.totalWeight}г</div>
-                    </div>
-                    <div class="card-details">
-                        🍵 Объем чаши: ${cup.cupVolume}г<br>
-                        🌱 Вес маша: ${cup.mashWeight}г<br>
-                        ⚖️ Общий вес: ${cup.totalWeight}г
-                    </div>
-                </div>
-            `).join('');
-        }
-    </script>
-</body>
-</html> файл index.html:<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -1068,13 +123,52 @@
         .card-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 10px;
         }
 
         .card-title {
             font-weight: 600;
             font-size: 16px;
+            flex: 1;
+        }
+
+        .status-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-left: 10px;
+        }
+
+        .status-btn {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .status-btn-paid {
+            background: #C8E6C9;
+            color: #1B5E20;
+        }
+
+        .status-btn-unpaid {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .status-btn-delivered {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .status-btn-pending {
+            background: #FFF3E0;
+            color: #EF6C00;
         }
 
         .status {
@@ -1232,19 +326,83 @@
             color: #666;
         }
 
+        .expenses-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .expense-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            border: 2px solid #FFEBEE;
+        }
+
+        .expense-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #C62828;
+            margin-bottom: 5px;
+        }
+
+        .expense-period {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .balance-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid #E8F5E9;
+            margin-bottom: 20px;
+        }
+
+        .balance-amount {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .balance-positive {
+            color: #2E7D32;
+        }
+
+        .balance-negative {
+            color: #C62828;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            color: #666;
+        }
+
         @media (max-width: 480px) {
             .nav {
                 flex-direction: column;
             }
-            .stats-grid, .finance-stats {
+            .stats-grid, .finance-stats, .expenses-stats {
                 grid-template-columns: 1fr;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .status-buttons {
+                margin-left: 0;
+                margin-top: 8px;
+                flex-direction: row;
             }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🌱 Маш Булочки</h1>
+        <h1>🌱 Производство</h1>
         <div class="date-display" id="currentDate"></div>
     </div>
 
@@ -1254,6 +412,8 @@
         <button class="nav-btn" data-section="orders">📋 Заказы</button>
         <button class="nav-btn" data-section="sales">💰 Продажи</button>
         <button class="nav-btn" data-section="clients">👥 Клиенты</button>
+        <button class="nav-btn" data-section="achievements">🏆 Достижения</button>
+        <button class="nav-btn" data-section="expenses">💸 Расходы</button>
     </nav>
 
     <!-- Дашборд -->
@@ -1277,7 +437,16 @@
             </div>
         </div>
 
+        <div class="balance-card">
+            <div class="balance-amount balance-positive" id="currentBalance">0₽</div>
+            <div class="balance-label">Текущий баланс</div>
+        </div>
+
         <div class="finance-stats">
+            <div class="finance-card">
+                <div class="finance-amount" id="dayProfit">0₽</div>
+                <div class="finance-period">За сегодня</div>
+            </div>
             <div class="finance-card">
                 <div class="finance-amount" id="weekProfit">0₽</div>
                 <div class="finance-period">За неделю</div>
@@ -1285,10 +454,6 @@
             <div class="finance-card">
                 <div class="finance-amount" id="monthProfit">0₽</div>
                 <div class="finance-period">За месяц</div>
-            </div>
-            <div class="finance-card">
-                <div class="finance-amount" id="yearProfit">0₽</div>
-                <div class="finance-period">За год</div>
             </div>
         </div>
 
@@ -1324,244 +489,118 @@
         <div id="clientsList"></div>
     </section>
 
+    <!-- Достижения -->
+    <section id="achievements" class="section">
+        <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
+        <div id="achievementsList"></div>
+    </section>
+
+    <!-- Расходы -->
+    <section id="expenses" class="section">
+        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
+        
+        <div class="balance-card">
+            <div class="balance-amount" id="expensesBalance">0₽</div>
+            <div class="balance-label">Баланс с учетом расходов</div>
+        </div>
+
+        <div class="expenses-stats">
+            <div class="expense-card">
+                <div class="expense-amount" id="dayExpenses">0₽</div>
+                <div class="expense-period">Расходы за сегодня</div>
+            </div>
+            <div class="expense-card">
+                <div class="expense-amount" id="weekExpenses">0₽</div>
+                <div class="expense-period">Расходы за неделю</div>
+            </div>
+            <div class="expense-card">
+                <div class="expense-amount" id="monthExpenses">0₽</div>
+                <div class="expense-period">Расходы за месяц</div>
+            </div>
+            <div class="expense-card">
+                <div class="expense-amount" id="totalExpenses">0₽</div>
+                <div class="expense-period">Всего расходов</div>
+            </div>
+        </div>
+
+        <h3>📋 Последние расходы</h3>
+        <div id="expensesList"></div>
+    </section>
+
     <!-- Модальные окна -->
-    <div id="newBatchModal" class="modal">
+    <!-- Существующие модальные окна остаются без изменений -->
+
+    <!-- Новое модальное окно для достижений -->
+    <div id="newAchievementModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">🎯 Новая партия</h3>
-                <button class="close-btn" onclick="hideModal('newBatchModal')">×</button>
+                <h3 class="modal-title">🏆 Новое достижение</h3>
+                <button class="close-btn" onclick="hideModal('newAchievementModal')">×</button>
             </div>
-            <form id="newBatchForm">
+            <form id="newAchievementForm">
                 <div class="form-group">
-                    <label>Номер партии:</label>
-                    <input type="text" id="batchNumber" placeholder="Партия #1" required>
+                    <label>Дата достижения:</label>
+                    <input type="date" id="achievementDate" required>
                 </div>
                 <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="batchDate" required>
+                    <label>Описание достижения:</label>
+                    <textarea id="achievementDescription" placeholder="Например: Побил рекорд по производству за день!" required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="batchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес сухого маша (г):</label>
-                    <input type="number" id="batchWeight" placeholder="500" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="batchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Сушка">Сушка</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
+                    <label>Категория:</label>
+                    <select id="achievementCategory">
+                        <option value="Производство">Производство</option>
+                        <option value="Продажи">Продажи</option>
+                        <option value="Клиенты">Клиенты</option>
+                        <option value="Личное">Личное</option>
+                        <option value="Финансы">Финансы</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="batchNotes" placeholder="Особенности партии..."></textarea>
-                </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Создать партию</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newAchievementModal')">Отмена</button>
+                    <button type="submit" class="btn">Добавить достижение</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <div id="newOrderModal" class="modal">
+    <!-- Новое модальное окно для расходов -->
+    <div id="newExpenseModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">📋 Новый заказ</h3>
-                <button class="close-btn" onclick="hideModal('newOrderModal')">×</button>
+                <h3 class="modal-title">💸 Новый расход</h3>
+                <button class="close-btn" onclick="hideModal('newExpenseModal')">×</button>
             </div>
-            <form id="newOrderForm">
+            <form id="newExpenseForm">
                 <div class="form-group">
-                    <label>Клиент:</label>
-                    <input type="text" id="orderClientSearch" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterOrderClientSelect()">
-                    <select id="orderClient" required style="margin-top: 10px;">
-                        <option value="">Выберите клиента</option>
-                    </select>
+                    <label>Дата расхода:</label>
+                    <input type="date" id="expenseDate" required>
                 </div>
                 <div class="form-group">
-                    <label>Дата заказа:</label>
-                    <input type="date" id="orderDate" required>
+                    <label>Наименование:</label>
+                    <input type="text" id="expenseName" placeholder="Например: Пакеты для упаковки" required>
                 </div>
                 <div class="form-group">
-                    <label>Вес маша (г):</label>
-                    <input type="number" id="orderWeight" placeholder="150" required>
+                    <label>Сумма (руб):</label>
+                    <input type="number" id="expenseAmount" placeholder="500" required>
                 </div>
                 <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="orderPlannedPrice" placeholder="400" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="orderActualPrice" placeholder="600" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="orderPaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Статус выдачи:</label>
-                    <select id="orderDeliveryStatus">
-                        <option value="Не выдан">Не выдан</option>
-                        <option value="Выдан">Выдан</option>
+                    <label>Категория:</label>
+                    <select id="expenseCategory">
+                        <option value="Материалы">Материалы</option>
+                        <option value="Упаковка">Упаковка</option>
+                        <option value="Транспорт">Транспорт</option>
+                        <option value="Коммунальные">Коммунальные</option>
+                        <option value="Прочее">Прочее</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Заметки:</label>
-                    <textarea id="orderNotes" placeholder="Особенности заказа..."></textarea>
+                    <textarea id="expenseNotes" placeholder="Дополнительная информация..."></textarea>
                 </div>
                 <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newOrderModal')">Отмена</button>
-                    <button type="submit" class="btn">Создать заказ</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">💰 Новая продажа</h3>
-                <button class="close-btn" onclick="hideModal('newSaleModal')">×</button>
-            </div>
-            <form id="newSaleForm">
-                <div class="form-group">
-                    <label>Партия:</label>
-                    <select id="saleBatch" required>
-                        <option value="">Выберите партию</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Клиент:</label>
-                    <input type="text" id="clientSearchSelect" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterClientSelect()">
-                    <select id="saleClient" required style="margin-top: 10px;">
-                        <option value="">Выберите клиента</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Дата продажи:</label>
-                    <input type="date" id="saleDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес проданного маша (г):</label>
-                    <input type="number" id="saleWeight" placeholder="150" required>
-                </div>
-                <div class="form-group">
-                    <label>Планируемая цена (руб):</label>
-                    <input type="number" id="plannedPrice" placeholder="400" required>
-                </div>
-                <div class="form-group">
-                    <label>Фактическая цена (руб):</label>
-                    <input type="number" id="actualPrice" placeholder="600" required>
-                </div>
-                <div class="form-group">
-                    <label>Статус оплаты:</label>
-                    <select id="salePaymentStatus">
-                        <option value="Не оплачен">Не оплачен</option>
-                        <option value="Оплачен">Оплачен</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="saleNotes" placeholder="Особенности продажи..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newSaleModal')">Отмена</button>
-                    <button type="submit" class="btn">Записать продажу</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newClientModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">👥 Новый клиент</h3>
-                <button class="close-btn" onclick="hideModal('newClientModal')">×</button>
-            </div>
-            <form id="newClientForm">
-                <div class="form-group">
-                    <label>Имя клиента:</label>
-                    <input type="text" id="clientName" placeholder="Кафе Утро" required>
-                </div>
-                <div class="form-group">
-                    <label>Место:</label>
-                    <input type="text" id="clientPlace" placeholder="ул. Пушкина, 10">
-                </div>
-                <div class="form-group">
-                    <label>Контакт:</label>
-                    <input type="text" id="clientContact" placeholder="+7 999 123-45-67">
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="clientNotes" placeholder="Предпочтения клиента..."></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
-                    <button type="submit" class="btn">Добавить клиента</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editBatchModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">✏️ Редактировать партию</h3>
-                <button class="close-btn" onclick="hideModal('editBatchModal')">×</button>
-            </div>
-            <form id="editBatchForm">
-                <input type="hidden" id="editBatchId">
-                <div class="form-group">
-                    <label>Номер партии:</label>
-                    <input type="text" id="editBatchNumber" required>
-                </div>
-                <div class="form-group">
-                    <label>Дата начала:</label>
-                    <input type="date" id="editBatchDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Время начала:</label>
-                    <input type="time" id="editBatchTime" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес сухого маша (г):</label>
-                    <input type="number" id="editBatchWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Вес после сушки (г):</label>
-                    <input type="number" id="editBatchDryWeight" placeholder="Автоматически">
-                </div>
-                <div class="form-group">
-                    <label>Статус:</label>
-                    <select id="editBatchStatus">
-                        <option value="Замачивание">Замачивание</option>
-                        <option value="Проращивание">Проращивание</option>
-                        <option value="Шелушение">Шелушение</option>
-                        <option value="Бланширование">Бланширование</option>
-                        <option value="Сушка">Сушка</option>
-                        <option value="Фасовка">Фасовка</option>
-                        <option value="Готово к отправке">Готово к отправке</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки:</label>
-                    <textarea id="editBatchNotes"></textarea>
-                </div>
-                <div class="form-actions">
-                    <button type="button" class="btn btn-secondary" onclick="deleteBatch()">Удалить</button>
-                    <button type="button" class="btn btn-secondary" onclick="hideModal('editBatchModal')">Отмена</button>
-                    <button type="submit" class="btn">Сохранить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newExpenseModal')">Отмена</button>
+                    <button type="submit" class="btn">Добавить расход</button>
                 </div>
             </form>
         </div>
@@ -1598,6 +637,8 @@
             document.getElementById('batchDate').value = today;
             document.getElementById('saleDate').value = today;
             document.getElementById('orderDate').value = today;
+            document.getElementById('achievementDate').value = today;
+            document.getElementById('expenseDate').value = today;
             
             console.log('🚀 Приложение загружено!');
         });
@@ -1615,6 +656,12 @@
             }
             if (!localStorage.getItem('orders')) {
                 localStorage.setItem('orders', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('achievements')) {
+                localStorage.setItem('achievements', JSON.stringify([]));
+            }
+            if (!localStorage.getItem('expenses')) {
+                localStorage.setItem('expenses', JSON.stringify([]));
             }
             console.log('💾 Local Storage инициализирован');
         }
@@ -1637,7 +684,11 @@
             document.getElementById('newOrderForm').addEventListener('submit', addOrder);
             document.getElementById('newSaleForm').addEventListener('submit', addSale);
             document.getElementById('newClientForm').addEventListener('submit', addClient);
+            document.getElementById('newAchievementForm').addEventListener('submit', addAchievement);
+            document.getElementById('newExpenseForm').addEventListener('submit', addExpense);
             document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
+            document.getElementById('editSaleForm').addEventListener('submit', updateSale);
+            document.getElementById('editOrderForm').addEventListener('submit', updateOrder);
         }
 
         function updateCurrentDate() {
@@ -1668,6 +719,8 @@
                 case 'orders': loadOrders(); break;
                 case 'sales': loadSales(); break;
                 case 'clients': loadClients(); break;
+                case 'achievements': loadAchievements(); break;
+                case 'expenses': loadExpenses(); break;
             }
         }
 
@@ -1676,6 +729,7 @@
             const sales = DB.load('sales');
             const clients = DB.load('clients');
             const orders = DB.load('orders');
+            const expenses = DB.load('expenses');
             
             document.getElementById('totalBatches').textContent = batches.length;
             document.getElementById('totalClients').textContent = clients.length;
@@ -1689,6 +743,13 @@
             
             // Прибыль за периоды (только оплаченные продажи)
             calculatePeriodProfit(sales);
+            
+            // Баланс (прибыль - расходы)
+            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const currentBalance = totalProfit - totalExpenses;
+            const balanceElement = document.getElementById('currentBalance');
+            balanceElement.textContent = currentBalance + '₽';
+            balanceElement.className = currentBalance >= 0 ? 'balance-amount balance-positive' : 'balance-amount balance-negative';
             
             // Активные партии
             const activeBatchesList = document.getElementById('activeBatchesList');
@@ -1734,27 +795,27 @@
         }
 
         function calculatePeriodProfit(sales) {
-            const now = new Date();
-            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-            const yearAgo = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
-            
-            const weekProfit = sales
-                .filter(sale => new Date(sale.date) >= weekAgo && sale.paymentStatus === 'Оплачен')
-                .reduce((sum, sale) => sum + sale.actualPrice, 0);
-                
-            const monthProfit = sales
-                .filter(sale => new Date(sale.date) >= monthAgo && sale.paymentStatus === 'Оплачен')
-                .reduce((sum, sale) => sum + sale.actualPrice, 0);
-                
-            const yearProfit = sales
-                .filter(sale => new Date(sale.date) >= yearAgo && sale.paymentStatus === 'Оплачен')
-                .reduce((sum, sale) => sum + sale.actualPrice, 0);
-            
-            document.getElementById('weekProfit').textContent = weekProfit + '₽';
-            document.getElementById('monthProfit').textContent = monthProfit + '₽';
-            document.getElementById('yearProfit').textContent = yearProfit + '₽';
-        }
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+    
+    const dayProfit = sales
+        .filter(sale => new Date(sale.date) >= today && sale.paymentStatus === 'Оплачен')
+        .reduce((sum, sale) => sum + sale.actualPrice, 0);
+        
+    const weekProfit = sales
+        .filter(sale => new Date(sale.date) >= weekAgo && sale.paymentStatus === 'Оплачен')
+        .reduce((sum, sale) => sum + sale.actualPrice, 0);
+        
+    const monthProfit = sales
+        .filter(sale => new Date(sale.date) >= monthAgo && sale.paymentStatus === 'Оплачен')
+        .reduce((sum, sale) => sum + sale.actualPrice, 0);
+    
+    document.getElementById('dayProfit').textContent = dayProfit + '₽';
+    document.getElementById('weekProfit').textContent = weekProfit + '₽';
+    document.getElementById('monthProfit').textContent = monthProfit + '₽';
+}
 
         function getStatusClass(status) {
             const statusMap = {
@@ -1772,6 +833,149 @@
             };
             return statusMap[status] || 'sprouting';
         }
+
+        // Функции для достижений
+        function loadAchievements() {
+            const achievements = DB.load('achievements');
+            const achievementsList = document.getElementById('achievementsList');
+            
+            if (achievements.length === 0) {
+                achievementsList.innerHTML = '<div class="empty-state">Нет достижений. Добавьте первое! 🏆</div>';
+                return;
+            }
+            
+            // Сортируем достижения - новые первыми
+            const sortedAchievements = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            achievementsList.innerHTML = sortedAchievements.map(achievement => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${achievement.category}</div>
+                        <div class="status status-ready">🏆</div>
+                    </div>
+                    <div class="card-details">
+                        ${achievement.description}<br>
+                        📅 ${achievement.date}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addAchievement(e) {
+            e.preventDefault();
+            
+            const achievement = {
+                id: DB.getNextId('achievements'),
+                date: document.getElementById('achievementDate').value,
+                description: document.getElementById('achievementDescription').value,
+                category: document.getElementById('achievementCategory').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            const achievements = DB.load('achievements');
+            achievements.push(achievement);
+            DB.save('achievements', achievements);
+            
+            hideModal('newAchievementModal');
+            document.getElementById('newAchievementForm').reset();
+            loadAchievements();
+            
+            alert('✅ Достижение добавлено!');
+        }
+
+        // Функции для расходов
+        function loadExpenses() {
+            const expenses = DB.load('expenses');
+            const sales = DB.load('sales');
+            const expensesList = document.getElementById('expensesList');
+            
+            // Рассчитываем баланс
+            const totalProfit = sales
+                .filter(sale => sale.paymentStatus === 'Оплачен')
+                .reduce((sum, sale) => sum + sale.actualPrice, 0);
+            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            const currentBalance = totalProfit - totalExpenses;
+            
+            const balanceElement = document.getElementById('expensesBalance');
+            balanceElement.textContent = currentBalance + '₽';
+            balanceElement.className = currentBalance >= 0 ? 'balance-amount balance-positive' : 'balance-amount balance-negative';
+            
+            // Рассчитываем расходы за периоды
+            calculatePeriodExpenses(expenses);
+            
+            if (expenses.length === 0) {
+                expensesList.innerHTML = '<div class="empty-state">Нет записей о расходах</div>';
+                return;
+            }
+            
+            // Сортируем расходы - новые первыми
+            const sortedExpenses = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            expensesList.innerHTML = sortedExpenses.slice(0, 5).map(expense => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${expense.name}</div>
+                        <div class="status status-unpaid">-${expense.amount}₽</div>
+                    </div>
+                    <div class="card-details">
+                        📅 ${expense.date} • 🏷️ ${expense.category}
+                        ${expense.notes ? `<br>📝 ${expense.notes}` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function calculatePeriodExpenses(expenses) {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            
+            const dayExpenses = expenses
+                .filter(expense => new Date(expense.date) >= today)
+                .reduce((sum, expense) => sum + expense.amount, 0);
+                
+            const weekExpenses = expenses
+                .filter(expense => new Date(expense.date) >= weekAgo)
+                .reduce((sum, expense) => sum + expense.amount, 0);
+                
+            const monthExpenses = expenses
+                .filter(expense => new Date(expense.date) >= monthAgo)
+                .reduce((sum, expense) => sum + expense.amount, 0);
+                
+            const totalExpenses = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+            
+            document.getElementById('dayExpenses').textContent = dayExpenses + '₽';
+            document.getElementById('weekExpenses').textContent = weekExpenses + '₽';
+            document.getElementById('monthExpenses').textContent = monthExpenses + '₽';
+            document.getElementById('totalExpenses').textContent = totalExpenses + '₽';
+        }
+
+        function addExpense(e) {
+            e.preventDefault();
+            
+            const expense = {
+                id: DB.getNextId('expenses'),
+                date: document.getElementById('expenseDate').value,
+                name: document.getElementById('expenseName').value,
+                amount: parseInt(document.getElementById('expenseAmount').value),
+                category: document.getElementById('expenseCategory').value,
+                notes: document.getElementById('expenseNotes').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            const expenses = DB.load('expenses');
+            expenses.push(expense);
+            DB.save('expenses', expenses);
+            
+            hideModal('newExpenseModal');
+            document.getElementById('newExpenseForm').reset();
+            loadExpenses();
+            loadDashboard();
+            
+            alert('✅ Расход добавлен!');
+        }
+
 
         function loadBatches() {
             const batches = DB.load('batches');
@@ -1906,9 +1110,15 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${order.clientName}</div>
-                        <div>
-                            <span class="status status-${order.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}">${order.paymentStatus}</span>
-                            <span class="status status-${order.deliveryStatus === 'Выдан' ? 'delivered' : 'pending'}" style="margin-left: 5px;">${order.deliveryStatus}</span>
+                        <div class="status-buttons">
+                            <button class="status-btn status-btn-${order.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
+                                    onclick="toggleOrderPayment(${order.id})">
+                                ${order.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
+                            </button>
+                            <button class="status-btn status-btn-${order.deliveryStatus === 'Выдан' ? 'delivered' : 'pending'}" 
+                                    onclick="toggleOrderDelivery(${order.id})">
+                                ${order.deliveryStatus === 'Выдан' ? '📦 Выдан' : '📦 Выдать'}
+                            </button>
                         </div>
                     </div>
                     <div class="card-details">
@@ -1918,12 +1128,7 @@
                     </div>
                     ${order.notes ? `<div class="card-details">📝 ${order.notes}</div>` : ''}
                     <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="toggleOrderPayment(${order.id})">
-                            ${order.paymentStatus === 'Оплачен' ? '❌ Отменить оплату' : '✅ Оплатить'}
-                        </button>
-                        <button class="btn btn-small btn-secondary" onclick="toggleOrderDelivery(${order.id})">
-                            ${order.deliveryStatus === 'Выдан' ? '❌ Отменить выдачу' : '📦 Выдать'}
-                        </button>
+                        <button class="btn btn-small btn-secondary" onclick="editOrder(${order.id})">✏️ Редактировать</button>
                     </div>
                 </div>
             `).join('');
@@ -1988,6 +1193,76 @@
                 DB.save('orders', orders);
                 loadOrders();
             }
+        }
+
+        function editOrder(orderId) {
+            const orders = DB.load('orders');
+            const order = orders.find(o => o.id === orderId);
+            const clients = DB.load('clients');
+            
+            if (order) {
+                document.getElementById('editOrderId').value = order.id;
+                document.getElementById('editOrderClient').value = order.clientId;
+                document.getElementById('editOrderDate').value = order.date;
+                document.getElementById('editOrderWeight').value = order.weight;
+                document.getElementById('editOrderPlannedPrice').value = order.plannedPrice;
+                document.getElementById('editOrderActualPrice').value = order.actualPrice;
+                document.getElementById('editOrderPaymentStatus').value = order.paymentStatus;
+                document.getElementById('editOrderDeliveryStatus').value = order.deliveryStatus;
+                document.getElementById('editOrderNotes').value = order.notes || '';
+                
+                // Заполняем селект клиентов
+                const clientSelect = document.getElementById('editOrderClient');
+                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
+                    clients.map(client => `<option value="${client.id}" ${client.id === order.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
+                
+                showModal('editOrderModal');
+            }
+        }
+
+        function updateOrder(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editOrderId').value);
+            const orders = DB.load('orders');
+            const orderIndex = orders.findIndex(o => o.id === id);
+            const clients = DB.load('clients');
+            
+            if (orderIndex !== -1) {
+                const client = clients.find(c => c.id === parseInt(document.getElementById('editOrderClient').value));
+                
+                orders[orderIndex].clientId = parseInt(document.getElementById('editOrderClient').value);
+                orders[orderIndex].clientName = client.name;
+                orders[orderIndex].date = document.getElementById('editOrderDate').value;
+                orders[orderIndex].weight = parseInt(document.getElementById('editOrderWeight').value);
+                orders[orderIndex].plannedPrice = parseInt(document.getElementById('editOrderPlannedPrice').value);
+                orders[orderIndex].actualPrice = parseInt(document.getElementById('editOrderActualPrice').value);
+                orders[orderIndex].paymentStatus = document.getElementById('editOrderPaymentStatus').value;
+                orders[orderIndex].deliveryStatus = document.getElementById('editOrderDeliveryStatus').value;
+                orders[orderIndex].notes = document.getElementById('editOrderNotes').value;
+                
+                DB.save('orders', orders);
+                hideModal('editOrderModal');
+                loadDashboard();
+                loadOrders();
+                
+                alert('✅ Заказ обновлен!');
+            }
+        }
+
+        function deleteOrder() {
+            if (!confirm('🗑️ Удалить этот заказ?')) return;
+            
+            const id = parseInt(document.getElementById('editOrderId').value);
+            const orders = DB.load('orders');
+            const filteredOrders = orders.filter(o => o.id !== id);
+            
+            DB.save('orders', filteredOrders);
+            hideModal('editOrderModal');
+            loadDashboard();
+            loadOrders();
+            
+            alert('✅ Заказ удален!');
         }
 
         function fillOrderClientSelect() {
@@ -2097,7 +1372,12 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${sale.clientName}</div>
-                        <div class="status status-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}">${sale.paymentStatus}</div>
+                        <div class="status-buttons">
+                            <button class="status-btn status-btn-${sale.paymentStatus === 'Оплачен' ? 'paid' : 'unpaid'}" 
+                                    onclick="toggleSalePayment(${sale.id})">
+                                ${sale.paymentStatus === 'Оплачен' ? '✅ Оплата' : '❌ Оплата'}
+                            </button>
+                        </div>
                     </div>
                     <div class="card-details">
                         📦 ${sale.weight}г<br>
@@ -2106,9 +1386,7 @@
                     </div>
                     ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
                     <div class="card-actions">
-                        <button class="btn btn-small btn-secondary" onclick="toggleSalePayment(${sale.id})">
-                            ${sale.paymentStatus === 'Оплачен' ? '❌ Отменить оплату' : '✅ Оплатить'}
-                        </button>
+                        <button class="btn btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button>
                     </div>
                 </div>
             `).join('');
@@ -2124,6 +1402,84 @@
                 loadSales();
                 loadDashboard();
             }
+        }
+
+        function editSale(saleId) {
+            const sales = DB.load('sales');
+            const sale = sales.find(s => s.id === saleId);
+            const batches = DB.load('batches');
+            const clients = DB.load('clients');
+            
+            if (sale) {
+                document.getElementById('editSaleId').value = sale.id;
+                document.getElementById('editSaleBatch').value = sale.batchId;
+                document.getElementById('editSaleClient').value = sale.clientId;
+                document.getElementById('editSaleDate').value = sale.date;
+                document.getElementById('editSaleWeight').value = sale.weight;
+                document.getElementById('editSalePlannedPrice').value = sale.plannedPrice;
+                document.getElementById('editSaleActualPrice').value = sale.actualPrice;
+                document.getElementById('editSalePaymentStatus').value = sale.paymentStatus;
+                document.getElementById('editSaleNotes').value = sale.notes || '';
+                
+                // Заполняем селекты
+                const batchSelect = document.getElementById('editSaleBatch');
+                batchSelect.innerHTML = '<option value="">Выберите партию</option>' +
+                    batches.map(batch => `<option value="${batch.id}" ${batch.id === sale.batchId ? 'selected' : ''}>${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
+                    
+                const clientSelect = document.getElementById('editSaleClient');
+                clientSelect.innerHTML = '<option value="">Выберите клиента</option>' +
+                    clients.map(client => `<option value="${client.id}" ${client.id === sale.clientId ? 'selected' : ''}>${client.name}</option>`).join('');
+                
+                showModal('editSaleModal');
+            }
+        }
+
+        function updateSale(e) {
+            e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editSaleId').value);
+            const sales = DB.load('sales');
+            const saleIndex = sales.findIndex(s => s.id === id);
+            const batches = DB.load('batches');
+            const clients = DB.load('clients');
+            
+            if (saleIndex !== -1) {
+                const batch = batches.find(b => b.id === parseInt(document.getElementById('editSaleBatch').value));
+                const client = clients.find(c => c.id === parseInt(document.getElementById('editSaleClient').value));
+                
+                sales[saleIndex].batchId = parseInt(document.getElementById('editSaleBatch').value);
+                sales[saleIndex].batchNumber = batch.batchNumber;
+                sales[saleIndex].clientId = parseInt(document.getElementById('editSaleClient').value);
+                sales[saleIndex].clientName = client.name;
+                sales[saleIndex].date = document.getElementById('editSaleDate').value;
+                sales[saleIndex].weight = parseInt(document.getElementById('editSaleWeight').value);
+                sales[saleIndex].plannedPrice = parseInt(document.getElementById('editSalePlannedPrice').value);
+                sales[saleIndex].actualPrice = parseInt(document.getElementById('editSaleActualPrice').value);
+                sales[saleIndex].paymentStatus = document.getElementById('editSalePaymentStatus').value;
+                sales[saleIndex].notes = document.getElementById('editSaleNotes').value;
+                
+                DB.save('sales', sales);
+                hideModal('editSaleModal');
+                loadDashboard();
+                loadSales();
+                
+                alert('✅ Продажа обновлена!');
+            }
+        }
+
+        function deleteSale() {
+            if (!confirm('🗑️ Удалить эту продажу?')) return;
+            
+            const id = parseInt(document.getElementById('editSaleId').value);
+            const sales = DB.load('sales');
+            const filteredSales = sales.filter(s => s.id !== id);
+            
+            DB.save('sales', filteredSales);
+            hideModal('editSaleModal');
+            loadDashboard();
+            loadSales();
+            
+            alert('✅ Продажа удалена!');
         }
 
         function addClient(e) {
@@ -2191,5 +1547,366 @@
             `).join('');
         }
     </script>
+        <!-- Модальное окно новой партии -->
+    <div id="newBatchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">🎯 Новая партия</h3>
+                <button class="close-btn" onclick="hideModal('newBatchModal')">×</button>
+            </div>
+            <form id="newBatchForm">
+                <div class="form-group">
+                    <label>Номер партии:</label>
+                    <input type="text" id="batchNumber" placeholder="Партия #1" required>
+                </div>
+                <div class="form-group">
+                    <label>Дата начала:</label>
+                    <input type="date" id="batchDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Время начала:</label>
+                    <input type="time" id="batchTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес сухого маша (г):</label>
+                    <input type="number" id="batchWeight" placeholder="500" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="batchStatus">
+                        <option value="Замачивание">Замачивание</option>
+                        <option value="Проращивание">Проращивание</option>
+                        <option value="Шелушение">Шелушение</option>
+                        <option value="Бланширование">Бланширование</option>
+                        <option value="Сушка">Сушка</option>
+                        <option value="Фасовка">Фасовка</option>
+                        <option value="Готово к отправке">Готово к отправке</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="batchNotes" placeholder="Особенности партии..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newBatchModal')">Отмена</button>
+                    <button type="submit" class="btn">Создать партию</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно нового заказа -->
+    <div id="newOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">📋 Новый заказ</h3>
+                <button class="close-btn" onclick="hideModal('newOrderModal')">×</button>
+            </div>
+            <form id="newOrderForm">
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <input type="text" id="orderClientSearch" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterOrderClientSelect()">
+                    <select id="orderClient" required style="margin-top: 10px;">
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата заказа:</label>
+                    <input type="date" id="orderDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес маша (г):</label>
+                    <input type="number" id="orderWeight" placeholder="150" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="orderPlannedPrice" placeholder="400" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="orderActualPrice" placeholder="600" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="orderPaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Статус выдачи:</label>
+                    <select id="orderDeliveryStatus">
+                        <option value="Не выдан">Не выдан</option>
+                        <option value="Выдан">Выдан</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="orderNotes" placeholder="Особенности заказа..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newOrderModal')">Отмена</button>
+                    <button type="submit" class="btn">Создать заказ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно новой продажи -->
+    <div id="newSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">💰 Новая продажа</h3>
+                <button class="close-btn" onclick="hideModal('newSaleModal')">×</button>
+            </div>
+            <form id="newSaleForm">
+                <div class="form-group">
+                    <label>Партия:</label>
+                    <select id="saleBatch" required>
+                        <option value="">Выберите партию</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <input type="text" id="clientSearchSelect" placeholder="🔍 Начните вводить имя клиента..." onkeyup="filterClientSelect()">
+                    <select id="saleClient" required style="margin-top: 10px;">
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата продажи:</label>
+                    <input type="date" id="saleDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес проданного маша (г):</label>
+                    <input type="number" id="saleWeight" placeholder="150" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="plannedPrice" placeholder="400" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="actualPrice" placeholder="600" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="salePaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="saleNotes" placeholder="Особенности продажи..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newSaleModal')">Отмена</button>
+                    <button type="submit" class="btn">Записать продажу</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно нового клиента -->
+    <div id="newClientModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">👥 Новый клиент</h3>
+                <button class="close-btn" onclick="hideModal('newClientModal')">×</button>
+            </div>
+            <form id="newClientForm">
+                <div class="form-group">
+                    <label>Имя клиента:</label>
+                    <input type="text" id="clientName" placeholder="Кафе Утро" required>
+                </div>
+                <div class="form-group">
+                    <label>Место:</label>
+                    <input type="text" id="clientPlace" placeholder="ул. Пушкина, 10">
+                </div>
+                <div class="form-group">
+                    <label>Контакт:</label>
+                    <input type="text" id="clientContact" placeholder="+7 999 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="clientNotes" placeholder="Предпочтения клиента..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
+                    <button type="submit" class="btn">Добавить клиента</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования партии -->
+    <div id="editBatchModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать партию</h3>
+                <button class="close-btn" onclick="hideModal('editBatchModal')">×</button>
+            </div>
+            <form id="editBatchForm">
+                <input type="hidden" id="editBatchId">
+                <div class="form-group">
+                    <label>Номер партии:</label>
+                    <input type="text" id="editBatchNumber" required>
+                </div>
+                <div class="form-group">
+                    <label>Дата начала:</label>
+                    <input type="date" id="editBatchDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Время начала:</label>
+                    <input type="time" id="editBatchTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес сухого маша (г):</label>
+                    <input type="number" id="editBatchWeight" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес после сушки (г):</label>
+                    <input type="number" id="editBatchDryWeight" placeholder="Автоматически">
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="editBatchStatus">
+                        <option value="Замачивание">Замачивание</option>
+                        <option value="Проращивание">Проращивание</option>
+                        <option value="Шелушение">Шелушение</option>
+                        <option value="Бланширование">Бланширование</option>
+                        <option value="Сушка">Сушка</option>
+                        <option value="Фасовка">Фасовка</option>
+                        <option value="Готово к отправке">Готово к отправке</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editBatchNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteBatch()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editBatchModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования продажи -->
+    <div id="editSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать продажу</h3>
+                <button class="close-btn" onclick="hideModal('editSaleModal')">×</button>
+            </div>
+            <form id="editSaleForm">
+                <input type="hidden" id="editSaleId">
+                <div class="form-group">
+                    <label>Партия:</label>
+                    <select id="editSaleBatch" required>
+                        <option value="">Выберите партию</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <select id="editSaleClient" required>
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата продажи:</label>
+                    <input type="date" id="editSaleDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес проданного маша (г):</label>
+                    <input type="number" id="editSaleWeight" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="editSalePlannedPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="editSaleActualPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="editSalePaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editSaleNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteSale()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editSaleModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно редактирования заказа -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать заказ</h3>
+                <button class="close-btn" onclick="hideModal('editOrderModal')">×</button>
+            </div>
+            <form id="editOrderForm">
+                <input type="hidden" id="editOrderId">
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <select id="editOrderClient" required>
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата заказа:</label>
+                    <input type="date" id="editOrderDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес маша (г):</label>
+                    <input type="number" id="editOrderWeight" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="editOrderPlannedPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="editOrderActualPrice" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус оплаты:</label>
+                    <select id="editOrderPaymentStatus">
+                        <option value="Не оплачен">Не оплачен</option>
+                        <option value="Оплачен">Оплачен</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Статус выдачи:</label>
+                    <select id="editOrderDeliveryStatus">
+                        <option value="Не выдан">Не выдан</option>
+                        <option value="Выдан">Выдан</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editOrderNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteOrder()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editOrderModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
-</html> 
+</html>
