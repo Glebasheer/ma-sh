@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
     <meta name="theme-color" content="#2E7D32">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>🌱 VITARAY — Управление производством</title>
     <style>
         * {
@@ -30,7 +28,6 @@
             --card: #FFFFFF;
             --border: #E8F5E9;
             --shadow: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-hover: 0 4px 16px rgba(0,0,0,0.08);
         }
 
         body {
@@ -47,43 +44,18 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
         .animate-fade { animation: fadeIn 0.3s ease; }
-        .animate-slide { animation: slideUp 0.3s ease; }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             padding: 20px 16px;
             border-radius: 0 0 28px 28px;
             color: white;
             margin-bottom: 16px;
-            box-shadow: 0 4px 12px rgba(46,125,50,0.2);
         }
-        .header h1 {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .date-display {
-            font-size: 13px;
-            opacity: 0.9;
-            margin-top: 6px;
-        }
+        .header h1 { font-size: 26px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .date-display { font-size: 13px; opacity: 0.9; margin-top: 6px; }
 
-        /* Navigation */
         .nav {
             display: flex;
             gap: 6px;
@@ -104,21 +76,18 @@
             color: var(--primary);
             white-space: nowrap;
             box-shadow: var(--shadow);
-            transition: all 0.2s;
             cursor: pointer;
+            transition: all 0.2s;
         }
         .nav-btn.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
-            box-shadow: 0 4px 12px rgba(46,125,50,0.3);
         }
         .nav-btn:active { transform: scale(0.96); }
 
-        /* Sections */
         .section { display: none; padding: 0 12px; }
         .section.active { display: block; animation: fadeIn 0.3s ease; }
 
-        /* Cards */
         .card {
             background: var(--card);
             border-radius: 20px;
@@ -126,9 +95,7 @@
             margin-bottom: 12px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            transition: all 0.2s;
         }
-        .card:active { transform: scale(0.99); }
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -137,20 +104,9 @@
             flex-wrap: wrap;
             gap: 8px;
         }
-        .card-title {
-            font-weight: 700;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .card-details {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin: 6px 0;
-        }
+        .card-title { font-weight: 700; font-size: 16px; }
+        .card-details { font-size: 13px; color: var(--text-secondary); margin: 6px 0; }
 
-        /* Progress Bar */
         .progress-bar {
             background: var(--primary-bg);
             border-radius: 20px;
@@ -166,7 +122,6 @@
             transition: width 0.5s ease;
         }
 
-        /* Status Badges */
         .status {
             padding: 4px 10px;
             border-radius: 30px;
@@ -176,8 +131,6 @@
         }
         .status-paid { background: #C8E6C9; color: #1B5E20; }
         .status-unpaid { background: #FFEBEE; color: #C62828; }
-        .status-delivered { background: #E0F2FE; color: #0369a1; }
-        .status-pending { background: #FFF3E0; color: #EF6C00; }
         .status-zomachivanie { background: #E3F2FD; color: #1976D2; }
         .status-posev { background: #E8F5E9; color: #2E7D32; }
         .status-v_temi { background: #F3E5F5; color: #7B1FA2; }
@@ -185,7 +138,6 @@
         .status-srezka { background: #FCE4EC; color: #C2185B; }
         .status-sbor { background: #C8E6C9; color: #1B5E20; }
 
-        /* Buttons */
         .btn {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
@@ -196,8 +148,8 @@
             font-weight: 600;
             width: 100%;
             cursor: pointer;
-            transition: all 0.2s;
             margin: 8px 0;
+            transition: all 0.2s;
         }
         .btn:active { transform: scale(0.97); }
         .btn-secondary {
@@ -216,14 +168,8 @@
             color: var(--danger);
             border: 1px solid #FFCDD2;
         }
-        .flex-btns {
-            display: flex;
-            gap: 10px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-        }
+        .flex-btns { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
 
-        /* Stats */
         .stats-row {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -235,17 +181,10 @@
             border-radius: 20px;
             padding: 12px;
             text-align: center;
-            box-shadow: var(--shadow);
         }
-        .stat-number {
-            font-size: 20px;
-            font-weight: 800;
-            color: var(--primary);
-        }
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-secondary);
-        }
+        .stat-number { font-size: 20px; font-weight: 800; color: var(--primary); }
+        .stat-label { font-size: 10px; color: var(--text-secondary); }
+
         .balance-card {
             background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border-radius: 20px;
@@ -254,10 +193,8 @@
             margin-bottom: 16px;
             color: white;
         }
-        .balance-amount {
-            font-size: 32px;
-            font-weight: 800;
-        }
+        .balance-amount { font-size: 32px; font-weight: 800; }
+
         .finance-row {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -269,15 +206,9 @@
             border-radius: 16px;
             padding: 12px;
             text-align: center;
-            box-shadow: var(--shadow);
         }
-        .finance-amount {
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--primary);
-        }
+        .finance-amount { font-size: 16px; font-weight: 700; color: var(--primary); }
 
-        /* Tasks */
         .task-item {
             background: var(--primary-bg);
             border-radius: 14px;
@@ -287,29 +218,17 @@
             align-items: center;
             gap: 10px;
         }
-        .task-checkbox {
-            width: 22px;
-            height: 22px;
-            accent-color: var(--primary);
-        }
-        .task-text {
-            flex: 1;
-            font-size: 13px;
-        }
+        .task-checkbox { width: 22px; height: 22px; accent-color: var(--primary); }
+        .task-text { flex: 1; font-size: 13px; }
+
         .plans-block {
             background: #F0F7F0;
             border-radius: 20px;
             padding: 14px;
             margin: 16px 0;
         }
-        .plans-title {
-            font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
+        .plans-title { font-weight: 700; font-size: 14px; margin-bottom: 10px; color: var(--primary); }
 
-        /* Modals */
         .modal {
             display: none;
             position: fixed;
@@ -347,17 +266,8 @@
             border-radius: 20px;
         }
 
-        /* Forms */
-        .form-group {
-            margin-bottom: 14px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--primary);
-        }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: var(--primary); }
         input, select, textarea {
             width: 100%;
             padding: 12px;
@@ -365,7 +275,6 @@
             border-radius: 14px;
             font-size: 14px;
             font-family: inherit;
-            background: white;
         }
         .search-input {
             width: 100%;
@@ -374,23 +283,8 @@
             border-radius: 30px;
             margin-bottom: 12px;
         }
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-secondary);
-        }
-        .hint-text {
-            font-size: 11px;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-        .sale-amount {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            text-align: center;
-            margin: 10px 0;
-        }
+        .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+        .hint-text { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -409,7 +303,6 @@
         <button class="nav-btn" data-section="library">📚 Культуры</button>
     </div>
 
-    <!-- Главная -->
     <section id="dashboard" class="section active">
         <div class="stats-row" id="mainStats"></div>
         <div class="balance-card">
@@ -434,39 +327,33 @@
         </div>
     </section>
 
-    <!-- Партии -->
     <section id="parties" class="section">
         <button class="btn" onclick="showModal('newPartyModal')">🌱 Создать партию</button>
         <div id="partiesList"></div>
     </section>
 
-    <!-- Продажи -->
     <section id="sales" class="section">
         <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
         <div id="salesList"></div>
     </section>
 
-    <!-- Клиенты -->
     <section id="clients" class="section">
         <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
         <input type="text" id="clientSearch" class="search-input" placeholder="🔍 Поиск клиента..." onkeyup="filterClients()">
         <div id="clientsList"></div>
     </section>
 
-    <!-- Расходы -->
     <section id="expenses" class="section">
         <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
         <div class="finance-row" id="expensesStats"></div>
         <div id="expensesList"></div>
     </section>
 
-    <!-- Достижения -->
     <section id="achievements" class="section">
         <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
         <div id="achievementsList"></div>
     </section>
 
-    <!-- Библиотека культур -->
     <section id="library" class="section">
         <div id="culturesList"></div>
     </section>
@@ -497,15 +384,15 @@
 
     <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💸 НОВЫЙ РАСХОД</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
     <form id="newExpenseForm"><div class="form-group"><label>Дата *</label><input type="date" id="expenseDate" required></div>
-    <div class="form-group"><label>Категория *</label><select id="expenseCategory"><option>Семена</option><option>Оборудование</option><option>Упаковка</option><option>Лотки</option><option>Субстрат</option><option>Прочее</option></select></div>
+    <div class="form-group"><label>Категория *</label><select id="expenseCategory"><option>Семена</option><option>Оборудование</option><option>Упаковка</option><option>Лотки</option><option>Субстрат</option></select></div>
     <div class="form-group"><label>Наименование *</label><input type="text" id="expenseName" required></div>
     <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="expenseAmount" required></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
     <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
     <form id="newAchievementForm"><div class="form-group"><label>Дата *</label><input type="date" id="achievementDate" required></div>
-    <div class="form-group"><label>Описание *</label><input type="text" id="achievementDesc" required placeholder="Например: Первая продажа на 5000₽"></div>
-    <div class="form-group"><label>Категория</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option><option>Личное</option></select></div>
+    <div class="form-group"><label>Описание *</label><input type="text" id="achievementDesc" required></div>
+    <div class="form-group"><label>Категория</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
     <script>
@@ -521,11 +408,11 @@
 
         // БИБЛИОТЕКА КУЛЬТУР
         const DEFAULT_CULTURES = {
-            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов (первые 15 мин с перекисью)\n2. Посеять на влажный джут, отжать\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня, проветривать 2 р/д\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
-            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов (первые 15 мин с перекисью)\n2. Посеять на влажный джут, сильно отжать\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
+            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов\n2. Посеять на влажный джут\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
+            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов\n2. Посеять на влажный джут\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
             "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, normPro: 6, seedPrice: 2.5, daysToReady: 7, instructions: "1. Замочить на 3–4 часа\n2. Посеять на влажный джут\n3. В темноте 1–2 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 5–8 день" },
-            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку или джут\n3. Полная темнота до срезки\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
-            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день (проростки)" },
+            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
+            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день" },
             "соя": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.44, daysToReady: 6, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" }
         };
 
@@ -558,7 +445,109 @@
             { id: 'c25', name: 'Екатерина', place: 'Дальний проезд 3', contact: '89182860856' }
         ];
 
-        // ДОСТИЖЕНИЯ (из ваших скриншотов)
+        // ВСЕ ПРОДАЖИ ИЗ ВАШИХ СКРИНШОТОВ (синхронизировано!)
+        const DEFAULT_SALES = [
+            // Ноябрь 2025
+            { id: 's1', clientId: 'c8', date: '2025-11-09', culture: 'маш', weight: 1200, amount: 600, paid: true },
+            { id: 's2', clientId: 'c9', date: '2025-11-12', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's3', clientId: 'c3', date: '2025-11-13', culture: 'маш', weight: 150, amount: 100, paid: true },
+            { id: 's4', clientId: 'c24', date: '2025-11-13', culture: 'маш', weight: 150, amount: 45, paid: true },
+            { id: 's5', clientId: 'c23', date: '2025-11-13', culture: 'маш', weight: 150, amount: 50, paid: true },
+            { id: 's6', clientId: 'c7', date: '2025-11-13', culture: 'маш', weight: 350, amount: 150, paid: true },
+            { id: 's7', clientId: 'c8', date: '2025-11-14', culture: 'маш', weight: 150, amount: 50, paid: true },
+            { id: 's8', clientId: 'c22', date: '2025-11-18', culture: 'маш', weight: 150, amount: 80, paid: true },
+            { id: 's9', clientId: 'c5', date: '2025-11-18', culture: 'маш', weight: 150, amount: 80, paid: true },
+            { id: 's10', clientId: 'c21', date: '2025-11-18', culture: 'маш', weight: 150, amount: 50, paid: true },
+            { id: 's11', clientId: 'c20', date: '2025-11-18', culture: 'маш', weight: 150, amount: 50, paid: true },
+            { id: 's12', clientId: 'c19', date: '2025-11-18', culture: 'маш', weight: 150, amount: 40, paid: true },
+            { id: 's13', clientId: 'c9', date: '2025-11-18', culture: 'маш', weight: 300, amount: 100, paid: true },
+            { id: 's14', clientId: 'c18', date: '2025-11-18', culture: 'маш', weight: 150, amount: 40, paid: true },
+            { id: 's15', clientId: 'c4', date: '2025-11-19', culture: 'маш', weight: 100, amount: 50, paid: true },
+            { id: 's16', clientId: 'c17', date: '2025-11-19', culture: 'маш', weight: 150, amount: 80, paid: true },
+            { id: 's17', clientId: 'c3', date: '2025-11-19', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's18', clientId: 'c6', date: '2025-11-19', culture: 'маш', weight: 150, amount: 100, paid: true },
+            { id: 's19', clientId: 'c7', date: '2025-11-19', culture: 'маш', weight: 100, amount: 50, paid: true },
+            { id: 's20', clientId: 'c7', date: '2025-11-21', culture: 'маш', weight: 1100, amount: 50, paid: true },
+            { id: 's21', clientId: 'c8', date: '2025-11-21', culture: 'маш', weight: 300, amount: 120, paid: true },
+            { id: 's22', clientId: 'c6', date: '2025-11-21', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's23', clientId: 'c4', date: '2025-11-24', culture: 'маш', weight: 150, amount: 100, paid: true },
+            { id: 's24', clientId: 'c6', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's25', clientId: 'c6', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's26', clientId: 'c5', date: '2025-11-24', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's27', clientId: 'c5', date: '2025-11-24', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's28', clientId: 'c24', date: '2025-11-24', culture: 'маш', weight: 100, amount: 60, paid: true },
+            { id: 's29', clientId: 'c3', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's30', clientId: 'c7', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's31', clientId: 'c16', date: '2025-11-24', culture: 'маш', weight: 150, amount: 80, paid: true },
+            { id: 's32', clientId: 'c7', date: '2025-11-24', culture: 'маш', weight: 300, amount: 200, paid: true },
+            { id: 's33', clientId: 'c6', date: '2025-11-26', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's34', clientId: 'c3', date: '2025-11-26', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's35', clientId: 'c8', date: '2025-11-26', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's36', clientId: 'c13', date: '2025-11-27', culture: 'нут', weight: 50, amount: 80, paid: true },
+            { id: 's37', clientId: 'c5', date: '2025-11-27', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's38', clientId: 'c4', date: '2025-11-28', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's39', clientId: 'c7', date: '2025-12-01', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's40', clientId: 'c11', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's41', clientId: 'c6', date: '2025-12-01', culture: 'маш', weight: 300, amount: 200, paid: true },
+            { id: 's42', clientId: 'c20', date: '2025-12-01', culture: 'маш', weight: 300, amount: 150, paid: true },
+            { id: 's43', clientId: 'c13', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's44', clientId: 'c3', date: '2025-12-01', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's45', clientId: 'c7', date: '2025-12-02', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's46', clientId: 'c9', date: '2025-12-02', culture: 'маш', weight: 100, amount: 50, paid: true },
+            { id: 's47', clientId: 'c10', date: '2025-12-02', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's48', clientId: 'c22', date: '2025-12-03', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's49', clientId: 'c15', date: '2025-12-03', culture: 'маш', weight: 150, amount: 100, paid: true },
+            { id: 's50', clientId: 'c10', date: '2025-12-04', culture: 'маш', weight: 350, amount: 240, paid: true },
+            { id: 's51', clientId: 'c5', date: '2025-12-04', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's52', clientId: 'c9', date: '2025-12-04', culture: 'маш', weight: 100, amount: 50, paid: true },
+            { id: 's53', clientId: 'c1', date: '2025-12-05', culture: 'маш', weight: 144, amount: 80, paid: true },
+            { id: 's54', clientId: 'c1', date: '2025-12-07', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's55', clientId: 'c3', date: '2025-12-08', culture: 'маш', weight: 250, amount: 250, paid: true },
+            { id: 's56', clientId: 'c9', date: '2025-12-08', culture: 'маш', weight: 200, amount: 100, paid: true },
+            { id: 's57', clientId: 'c13', date: '2025-12-08', culture: 'нут', weight: 50, amount: 80, paid: true },
+            { id: 's58', clientId: 'c5', date: '2025-12-08', culture: 'маш', weight: 100, amount: 80, paid: true },
+            { id: 's59', clientId: 'c6', date: '2025-12-08', culture: 'нут', weight: 500, amount: 400, paid: true },
+            { id: 's60', clientId: 'c17', date: '2025-12-08', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's61', clientId: 'c10', date: '2025-12-08', culture: 'маш', weight: 300, amount: 240, paid: true },
+            { id: 's62', clientId: 'c11', date: '2025-12-08', culture: 'нут', weight: 100, amount: 50, paid: true },
+            { id: 's63', clientId: 'c7', date: '2025-12-08', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's64', clientId: 'c10', date: '2025-12-12', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's65', clientId: 'c11', date: '2025-12-12', culture: 'нут', weight: 100, amount: 50, paid: true },
+            { id: 's66', clientId: 'c8', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's67', clientId: 'c7', date: '2025-12-12', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's68', clientId: 'c14', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's69', clientId: 'c1', date: '2025-12-13', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's70', clientId: 'c3', date: '2025-12-15', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's71', clientId: 'c6', date: '2025-12-15', culture: 'маш', weight: 400, amount: 360, paid: true },
+            { id: 's72', clientId: 'c6', date: '2025-12-17', culture: 'маш', weight: 200, amount: 100, paid: true },
+            { id: 's73', clientId: 'c5', date: '2025-12-17', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's74', clientId: 'c10', date: '2025-12-17', culture: 'нут', weight: 100, amount: 80, paid: true },
+            { id: 's75', clientId: 'c6', date: '2025-12-19', culture: 'маш', weight: 200, amount: 400, paid: true },
+            { id: 's76', clientId: 'c7', date: '2025-12-19', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's77', clientId: 'c8', date: '2025-12-19', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's78', clientId: 'c1', date: '2025-12-20', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's79', clientId: 'c3', date: '2025-12-24', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's80', clientId: 'c7', date: '2025-12-24', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's81', clientId: 'c4', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's82', clientId: 'c5', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's83', clientId: 'c1', date: '2025-12-24', culture: 'маш', weight: 200, amount: 100, paid: true },
+            { id: 's84', clientId: 'c6', date: '2025-12-26', culture: 'маш', weight: 500, amount: 400, paid: true },
+            { id: 's85', clientId: 'c5', date: '2025-12-29', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's86', clientId: 'c1', date: '2025-12-31', culture: 'маш', weight: 300, amount: 300, paid: true },
+            // Январь 2026
+            { id: 's87', clientId: 'c1', date: '2026-01-09', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's88', clientId: 'c1', date: '2026-01-15', culture: 'маш', weight: 200, amount: 200, paid: true },
+            { id: 's89', clientId: 'c6', date: '2026-01-15', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's90', clientId: 'c6', date: '2026-01-15', culture: 'нут', weight: 300, amount: 200, paid: true },
+            { id: 's91', clientId: 'c1', date: '2026-01-23', culture: 'маш', weight: 300, amount: 300, paid: true },
+            { id: 's92', clientId: 'c3', date: '2026-01-31', culture: 'маш', weight: 43, amount: 43, paid: true },
+            // Март 2026
+            { id: 's93', clientId: 'c3', date: '2026-03-17', culture: 'маш', weight: 150, amount: 150, paid: true },
+            { id: 's94', clientId: 'c4', date: '2026-03-17', culture: 'маш', weight: 100, amount: 100, paid: true },
+            { id: 's95', clientId: 'c1', date: '2026-03-20', culture: 'маш', weight: 1170, amount: 1170, paid: true }
+        ];
+
+        // ДОСТИЖЕНИЯ
         const DEFAULT_ACHIEVEMENTS = [
             { id: 'a1', date: '2025-11-06', description: 'Рождение бизнес-идеи по производству маша', category: 'Производство' },
             { id: 'a2', date: '2025-11-07', description: 'Приобрела первый маш (нашла в Фермере)', category: 'Производство' },
@@ -571,7 +560,7 @@
             { id: 'a9', date: '2026-03-21', description: 'Возможно буду сотрудничать с зоомагазином «Ежкин кот». Отдала солянку из нута, гороха и редиса.', category: 'Клиенты' }
         ];
 
-        // РАСХОДЫ (начальные)
+        // РАСХОДЫ
         const DEFAULT_EXPENSES = [
             { id: 'e1', date: '2025-12-15', name: 'Наклейки новогодние', amount: 387, category: 'Упаковка' },
             { id: 'e2', date: '2025-12-16', name: 'Контейнеры 2000 шт', amount: 5500, category: 'Лотки' },
@@ -601,6 +590,9 @@
             if (!localStorage.getItem(STORAGE_KEYS.clients)) {
                 localStorage.setItem(STORAGE_KEYS.clients, JSON.stringify(DEFAULT_CLIENTS));
             }
+            if (!localStorage.getItem(STORAGE_KEYS.sales)) {
+                localStorage.setItem(STORAGE_KEYS.sales, JSON.stringify(DEFAULT_SALES));
+            }
             if (!localStorage.getItem(STORAGE_KEYS.achievements)) {
                 localStorage.setItem(STORAGE_KEYS.achievements, JSON.stringify(DEFAULT_ACHIEVEMENTS));
             }
@@ -609,9 +601,6 @@
             }
             if (!localStorage.getItem(STORAGE_KEYS.parties)) {
                 localStorage.setItem(STORAGE_KEYS.parties, JSON.stringify([]));
-            }
-            if (!localStorage.getItem(STORAGE_KEYS.sales)) {
-                localStorage.setItem(STORAGE_KEYS.sales, JSON.stringify([]));
             }
         }
 
@@ -984,6 +973,11 @@
         renderAchievements();
         renderLibrary();
         fillSelectors();
+        
+        console.log('✅ Приложение загружено!');
+        console.log(`📊 Всего продаж: ${loadKey(STORAGE_KEYS.sales).length}`);
+        console.log(`👥 Всего клиентов: ${loadKey(STORAGE_KEYS.clients).length}`);
+        console.log(`💰 Общая выручка: ${getFinancialStats().totalIncome}₽`);
     </script>
 </body>
 </html>
