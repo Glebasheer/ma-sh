@@ -93,7 +93,9 @@
             margin-bottom: 12px;
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
+            transition: all 0.2s;
         }
+        .card:active { transform: scale(0.99); }
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -273,6 +275,7 @@
             border-radius: 14px;
             font-size: 14px;
             font-family: inherit;
+            background: white;
         }
         .search-input {
             width: 100%;
@@ -283,7 +286,44 @@
         }
         .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
         .hint-text { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-        .total-income { font-size: 14px; font-weight: 600; color: var(--primary); margin-top: 8px; text-align: center; }
+        .total-income { font-size: 14px; font-weight: 600; color: var(--primary); margin-top: 8px; text-align: center; padding: 12px; background: var(--primary-bg); border-radius: 20px; }
+
+        .culture-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+        .culture-tab {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        .culture-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        .edit-icon {
+            cursor: pointer;
+            padding: 4px 8px;
+            background: var(--primary-bg);
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+        details {
+            margin-top: 8px;
+        }
+        summary {
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+            font-size: 12px;
+        }
     </style>
 </head>
 <body>
@@ -355,6 +395,7 @@
     </section>
 
     <section id="library" class="section">
+        <button class="btn btn-secondary" onclick="showModal('newCultureModal')">➕ Добавить культуру</button>
         <div id="culturesList"></div>
     </section>
 
@@ -395,10 +436,31 @@
     <div class="form-group"><label>Категория</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
+    <div id="newCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ КУЛЬТУРА</h3><button class="close-btn" onclick="hideModal('newCultureModal')">×</button></div>
+    <form id="newCultureForm"><div class="form-group"><label>Название *</label><input type="text" id="cultureName" required></div>
+    <div class="form-group"><label>Тип *</label><select id="cultureType"><option value="microgreen">Микрозелень</option><option value="sprouts">Проростки</option></select></div>
+    <div class="form-group"><label>Норма для 15×11 (г)</label><input type="number" id="cultureNorm15" value="25"></div>
+    <div class="form-group"><label>Норма для 8×5 (г)</label><input type="number" id="cultureNorm8" value="4"></div>
+    <div class="form-group"><label>Норма для проращивателя (г)</label><input type="number" id="cultureNormPro" value="25"></div>
+    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" id="cultureSeedPrice" step="0.001" value="0.163"></div>
+    <div class="form-group"><label>Дней до готовности</label><input type="number" id="cultureDays" value="10"></div>
+    <div class="form-group"><label>Инструкция</label><textarea id="cultureInstructions" rows="6" placeholder="1. Замочить на 12 часов..."></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newCultureModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
+
+    <div id="editCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ КУЛЬТУРУ</h3><button class="close-btn" onclick="hideModal('editCultureModal')">×</button></div>
+    <form id="editCultureForm"><input type="hidden" id="editCultureName"><div class="form-group"><label>Тип</label><select id="editCultureType"><option value="microgreen">Микрозелень</option><option value="sprouts">Проростки</option></select></div>
+    <div class="form-group"><label>Норма для 15×11 (г)</label><input type="number" id="editCultureNorm15"></div>
+    <div class="form-group"><label>Норма для 8×5 (г)</label><input type="number" id="editCultureNorm8"></div>
+    <div class="form-group"><label>Норма для проращивателя (г)</label><input type="number" id="editCultureNormPro"></div>
+    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" id="editCultureSeedPrice" step="0.001"></div>
+    <div class="form-group"><label>Дней до готовности</label><input type="number" id="editCultureDays"></div>
+    <div class="form-group"><label>Инструкция</label><textarea id="editCultureInstructions" rows="8"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteCultureFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editCultureModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
+
     <script>
-        // ==================== ВСЕ ДАННЫЕ ИЗ ВАШИХ СКРИНШОТОВ ====================
+        // ==================== ВСЕ ДАННЫЕ ====================
         
-        // КЛИЕНТЫ (25 уникальных)
+        // КЛИЕНТЫ (25)
         const DEFAULT_CLIENTS = [
             { id: 'c1', name: 'ЯМАНАСИ', place: 'Ул красных Партизан 1/4к9', contact: 'Анатолий' },
             { id: 'c2', name: 'Ежкин кот', place: 'КП 1/4к9', contact: '+7 989 228 4153, Елизавета' },
@@ -427,9 +489,8 @@
             { id: 'c25', name: 'Екатерина', place: 'Дальний проезд 3', contact: '89182860856' }
         ];
 
-        // ВСЕ ПРОДАЖИ (96 продаж, общая сумма 15,463 ₽)
+        // ПРОДАЖИ (96)
         const DEFAULT_SALES = [
-            // Ноябрь 2025 (38 продаж)
             { id: 's1', clientId: 'c25', date: '2025-11-09', culture: 'маш', weight: 1200, amount: 600, paid: true },
             { id: 's2', clientId: 'c9', date: '2025-11-12', culture: 'маш', weight: 150, amount: 150, paid: true },
             { id: 's3', clientId: 'c3', date: '2025-11-13', culture: 'маш', weight: 150, amount: 100, paid: true },
@@ -468,7 +529,6 @@
             { id: 's36', clientId: 'c13', date: '2025-11-27', culture: 'нут', weight: 50, amount: 80, paid: true },
             { id: 's37', clientId: 'c5', date: '2025-11-27', culture: 'маш', weight: 100, amount: 80, paid: true },
             { id: 's38', clientId: 'c4', date: '2025-11-28', culture: 'маш', weight: 100, amount: 100, paid: true },
-            // Декабрь 2025 (49 продаж)
             { id: 's39', clientId: 'c7', date: '2025-12-01', culture: 'маш', weight: 200, amount: 200, paid: true },
             { id: 's40', clientId: 'c11', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
             { id: 's41', clientId: 'c6', date: '2025-12-01', culture: 'маш', weight: 300, amount: 200, paid: true },
@@ -518,20 +578,18 @@
             { id: 's85', clientId: 'c6', date: '2025-12-26', culture: 'маш', weight: 500, amount: 400, paid: true },
             { id: 's86', clientId: 'c5', date: '2025-12-29', culture: 'маш', weight: 100, amount: 100, paid: true },
             { id: 's87', clientId: 'c1', date: '2025-12-31', culture: 'маш', weight: 300, amount: 300, paid: true },
-            // Январь 2026 (6 продаж)
             { id: 's88', clientId: 'c1', date: '2026-01-09', culture: 'маш', weight: 200, amount: 200, paid: true },
             { id: 's89', clientId: 'c1', date: '2026-01-15', culture: 'маш', weight: 200, amount: 200, paid: true },
             { id: 's90', clientId: 'c6', date: '2026-01-15', culture: 'маш', weight: 300, amount: 300, paid: true },
             { id: 's91', clientId: 'c6', date: '2026-01-15', culture: 'нут', weight: 300, amount: 200, paid: true },
             { id: 's92', clientId: 'c1', date: '2026-01-23', culture: 'маш', weight: 300, amount: 300, paid: true },
             { id: 's93', clientId: 'c3', date: '2026-01-31', culture: 'маш', weight: 43, amount: 43, paid: true },
-            // Март 2026 (3 продажи)
             { id: 's94', clientId: 'c3', date: '2026-03-17', culture: 'маш', weight: 150, amount: 150, paid: true },
             { id: 's95', clientId: 'c4', date: '2026-03-17', culture: 'маш', weight: 100, amount: 100, paid: true },
             { id: 's96', clientId: 'c1', date: '2026-03-20', culture: 'маш', weight: 1170, amount: 1170, paid: true }
         ];
 
-        // ДОСТИЖЕНИЯ (9 штук)
+        // ДОСТИЖЕНИЯ (9)
         const DEFAULT_ACHIEVEMENTS = [
             { id: 'a1', date: '2025-11-06', description: 'Рождение бизнес-идеи по производству маша', category: 'Производство' },
             { id: 'a2', date: '2025-11-07', description: 'Приобрела первый маш (нашла в Фермере)', category: 'Производство' },
@@ -544,7 +602,7 @@
             { id: 'a9', date: '2026-03-21', description: 'Возможно буду сотрудничать с зоомагазином «Ежкин кот». Отдала солянку из нута, гороха и редиса.', category: 'Клиенты' }
         ];
 
-        // РАСХОДЫ
+        // РАСХОДЫ (18)
         const DEFAULT_EXPENSES = [
             { id: 'e1', date: '2025-12-15', name: 'Наклейки новогодние', amount: 387, category: 'Упаковка' },
             { id: 'e2', date: '2025-12-16', name: 'Контейнеры 2000 шт', amount: 5500, category: 'Лотки' },
@@ -566,14 +624,44 @@
             { id: 'e18', date: '2026-03-01', name: 'Соя 200 г', amount: 88, category: 'Семена' }
         ];
 
-        // КУЛЬТУРЫ
+        // КУЛЬТУРЫ с полными инструкциями (6)
         const DEFAULT_CULTURES = {
-            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов\n2. Посеять на влажный джут\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
-            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов\n2. Посеять на влажный джут\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
-            "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, normPro: 6, seedPrice: 2.5, daysToReady: 7, instructions: "1. Замочить на 3–4 часа\n2. Посеять на влажный джут\n3. В темноте 1–2 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 5–8 день" },
-            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
-            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день" },
-            "соя": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.44, daysToReady: 6, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" }
+            "горох": { 
+                type: "microgreen", 
+                norm15: 25, norm8: 4, normPro: 25, 
+                seedPrice: 0.163, daysToReady: 10, 
+                instructions: "🌱 ГОРОХ МАДРАС (микрозелень)\n\n📌 ЗАМАЧИВАНИЕ (10–12 ч):\nПервые 15–20 мин — вода с перекисью (1 ст.л на 1 л). Затем промыть, залить чистой водой.\n\n📌 СУБСТРАТ:\nДжут залить кипятком, остудить, сильно отжать.\n\n📌 ПОСЕВ:\nРазложить ровным слоем, без нахлёста. Накрыть крышкой.\n\n📌 ГРУЗ:\nПоставить груз 1.5–2 кг (на крышку).\n\n📌 ТЁМНАЯ ФАЗА (3–4 дня):\nПолная темнота. Проветривать 2 раза в день по 10–15 мин.\n\n📌 ВЫХОД НА СВЕТ:\nКогда ростки 5–7 мм. Снять груз.\n\n📌 СВЕТОВАЯ ФАЗА:\nЛампа 10–15 см, 14–16 ч/сут. Полив только в поддон.\n\n📌 СРЕЗКА (7–10 день):\nВысота 10–15 см, появился первый настоящий лист." 
+            },
+            "редис": { 
+                type: "microgreen", 
+                norm15: 4, norm8: 2, normPro: 4, 
+                seedPrice: 3.92, daysToReady: 8, 
+                instructions: "🔴 РЕДИС САНГО (микрозелень)\n\n📌 ЗАМАЧИВАНИЕ (5–6 ч):\nПервые 15–20 мин — вода с перекисью. Затем промыть, залить чистой водой.\n\n📌 СУБСТРАТ:\nДжут залить кипятком, остудить, сильно отжать.\n\n📌 ПОСЕВ:\nРазложить ровным слоем. Накрыть крышкой неплотно.\n\n📌 ГРУЗ:\nНЕ СТАВИТЬ.\n\n📌 ТЁМНАЯ ФАЗА (2–3 дня):\nПолная темнота. Проветривать 2 раза в день.\n\n📌 ВЫХОД НА СВЕТ:\nКогда появятся петельки.\n\n📌 СВЕТОВАЯ ФАЗА:\nЛампа 10–15 см, 12–14 ч/сут.\n\n📌 СРЕЗКА (7–9 день):\nВысота 8–12 см, семядоли раскрыты." 
+            },
+            "горчица": { 
+                type: "microgreen", 
+                norm15: 6, norm8: 1.5, normPro: 6, 
+                seedPrice: 2.5, daysToReady: 7, 
+                instructions: "🟢 ГОРЧИЦА (микрозелень)\n\n📌 ЗАМАЧИВАНИЕ (3–4 ч):\nПервые 15–20 мин — вода с перекисью. Затем промыть, слить воду (слизь не оставлять!).\n\n📌 СУБСТРАТ:\nДжут залить кипятком, остудить, отжать.\n\n📌 ПОСЕВ:\nРазложить плотно. Накрыть крышкой неплотно.\n\n📌 ГРУЗ:\nНЕ СТАВИТЬ.\n\n📌 ТЁМНАЯ ФАЗА (1–2 дня):\nПроветривать 2 раза в день.\n\n📌 ВЫХОД НА СВЕТ:\nКогда появятся петельки.\n\n📌 СВЕТОВАЯ ФАЗА:\nЛампа 10–15 см, 12–14 ч/сут.\n\n📌 СРЕЗКА (5–8 день):\nВысота 8–12 см, до появления настоящего листа." 
+            },
+            "маш": { 
+                type: "sprouts", 
+                norm15: 25, norm8: 4, normPro: 25, 
+                seedPrice: 0.204, daysToReady: 6, 
+                instructions: "🟡 МАШ (проростки для Фо-Бо)\n\n📌 ЗАМАЧИВАНИЕ (8–10 ч):\nПервые 15–20 мин — вода с перекисью. Затем промыть, залить чистой водой.\n\n📌 СУБСТРАТ:\nДжут (залить кипятком, отжать) или сетка проращивателя.\n\n📌 ПОСЕВ:\nРазложить ровным слоем.\n\n📌 ГРУЗ:\nНЕ СТАВИТЬ.\n\n📌 СВЕТ:\nПолная темнота до срезки.\n\n📌 ПРОМЫВКА:\n2 раза в день (утро/вечер) прохладной кипячёной водой (15–18°C).\n\n📌 ПРОВЕТРИВАНИЕ:\n2 раза в день, 10–15 мин.\n\n📌 СРЕЗКА (6–7 день):\nВысота 7–8 см." 
+            },
+            "нут": { 
+                type: "sprouts", 
+                norm15: 30, norm8: 5, normPro: 30, 
+                seedPrice: 0.116, daysToReady: 5, 
+                instructions: "🟤 НУТ (проростки)\n\n📌 ЗАМАЧИВАНИЕ (10–12 ч):\nПервые 15–20 мин — вода с перекисью. Затем промыть, залить чистой водой.\n\n📌 СУБСТРАТ:\nДжут (залить кипятком, отжать) или сетка.\n\n📌 ПОСЕВ:\nРазложить ровным слоем.\n\n📌 ГРУЗ:\nНЕ СТАВИТЬ.\n\n📌 СВЕТ:\nПолная темнота до срезки (для проростков).\n\n📌 ПРОМЫВКА:\n2 раза в день прохладной водой.\n\n📌 ПРОВЕТРИВАНИЕ:\n2 раза в день.\n\n📌 СРЕЗКА (3–5 день):\nВысота 3–5 см (проростки). Для микрозелени — на 7–9 день на свету." 
+            },
+            "соя": { 
+                type: "sprouts", 
+                norm15: 30, norm8: 5, normPro: 30, 
+                seedPrice: 0.44, daysToReady: 6, 
+                instructions: "🟢 СОЯ (проростки)\n\n📌 ЗАМАЧИВАНИЕ (10–12 ч):\nПервые 15–20 мин — вода с перекисью. Затем промыть, залить чистой водой.\n\n📌 СУБСТРАТ:\nДжут (залить кипятком, отжать) или сетка.\n\n📌 ПОСЕВ:\nРазложить ровным слоем.\n\n📌 ГРУЗ:\nНЕ СТАВИТЬ.\n\n📌 СВЕТ:\nПолная темнота до срезки.\n\n📌 ПРОМЫВКА:\n2 раза в день прохладной кипячёной водой.\n\n📌 ПРОВЕТРИВАНИЕ:\n2 раза в день.\n\n📌 СРЕЗКА (6–7 день):\nВысота 7–9 см." 
+            }
         };
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ====================
@@ -599,7 +687,7 @@
         function saveKey(key, data) { localStorage.setItem(key, JSON.stringify(data)); }
         function getCultures() { return JSON.parse(localStorage.getItem(STORAGE_KEYS.cultures)); }
 
-        // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+        // ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
         function getStageName(stage) {
             const names = { zomachivanie: 'Замачивание', posev: 'Посев', v_temi: 'В тени', pod_lampoy: 'Под лампой', srezka: 'Срезка', sbor: 'Сбор' };
             return names[stage] || stage;
@@ -794,12 +882,54 @@
 
         function renderLibrary() {
             const cultures = getCultures();
-            document.getElementById('culturesList').innerHTML = Object.keys(cultures).map(name => {
-                const c = cultures[name];
-                const normCost = (c.norm8 * c.seedPrice).toFixed(2);
-                return `<div class="card"><div class="card-header"><span class="card-title">🌱 ${name.toUpperCase()}</span><span class="status ${c.type === 'microgreen' ? 'status-paid' : 'status-pending'}">${c.type === 'microgreen' ? 'Микрозелень' : 'Проростки'}</span></div><div class="card-details">📊 Норма 8×5: ${c.norm8}г • Цена семян: ${c.seedPrice}₽/г</div><div class="card-details">💰 Себестоимость 8×5: ${normCost}₽ (только семена)</div><div class="card-details">📅 Готовность: ${c.daysToReady} дней</div><details><summary>📖 Инструкция</summary><div class="card-details" style="margin-top: 8px; white-space: pre-line;">${c.instructions}</div></details></div>`;
-            }).join('');
+            const cultureNames = Object.keys(cultures);
+            let html = `<div class="culture-tabs">`;
+            cultureNames.forEach((name, idx) => {
+                html += `<button class="culture-tab ${idx === 0 ? 'active' : ''}" onclick="showCulture('${name}')">${name === 'горох' ? '🌱' : name === 'редис' ? '🔴' : name === 'горчица' ? '🟢' : name === 'маш' ? '🟡' : name === 'нут' ? '🟤' : '🟢'} ${name}</button>`;
+            });
+            html += `</div><div id="selectedCulture"></div>`;
+            document.getElementById('culturesList').innerHTML = html;
+            if (cultureNames.length > 0) showCulture(cultureNames[0]);
         }
+
+        window.showCulture = (name) => {
+            const cultures = getCultures();
+            const c = cultures[name];
+            if (!c) return;
+            const normCost = (c.norm8 * c.seedPrice).toFixed(2);
+            document.getElementById('selectedCulture').innerHTML = `
+                <div class="card"><div class="card-header"><span class="card-title">🌱 ${name.toUpperCase()}</span><span class="edit-icon" onclick="editCulture('${name}')">✏️ Редактировать</span></div>
+                <div class="card-details"><strong>📊 ОСНОВНЫЕ ПАРАМЕТРЫ:</strong><br>• Тип: ${c.type === 'microgreen' ? 'Микрозелень' : 'Проростки'}<br>• Норма 15×11: ${c.norm15} г<br>• Норма 8×5: ${c.norm8} г<br>• Норма проращиватель: ${c.normPro} г<br>• Цена семян: ${c.seedPrice} ₽/г<br>• Дней до готовности: ${c.daysToReady}</div>
+                <div class="card-details"><strong>💰 СЕБЕСТОИМОСТЬ 8×5:</strong> ${normCost} ₽ (только семена)</div>
+                <details><summary>📖 ПОЛНАЯ ИНСТРУКЦИЯ</summary><div class="card-details" style="margin-top: 8px; white-space: pre-line;">${c.instructions}</div></details></div>
+            `;
+        };
+
+        window.editCulture = (name) => {
+            const cultures = getCultures();
+            const c = cultures[name];
+            document.getElementById('editCultureName').value = name;
+            document.getElementById('editCultureType').value = c.type;
+            document.getElementById('editCultureNorm15').value = c.norm15;
+            document.getElementById('editCultureNorm8').value = c.norm8;
+            document.getElementById('editCultureNormPro').value = c.normPro;
+            document.getElementById('editCultureSeedPrice').value = c.seedPrice;
+            document.getElementById('editCultureDays').value = c.daysToReady;
+            document.getElementById('editCultureInstructions').value = c.instructions;
+            showModal('editCultureModal');
+        };
+
+        window.deleteCultureFromModal = () => {
+            const name = document.getElementById('editCultureName').value;
+            if (confirm(`Удалить культуру "${name}"?`)) {
+                let cultures = getCultures();
+                delete cultures[name];
+                saveKey(STORAGE_KEYS.cultures, cultures);
+                hideModal('editCultureModal');
+                renderLibrary();
+                fillSelectors();
+            }
+        };
 
         // ==================== ФОРМЫ ====================
         function fillSelectors() {
@@ -919,6 +1049,51 @@
             alert('✅ Достижение добавлено!');
         });
 
+        document.getElementById('newCultureForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const cultures = getCultures();
+            const name = document.getElementById('cultureName').value.toLowerCase();
+            if (cultures[name]) {
+                alert('Такая культура уже существует!');
+                return;
+            }
+            cultures[name] = {
+                type: document.getElementById('cultureType').value,
+                norm15: parseInt(document.getElementById('cultureNorm15').value),
+                norm8: parseInt(document.getElementById('cultureNorm8').value),
+                normPro: parseInt(document.getElementById('cultureNormPro').value),
+                seedPrice: parseFloat(document.getElementById('cultureSeedPrice').value),
+                daysToReady: parseInt(document.getElementById('cultureDays').value),
+                instructions: document.getElementById('cultureInstructions').value
+            };
+            saveKey(STORAGE_KEYS.cultures, cultures);
+            hideModal('newCultureModal');
+            document.getElementById('newCultureForm').reset();
+            renderLibrary();
+            fillSelectors();
+            alert('✅ Культура добавлена!');
+        });
+
+        document.getElementById('editCultureForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('editCultureName').value;
+            const cultures = getCultures();
+            cultures[name] = {
+                type: document.getElementById('editCultureType').value,
+                norm15: parseInt(document.getElementById('editCultureNorm15').value),
+                norm8: parseInt(document.getElementById('editCultureNorm8').value),
+                normPro: parseInt(document.getElementById('editCultureNormPro').value),
+                seedPrice: parseFloat(document.getElementById('editCultureSeedPrice').value),
+                daysToReady: parseInt(document.getElementById('editCultureDays').value),
+                instructions: document.getElementById('editCultureInstructions').value
+            };
+            saveKey(STORAGE_KEYS.cultures, cultures);
+            hideModal('editCultureModal');
+            renderLibrary();
+            fillSelectors();
+            alert('✅ Культура сохранена!');
+        });
+
         // ==================== НАВИГАЦИЯ ====================
         window.showModal = (id) => { fillSelectors(); document.getElementById(id).style.display = 'block'; };
         window.hideModal = (id) => document.getElementById(id).style.display = 'none';
@@ -957,13 +1132,14 @@
         renderLibrary();
         fillSelectors();
         
-        console.log('✅ Приложение загружено!');
+        console.log('✅ VITARAY загружен!');
         const totalIncome = loadKey(STORAGE_KEYS.sales).filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
+        const totalExpenses = loadKey(STORAGE_KEYS.expenses).reduce((sum, e) => sum + e.amount, 0);
         console.log(`📊 Всего продаж: ${loadKey(STORAGE_KEYS.sales).length}`);
         console.log(`👥 Всего клиентов: ${loadKey(STORAGE_KEYS.clients).length}`);
         console.log(`💰 Общая выручка: ${totalIncome}₽`);
-        console.log(`💸 Всего расходов: ${loadKey(STORAGE_KEYS.expenses).reduce((s, e) => s + e.amount, 0)}₽`);
-        console.log(`💎 Текущий баланс: ${totalIncome - loadKey(STORAGE_KEYS.expenses).reduce((s, e) => s + e.amount, 0)}₽`);
+        console.log(`💸 Всего расходов: ${totalExpenses}₽`);
+        console.log(`💎 Текущий баланс: ${totalIncome - totalExpenses}₽`);
     </script>
 </body>
 </html>
