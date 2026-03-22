@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>🌱 Маш Булочки — Производство</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌱 Маш Булочки</title>
     <style>
         * {
             margin: 0;
@@ -12,204 +12,133 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'SF Pro Text', system-ui, sans-serif;
-            background: linear-gradient(135deg, #F8FDF8 0%, #E8F5E9 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F8FDF8;
             color: #2E7D32;
-            line-height: 1.5;
-            padding: 16px;
-            padding-bottom: 80px;
-            min-height: 100vh;
+            line-height: 1.6;
+            padding: 20px;
         }
 
-        /* Header */
         .header {
             text-align: center;
-            margin-bottom: 24px;
-            animation: fadeInDown 0.4s ease;
-        }
-        .header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            letter-spacing: -0.3px;
-        }
-        .date-display {
-            color: #81C784;
-            font-size: 14px;
-            margin-top: 4px;
-            font-weight: 500;
+            margin-bottom: 30px;
         }
 
-        /* Navigation */
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .date-display {
+            color: #81C784;
+            font-size: 16px;
+        }
+
         .nav {
             display: flex;
             gap: 8px;
-            margin-bottom: 24px;
-            overflow-x: auto;
-            padding-bottom: 4px;
-            -webkit-overflow-scrolling: touch;
-        }
-        .nav-btn {
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(10px);
-            border: 1px solid #C8E6C9;
-            padding: 12px 20px;
-            border-radius: 40px;
-            color: #2E7D32;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
-        .nav-btn.active {
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 4px 12px rgba(46,125,50,0.3);
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
-        /* Sections */
+        .nav-btn {
+            background: #C8E6C9;
+            border: none;
+            padding: 15px 12px;
+            border-radius: 15px;
+            color: #2E7D32;
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+            min-width: 110px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn.active {
+            background: #81C784;
+            color: white;
+        }
+
         .section {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
+
         .section.active {
             display: block;
         }
 
-        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
+
         .stat-card {
             background: white;
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-            border: 1px solid #E8F5E9;
-            transition: all 0.2s;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
+            border: 2px solid #E8F5E9;
         }
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(46,125,50,0.1);
-        }
+
         .stat-number {
             font-size: 24px;
-            font-weight: 800;
-            color: #2E7D32;
-            margin-bottom: 4px;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
+
         .stat-label {
-            font-size: 11px;
-            color: #81C784;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-size: 12px;
+            color: #666;
         }
 
-        /* Finance Row */
-        .finance-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .finance-card {
-            background: linear-gradient(135deg, white, #FEFEFE);
-            border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #E8F5E9;
-        }
-        .finance-amount {
-            font-size: 16px;
-            font-weight: 700;
-            color: #2E7D32;
-        }
-        .finance-label {
-            font-size: 10px;
-            color: #81C784;
-        }
-
-        /* Buttons */
         .btn {
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            background: #81C784;
             color: white;
             border: none;
-            padding: 14px 20px;
-            border-radius: 40px;
-            font-size: 15px;
-            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            font-size: 16px;
             cursor: pointer;
+            margin: 10px 0;
             width: 100%;
-            transition: all 0.2s;
-            margin: 8px 0;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(46,125,50,0.3);
-        }
-        .btn-secondary {
-            background: white;
-            color: #2E7D32;
-            border: 1px solid #C8E6C9;
-        }
-        .btn-small {
-            padding: 8px 16px;
-            font-size: 13px;
-            width: auto;
-            margin: 0;
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, #EF5350, #E53935);
+            transition: all 0.3s ease;
         }
 
-        /* Cards */
+        .btn:hover {
+            background: #4CAF50;
+        }
+
         .card {
             background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin: 12px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid #E8F5E9;
-            transition: all 0.2s;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(46, 125, 50, 0.1);
+            border: 2px solid #E8F5E9;
         }
-        .card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-        }
+
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .card-title {
-            font-weight: 700;
-            font-size: 16px;
-            color: #1B5E20;
+            margin-bottom: 10px;
         }
 
-        /* Status Badges */
-        .status {
-            padding: 4px 12px;
-            border-radius: 30px;
-            font-size: 11px;
+        .card-title {
             font-weight: 600;
+            font-size: 16px;
         }
-        .status-paid { background: #C8E6C9; color: #1B5E20; }
-        .status-unpaid { background: #FFEBEE; color: #C62828; }
-        .status-delivered { background: #E0F2FE; color: #0369a1; }
-        .status-pending { background: #FFF3E0; color: #EF6C00; }
+
+        .status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
         .status-soaking { background: #E3F2FD; color: #1976D2; }
         .status-sprouting { background: #E8F5E9; color: #2E7D32; }
         .status-peeling { background: #FFF3E0; color: #EF6C00; }
@@ -217,50 +146,29 @@
         .status-packing { background: #F3E5F5; color: #7B1FA2; }
         .status-ready { background: #C8E6C9; color: #1B5E20; }
 
-        /* Progress Bar */
-        .progress-bar {
+        .card-details {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 12px;
+            width: auto;
+        }
+
+        .btn-secondary {
             background: #E8F5E9;
-            border-radius: 20px;
-            height: 6px;
-            margin: 12px 0;
-            overflow: hidden;
-        }
-        .progress-fill {
-            background: linear-gradient(90deg, #2E7D32, #4CAF50);
-            width: 0%;
-            height: 100%;
-            border-radius: 20px;
-            transition: width 0.4s ease;
-        }
-
-        /* Tables */
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 16px;
-            background: white;
-        }
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-        }
-        .data-table th {
-            text-align: left;
-            padding: 12px 10px;
-            background: #F8FDF8;
             color: #2E7D32;
-            font-weight: 600;
-            border-bottom: 2px solid #E8F5E9;
-        }
-        .data-table td {
-            padding: 10px;
-            border-bottom: 1px solid #F0F4F0;
-        }
-        .data-table tr:hover {
-            background: #FAFFFA;
+            border: 2px solid #C8E6C9;
         }
 
-        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -269,118 +177,81 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(4px);
             z-index: 1000;
             padding: 20px;
             overflow-y: auto;
         }
+
         .modal-content {
             background: white;
-            padding: 24px;
-            border-radius: 28px;
+            padding: 25px;
+            border-radius: 20px;
+            width: 100%;
             max-width: 500px;
-            margin: 40px auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
+
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
+
         .modal-title {
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #2E7D32, #4CAF50);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 20px;
+            font-weight: 600;
         }
+
         .close-btn {
             background: none;
             border: none;
-            font-size: 28px;
+            font-size: 24px;
             cursor: pointer;
-            color: #999;
-            transition: 0.2s;
-        }
-        .close-btn:hover {
-            color: #2E7D32;
-            transform: rotate(90deg);
+            color: #666;
         }
 
-        /* Forms */
         .form-group {
-            margin-bottom: 18px;
+            margin-bottom: 20px;
         }
+
         .form-group label {
             display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #2E7D32;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border: 2px solid #E8F5E9;
-            border-radius: 16px;
-            font-size: 15px;
-            background: #FEFEFE;
-            transition: 0.2s;
-        }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 0 3px rgba(76,175,80,0.2);
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        .flex-btns {
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E8F5E9;
+            border-radius: 10px;
+            font-size: 16px;
+            background: #F8FDF8;
+        }
+
+        .form-actions {
             display: flex;
             gap: 10px;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            margin-top: 25px;
         }
 
         .empty-state {
             text-align: center;
             padding: 40px 20px;
             color: #81C784;
-            font-size: 14px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #E8F5E9;
-            border-radius: 30px;
-            font-size: 14px;
-            margin-bottom: 16px;
-        }
-
-        .task-item {
-            background: linear-gradient(135deg, #F1F8E9, #E8F5E9);
-            padding: 12px 16px;
-            border-radius: 16px;
-            margin: 8px 0;
-            border-left: 4px solid #4CAF50;
-            font-size: 13px;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-15px); }
-            to { opacity: 1; transform: translateY(0); }
         }
 
         @media (max-width: 480px) {
-            body { padding: 12px; }
-            .finance-row { grid-template-columns: repeat(2, 1fr); }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .nav-btn { padding: 10px 16px; font-size: 12px; }
+            .nav {
+                flex-direction: column;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -391,896 +262,685 @@
     </div>
 
     <nav class="nav">
-        <button class="nav-btn active" data-section="dashboard">📊 Главная</button>
+        <button class="nav-btn active" data-section="dashboard">📊 Дашборд</button>
         <button class="nav-btn" data-section="batches">📦 Партии</button>
         <button class="nav-btn" data-section="sales">💰 Продажи</button>
         <button class="nav-btn" data-section="clients">👥 Клиенты</button>
-        <button class="nav-btn" data-section="expenses">💸 Расходы</button>
-        <button class="nav-btn" data-section="achievements">🏆 Достижения</button>
+        <button class="nav-btn" data-section="cups">🍵 Чаши</button>
     </nav>
 
-    <!-- DASHBOARD -->
+    <!-- Дашборд -->
     <section id="dashboard" class="section active">
-        <div class="stats-grid" id="mainStats"></div>
-        
-        <div class="finance-row" id="balanceStats"></div>
-        
-        <h3 style="margin: 16px 0 8px;">📋 Активные партии</h3>
-        <div id="activeBatchesList"></div>
-        
-        <h3 style="margin: 16px 0 8px;">💰 Последние продажи</h3>
-        <div id="recentSalesList"></div>
-        
-        <div class="flex-btns">
-            <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
-            <button class="btn btn-secondary" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalBatches">0</div>
+                <div class="stat-label">Всего партий</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalProfit">0₽</div>
+                <div class="stat-label">Общая прибыль</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="activeBatches">0</div>
+                <div class="stat-label">Активные</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalClients">0</div>
+                <div class="stat-label">Клиенты</div>
+            </div>
         </div>
+
+        <h3>🔄 Активные партии</h3>
+        <div id="activeBatchesList"></div>
+
+        <h3>💰 Последние продажи</h3>
+        <div id="recentSalesList"></div>
     </section>
 
-    <!-- BATCHES -->
+    <!-- Партии -->
     <section id="batches" class="section">
         <button class="btn" onclick="showModal('newBatchModal')">🎯 Добавить партию</button>
         <div id="batchesList"></div>
     </section>
 
-    <!-- SALES -->
+    <!-- Продажи -->
     <section id="sales" class="section">
         <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
         <div id="salesList"></div>
     </section>
 
-    <!-- CLIENTS -->
+    <!-- Клиенты -->
     <section id="clients" class="section">
         <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
-        <input type="text" id="clientSearch" class="search-input" placeholder="🔍 Поиск клиента..." onkeyup="filterClients()">
         <div id="clientsList"></div>
     </section>
 
-    <!-- EXPENSES -->
-    <section id="expenses" class="section">
-        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
-        <div id="expensesTable"></div>
+    <!-- Чаши -->
+    <section id="cups" class="section">
+        <button class="btn" onclick="showModal('newCupModal')">🍵 Добавить чашу</button>
+        <div id="cupsList"></div>
     </section>
 
-    <!-- ACHIEVEMENTS -->
-    <section id="achievements" class="section">
-        <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
-        <div id="achievementsList"></div>
-    </section>
-
-    <!-- MODALS -->
+    <!-- Модальные окна -->
     <div id="newBatchModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">🎯 Новая партия</h3><button class="close-btn" onclick="hideModal('newBatchModal')">×</button></div>
+            <div class="modal-header">
+                <h3 class="modal-title">🎯 Новая партия</h3>
+                <button class="close-btn" onclick="hideModal('newBatchModal')">×</button>
+            </div>
             <form id="newBatchForm">
-                <div class="form-group"><label>Номер партии:</label><input type="text" id="batchNumber" placeholder="Партия #1" required></div>
-                <div class="form-group"><label>Дата начала:</label><input type="date" id="batchDate" required></div>
-                <div class="form-group"><label>Время начала:</label><input type="time" id="batchTime" required></div>
-                <div class="form-group"><label>Вес сухого маша (г):</label><input type="number" id="batchWeight" placeholder="500" required></div>
-                <div class="form-group"><label>Статус:</label><select id="batchStatus"><option value="Замачивание">Замачивание</option><option value="Проращивание">Проращивание</option><option value="Шелушение">Шелушение</option><option value="Бланширование">Бланширование</option><option value="Сушка">Сушка</option><option value="Фасовка">Фасовка</option><option value="Готово к отправке">Готово к отправке</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="batchNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newBatchModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div>
+                <div class="form-group">
+                    <label>Дата начала:</label>
+                    <input type="date" id="batchDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Время начала:</label>
+                    <input type="time" id="batchTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес сухого маша (г):</label>
+                    <input type="number" id="batchWeight" placeholder="500" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="batchStatus">
+                        <option value="Замачивание">Замачивание</option>
+                        <option value="Проращивание">Проращивание</option>
+                        <option value="Шелушение">Шелушение</option>
+                        <option value="Бланширование">Бланширование</option>
+                        <option value="Фасовка">Фасовка</option>
+                        <option value="Готово к отправке">Готово к отправке</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="batchNotes" placeholder="Особенности партии..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newBatchModal')">Отмена</button>
+                    <button type="submit" class="btn">Создать партию</button>
+                </div>
             </form>
         </div>
     </div>
 
     <div id="newSaleModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">💰 Новая продажа</h3><button class="close-btn" onclick="hideModal('newSaleModal')">×</button></div>
+            <div class="modal-header">
+                <h3 class="modal-title">💰 Новая продажа</h3>
+                <button class="close-btn" onclick="hideModal('newSaleModal')">×</button>
+            </div>
             <form id="newSaleForm">
-                <div class="form-group"><label>Клиент:</label><select id="saleClient" required><option value="">Выберите клиента</option></select></div>
-                <div class="form-group"><label>Дата продажи:</label><input type="date" id="saleDate" required></div>
-                <div class="form-group"><label>Вес (г):</label><input type="number" id="saleWeight" placeholder="150" required></div>
-                <div class="form-group"><label>Планируемая цена (руб):</label><input type="number" id="plannedPrice" placeholder="400" required></div>
-                <div class="form-group"><label>Фактическая цена (руб):</label><input type="number" id="actualPrice" placeholder="600" required></div>
-                <div class="form-group"><label>Статус оплаты:</label><select id="salePaymentStatus"><option value="Не оплачен">Не оплачен</option><option value="Оплачен">Оплачен</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="saleNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать</button></div>
+                <div class="form-group">
+                    <label>Партия:</label>
+                    <select id="saleBatch" required>
+                        <option value="">Выберите партию</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Клиент:</label>
+                    <select id="saleClient" required>
+                        <option value="">Выберите клиента</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Дата продажи:</label>
+                    <input type="date" id="saleDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес проданного маша (г):</label>
+                    <input type="number" id="saleWeight" placeholder="150" required>
+                </div>
+                <div class="form-group">
+                    <label>Планируемая цена (руб):</label>
+                    <input type="number" id="plannedPrice" placeholder="40" required>
+                </div>
+                <div class="form-group">
+                    <label>Фактическая цена (руб):</label>
+                    <input type="number" id="actualPrice" placeholder="150" required>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="saleNotes" placeholder="Особенности продажи..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newSaleModal')">Отмена</button>
+                    <button type="submit" class="btn">Записать продажу</button>
+                </div>
             </form>
         </div>
     </div>
 
     <div id="newClientModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">👥 Новый клиент</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
+            <div class="modal-header">
+                <h3 class="modal-title">👥 Новый клиент</h3>
+                <button class="close-btn" onclick="hideModal('newClientModal')">×</button>
+            </div>
             <form id="newClientForm">
-                <div class="form-group"><label>Имя клиента:</label><input type="text" id="clientName" required></div>
-                <div class="form-group"><label>Место:</label><input type="text" id="clientPlace"></div>
-                <div class="form-group"><label>Контакт:</label><input type="text" id="clientContact"></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="clientNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
+                <div class="form-group">
+                    <label>Имя клиента:</label>
+                    <input type="text" id="clientName" placeholder="Кафе Утро" required>
+                </div>
+                <div class="form-group">
+                    <label>Место:</label>
+                    <input type="text" id="clientPlace" placeholder="ул. Пушкина, 10">
+                </div>
+                <div class="form-group">
+                    <label>Контакт:</label>
+                    <input type="text" id="clientContact" placeholder="+7 999 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="clientNotes" placeholder="Предпочтения клиента..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newClientModal')">Отмена</button>
+                    <button type="submit" class="btn">Добавить клиента</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <div id="newExpenseModal" class="modal">
+    <div id="newCupModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">💸 Новый расход</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
-            <form id="newExpenseForm">
-                <div class="form-group"><label>Дата расхода:</label><input type="date" id="expenseDate" required></div>
-                <div class="form-group"><label>Наименование:</label><input type="text" id="expenseName" placeholder="Например: Пакеты для упаковки" required></div>
-                <div class="form-group"><label>Сумма (руб):</label><input type="number" id="expenseAmount" placeholder="500" required></div>
-                <div class="form-group"><label>Категория:</label><select id="expenseCategory"><option value="Материалы">Материалы</option><option value="Семена">Семена</option><option value="Упаковка">Упаковка</option><option value="Транспорт">Транспорт</option><option value="Прочее">Прочее</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="expenseNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить расход</button></div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editExpenseModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать расход</h3><button class="close-btn" onclick="hideModal('editExpenseModal')">×</button></div>
-            <form id="editExpenseForm">
-                <input type="hidden" id="editExpenseId">
-                <div class="form-group"><label>Дата расхода:</label><input type="date" id="editExpenseDate" required></div>
-                <div class="form-group"><label>Наименование:</label><input type="text" id="editExpenseName" required></div>
-                <div class="form-group"><label>Сумма (руб):</label><input type="number" id="editExpenseAmount" required></div>
-                <div class="form-group"><label>Категория:</label><select id="editExpenseCategory"><option value="Материалы">Материалы</option><option value="Семена">Семена</option><option value="Упаковка">Упаковка</option><option value="Транспорт">Транспорт</option><option value="Прочее">Прочее</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="editExpenseNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
-            </form>
-        </div>
-    </div>
-
-    <div id="newAchievementModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">🏆 Новое достижение</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
-            <form id="newAchievementForm">
-                <div class="form-group"><label>Дата достижения:</label><input type="date" id="achievementDate" required></div>
-                <div class="form-group"><label>Описание:</label><input type="text" id="achievementDesc" placeholder="Например: Побил рекорд по производству!" required></div>
-                <div class="form-group"><label>Категория:</label><select id="achievementCategory"><option value="Производство">Производство</option><option value="Продажи">Продажи</option><option value="Клиенты">Клиенты</option></select></div>
-                <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div>
-            </form>
-        </div>
-    </div>
-
-    <div id="editSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать продажу</h3><button class="close-btn" onclick="hideModal('editSaleModal')">×</button></div>
-            <form id="editSaleForm">
-                <input type="hidden" id="editSaleId">
-                <div class="form-group"><label>Клиент:</label><select id="editSaleClient" required></select></div>
-                <div class="form-group"><label>Дата продажи:</label><input type="date" id="editSaleDate" required></div>
-                <div class="form-group"><label>Вес (г):</label><input type="number" id="editSaleWeight" required></div>
-                <div class="form-group"><label>Планируемая цена:</label><input type="number" id="editPlannedPrice" required></div>
-                <div class="form-group"><label>Фактическая цена:</label><input type="number" id="editActualPrice" required></div>
-                <div class="form-group"><label>Статус оплаты:</label><select id="editSalePaymentStatus"><option value="Не оплачен">Не оплачен</option><option value="Оплачен">Оплачен</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="editSaleNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
+            <div class="modal-header">
+                <h3 class="modal-title">🍵 Новая чаша</h3>
+                <button class="close-btn" onclick="hideModal('newCupModal')">×</button>
+            </div>
+            <form id="newCupForm">
+                <div class="form-group">
+                    <label>Название чаши:</label>
+                    <input type="text" id="cupName" placeholder="Фиолетовая чаша" required>
+                </div>
+                <div class="form-group">
+                    <label>Объем чаши (г):</label>
+                    <input type="number" id="cupVolume" placeholder="77" required>
+                </div>
+                <div class="form-group">
+                    <label>Вес маша в чаше (г):</label>
+                    <input type="number" id="cupMashWeight" placeholder="200" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('newCupModal')">Отмена</button>
+                    <button type="submit" class="btn">Добавить чашу</button>
+                </div>
             </form>
         </div>
     </div>
 
     <div id="editBatchModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header"><h3 class="modal-title">✏️ Редактировать партию</h3><button class="close-btn" onclick="hideModal('editBatchModal')">×</button></div>
+            <div class="modal-header">
+                <h3 class="modal-title">✏️ Редактировать партию</h3>
+                <button class="close-btn" onclick="hideModal('editBatchModal')">×</button>
+            </div>
             <form id="editBatchForm">
                 <input type="hidden" id="editBatchId">
-                <div class="form-group"><label>Номер партии:</label><input type="text" id="editBatchNumber" required></div>
-                <div class="form-group"><label>Дата начала:</label><input type="date" id="editBatchDate" required></div>
-                <div class="form-group"><label>Время начала:</label><input type="time" id="editBatchTime" required></div>
-                <div class="form-group"><label>Вес сухого маша (г):</label><input type="number" id="editBatchWeight" required></div>
-                <div class="form-group"><label>Статус:</label><select id="editBatchStatus"><option value="Замачивание">Замачивание</option><option value="Проращивание">Проращивание</option><option value="Шелушение">Шелушение</option><option value="Бланширование">Бланширование</option><option value="Сушка">Сушка</option><option value="Фасовка">Фасовка</option><option value="Готово к отправке">Готово к отправке</option></select></div>
-                <div class="form-group"><label>Заметки:</label><textarea id="editBatchNotes" rows="2"></textarea></div>
-                <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteBatchFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editBatchModal')">Отмена</button><button type="submit" class="btn-small">💾 Сохранить</button></div>
+                <div class="form-group">
+                    <label>Дата начала:</label>
+                    <input type="date" id="editBatchDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Время начала:</label>
+                    <input type="time" id="editBatchTime" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус:</label>
+                    <select id="editBatchStatus">
+                        <option value="Замачивание">Замачивание</option>
+                        <option value="Проращивание">Проращивание</option>
+                        <option value="Шелушение">Шелушение</option>
+                        <option value="Бланширование">Бланширование</option>
+                        <option value="Фасовка">Фасовка</option>
+                        <option value="Готово к отправке">Готово к отправке</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Заметки:</label>
+                    <textarea id="editBatchNotes"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="deleteBatch()">Удалить</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideModal('editBatchModal')">Отмена</button>
+                    <button type="submit" class="btn">Сохранить</button>
+                </div>
             </form>
         </div>
     </div>
 
-    <div id="viewClientModal" class="modal">
-        <div class="modal-content" id="viewClientContent"></div>
-    </div>
-
     <script>
-        // ==================== БАЗА ДАННЫХ ====================
+        // База данных
         const DB = {
-            save: function(key, data) { localStorage.setItem(key, JSON.stringify(data)); },
-            load: function(key) { return JSON.parse(localStorage.getItem(key)) || []; },
+            save: function(key, data) {
+                localStorage.setItem(key, JSON.stringify(data));
+            },
+            load: function(key) {
+                return JSON.parse(localStorage.getItem(key)) || [];
+            },
             getNextId: function(key) {
                 const items = this.load(key);
                 return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
             }
         };
 
-        // Инициализация и миграция старых данных
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            initData();
+            updateCurrentDate();
+            setupEventListeners();
+            loadDashboard();
+            
+            // Установка сегодняшней даты по умолчанию
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('batchDate').value = today;
+            document.getElementById('saleDate').value = today;
+        });
+
         function initData() {
-            // Миграция из старого формата
-            const oldBatches = DB.load('batches');
-            const oldSales = DB.load('sales');
-            const oldClients = DB.load('clients');
-            const oldExpenses = JSON.parse(localStorage.getItem('expenses_new')) || [];
-            const oldAchievements = JSON.parse(localStorage.getItem('achievements')) || [];
-            
-            // Если есть старые партии, но нет в новом формате
-            let batches = DB.load('batches_new');
-            if ((!batches || batches.length === 0) && oldBatches.length > 0) {
-                batches = oldBatches;
-                DB.save('batches_new', batches);
-            } else if (!batches) {
-                batches = [];
-                DB.save('batches_new', batches);
-            }
-            
-            let sales = DB.load('sales_new');
-            if ((!sales || sales.length === 0) && oldSales.length > 0) {
-                sales = oldSales;
-                DB.save('sales_new', sales);
-            } else if (!sales) {
-                sales = [];
-                DB.save('sales_new', sales);
-            }
-            
-            let clients = DB.load('clients_new');
-            if ((!clients || clients.length === 0) && oldClients.length > 0) {
-                clients = oldClients;
-                DB.save('clients_new', clients);
-            } else if (!clients) {
-                clients = [];
-                DB.save('clients_new', clients);
-            }
-            
-            let expenses = DB.load('expenses_new');
-            if (!expenses) {
-                expenses = oldExpenses;
-                DB.save('expenses_new', expenses);
-            }
-            
-            let achievements = DB.load('achievements_new');
-            if (!achievements || achievements.length === 0) {
-                achievements = oldAchievements;
-                DB.save('achievements_new', achievements);
-            }
-            
-            // Добавляем демо-данные если совсем пусто
-            if (clients.length === 0) {
-                clients = [
-                    { id: 1, name: "ЯМАНАСИ", place: "Ул красных Партизан 1/4к9", contact: "Анатолий", notes: "", createdAt: new Date().toISOString() },
-                    { id: 2, name: "Полихраниди", place: "Мон", contact: "304", notes: "", createdAt: new Date().toISOString() },
-                    { id: 3, name: "Настена", place: "Мон", contact: "406", notes: "НБН", createdAt: new Date().toISOString() },
-                    { id: 4, name: "Валерия", place: "МОН", contact: "303", notes: "БН", createdAt: new Date().toISOString() }
-                ];
-                DB.save('clients_new', clients);
-            }
-            
-            if (batches.length === 0) {
-                batches = [
-                    { id: 1, batchNumber: "Партия #1", date: "2025-12-13", time: "01:42", dryWeight: 170, status: "Замачивание", notes: "", createdAt: new Date().toISOString() },
-                    { id: 2, batchNumber: "Партия #2", date: "2025-12-11", time: "21:58", dryWeight: 160, status: "Проращивание", notes: "", createdAt: new Date().toISOString() }
-                ];
-                DB.save('batches_new', batches);
-            }
-            
-            if (sales.length === 0) {
-                sales = [
-                    { id: 1, clientId: 1, clientName: "ЯМАНАСИ", date: "2025-12-07", weight: 200, plannedPrice: 300, actualPrice: 600, paymentStatus: "Оплачен", notes: "Сегодня ЯМАНАСИ заказали еще 200г. И я сделала за месяц 6 тысяч рублей!!!", createdAt: new Date().toISOString() },
-                    { id: 2, clientId: 2, clientName: "Полихраниди", date: "2025-12-05", weight: 425, plannedPrice: 400, actualPrice: 700, paymentStatus: "Оплачен", notes: "Отдала 425г по Министерству нут. Всем понравилось и у меня заказали 700г только на понедельник !", createdAt: new Date().toISOString() }
-                ];
-                DB.save('sales_new', sales);
-            }
-            
-            if (expenses.length === 0) {
-                expenses = [
-                    { id: 1, date: "2026-01-12", name: "Маш", amount: 930, category: "Материалы", notes: "10 шт", createdAt: new Date().toISOString() },
-                    { id: 2, date: "2025-12-20", name: "Весы", amount: 300, category: "Материалы", notes: "Со скидкой", createdAt: new Date().toISOString() },
-                    { id: 3, date: "2025-12-20", name: "Нут", amount: 464, category: "Материалы", notes: "За 8 шт", createdAt: new Date().toISOString() },
-                    { id: 4, date: "2025-12-16", name: "Контейнеры", amount: 5500, category: "Материалы", notes: "125-1000 и 250 - 1000", createdAt: new Date().toISOString() },
-                    { id: 5, date: "2025-12-15", name: "Наклейки новогодние", amount: 387, category: "Материалы", notes: "", createdAt: new Date().toISOString() }
-                ];
-                DB.save('expenses_new', expenses);
-            }
-            
-            if (achievements.length === 0) {
-                achievements = [
-                    { id: 1, date: "2025-12-11", description: "Придумала идею!!! Я буду делать готовые чипсы !!!", category: "Производство", createdAt: new Date().toISOString() },
-                    { id: 2, date: "2025-12-07", description: "Сегодня ЯМАНАСИ заказали еще 200г. И я сделала за месяц 6 тысяч рублей!!!", category: "Продажи", createdAt: new Date().toISOString() },
-                    { id: 3, date: "2025-12-06", description: "Вчера взяла контактный номер одного ресторана управляющего, которому предложу сотрудничество! Попросила номер лично", category: "Клиенты", createdAt: new Date().toISOString() },
-                    { id: 4, date: "2025-12-05", description: "Отдала 425г по Министерству нут. Всем понравилось и у меня заказали 700г только на понедельник !", category: "Продажи", createdAt: new Date().toISOString() }
-                ];
-                DB.save('achievements_new', achievements);
+            if (!DB.load('batches').length) DB.save('batches', []);
+            if (!DB.load('sales').length) DB.save('sales', []);
+            if (!DB.load('clients').length) DB.save('clients', []);
+            if (!DB.load('cups').length) DB.save('cups', []);
+        }
+
+        function setupEventListeners() {
+            // Навигация
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                    loadSectionData(sectionId);
+                });
+            });
+
+            // Формы
+            document.getElementById('newBatchForm').addEventListener('submit', addBatch);
+            document.getElementById('newSaleForm').addEventListener('submit', addSale);
+            document.getElementById('newClientForm').addEventListener('submit', addClient);
+            document.getElementById('newCupForm').addEventListener('submit', addCup);
+            document.getElementById('editBatchForm').addEventListener('submit', updateBatch);
+        }
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('currentDate').textContent = now.toLocaleDateString('ru-RU', options);
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            if (modalId === 'newSaleModal') {
+                fillBatchSelect();
+                fillClientSelect();
             }
         }
-        
-        initData();
-        
-        // ==================== ФИНАНСОВЫЕ РАСЧЕТЫ ====================
-        function getFinancialStats() {
-            const sales = DB.load('sales_new');
-            const expenses = DB.load('expenses_new');
-            const today = new Date().toISOString().slice(0,10);
-            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
-            const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0,10);
-            const yearStart = "2026-03-01";
-            
-            // Доходы (только оплаченные продажи)
-            const paidSales = sales.filter(s => s.paymentStatus === "Оплачен");
-            const totalIncome = paidSales.reduce((sum, s) => sum + s.actualPrice, 0);
-            
-            // Расходы
-            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
-            const currentBalance = totalIncome - totalExpenses;
-            
-            // За сегодня
-            const todayIncome = paidSales.filter(s => s.date === today).reduce((sum, s) => sum + s.actualPrice, 0);
-            const todayExpenses = expenses.filter(e => e.date === today).reduce((sum, e) => sum + e.amount, 0);
-            const todayBalance = todayIncome - todayExpenses;
-            
-            // За неделю
-            const weekIncome = paidSales.filter(s => s.date >= weekAgo).reduce((sum, s) => sum + s.actualPrice, 0);
-            const weekExpenses = expenses.filter(e => e.date >= weekAgo).reduce((sum, e) => sum + e.amount, 0);
-            const weekBalance = weekIncome - weekExpenses;
-            
-            // За месяц
-            const monthIncome = paidSales.filter(s => s.date >= monthAgo).reduce((sum, s) => sum + s.actualPrice, 0);
-            const monthExpenses = expenses.filter(e => e.date >= monthAgo).reduce((sum, e) => sum + e.amount, 0);
-            const monthBalance = monthIncome - monthExpenses;
-            
-            // За год (с 1 марта)
-            const yearIncome = paidSales.filter(s => s.date >= yearStart).reduce((sum, s) => sum + s.actualPrice, 0);
-            const yearExpenses = expenses.filter(e => e.date >= yearStart).reduce((sum, e) => sum + e.amount, 0);
-            const yearBalance = yearIncome - yearExpenses;
-            
-            return {
-                totalIncome, totalExpenses, currentBalance,
-                todayBalance, weekBalance, monthBalance, yearBalance,
-                todayIncome, weekIncome, monthIncome, yearIncome,
-                todayExpenses, weekExpenses, monthExpenses, yearExpenses
-            };
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
-        
-        function getStatusClass(status) {
-            const map = {
-                'Замачивание': 'soaking',
-                'Проращивание': 'sprouting',
-                'Шелушение': 'peeling',
-                'Бланширование': 'blanching',
-                'Сушка': 'packing',
-                'Фасовка': 'packing',
-                'Готово к отправке': 'ready'
-            };
-            return map[status] || 'sprouting';
+
+        function loadSectionData(sectionName) {
+            switch(sectionName) {
+                case 'dashboard': loadDashboard(); break;
+                case 'batches': loadBatches(); break;
+                case 'sales': loadSales(); break;
+                case 'clients': loadClients(); break;
+                case 'cups': loadCups(); break;
+            }
         }
-        
-        function getProgressPercent(status) {
-            const stages = ['Замачивание', 'Проращивание', 'Шелушение', 'Бланширование', 'Сушка', 'Фасовка', 'Готово к отправке'];
-            const index = stages.indexOf(status);
-            return ((index + 1) / stages.length) * 100;
-        }
-        
-        // ==================== РЕНДЕР ДАШБОРДА ====================
-        function renderDashboard() {
-            const batches = DB.load('batches_new');
-            const sales = DB.load('sales_new');
-            const clients = DB.load('clients_new');
-            const finances = getFinancialStats();
+
+        function loadDashboard() {
+            const batches = DB.load('batches');
+            const sales = DB.load('sales');
+            const clients = DB.load('clients');
             
-            // Основные статистики
-            document.getElementById('mainStats').innerHTML = `
-                <div class="stat-card"><div class="stat-number">${batches.length}</div><div class="stat-label">Всего партий</div></div>
-                <div class="stat-card"><div class="stat-number">${finances.totalIncome}₽</div><div class="stat-label">Общая выручка</div></div>
-                <div class="stat-card"><div class="stat-number">${batches.filter(b => b.status !== 'Готово к отправке').length}</div><div class="stat-label">Активные</div></div>
-                <div class="stat-card"><div class="stat-number">${clients.length}</div><div class="stat-label">Клиенты</div></div>
-            `;
+            document.getElementById('totalBatches').textContent = batches.length;
+            document.getElementById('totalClients').textContent = clients.length;
+            document.getElementById('activeBatches').textContent = batches.filter(b => b.status !== 'Готово к отправке').length;
             
-            // Финансовые показатели
-            document.getElementById('balanceStats').innerHTML = `
-                <div class="finance-card"><div class="finance-amount">${finances.currentBalance}₽</div><div class="finance-label">Текущий баланс</div></div>
-                <div class="finance-card"><div class="finance-amount">${finances.todayBalance}₽</div><div class="finance-label">За сегодня</div></div>
-                <div class="finance-card"><div class="finance-amount">${finances.weekBalance}₽</div><div class="finance-label">За неделю</div></div>
-                <div class="finance-card"><div class="finance-amount">${finances.monthBalance}₽</div><div class="finance-label">За месяц</div></div>
-                <div class="finance-card"><div class="finance-amount">${finances.yearBalance}₽</div><div class="finance-label">С 1 марта</div></div>
-                <div class="finance-card"><div class="finance-amount">${finances.totalIncome - finances.totalExpenses}₽</div><div class="finance-label">Общая прибыль</div></div>
-            `;
+            const totalProfit = sales.reduce((sum, sale) => sum + (sale.actualPrice - sale.plannedPrice), 0);
+            document.getElementById('totalProfit').textContent = totalProfit + '₽';
             
             // Активные партии
+            const activeBatchesList = document.getElementById('activeBatchesList');
             const activeBatches = batches.filter(b => b.status !== 'Готово к отправке').slice(0, 3);
-            const activeDiv = document.getElementById('activeBatchesList');
+            
             if (activeBatches.length === 0) {
-                activeDiv.innerHTML = '<div class="empty-state">Нет активных партий</div>';
+                activeBatchesList.innerHTML = '<div class="empty-state">Нет активных партий</div>';
             } else {
-                activeDiv.innerHTML = activeBatches.map(batch => `
+                activeBatchesList.innerHTML = activeBatches.map(batch => `
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">${batch.batchNumber}</div>
                             <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
                         </div>
-                        <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(batch.status)}%"></div></div>
-                        <div class="card-details">📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}</div>
-                        ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
-                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button></div>
+                        <div class="card-details">
+                            📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}
+                        </div>
                     </div>
                 `).join('');
             }
             
             // Последние продажи
-            const recentSales = sales.slice(-3).reverse();
-            const recentDiv = document.getElementById('recentSalesList');
+            const recentSalesList = document.getElementById('recentSalesList');
+            const recentSales = sales.slice(-2).reverse();
+            
             if (recentSales.length === 0) {
-                recentDiv.innerHTML = '<div class="empty-state">Нет продаж</div>';
+                recentSalesList.innerHTML = '<div class="empty-state">Нет продаж</div>';
             } else {
-                recentDiv.innerHTML = recentSales.map(sale => `
+                recentSalesList.innerHTML = recentSales.map(sale => `
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title">${sale.clientName}</div>
-                            <div class="status ${sale.paymentStatus === 'Оплачен' ? 'status-paid' : 'status-unpaid'}">${sale.paymentStatus}</div>
+                            <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice - sale.plannedPrice}₽</div>
                         </div>
-                        <div class="card-details">📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}</div>
-                        ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
-                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button></div>
+                        <div class="card-details">
+                            📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ • 📅 ${sale.date}
+                        </div>
                     </div>
                 `).join('');
             }
         }
-        
-        // ==================== ПАРТИИ ====================
-        function renderBatches() {
-            const batches = DB.load('batches_new');
-            const div = document.getElementById('batchesList');
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Замачивание': 'soaking',
+                'Проращивание': 'sprouting',
+                'Шелушение': 'peeling',
+                'Бланширование': 'blanching',
+                'Фасовка': 'packing',
+                'Готово к отправке': 'ready'
+            };
+            return statusMap[status] || 'sprouting';
+        }
+
+        function loadBatches() {
+            const batches = DB.load('batches');
+            const batchesList = document.getElementById('batchesList');
+            
             if (batches.length === 0) {
-                div.innerHTML = '<div class="empty-state">Нет созданных партий</div>';
+                batchesList.innerHTML = '<div class="empty-state">Нет созданных партий</div>';
                 return;
             }
-            const sorted = batches.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            div.innerHTML = sorted.map(batch => `
+            
+            batchesList.innerHTML = batches.map(batch => `
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">${batch.batchNumber}</div>
                         <div class="status status-${getStatusClass(batch.status)}">${batch.status}</div>
                     </div>
-                    <div class="progress-bar"><div class="progress-fill" style="width:${getProgressPercent(batch.status)}%"></div></div>
-                    <div class="card-details">📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}</div>
+                    <div class="card-details">
+                        📦 ${batch.dryWeight}г • 📅 ${batch.date} • 🕒 ${batch.time}
+                    </div>
                     ${batch.notes ? `<div class="card-details">📝 ${batch.notes}</div>` : ''}
-                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button></div>
+                    <div class="card-actions">
+                        <button class="btn btn-small btn-secondary" onclick="editBatch(${batch.id})">✏️ Редактировать</button>
+                    </div>
                 </div>
             `).join('');
         }
-        
-        window.editBatch = (id) => {
-            const batches = DB.load('batches_new');
-            const batch = batches.find(b => b.id === id);
-            if (batch) {
-                document.getElementById('editBatchId').value = batch.id;
-                document.getElementById('editBatchNumber').value = batch.batchNumber;
-                document.getElementById('editBatchDate').value = batch.date;
-                document.getElementById('editBatchTime').value = batch.time;
-                document.getElementById('editBatchWeight').value = batch.dryWeight;
-                document.getElementById('editBatchStatus').value = batch.status;
-                document.getElementById('editBatchNotes').value = batch.notes || '';
-                showModal('editBatchModal');
-            }
-        };
-        
-        window.deleteBatchFromModal = () => {
-            const id = parseInt(document.getElementById('editBatchId').value);
-            if (confirm('Удалить эту партию?')) {
-                let batches = DB.load('batches_new');
-                batches = batches.filter(b => b.id !== id);
-                DB.save('batches_new', batches);
-                hideModal('editBatchModal');
-                renderBatches();
-                renderDashboard();
-            }
-        };
-        
-        // ==================== ПРОДАЖИ ====================
-        function renderSales() {
-            const sales = DB.load('sales_new');
-            const div = document.getElementById('salesList');
-            if (sales.length === 0) {
-                div.innerHTML = '<div class="empty-state">Нет записанных продаж</div>';
-                return;
-            }
-            const sorted = sales.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-            div.innerHTML = sorted.map(sale => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">${sale.clientName}</div>
-                        <div class="status ${sale.paymentStatus === 'Оплачен' ? 'status-paid' : 'status-unpaid'}">${sale.paymentStatus}</div>
-                    </div>
-                    <div class="card-details">📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}</div>
-                    ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
-                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="editSale(${sale.id})">✏️ Редактировать</button></div>
-                </div>
-            `).join('');
-        }
-        
-        window.editSale = (id) => {
-            const sales = DB.load('sales_new');
-            const clients = DB.load('clients_new');
-            const sale = sales.find(s => s.id === id);
-            if (sale) {
-                document.getElementById('editSaleId').value = sale.id;
-                const clientSelect = document.getElementById('editSaleClient');
-                clientSelect.innerHTML = clients.map(c => `<option value="${c.id}" ${c.id === sale.clientId ? 'selected' : ''}>${c.name}</option>`).join('');
-                document.getElementById('editSaleDate').value = sale.date;
-                document.getElementById('editSaleWeight').value = sale.weight;
-                document.getElementById('editPlannedPrice').value = sale.plannedPrice;
-                document.getElementById('editActualPrice').value = sale.actualPrice;
-                document.getElementById('editSalePaymentStatus').value = sale.paymentStatus;
-                document.getElementById('editSaleNotes').value = sale.notes || '';
-                showModal('editSaleModal');
-            }
-        };
-        
-        window.deleteSaleFromModal = () => {
-            const id = parseInt(document.getElementById('editSaleId').value);
-            if (confirm('Удалить эту продажу?')) {
-                let sales = DB.load('sales_new');
-                sales = sales.filter(s => s.id !== id);
-                DB.save('sales_new', sales);
-                hideModal('editSaleModal');
-                renderSales();
-                renderDashboard();
-            }
-        };
-        
-        // ==================== КЛИЕНТЫ ====================
-        function renderClients(filter = '') {
-            let clients = DB.load('clients_new');
-            const sales = DB.load('sales_new');
-            if (filter) clients = clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
-            const div = document.getElementById('clientsList');
-            if (clients.length === 0) {
-                div.innerHTML = '<div class="empty-state">Нет добавленных клиентов</div>';
-                return;
-            }
-            div.innerHTML = clients.map(client => {
-                const clientSales = sales.filter(s => s.clientId === client.id);
-                const totalSpent = clientSales.reduce((sum, s) => sum + (s.paymentStatus === 'Оплачен' ? s.actualPrice : 0), 0);
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="card-title">${client.name}</div>
-                            <button class="btn-small btn-secondary" onclick="viewClient(${client.id})">📋 Подробнее</button>
-                        </div>
-                        <div class="card-details">${client.place ? `📍 ${client.place}<br>` : ''}${client.contact ? `📞 ${client.contact}<br>` : ''}</div>
-                        <div class="card-details">📦 Заказов: ${clientSales.length} | 💰 На сумму: ${totalSpent}₽</div>
-                        <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(${client.id})">📦 Новая поставка</button></div>
-                    </div>
-                `;
-            }).join('');
-        }
-        
-        window.viewClient = (id) => {
-            const clients = DB.load('clients_new');
-            const sales = DB.load('sales_new');
-            const client = clients.find(c => c.id === id);
-            const clientSales = sales.filter(s => s.clientId === id).sort((a, b) => new Date(b.date) - new Date(a.date));
-            const totalSpent = clientSales.reduce((sum, s) => sum + (s.paymentStatus === 'Оплачен' ? s.actualPrice : 0), 0);
-            const modalDiv = document.getElementById('viewClientContent');
-            modalDiv.innerHTML = `
-                <div>
-                    <h3>${client.name}</h3>
-                    <p>📍 ${client.place || '—'}<br>📞 ${client.contact || '—'}</p>
-                    <div style="background:#F8FDF8; padding:12px; border-radius:16px; margin:12px 0">
-                        <div>📊 Статистика:</div>
-                        <div>• Всего заказов: ${clientSales.length}</div>
-                        <div>• На сумму: ${totalSpent}₽</div>
-                        <div>• Последний заказ: ${clientSales[0]?.date || '—'}</div>
-                    </div>
-                    <hr>
-                    <h4>📦 История заказов:</h4>
-                    ${clientSales.map(s => `<div style="padding:8px 0; border-bottom:1px solid #E8F5E9">📅 ${s.date} — ${s.weight}г — ${s.actualPrice}₽ ${s.paymentStatus === 'Оплачен' ? '✅' : '❌'}</div>`).join('') || '<p>Нет заказов</p>'}
-                    <div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(${client.id}); hideModal('viewClientModal')">📦 Новая поставка</button><button class="btn-small" onclick="hideModal('viewClientModal')">Закрыть</button></div>
-                </div>
-            `;
-            showModal('viewClientModal');
-        };
-        
-        window.quickOrder = (clientId) => {
-            showModal('newSaleModal');
-            setTimeout(() => {
-                const select = document.getElementById('saleClient');
-                if (select) select.value = clientId;
-            }, 100);
-        };
-        
-        window.filterClients = () => renderClients(document.getElementById('clientSearch').value);
-        
-        // ==================== РАСХОДЫ ====================
-        function renderExpenses() {
-            const expenses = DB.load('expenses_new');
-            const finances = getFinancialStats();
-            const div = document.getElementById('expensesTable');
-            
-            // Верхние статистики расходов
-            const expensesHeader = `
-                <div class="stats-grid" style="margin-bottom:16px">
-                    <div class="stat-card"><div class="stat-number">${finances.todayExpenses}₽</div><div class="stat-label">Расходы за сегодня</div></div>
-                    <div class="stat-card"><div class="stat-number">${finances.weekExpenses}₽</div><div class="stat-label">Расходы за неделю</div></div>
-                    <div class="stat-card"><div class="stat-number">${finances.monthExpenses}₽</div><div class="stat-label">Расходы за месяц</div></div>
-                    <div class="stat-card"><div class="stat-number">${finances.totalExpenses}₽</div><div class="stat-label">Всего расходов</div></div>
-                </div>
-            `;
-            
-            if (expenses.length === 0) {
-                div.innerHTML = expensesHeader + '<div class="empty-state">Нет расходов</div>';
-                return;
-            }
-            
-            const sorted = expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
-            div.innerHTML = expensesHeader + `
-                <div class="table-wrapper">
-                    <table class="data-table">
-                        <thead><tr><th>Дата</th><th>Наименование</th><th>Категория</th><th>Сумма</th><th></th></tr></thead>
-                        <tbody>
-                            ${sorted.map(e => `
-                                <tr>
-                                    <td>${e.date}</td>
-                                    <td>${e.name}</td>
-                                    <td><span class="status status-pending" style="background:#F3E5F5">${e.category}</span></td>
-                                    <td><b>-${e.amount}₽</b></td>
-                                    <td><button class="btn-icon btn-small" onclick="editExpense(${e.id})">✏️</button></td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-        
-        window.editExpense = (id) => {
-            const expenses = DB.load('expenses_new');
-            const expense = expenses.find(e => e.id === id);
-            if (expense) {
-                document.getElementById('editExpenseId').value = expense.id;
-                document.getElementById('editExpenseDate').value = expense.date;
-                document.getElementById('editExpenseName').value = expense.name;
-                document.getElementById('editExpenseAmount').value = expense.amount;
-                document.getElementById('editExpenseCategory').value = expense.category;
-                document.getElementById('editExpenseNotes').value = expense.notes || '';
-                showModal('editExpenseModal');
-            }
-        };
-        
-        window.deleteExpenseFromModal = () => {
-            const id = parseInt(document.getElementById('editExpenseId').value);
-            if (confirm('Удалить этот расход?')) {
-                let expenses = DB.load('expenses_new');
-                expenses = expenses.filter(e => e.id !== id);
-                DB.save('expenses_new', expenses);
-                hideModal('editExpenseModal');
-                renderExpenses();
-                renderDashboard();
-            }
-        };
-        
-        // ==================== ДОСТИЖЕНИЯ ====================
-        function renderAchievements() {
-            const achievements = DB.load('achievements_new');
-            const div = document.getElementById('achievementsList');
-            if (achievements.length === 0) {
-                div.innerHTML = '<div class="empty-state">Нет достижений. Добавьте первое!</div>';
-                return;
-            }
-            const sorted = achievements.sort((a, b) => new Date(b.date) - new Date(a.date));
-            div.innerHTML = sorted.map(a => `
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">🏆 ${a.description}</div>
-                        <button class="btn-icon btn-small" onclick="deleteAchievement(${a.id})" style="color:#E53935">🗑️</button>
-                    </div>
-                    <div class="card-details">📅 ${a.date} • ${a.category}</div>
-                </div>
-            `).join('');
-        }
-        
-        window.deleteAchievement = (id) => {
-            if (confirm('Удалить достижение?')) {
-                let achievements = DB.load('achievements_new');
-                achievements = achievements.filter(a => a.id !== id);
-                DB.save('achievements_new', achievements);
-                renderAchievements();
-            }
-        };
-        
-        // ==================== ФОРМЫ ====================
-        function fillSelectors() {
-            const clients = DB.load('clients_new');
-            const clientSelect = document.getElementById('saleClient');
-            const editClientSelect = document.getElementById('editSaleClient');
-            if (clientSelect) clientSelect.innerHTML = '<option value="">Выберите клиента</option>' + clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-            if (editClientSelect) editClientSelect.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        }
-        
-        document.getElementById('newBatchForm')?.addEventListener('submit', (e) => {
+
+        function addBatch(e) {
             e.preventDefault();
-            const batches = DB.load('batches_new');
-            batches.push({
-                id: DB.getNextId('batches_new'),
-                batchNumber: document.getElementById('batchNumber').value,
+            
+            const batch = {
+                id: DB.getNextId('batches'),
+                batchNumber: `Партия #${DB.getNextId('batches')}`,
                 date: document.getElementById('batchDate').value,
                 time: document.getElementById('batchTime').value,
                 dryWeight: parseInt(document.getElementById('batchWeight').value),
                 status: document.getElementById('batchStatus').value,
                 notes: document.getElementById('batchNotes').value,
                 createdAt: new Date().toISOString()
-            });
-            DB.save('batches_new', batches);
+            };
+            
+            const batches = DB.load('batches');
+            batches.push(batch);
+            DB.save('batches', batches);
+            
             hideModal('newBatchModal');
             document.getElementById('newBatchForm').reset();
-            renderBatches();
-            renderDashboard();
-        });
-        
-        document.getElementById('editBatchForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('editBatchId').value);
-            let batches = DB.load('batches_new');
-            const index = batches.findIndex(b => b.id === id);
-            if (index !== -1) {
-                batches[index] = {
-                    ...batches[index],
-                    batchNumber: document.getElementById('editBatchNumber').value,
-                    date: document.getElementById('editBatchDate').value,
-                    time: document.getElementById('editBatchTime').value,
-                    dryWeight: parseInt(document.getElementById('editBatchWeight').value),
-                    status: document.getElementById('editBatchStatus').value,
-                    notes: document.getElementById('editBatchNotes').value
-                };
-                DB.save('batches_new', batches);
-                hideModal('editBatchModal');
-                renderBatches();
-                renderDashboard();
+            loadDashboard();
+            loadBatches();
+            
+            alert('✅ Партия создана!');
+        }
+
+        function editBatch(id) {
+            const batches = DB.load('batches');
+            const batch = batches.find(b => b.id === id);
+            
+            if (batch) {
+                document.getElementById('editBatchId').value = batch.id;
+                document.getElementById('editBatchDate').value = batch.date;
+                document.getElementById('editBatchTime').value = batch.time;
+                document.getElementById('editBatchStatus').value = batch.status;
+                document.getElementById('editBatchNotes').value = batch.notes || '';
+                
+                showModal('editBatchModal');
             }
-        });
-        
-        document.getElementById('newSaleForm')?.addEventListener('submit', (e) => {
+        }
+
+        function updateBatch(e) {
             e.preventDefault();
+            
+            const id = parseInt(document.getElementById('editBatchId').value);
+            const batches = DB.load('batches');
+            const batchIndex = batches.findIndex(b => b.id === id);
+            
+            if (batchIndex !== -1) {
+                batches[batchIndex].date = document.getElementById('editBatchDate').value;
+                batches[batchIndex].time = document.getElementById('editBatchTime').value;
+                batches[batchIndex].status = document.getElementById('editBatchStatus').value;
+                batches[batchIndex].notes = document.getElementById('editBatchNotes').value;
+                
+                DB.save('batches', batches);
+                hideModal('editBatchModal');
+                loadDashboard();
+                loadBatches();
+                
+                alert('✅ Партия обновлена!');
+            }
+        }
+
+        function deleteBatch() {
+            if (!confirm('🗑️ Удалить эту партию?')) return;
+            
+            const id = parseInt(document.getElementById('editBatchId').value);
+            const batches = DB.load('batches');
+            const filteredBatches = batches.filter(b => b.id !== id);
+            
+            DB.save('batches', filteredBatches);
+            hideModal('editBatchModal');
+            loadDashboard();
+            loadBatches();
+            
+            alert('✅ Партия удалена!');
+        }
+
+        function fillBatchSelect() {
+            const batches = DB.load('batches');
+            const select = document.getElementById('saleBatch');
+            select.innerHTML = '<option value="">Выберите партию</option>' +
+                batches.map(batch => `<option value="${batch.id}">${batch.batchNumber} (${batch.dryWeight}г)</option>`).join('');
+        }
+
+        function fillClientSelect() {
+            const clients = DB.load('clients');
+            const select = document.getElementById('saleClient');
+            select.innerHTML = '<option value="">Выберите клиента</option>' +
+                clients.map(client => `<option value="${client.id}">${client.name}</option>`).join('');
+        }
+
+        function addSale(e) {
+            e.preventDefault();
+            
+            const batchId = parseInt(document.getElementById('saleBatch').value);
             const clientId = parseInt(document.getElementById('saleClient').value);
-            const clients = DB.load('clients_new');
+            const batches = DB.load('batches');
+            const clients = DB.load('clients');
+            
+            const batch = batches.find(b => b.id === batchId);
             const client = clients.find(c => c.id === clientId);
-            if (!client) { alert('Выберите клиента!'); return; }
-            const sales = DB.load('sales_new');
-            sales.push({
-                id: DB.getNextId('sales_new'),
+            
+            if (!batch || !client) {
+                alert('❌ Выберите партию и клиента!');
+                return;
+            }
+            
+            const sale = {
+                id: DB.getNextId('sales'),
+                batchId: batchId,
                 clientId: clientId,
+                batchNumber: batch.batchNumber,
                 clientName: client.name,
                 date: document.getElementById('saleDate').value,
                 weight: parseInt(document.getElementById('saleWeight').value),
                 plannedPrice: parseInt(document.getElementById('plannedPrice').value),
                 actualPrice: parseInt(document.getElementById('actualPrice').value),
-                paymentStatus: document.getElementById('salePaymentStatus').value,
                 notes: document.getElementById('saleNotes').value,
                 createdAt: new Date().toISOString()
-            });
-            DB.save('sales_new', sales);
+            };
+            
+            const sales = DB.load('sales');
+            sales.push(sale);
+            DB.save('sales', sales);
+            
             hideModal('newSaleModal');
             document.getElementById('newSaleForm').reset();
-            renderSales();
-            renderDashboard();
-        });
-        
-        document.getElementById('editSaleForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('editSaleId').value);
-            const clientId = parseInt(document.getElementById('editSaleClient').value);
-            const clients = DB.load('clients_new');
-            const client = clients.find(c => c.id === clientId);
-            let sales = DB.load('sales_new');
-            const index = sales.findIndex(s => s.id === id);
-            if (index !== -1) {
-                sales[index] = {
-                    ...sales[index],
-                    clientId: clientId,
-                    clientName: client.name,
-                    date: document.getElementById('editSaleDate').value,
-                    weight: parseInt(document.getElementById('editSaleWeight').value),
-                    plannedPrice: parseInt(document.getElementById('editPlannedPrice').value),
-                    actualPrice: parseInt(document.getElementById('editActualPrice').value),
-                    paymentStatus: document.getElementById('editSalePaymentStatus').value,
-                    notes: document.getElementById('editSaleNotes').value
-                };
-                DB.save('sales_new', sales);
-                hideModal('editSaleModal');
-                renderSales();
-                renderDashboard();
+            loadDashboard();
+            loadSales();
+            
+            alert('✅ Продажа записана!');
+        }
+
+        function loadSales() {
+            const sales = DB.load('sales');
+            const salesList = document.getElementById('salesList');
+            
+            if (sales.length === 0) {
+                salesList.innerHTML = '<div class="empty-state">Нет записанных продаж</div>';
+                return;
             }
-        });
-        
-        document.getElementById('newClientForm')?.addEventListener('submit', (e) => {
+            
+            salesList.innerHTML = sales.map(sale => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${sale.clientName}</div>
+                        <div style="color: #4CAF50; font-weight: 600;">+${sale.actualPrice - sale.plannedPrice}₽</div>
+                    </div>
+                    <div class="card-details">
+                        📦 ${sale.weight}г • 💰 ${sale.actualPrice}₽ (план: ${sale.plannedPrice}₽) • 📅 ${sale.date}
+                    </div>
+                    <div class="card-details">
+                        🏷️ ${sale.batchNumber}
+                    </div>
+                    ${sale.notes ? `<div class="card-details">📝 ${sale.notes}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function addClient(e) {
             e.preventDefault();
-            const clients = DB.load('clients_new');
-            clients.push({
-                id: DB.getNextId('clients_new'),
+            
+            const client = {
+                id: DB.getNextId('clients'),
                 name: document.getElementById('clientName').value,
                 place: document.getElementById('clientPlace').value,
                 contact: document.getElementById('clientContact').value,
                 notes: document.getElementById('clientNotes').value,
                 createdAt: new Date().toISOString()
-            });
-            DB.save('clients_new', clients);
+            };
+            
+            const clients = DB.load('clients');
+            clients.push(client);
+            DB.save('clients', clients);
+            
             hideModal('newClientModal');
             document.getElementById('newClientForm').reset();
-            renderClients();
-            fillSelectors();
-        });
-        
-        document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const expenses = DB.load('expenses_new');
-            expenses.push({
-                id: DB.getNextId('expenses_new'),
-                date: document.getElementById('expenseDate').value,
-                name: document.getElementById('expenseName').value,
-                amount: parseInt(document.getElementById('expenseAmount').value),
-                category: document.getElementById('expenseCategory').value,
-                notes: document.getElementById('expenseNotes').value,
-                createdAt: new Date().toISOString()
-            });
-            DB.save('expenses_new', expenses);
-            hideModal('newExpenseModal');
-            document.getElementById('newExpenseForm').reset();
-            renderExpenses();
-            renderDashboard();
-        });
-        
-        document.getElementById('editExpenseForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('editExpenseId').value);
-            let expenses = DB.load('expenses_new');
-            const index = expenses.findIndex(e => e.id === id);
-            if (index !== -1) {
-                expenses[index] = {
-                    ...expenses[index],
-                    date: document.getElementById('editExpenseDate').value,
-                    name: document.getElementById('editExpenseName').value,
-                    amount: parseInt(document.getElementById('editExpenseAmount').value),
-                    category: document.getElementById('editExpenseCategory').value,
-                    notes: document.getElementById('editExpenseNotes').value
-                };
-                DB.save('expenses_new', expenses);
-                hideModal('editExpenseModal');
-                renderExpenses();
-                renderDashboard();
+            loadDashboard();
+            loadClients();
+            
+            alert('✅ Клиент добавлен!');
+        }
+
+        function loadClients() {
+            const clients = DB.load('clients');
+            const clientsList = document.getElementById('clientsList');
+            
+            if (clients.length === 0) {
+                clientsList.innerHTML = '<div class="empty-state">Нет добавленных клиентов</div>';
+                return;
             }
-        });
-        
-        document.getElementById('newAchievementForm')?.addEventListener('submit', (e) => {
+            
+            clientsList.innerHTML = clients.map(client => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${client.name}</div>
+                    </div>
+                    <div class="card-details">
+                        ${client.place ? `🏠 ${client.place}<br>` : ''}
+                        ${client.contact ? `📞 ${client.contact}<br>` : ''}
+                        📅 Добавлен: ${new Date(client.createdAt).toLocaleDateString('ru-RU')}
+                    </div>
+                    ${client.notes ? `<div class="card-details">📝 ${client.notes}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function addCup(e) {
             e.preventDefault();
-            const achievements = DB.load('achievements_new');
-            achievements.push({
-                id: DB.getNextId('achievements_new'),
-                date: document.getElementById('achievementDate').value,
-                description: document.getElementById('achievementDesc').value,
-                category: document.getElementById('achievementCategory').value,
+            
+            const cupVolume = parseInt(document.getElementById('cupVolume').value);
+            const mashWeight = parseInt(document.getElementById('cupMashWeight').value);
+            
+            const cup = {
+                id: DB.getNextId('cups'),
+                name: document.getElementById('cupName').value,
+                cupVolume: cupVolume,
+                mashWeight: mashWeight,
+                totalWeight: cupVolume + mashWeight,
                 createdAt: new Date().toISOString()
-            });
-            DB.save('achievements_new', achievements);
-            hideModal('newAchievementModal');
-            document.getElementById('newAchievementForm').reset();
-            renderAchievements();
-        });
-        
-        // ==================== НАВИГАЦИЯ ====================
-        window.showModal = (id) => { fillSelectors(); document.getElementById(id).style.display = 'block'; };
-        window.hideModal = (id) => document.getElementById(id).style.display = 'none';
-        
-        document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                this.classList.add('active');
-                const section = this.getAttribute('data-section');
-                document.getElementById(section).classList.add('active');
-                if (section === 'dashboard') renderDashboard();
-                if (section === 'batches') renderBatches();
-                if (section === 'sales') renderSales();
-                if (section === 'clients') renderClients();
-                if (section === 'expenses') renderExpenses();
-                if (section === 'achievements') renderAchievements();
-            });
-        });
-        
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-        
-        // Стартовый рендер
-        renderDashboard();
-        renderBatches();
-        renderSales();
-        renderClients();
-        renderExpenses();
-        renderAchievements();
-        fillSelectors();
+            };
+            
+            const cups = DB.load('cups');
+            cups.push(cup);
+            DB.save('cups', cups);
+            
+            hideModal('newCupModal');
+            document.getElementById('newCupForm').reset();
+            loadCups();
+            
+            alert('✅ Чаша добавлена!');
+        }
+
+        function loadCups() {
+            const cups = DB.load('cups');
+            const cupsList = document.getElementById('cupsList');
+            
+            if (cups.length === 0) {
+                cupsList.innerHTML = '<div class="empty-state">Нет добавленных чаш</div>';
+                return;
+            }
+            
+            cupsList.innerHTML = cups.map(cup => `
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">${cup.name}</div>
+                        <div>${cup.totalWeight}г</div>
+                    </div>
+                    <div class="card-details">
+                        🍵 Объем чаши: ${cup.cupVolume}г<br>
+                        🌱 Вес маша: ${cup.mashWeight}г<br>
+                        ⚖️ Общий вес: ${cup.totalWeight}г
+                    </div>
+                </div>
+            `).join('');
+        }
     </script>
 </body>
 </html>
