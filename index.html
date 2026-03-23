@@ -2,31 +2,43 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>🌱 VITARAY — Полная версия</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="theme-color" content="#2E7D32">
+    <title>🌱 VITARAY — Управление производством</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, system-ui, sans-serif;
             background: #F5FBF5;
             color: #1A3A1A;
-            padding: 16px 12px 80px;
+            padding: 0 12px 80px;
         }
+
+        /* Хедер */
         .header {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            margin: 0 -12px 16px -12px;
             padding: 20px 16px;
             border-radius: 0 0 28px 28px;
             color: white;
-            margin-bottom: 16px;
         }
         .header h1 { font-size: 26px; font-weight: 700; }
         .date-display { font-size: 13px; opacity: 0.9; margin-top: 6px; }
+
+        /* Навигация */
         .nav {
             display: flex;
             gap: 6px;
             margin-bottom: 20px;
             overflow-x: auto;
             padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
         }
         .nav-btn {
             background: white;
@@ -39,17 +51,23 @@
             white-space: nowrap;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             cursor: pointer;
+            transition: all 0.2s;
         }
         .nav-btn.active {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
         }
+        .nav-btn:active { transform: scale(0.96); }
+
+        /* Секции */
         .section { display: none; }
         .section.active { display: block; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Карточки */
         .card {
             background: white;
             border-radius: 20px;
@@ -62,12 +80,30 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             flex-wrap: wrap;
             gap: 8px;
         }
         .card-title { font-weight: 700; font-size: 16px; }
         .card-details { font-size: 13px; color: #666; margin: 4px 0; }
+
+        /* Прогресс-бар */
+        .progress-bar {
+            background: #E8F5E9;
+            border-radius: 20px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #2E7D32, #4CAF50);
+            width: 0%;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        /* Статусы */
         .status {
             padding: 4px 10px;
             border-radius: 30px;
@@ -77,6 +113,11 @@
         }
         .status-paid { background: #C8E6C9; color: #1B5E20; }
         .status-unpaid { background: #FFEBEE; color: #C62828; }
+        .status-zomachivanie { background: #E3F2FD; color: #1976D2; }
+        .status-posev { background: #E8F5E9; color: #2E7D32; }
+        .status-sbor { background: #C8E6C9; color: #1B5E20; }
+
+        /* Кнопки */
         .btn {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
@@ -88,6 +129,13 @@
             width: 100%;
             cursor: pointer;
             margin: 8px 0;
+            transition: all 0.2s;
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn-secondary {
+            background: white;
+            color: #2E7D32;
+            border: 1px solid #C8E6C9;
         }
         .btn-small {
             padding: 6px 12px;
@@ -95,21 +143,18 @@
             width: auto;
             margin: 0;
         }
-        .btn-secondary {
-            background: white;
-            color: #2E7D32;
-            border: 1px solid #C8E6C9;
-        }
         .btn-danger {
             background: #FFEBEE;
             color: #C62828;
             border: 1px solid #FFCDD2;
         }
         .flex-btns { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+
+        /* Статистика */
         .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 10px;
+            display: flex;
+            gap: 12px;
+            justify-content: space-between;
             margin-bottom: 16px;
         }
         .stat-card {
@@ -117,47 +162,82 @@
             border-radius: 20px;
             padding: 12px;
             text-align: center;
+            flex: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
-        .stat-number { font-size: 20px; font-weight: 800; color: #2E7D32; }
+        .stat-number { font-size: 18px; font-weight: 800; color: #2E7D32; }
         .stat-label { font-size: 10px; color: #81C784; }
+
+        .balance-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
         .balance-card {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             border-radius: 20px;
-            padding: 16px;
+            padding: 12px;
             text-align: center;
-            margin-bottom: 16px;
+            flex: 1;
             color: white;
         }
-        .balance-amount { font-size: 32px; font-weight: 800; }
-        .finance-row {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-        .finance-card {
-            background: white;
-            border-radius: 16px;
-            padding: 12px;
-            text-align: center;
-        }
-        .finance-amount { font-size: 16px; font-weight: 700; color: #2E7D32; }
-        .search-input {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #E8F5E9;
-            border-radius: 30px;
+        .balance-amount { font-size: 20px; font-weight: 800; }
+        .balance-label { font-size: 10px; opacity: 0.9; }
+
+        /* Планы */
+        .plans-tabs {
+            display: flex;
+            gap: 8px;
             margin-bottom: 12px;
         }
-        .empty-state { text-align: center; padding: 40px 20px; color: #81C784; }
-        .total-income {
-            background: #E8F5E9;
-            padding: 12px;
-            border-radius: 20px;
-            text-align: center;
-            font-weight: 600;
-            margin-top: 12px;
+        .plan-tab {
+            background: white;
+            border: 1px solid #E8F5E9;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            cursor: pointer;
         }
+        .plan-tab.active {
+            background: #2E7D32;
+            color: white;
+        }
+        .plan-section {
+            background: #F0F7F0;
+            border-radius: 20px;
+            padding: 14px;
+            margin-bottom: 16px;
+        }
+        .plan-time { font-weight: 700; font-size: 13px; margin: 12px 0 8px; color: #2E7D32; }
+        .task-item {
+            background: white;
+            border-radius: 14px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .task-checkbox { width: 20px; height: 20px; accent-color: #4CAF50; }
+        .task-text { flex: 1; font-size: 13px; }
+
+        .weekly-plan {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .day-plan {
+            margin-bottom: 16px;
+        }
+        .day-title {
+            font-weight: 700;
+            font-size: 14px;
+            background: #E8F5E9;
+            padding: 8px 12px;
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+
+        /* Модалки */
         .modal {
             display: none;
             position: fixed;
@@ -166,6 +246,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
             padding: 20px;
             overflow-y: auto;
@@ -188,6 +269,7 @@
             border: none;
             font-size: 24px;
             cursor: pointer;
+            color: #999;
         }
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: #2E7D32; }
@@ -197,7 +279,16 @@
             border: 1px solid #E8F5E9;
             border-radius: 14px;
             font-size: 14px;
+            font-family: inherit;
         }
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #E8F5E9;
+            border-radius: 30px;
+            margin-bottom: 12px;
+        }
+        .empty-state { text-align: center; padding: 40px 20px; color: #81C784; }
     </style>
 </head>
 <body>
@@ -208,32 +299,63 @@
 
     <div class="nav">
         <button class="nav-btn active" data-section="dashboard">🏠 Главная</button>
+        <button class="nav-btn" data-section="parties">🌱 Партии</button>
+        <button class="nav-btn" data-section="orders">📦 Заказы</button>
         <button class="nav-btn" data-section="sales">💰 Продажи</button>
         <button class="nav-btn" data-section="clients">👥 Клиенты</button>
         <button class="nav-btn" data-section="expenses">💸 Расходы</button>
         <button class="nav-btn" data-section="achievements">🏆 Достижения</button>
-        <button class="nav-btn" data-section="parties">🌱 Партии</button>
+        <button class="nav-btn" data-section="library">📚 Библиотека</button>
     </div>
 
     <!-- Главная -->
     <section id="dashboard" class="section active">
-        <div class="stats-row" id="mainStats"></div>
-        <div class="balance-card">
+        <div class="stats-row" id="incomeStats"></div>
+        <div class="balance-row">
+            <div class="balance-card"><div class="balance-amount" id="totalIncome">0₽</div><div class="balance-label">Всего доход</div></div>
+            <div class="balance-card"><div class="balance-amount" id="totalExpenses">0₽</div><div class="balance-label">Всего расход</div></div>
+        </div>
+        <div class="balance-card" style="background: linear-gradient(135deg, #1B5E20, #2E7D32); margin-bottom: 16px;">
             <div class="balance-amount" id="currentBalance">0₽</div>
             <div class="balance-label">Текущий баланс</div>
         </div>
-        <div class="finance-row" id="financeStats"></div>
-        <div class="flex-btns">
-            <button class="btn" onclick="showModal('newSaleModal')">💰 Новая продажа</button>
-            <button class="btn btn-secondary" onclick="showModal('newExpenseModal')">💸 Новый расход</button>
+
+        <!-- Планы -->
+        <div class="plans-tabs">
+            <button class="plan-tab active" data-plan="today">📅 Сегодня</button>
+            <button class="plan-tab" data-plan="tomorrow">📅 Завтра</button>
+            <button class="plan-tab" data-plan="week">📅 Неделя</button>
+            <button class="plan-tab" data-plan="edit" id="editPlansBtn">✏️ Редактировать</button>
         </div>
+        <div id="plansContainer"></div>
+
+        <!-- Активные партии -->
+        <h3 style="font-size: 14px; margin: 16px 0 8px;">🌱 АКТИВНЫЕ ПАРТИИ</h3>
+        <div id="activePartiesList"></div>
+
+        <div class="flex-btns">
+            <button class="btn" onclick="showModal('newPartyModal')">➕ Новая партия</button>
+            <button class="btn btn-secondary" onclick="showModal('newOrderModal')">📦 Новый заказ</button>
+            <button class="btn btn-secondary" onclick="showModal('newSaleModal')">💰 Новая продажа</button>
+        </div>
+    </section>
+
+    <!-- Партии -->
+    <section id="parties" class="section">
+        <button class="btn" onclick="showModal('newPartyModal')">🌱 Создать партию</button>
+        <div id="partiesList"></div>
+    </section>
+
+    <!-- Заказы -->
+    <section id="orders" class="section">
+        <button class="btn" onclick="showModal('newOrderModal')">📋 Создать заказ</button>
+        <div id="ordersList"></div>
     </section>
 
     <!-- Продажи -->
     <section id="sales" class="section">
         <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
         <div id="salesList"></div>
-        <div class="total-income" id="totalIncomeDisplay"></div>
     </section>
 
     <!-- Клиенты -->
@@ -246,7 +368,6 @@
     <!-- Расходы -->
     <section id="expenses" class="section">
         <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
-        <div class="finance-row" id="expensesStats"></div>
         <div id="expensesList"></div>
     </section>
 
@@ -256,13 +377,29 @@
         <div id="achievementsList"></div>
     </section>
 
-    <!-- Партии (простой список) -->
-    <section id="parties" class="section">
-        <button class="btn" onclick="showModal('newPartyModal')">🌱 Создать партию</button>
-        <div id="partiesList"></div>
+    <!-- Библиотека -->
+    <section id="library" class="section">
+        <div id="culturesList"></div>
     </section>
 
     <!-- Модальные окна -->
+    <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ ПАРТИЯ</h3><button class="close-btn" onclick="hideModal('newPartyModal')">×</button></div>
+    <form id="newPartyForm"><div class="form-group"><label>Культура *</label><select id="partyCulture" required></select></div>
+    <div class="form-group"><label>Вес сухих семян (г) *</label><input type="number" id="partyWeight" required><div id="partyWeightHint" class="hint-text" style="font-size:11px;color:#81C784;"></div></div>
+    <div class="form-group"><label>Дата посева *</label><input type="date" id="partyDate" required></div>
+    <div class="form-group"><label>Тип контейнера *</label><select id="partyContainer" required><option value="15x11">15×11</option><option value="8x5">8×5</option><option value="proraschivatel">Проращиватель</option></select></div>
+    <div class="form-group"><label>Заметки</label><textarea id="partyNotes" rows="2"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newPartyModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
+
+    <div id="newOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 НОВЫЙ ЗАКАЗ</h3><button class="close-btn" onclick="hideModal('newOrderModal')">×</button></div>
+    <form id="newOrderForm"><div class="form-group"><label>Клиент *</label><select id="orderClient" required></select></div>
+    <div class="form-group"><label>Дата заказа *</label><input type="date" id="orderDate" required></div>
+    <div class="form-group"><label>Культура *</label><select id="orderCulture"><option>горох</option><option>редис</option><option>маш</option><option>нут</option><option>соя</option><option>горчица</option></select></div>
+    <div class="form-group"><label>Вес (г) *</label><input type="number" id="orderWeight" required></div>
+    <div class="form-group"><label>Упаковка (контейнер) *</label><select id="orderContainer"><option value="15x11">15×11</option><option value="8x5">8×5</option><option value="proraschivatel">Проращиватель</option></select></div>
+    <div class="form-group"><label>Заметки</label><textarea id="orderNotes" rows="2"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
+
     <div id="newSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💰 НОВАЯ ПРОДАЖА</h3><button class="close-btn" onclick="hideModal('newSaleModal')">×</button></div>
     <form id="newSaleForm"><div class="form-group"><label>Клиент *</label><select id="saleClient" required></select></div>
     <div class="form-group"><label>Дата *</label><input type="date" id="saleDate" required></div>
@@ -272,18 +409,18 @@
     <div class="form-group"><label>Оплачено</label><select id="salePaid"><option value="true">Да</option><option value="false">Нет</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать</button></div></form></div></div>
 
-    <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💸 НОВЫЙ РАСХОД</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
-    <form id="newExpenseForm"><div class="form-group"><label>Дата *</label><input type="date" id="expenseDate" required></div>
-    <div class="form-group"><label>Категория</label><select id="expenseCategory"><option>Семена</option><option>Оборудование</option><option>Упаковка</option><option>Лотки</option></select></div>
-    <div class="form-group"><label>Наименование *</label><input type="text" id="expenseName" required></div>
-    <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="expenseAmount" required></div>
-    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
-
     <div id="newClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>👥 НОВЫЙ КЛИЕНТ</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
     <form id="newClientForm"><div class="form-group"><label>Имя *</label><input type="text" id="clientName" required></div>
     <div class="form-group"><label>Место</label><input type="text" id="clientPlace"></div>
     <div class="form-group"><label>Контакт</label><input type="text" id="clientContact"></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
+
+    <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💸 НОВЫЙ РАСХОД</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
+    <form id="newExpenseForm"><div class="form-group"><label>Дата *</label><input type="date" id="expenseDate" required></div>
+    <div class="form-group"><label>Категория</label><select id="expenseCategory"><option>Семена</option><option>Оборудование</option><option>Упаковка</option><option>Лотки</option><option>Субстрат</option></select></div>
+    <div class="form-group"><label>Наименование *</label><input type="text" id="expenseName" required></div>
+    <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="expenseAmount" required></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
     <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
     <form id="newAchievementForm"><div class="form-group"><label>Дата *</label><input type="date" id="achievementDate" required></div>
@@ -291,439 +428,420 @@
     <div class="form-group"><label>Категория</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ ПАРТИЯ</h3><button class="close-btn" onclick="hideModal('newPartyModal')">×</button></div>
-    <form id="newPartyForm"><div class="form-group"><label>Культура *</label><input type="text" id="partyCulture" required></div>
-    <div class="form-group"><label>Вес семян (г) *</label><input type="number" id="partyWeight" required></div>
-    <div class="form-group"><label>Дата посева *</label><input type="date" id="partyDate" required></div>
-    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newPartyModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
+    <div id="editPlansModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПЛАНЫ</h3><button class="close-btn" onclick="hideModal('editPlansModal')">×</button></div>
+    <div id="editPlansContainer"></div>
+    <div class="flex-btns"><button class="btn-secondary btn-small" onclick="savePlans()">💾 Сохранить</button></div></div></div>
 
     <script>
-        // ==================== ВСЕ ДАННЫЕ (уже внутри, ничего вручную вводить не нужно) ====================
-        
-        // КЛИЕНТЫ (25 штук)
-        const ALL_CLIENTS = [
+        // ==================== ДАННЫЕ ====================
+        let parties = [];
+        let orders = [];
+        let sales = [];
+        let clients = [
             { id: 'c1', name: 'ЯМАНАСИ', place: 'Ул красных Партизан 1/4к9', contact: 'Анатолий' },
-            { id: 'c2', name: 'Ежкин кот', place: 'КП 1/4к9', contact: '+7 989 228 4153' },
+            { id: 'c2', name: 'Терещенко', place: 'МОН', contact: '305' },
             { id: 'c3', name: 'Казарян', place: 'МОН', contact: '305' },
             { id: 'c4', name: 'Денисова', place: 'МОН', contact: '305' },
             { id: 'c5', name: 'Наташа', place: 'МОН', contact: '403' },
-            { id: 'c6', name: 'Терещенко', place: 'МОН', contact: '305' },
-            { id: 'c7', name: 'Карибова', place: 'МОН', contact: '315' },
-            { id: 'c8', name: 'Савченко', place: 'МОН', contact: '311' },
-            { id: 'c9', name: 'Кирьян Света', place: 'МОН', contact: '304' },
-            { id: 'c10', name: 'Валерия', place: 'МОН', contact: '303' },
-            { id: 'c11', name: 'Настена', place: 'МОН', contact: '406' },
-            { id: 'c12', name: 'Полихраниди', place: 'МОН', contact: '304' },
-            { id: 'c13', name: 'Бескаравайная', place: 'МОН', contact: '311' },
-            { id: 'c14', name: 'Рыбина', place: 'МОН', contact: '404' },
-            { id: 'c15', name: 'Журавлева', place: 'МОН', contact: '404' },
-            { id: 'c16', name: 'Глебова', place: 'МОН', contact: '206' },
-            { id: 'c17', name: 'Фатима', place: 'МОН', contact: '403' },
-            { id: 'c18', name: 'Берестова', place: 'МОН', contact: '205' },
-            { id: 'c19', name: 'Олар', place: 'МОН', contact: '205' },
-            { id: 'c20', name: 'Лопин', place: 'МОН', contact: '205' },
-            { id: 'c21', name: 'Токарева', place: 'МОН', contact: '205' },
-            { id: 'c22', name: 'Тоня', place: 'МОН', contact: '403' },
-            { id: 'c23', name: 'Буробина', place: 'МОН', contact: '315' },
-            { id: 'c24', name: 'Пустовойт', place: 'МОН', contact: '410' },
-            { id: 'c25', name: 'Екатерина', place: 'Дальний проезд 3', contact: '89182860856' }
+            { id: 'c6', name: 'Карибова', place: 'МОН', contact: '315' },
+            { id: 'c7', name: 'Валерия', place: 'МОН', contact: '303' },
+            { id: 'c8', name: 'Настена', place: 'МОН', contact: '406' },
+            { id: 'c9', name: 'Бескаравайная', place: 'МОН', contact: '311' },
+            { id: 'c10', name: 'Савченко', place: 'МОН', contact: '311' }
         ];
+        let expenses = [];
+        let achievements = [];
 
-        // ПРОДАЖИ (96 штук, общая сумма 15,463 ₽)
-        const ALL_SALES = [
-            { id: 's1', clientId: 'c25', date: '2025-11-09', culture: 'маш', weight: 1200, amount: 600, paid: true },
-            { id: 's2', clientId: 'c9', date: '2025-11-12', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's3', clientId: 'c3', date: '2025-11-13', culture: 'маш', weight: 150, amount: 100, paid: true },
-            { id: 's4', clientId: 'c24', date: '2025-11-13', culture: 'маш', weight: 150, amount: 45, paid: true },
-            { id: 's5', clientId: 'c23', date: '2025-11-13', culture: 'маш', weight: 150, amount: 50, paid: true },
-            { id: 's6', clientId: 'c7', date: '2025-11-13', culture: 'маш', weight: 350, amount: 150, paid: true },
-            { id: 's7', clientId: 'c8', date: '2025-11-14', culture: 'маш', weight: 150, amount: 50, paid: true },
-            { id: 's8', clientId: 'c22', date: '2025-11-18', culture: 'маш', weight: 150, amount: 80, paid: true },
-            { id: 's9', clientId: 'c5', date: '2025-11-18', culture: 'маш', weight: 150, amount: 80, paid: true },
-            { id: 's10', clientId: 'c21', date: '2025-11-18', culture: 'маш', weight: 150, amount: 50, paid: true },
-            { id: 's11', clientId: 'c20', date: '2025-11-18', culture: 'маш', weight: 150, amount: 50, paid: true },
-            { id: 's12', clientId: 'c19', date: '2025-11-18', culture: 'маш', weight: 150, amount: 40, paid: true },
-            { id: 's13', clientId: 'c9', date: '2025-11-18', culture: 'маш', weight: 300, amount: 100, paid: true },
-            { id: 's14', clientId: 'c18', date: '2025-11-18', culture: 'маш', weight: 150, amount: 40, paid: true },
-            { id: 's15', clientId: 'c4', date: '2025-11-19', culture: 'маш', weight: 100, amount: 50, paid: true },
-            { id: 's16', clientId: 'c17', date: '2025-11-19', culture: 'маш', weight: 150, amount: 80, paid: true },
-            { id: 's17', clientId: 'c3', date: '2025-11-19', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's18', clientId: 'c6', date: '2025-11-19', culture: 'маш', weight: 150, amount: 100, paid: true },
-            { id: 's19', clientId: 'c7', date: '2025-11-19', culture: 'маш', weight: 100, amount: 50, paid: true },
-            { id: 's20', clientId: 'c7', date: '2025-11-21', culture: 'маш', weight: 1100, amount: 50, paid: true },
-            { id: 's21', clientId: 'c8', date: '2025-11-21', culture: 'маш', weight: 300, amount: 120, paid: true },
-            { id: 's22', clientId: 'c6', date: '2025-11-21', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's23', clientId: 'c4', date: '2025-11-24', culture: 'маш', weight: 150, amount: 100, paid: true },
-            { id: 's24', clientId: 'c6', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's25', clientId: 'c6', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's26', clientId: 'c5', date: '2025-11-24', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's27', clientId: 'c5', date: '2025-11-24', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's28', clientId: 'c24', date: '2025-11-24', culture: 'маш', weight: 100, amount: 60, paid: true },
-            { id: 's29', clientId: 'c3', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's30', clientId: 'c7', date: '2025-11-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's31', clientId: 'c16', date: '2025-11-24', culture: 'маш', weight: 150, amount: 80, paid: true },
-            { id: 's32', clientId: 'c7', date: '2025-11-24', culture: 'маш', weight: 300, amount: 200, paid: true },
-            { id: 's33', clientId: 'c6', date: '2025-11-26', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's34', clientId: 'c3', date: '2025-11-26', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's35', clientId: 'c8', date: '2025-11-26', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's36', clientId: 'c13', date: '2025-11-27', culture: 'нут', weight: 50, amount: 80, paid: true },
-            { id: 's37', clientId: 'c5', date: '2025-11-27', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's38', clientId: 'c4', date: '2025-11-28', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's39', clientId: 'c7', date: '2025-12-01', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's40', clientId: 'c11', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's41', clientId: 'c6', date: '2025-12-01', culture: 'маш', weight: 300, amount: 200, paid: true },
-            { id: 's42', clientId: 'c20', date: '2025-12-01', culture: 'маш', weight: 300, amount: 150, paid: true },
-            { id: 's43', clientId: 'c13', date: '2025-12-01', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's44', clientId: 'c3', date: '2025-12-01', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's45', clientId: 'c7', date: '2025-12-02', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's46', clientId: 'c9', date: '2025-12-02', culture: 'маш', weight: 100, amount: 50, paid: true },
-            { id: 's47', clientId: 'c10', date: '2025-12-02', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's48', clientId: 'c22', date: '2025-12-03', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's49', clientId: 'c15', date: '2025-12-03', culture: 'маш', weight: 150, amount: 100, paid: true },
-            { id: 's50', clientId: 'c10', date: '2025-12-04', culture: 'маш', weight: 350, amount: 240, paid: true },
-            { id: 's51', clientId: 'c5', date: '2025-12-04', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's52', clientId: 'c9', date: '2025-12-04', culture: 'маш', weight: 100, amount: 50, paid: true },
-            { id: 's53', clientId: 'c1', date: '2025-12-05', culture: 'маш', weight: 144, amount: 80, paid: true },
-            { id: 's54', clientId: 'c1', date: '2025-12-07', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's55', clientId: 'c3', date: '2025-12-08', culture: 'маш', weight: 250, amount: 250, paid: true },
-            { id: 's56', clientId: 'c9', date: '2025-12-08', culture: 'маш', weight: 200, amount: 100, paid: true },
-            { id: 's57', clientId: 'c13', date: '2025-12-08', culture: 'нут', weight: 50, amount: 80, paid: true },
-            { id: 's58', clientId: 'c5', date: '2025-12-08', culture: 'маш', weight: 100, amount: 80, paid: true },
-            { id: 's59', clientId: 'c6', date: '2025-12-08', culture: 'нут', weight: 500, amount: 400, paid: true },
-            { id: 's60', clientId: 'c17', date: '2025-12-08', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's61', clientId: 'c10', date: '2025-12-08', culture: 'маш', weight: 300, amount: 240, paid: true },
-            { id: 's62', clientId: 'c11', date: '2025-12-08', culture: 'нут', weight: 100, amount: 50, paid: true },
-            { id: 's63', clientId: 'c7', date: '2025-12-08', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's64', clientId: 'c12', date: '2025-12-10', culture: 'маш', weight: 200, amount: 160, paid: true },
-            { id: 's65', clientId: 'c10', date: '2025-12-12', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's66', clientId: 'c11', date: '2025-12-12', culture: 'нут', weight: 100, amount: 50, paid: true },
-            { id: 's67', clientId: 'c8', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's68', clientId: 'c7', date: '2025-12-12', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's69', clientId: 'c14', date: '2025-12-12', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's70', clientId: 'c1', date: '2025-12-13', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's71', clientId: 'c3', date: '2025-12-15', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's72', clientId: 'c6', date: '2025-12-15', culture: 'маш', weight: 400, amount: 360, paid: true },
-            { id: 's73', clientId: 'c6', date: '2025-12-17', culture: 'маш', weight: 200, amount: 100, paid: true },
-            { id: 's74', clientId: 'c5', date: '2025-12-17', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's75', clientId: 'c10', date: '2025-12-17', culture: 'нут', weight: 100, amount: 80, paid: true },
-            { id: 's76', clientId: 'c6', date: '2025-12-19', culture: 'маш', weight: 200, amount: 400, paid: true },
-            { id: 's77', clientId: 'c7', date: '2025-12-19', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's78', clientId: 'c8', date: '2025-12-19', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's79', clientId: 'c1', date: '2025-12-20', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's80', clientId: 'c3', date: '2025-12-24', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's81', clientId: 'c7', date: '2025-12-24', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's82', clientId: 'c4', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's83', clientId: 'c5', date: '2025-12-24', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's84', clientId: 'c1', date: '2025-12-24', culture: 'маш', weight: 200, amount: 100, paid: true },
-            { id: 's85', clientId: 'c6', date: '2025-12-26', culture: 'маш', weight: 500, amount: 400, paid: true },
-            { id: 's86', clientId: 'c5', date: '2025-12-29', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's87', clientId: 'c1', date: '2025-12-31', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's88', clientId: 'c1', date: '2026-01-09', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's89', clientId: 'c1', date: '2026-01-15', culture: 'маш', weight: 200, amount: 200, paid: true },
-            { id: 's90', clientId: 'c6', date: '2026-01-15', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's91', clientId: 'c6', date: '2026-01-15', culture: 'нут', weight: 300, amount: 200, paid: true },
-            { id: 's92', clientId: 'c1', date: '2026-01-23', culture: 'маш', weight: 300, amount: 300, paid: true },
-            { id: 's93', clientId: 'c3', date: '2026-01-31', culture: 'маш', weight: 43, amount: 43, paid: true },
-            { id: 's94', clientId: 'c3', date: '2026-03-17', culture: 'маш', weight: 150, amount: 150, paid: true },
-            { id: 's95', clientId: 'c4', date: '2026-03-17', culture: 'маш', weight: 100, amount: 100, paid: true },
-            { id: 's96', clientId: 'c1', date: '2026-03-20', culture: 'маш', weight: 1170, amount: 1170, paid: true }
-        ];
+        // Расписание замачиваний (ПН-ВС)
+        const SOAK_SCHEDULE = {
+            "ПН": [{ culture: "маш", weight: 100 }, { culture: "нут", weight: 100 }],
+            "ВТ": [{ culture: "редис", weight: 6 }],
+            "СР": [{ culture: "соя", weight: 100 }, { culture: "горох", weight: 25 }],
+            "ЧТ": [{ culture: "маш", weight: 100 }],
+            "ПТ": [{ culture: "нут", weight: 100 }, { culture: "горчица", weight: 6 }],
+            "СБ": [{ culture: "редис", weight: 6 }, { culture: "соя", weight: 100 }],
+            "ВС": [{ culture: "горох", weight: 25 }]
+        };
 
-        // ДОСТИЖЕНИЯ (9 штук)
-        const ALL_ACHIEVEMENTS = [
-            { id: 'a1', date: '2025-11-06', description: 'Рождение бизнес-идеи по производству маша', category: 'Производство' },
-            { id: 'a2', date: '2025-11-07', description: 'Приобрела первый маш (нашла в Фермере)', category: 'Производство' },
-            { id: 'a3', date: '2025-11-29', description: 'Написала небольшому ресторану и отдала пробную порцию!', category: 'Продажи' },
-            { id: 'a4', date: '2025-11-29', description: 'Встала напротив пекарни и предлагала людям продегустировать', category: 'Клиенты' },
-            { id: 'a5', date: '2025-12-05', description: 'Отдала 425г по Министерству нут. Заказали 700г на понедельник!', category: 'Продажи' },
-            { id: 'a6', date: '2025-12-06', description: 'Взяла контактный номер управляющего ресторана!', category: 'Клиенты' },
-            { id: 'a7', date: '2025-12-07', description: 'ЯМАНАСИ заказали еще 200г. Сделала за месяц 6 тысяч рублей!!!', category: 'Продажи' },
-            { id: 'a8', date: '2025-12-11', description: 'Придумала идею! Я буду делать готовые чипсы!', category: 'Производство' },
-            { id: 'a9', date: '2026-03-21', description: 'Возможно буду сотрудничать с зоомагазином «Ежкин кот»', category: 'Клиенты' }
-        ];
+        // Библиотека культур
+        const CULTURES = {
+            "горох": { type: "microgreen", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.163, daysToReady: 10, instructions: "1. Замочить на 12 часов (первые 15 мин с перекисью)\n2. Посеять на влажный джут, отжать\n3. Груз 1.5–2 кг на 3–4 дня\n4. В темноте 3–4 дня, проветривать 2 р/д\n5. Под лампу 14–16 ч/сут\n6. Срезка на 7–10 день" },
+            "редис": { type: "microgreen", norm15: 4, norm8: 2, normPro: 4, seedPrice: 3.92, daysToReady: 8, instructions: "1. Замочить на 5–6 часов\n2. Посеять на влажный джут\n3. Без груза, в темноте 2–3 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 7–9 день" },
+            "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, normPro: 6, seedPrice: 2.5, daysToReady: 7, instructions: "1. Замочить на 3–4 часа\n2. Посеять на влажный джут\n3. В темноте 1–2 дня\n4. Под лампу 12–14 ч/сут\n5. Срезка на 5–8 день" },
+            "маш": { type: "sprouts", norm15: 25, norm8: 4, normPro: 25, seedPrice: 0.204, daysToReady: 6, instructions: "1. Замочить на 8–10 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" },
+            "нут": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.116, daysToReady: 5, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Промывать 2 раза в день\n4. Срезка на 3–5 день" },
+            "соя": { type: "sprouts", norm15: 30, norm8: 5, normPro: 30, seedPrice: 0.44, daysToReady: 6, instructions: "1. Замочить на 10–12 часов\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2 раза в день\n5. Срезка на 6–7 день" }
+        };
 
-        // РАСХОДЫ (18 штук, общая сумма 15,221 ₽)
-        const ALL_EXPENSES = [
-            { id: 'e1', date: '2025-12-15', name: 'Наклейки новогодние', amount: 387, category: 'Упаковка' },
-            { id: 'e2', date: '2025-12-16', name: 'Контейнеры 2000 шт', amount: 5500, category: 'Лотки' },
-            { id: 'e3', date: '2025-12-20', name: 'Весы', amount: 300, category: 'Оборудование' },
-            { id: 'e4', date: '2025-12-20', name: 'Нут 10 шт', amount: 464, category: 'Семена' },
-            { id: 'e5', date: '2026-01-12', name: 'Маш 10 шт по 450г', amount: 930, category: 'Семена' },
-            { id: 'e6', date: '2026-03-01', name: 'Фитосветильник', amount: 629, category: 'Оборудование' },
-            { id: 'e7', date: '2026-03-01', name: 'Пульверизатор', amount: 143, category: 'Оборудование' },
-            { id: 'e8', date: '2026-03-01', name: 'Джутовый коврик', amount: 374, category: 'Субстрат' },
-            { id: 'e9', date: '2026-03-01', name: 'Наклейки', amount: 176, category: 'Упаковка' },
-            { id: 'e10', date: '2026-03-01', name: 'Контейнеры 250 мл 1000 шт', amount: 1500, category: 'Лотки' },
-            { id: 'e11', date: '2026-03-01', name: 'Контейнеры 125 мл 1000 шт', amount: 1000, category: 'Лотки' },
-            { id: 'e12', date: '2026-03-01', name: 'Набор для редиса', amount: 225, category: 'Лотки' },
-            { id: 'e13', date: '2026-03-01', name: 'Набор для гороха', amount: 294, category: 'Лотки' },
-            { id: 'e14', date: '2026-03-01', name: 'Горох Мадрас 1 кг', amount: 163, category: 'Семена' },
-            { id: 'e15', date: '2026-03-01', name: 'Редис Санго 50 г', amount: 196, category: 'Семена' },
-            { id: 'e16', date: '2026-03-01', name: 'Маш 450 г', amount: 92, category: 'Семена' },
-            { id: 'e17', date: '2026-03-01', name: 'Нут 450 г', amount: 52, category: 'Семена' },
-            { id: 'e18', date: '2026-03-01', name: 'Соя 200 г', amount: 88, category: 'Семена' }
-        ];
-
-        // ==================== ХРАНИЛИЩЕ ====================
-        let sales = [...ALL_SALES];
-        let clients = [...ALL_CLIENTS];
-        let achievements = [...ALL_ACHIEVEMENTS];
-        let expenses = [...ALL_EXPENSES];
-        let parties = [];
-
-        function saveToLocalStorage() {
-            localStorage.setItem('vitaray_sales', JSON.stringify(sales));
-            localStorage.setItem('vitaray_clients', JSON.stringify(clients));
-            localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
-            localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
-            localStorage.setItem('vitaray_parties', JSON.stringify(parties));
-        }
-
-        function loadFromLocalStorage() {
+        // Загрузка/сохранение
+        function loadData() {
+            const savedParties = localStorage.getItem('vitaray_parties');
+            const savedOrders = localStorage.getItem('vitaray_orders');
             const savedSales = localStorage.getItem('vitaray_sales');
             const savedClients = localStorage.getItem('vitaray_clients');
-            const savedAchievements = localStorage.getItem('vitaray_achievements');
             const savedExpenses = localStorage.getItem('vitaray_expenses');
-            const savedParties = localStorage.getItem('vitaray_parties');
+            const savedAchievements = localStorage.getItem('vitaray_achievements');
             
+            if (savedParties) parties = JSON.parse(savedParties);
+            if (savedOrders) orders = JSON.parse(savedOrders);
             if (savedSales) sales = JSON.parse(savedSales);
             if (savedClients) clients = JSON.parse(savedClients);
-            if (savedAchievements) achievements = JSON.parse(savedAchievements);
             if (savedExpenses) expenses = JSON.parse(savedExpenses);
-            if (savedParties) parties = JSON.parse(savedParties);
-        }
-
-        // ==================== ФУНКЦИИ ====================
-        function getClientName(clientId) {
-            const client = clients.find(c => c.id === clientId);
-            return client ? client.name : 'Клиент';
-        }
-
-        function getTotalIncome() {
-            return sales.filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
-        }
-
-        function getTotalExpenses() {
-            return expenses.reduce((sum, e) => sum + e.amount, 0);
-        }
-
-        function getWeekIncome() {
-            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-            return sales.filter(s => s.paid && s.date >= weekAgo).reduce((sum, s) => sum + s.amount, 0);
-        }
-
-        function getMonthIncome() {
-            const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-            return sales.filter(s => s.paid && s.date >= monthAgo).reduce((sum, s) => sum + s.amount, 0);
-        }
-
-        function getWeekExpenses() {
-            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-            return expenses.filter(e => e.date >= weekAgo).reduce((sum, e) => sum + e.amount, 0);
-        }
-
-        function getMonthExpenses() {
-            const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-            return expenses.filter(e => e.date >= monthAgo).reduce((sum, e) => sum + e.amount, 0);
-        }
-
-        // ==================== ОТОБРАЖЕНИЕ ====================
-        function renderDashboard() {
-            const totalIncome = getTotalIncome();
-            const totalExpenses = getTotalExpenses();
-            const weekIncome = getWeekIncome();
-            const monthIncome = getMonthIncome();
+            if (savedAchievements) achievements = JSON.parse(savedAchievements);
             
-            document.getElementById('mainStats').innerHTML = `
-                <div class="stat-card"><div class="stat-number">${weekIncome}₽</div><div class="stat-label">За неделю</div></div>
-                <div class="stat-card"><div class="stat-number">${monthIncome}₽</div><div class="stat-label">За месяц</div></div>
-                <div class="stat-card"><div class="stat-number">${clients.length}</div><div class="stat-label">Клиенты</div></div>`;
-            document.getElementById('currentBalance').textContent = (totalIncome - totalExpenses) + '₽';
-            document.getElementById('financeStats').innerHTML = `
-                <div class="finance-card"><div class="finance-amount">${totalIncome}₽</div><div class="finance-period">Всего доход</div></div>
-                <div class="finance-card"><div class="finance-amount">${totalExpenses}₽</div><div class="finance-period">Всего расход</div></div>`;
+            if (parties.length === 0) parties = [];
+            if (orders.length === 0) orders = [];
+            if (sales.length === 0) sales = [];
+            if (achievements.length === 0) achievements = [
+                { id: 'a1', date: '2025-12-07', description: 'ЯМАНАСИ заказали еще 200г. Сделала за месяц 6 тысяч рублей!!!', category: 'Продажи' },
+                { id: 'a2', date: '2025-12-11', description: 'Придумала идею! Я буду делать готовые чипсы!', category: 'Производство' }
+            ];
+            if (expenses.length === 0) expenses = [
+                { id: 'e1', date: '2026-03-01', name: 'Фитосветильник', amount: 629, category: 'Оборудование' },
+                { id: 'e2', date: '2026-03-01', name: 'Горох 1 кг', amount: 163, category: 'Семена' }
+            ];
+            saveData();
         }
+
+        function saveData() {
+            localStorage.setItem('vitaray_parties', JSON.stringify(parties));
+            localStorage.setItem('vitaray_orders', JSON.stringify(orders));
+            localStorage.setItem('vitaray_sales', JSON.stringify(sales));
+            localStorage.setItem('vitaray_clients', JSON.stringify(clients));
+            localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
+            localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
+        }
+
+        // Вспомогательные функции
+        function getStageName(stage) {
+            const names = { zomachivanie: 'Замачивание', posev: 'Посев', sbor: 'Сбор' };
+            return names[stage] || stage;
+        }
+
+        function getProgressPercent(party) {
+            const stages = ['zomachivanie', 'posev', 'sbor'];
+            const idx = stages.indexOf(party.currentStage);
+            return ((idx + 1) / stages.length) * 100;
+        }
+
+        function getClientName(id) {
+            const c = clients.find(c => c.id === id);
+            return c ? c.name : 'Клиент';
+        }
+
+        function getFinancialStats() {
+            const paidSales = sales.filter(s => s.paid === true);
+            const totalIncome = paidSales.reduce((s, sale) => s + sale.amount, 0);
+            const totalExpenses = expenses.reduce((s, e) => s + e.amount, 0);
+            const today = new Date().toISOString().slice(0, 10);
+            const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+            const monthAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+            return {
+                totalIncome, totalExpenses, currentBalance: totalIncome - totalExpenses,
+                dayIncome: paidSales.filter(s => s.date === today).reduce((s, sale) => s + sale.amount, 0),
+                weekIncome: paidSales.filter(s => s.date >= weekAgo).reduce((s, sale) => s + sale.amount, 0),
+                monthIncome: paidSales.filter(s => s.date >= monthAgo).reduce((s, sale) => s + sale.amount, 0)
+            };
+        }
+
+        // Генерация задач
+        function generateTasks() {
+            const today = new Date().toISOString().slice(0, 10);
+            const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+            const todayTasks = { morning: [], evening: [] };
+            const tomorrowTasks = { morning: [], evening: [] };
+            const weekTasks = [];
+            
+            // Из партий
+            parties.forEach(p => {
+                if (p.currentStage === 'zomachivanie') {
+                    const soakDate = new Date(p.createdAt);
+                    const readyDate = new Date(soakDate.getTime() + 12 * 60 * 60 * 1000);
+                    const readyDateStr = readyDate.toISOString().slice(0, 10);
+                    if (readyDateStr === today) todayTasks.evening.push(`🌱 Посеять ${p.culture} #${p.id.slice(-4)} (замачивание закончено)`);
+                }
+                if (p.currentStage === 'posev') {
+                    todayTasks.morning.push(`🌱 Проветрить ${p.culture} #${p.id.slice(-4)}`);
+                    todayTasks.evening.push(`🌱 Проветрить ${p.culture} #${p.id.slice(-4)}`);
+                    if (CULTURES[p.culture]?.type === 'sprouts') {
+                        todayTasks.morning.push(`💧 Промыть ${p.culture} #${p.id.slice(-4)}`);
+                        todayTasks.evening.push(`💧 Промыть ${p.culture} #${p.id.slice(-4)}`);
+                    }
+                }
+                if (p.currentStage === 'sbor') {
+                    todayTasks.morning.push(`✂️ Срезать ${p.culture} #${p.id.slice(-4)}`);
+                }
+            });
+            
+            // Из заказов на сегодня
+            orders.filter(o => o.date === today).forEach(o => {
+                todayTasks.morning.push(`📦 Отдать ${o.weight}г ${o.culture} клиенту ${getClientName(o.clientId)}`);
+            });
+            
+            // Из расписания замачиваний (на сегодня)
+            const weekday = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'][new Date().getDay()];
+            if (SOAK_SCHEDULE[weekday]) {
+                SOAK_SCHEDULE[weekday].forEach(item => {
+                    todayTasks.evening.push(`🌱 Замочить ${item.culture} (${item.weight}г) по графику`);
+                });
+            }
+            
+            // Завтрашние задачи (из расписания)
+            const tomorrowWeekday = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'][(new Date().getDay() + 1) % 7];
+            if (SOAK_SCHEDULE[tomorrowWeekday]) {
+                SOAK_SCHEDULE[tomorrowWeekday].forEach(item => {
+                    tomorrowTasks.evening.push(`🌱 Замочить ${item.culture} (${item.weight}г) по графику`);
+                });
+            }
+            
+            // Недельные задачи (все замачивания по дням)
+            const days = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+            days.forEach(day => {
+                if (SOAK_SCHEDULE[day]) {
+                    weekTasks.push({ day, tasks: SOAK_SCHEDULE[day].map(item => `🌱 Замочить ${item.culture} (${item.weight}г)`) });
+                }
+            });
+            
+            return { todayTasks, tomorrowTasks, weekTasks };
+        }
+
+        // Рендер дашборда
+        function renderDashboard() {
+            const fin = getFinancialStats();
+            document.getElementById('incomeStats').innerHTML = `
+                <div class="stat-card"><div class="stat-number">${fin.dayIncome}₽</div><div class="stat-label">За день</div></div>
+                <div class="stat-card"><div class="stat-number">${fin.weekIncome}₽</div><div class="stat-label">За неделю</div></div>
+                <div class="stat-card"><div class="stat-number">${fin.monthIncome}₽</div><div class="stat-label">За месяц</div></div>`;
+            document.getElementById('totalIncome').textContent = fin.totalIncome + '₽';
+            document.getElementById('totalExpenses').textContent = fin.totalExpenses + '₽';
+            document.getElementById('currentBalance').textContent = fin.currentBalance + '₽';
+            
+            // Планы
+            const tasks = generateTasks();
+            renderPlans('today', tasks);
+            
+            // Активные партии
+            const activeParties = parties.filter(p => p.currentStage !== 'sbor');
+            document.getElementById('activePartiesList').innerHTML = activeParties.length ? activeParties.map(p => {
+                const progress = getProgressPercent(p);
+                const cult = CULTURES[p.culture];
+                const harvestDate = new Date(p.dateSown);
+                harvestDate.setDate(harvestDate.getDate() + (cult?.daysToReady || 7));
+                return `<div class="card"><div class="card-header"><span class="card-title">🌱 ${p.culture} #${p.id.slice(-4)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.weight}г • Посев: ${p.dateSown} • Готов: ${harvestDate.toLocaleDateString()}</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button></div></div>`;
+            }).join('') : '<div class="empty-state">Нет активных партий</div>';
+        }
+
+        function renderPlans(type, tasks) {
+            const container = document.getElementById('plansContainer');
+            if (!tasks) tasks = generateTasks();
+            
+            if (type === 'today') {
+                container.innerHTML = `
+                    <div class="plan-section">
+                        <div class="plan-time">🌅 УТРО (7:00)</div>
+                        ${tasks.todayTasks.morning.length ? tasks.todayTasks.morning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('') : '<div class="empty-state">✨ Нет задач на утро</div>'}
+                        <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
+                        ${tasks.todayTasks.evening.length ? tasks.todayTasks.evening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('') : '<div class="empty-state">✨ Нет задач на вечер</div>'}
+                    </div>`;
+            } else if (type === 'tomorrow') {
+                container.innerHTML = `
+                    <div class="plan-section">
+                        <div class="plan-time">🌅 УТРО (7:00)</div>
+                        ${tasks.tomorrowTasks.morning.length ? tasks.tomorrowTasks.morning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('') : '<div class="empty-state">✨ Нет задач на утро</div>'}
+                        <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
+                        ${tasks.tomorrowTasks.evening.length ? tasks.tomorrowTasks.evening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('') : '<div class="empty-state">✨ Нет задач на вечер</div>'}
+                    </div>`;
+            } else if (type === 'week') {
+                container.innerHTML = `<div class="weekly-plan">${tasks.weekTasks.map(day => `
+                    <div class="day-plan"><div class="day-title">📅 ${day.day}</div>
+                    ${day.tasks.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('')}</div>
+                `).join('')}</div>`;
+            }
+        }
+
+        // Рендер остальных разделов
+        function renderParties() {
+            const container = document.getElementById('partiesList');
+            container.innerHTML = parties.length ? parties.slice().reverse().map(p => {
+                const progress = getProgressPercent(p);
+                return `<div class="card"><div class="card-header"><span class="card-title">🌱 ${p.culture} #${p.id.slice(-4)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.weight}г • Посев: ${p.dateSown}</div>${p.notes ? `<div class="card-details">📝 ${p.notes}</div>` : ''}<div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button><button class="btn-small btn-danger" onclick="deleteParty('${p.id}')">🗑️</button></div></div>`;
+            }).join('') : '<div class="empty-state">Нет партий</div>';
+        }
+
+        window.nextStage = (id) => {
+            const p = parties.find(p => p.id === id);
+            if (!p) return;
+            const stages = ['zomachivanie', 'posev', 'sbor'];
+            const idx = stages.indexOf(p.currentStage);
+            if (idx < stages.length - 1) {
+                p.currentStage = stages[idx + 1];
+                saveData();
+                renderDashboard();
+                renderParties();
+            } else alert('🎉 Партия завершена!');
+        };
+
+        window.deleteParty = (id) => {
+            if (confirm('Удалить партию?')) {
+                parties = parties.filter(p => p.id !== id);
+                saveData();
+                renderDashboard();
+                renderParties();
+            }
+        };
+
+        function renderOrders() {
+            const container = document.getElementById('ordersList');
+            container.innerHTML = orders.length ? orders.slice().reverse().map(o => `
+                <div class="card"><div class="card-header"><span class="card-title">📦 ${getClientName(o.clientId)}</span><span class="status status-pending">${o.date === new Date().toISOString().slice(0,10) ? 'Сегодня' : 'Запланирован'}</span></div><div class="card-details">${o.culture} • ${o.weight}г • ${o.container}</div><div class="card-details">📅 ${o.date}</div>${o.notes ? `<div class="card-details">📝 ${o.notes}</div>` : ''}<div class="flex-btns"><button class="btn-small btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button></div></div>
+            `).join('') : '<div class="empty-state">Нет заказов</div>';
+        }
+
+        window.deleteOrder = (id) => {
+            if (confirm('Удалить заказ?')) {
+                orders = orders.filter(o => o.id !== id);
+                saveData();
+                renderOrders();
+                renderDashboard();
+            }
+        };
 
         function renderSales() {
-            const totalIncome = getTotalIncome();
-            const sortedSales = [...sales].reverse();
-            document.getElementById('salesList').innerHTML = sortedSales.map(s => `
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">💰 ${getClientName(s.clientId)}</span>
-                        <span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span>
-                    </div>
-                    <div class="card-details">${s.culture} • ${s.weight}г • ${s.amount}₽</div>
-                    <div class="card-details">📅 ${s.date}</div>
-                    <div class="flex-btns">
-                        ${!s.paid ? `<button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ Оплатить</button>` : ''}
-                        <button class="btn-small btn-danger" onclick="deleteSale('${s.id}')">🗑️ Удалить</button>
-                    </div>
-                </div>
-            `).join('');
-            document.getElementById('totalIncomeDisplay').innerHTML = `💰 ВСЕГО ДОХОД: ${totalIncome}₽ (${sales.length} продаж)`;
+            const container = document.getElementById('salesList');
+            container.innerHTML = sales.length ? sales.slice().reverse().map(s => `
+                <div class="card"><div class="card-header"><span class="card-title">💰 ${getClientName(s.clientId)}</span><span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.culture} • ${s.weight}г • ${s.amount}₽</div><div class="card-details">📅 ${s.date}</div><div class="flex-btns">${!s.paid ? `<button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ Оплатить</button>` : ''}<button class="btn-small btn-danger" onclick="deleteSale('${s.id}')">🗑️</button></div></div>
+            `).join('') : '<div class="empty-state">Нет продаж</div>';
         }
 
         window.toggleSalePaid = (id) => {
             const sale = sales.find(s => s.id === id);
-            if (sale) {
-                sale.paid = !sale.paid;
-                saveToLocalStorage();
-                renderDashboard();
-                renderSales();
-            }
+            if (sale) { sale.paid = !sale.paid; saveData(); renderDashboard(); renderSales(); }
         };
 
         window.deleteSale = (id) => {
             if (confirm('Удалить продажу?')) {
                 sales = sales.filter(s => s.id !== id);
-                saveToLocalStorage();
+                saveData();
                 renderDashboard();
                 renderSales();
             }
         };
 
         function renderClients(filter = '') {
-            let filteredClients = clients;
-            if (filter) {
-                filteredClients = clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
-            }
-            document.getElementById('clientsList').innerHTML = filteredClients.map(c => {
-                const clientSales = sales.filter(s => s.clientId === c.id);
-                const totalPaid = clientSales.filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
-                return `
-                    <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">👤 ${c.name}</span>
-                        </div>
-                        <div class="card-details">📍 ${c.place || '—'} • 📞 ${c.contact || '—'}</div>
-                        <div class="card-details">💰 Продаж: ${clientSales.length} • На сумму: ${totalPaid}₽</div>
-                        <div class="flex-btns">
-                            <button class="btn-small btn-secondary" onclick="quickSale('${c.id}')">💰 Продажа</button>
-                            <button class="btn-small btn-danger" onclick="deleteClient('${c.id}')">🗑️</button>
-                        </div>
-                    </div>
-                `;
-            }).join('') || '<div class="empty-state">Нет клиентов</div>';
+            let filtered = clients;
+            if (filter) filtered = clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase()));
+            document.getElementById('clientsList').innerHTML = filtered.map(c => `
+                <div class="card"><div class="card-header"><span class="card-title">👤 ${c.name}</span></div><div class="card-details">📍 ${c.place || '—'} • 📞 ${c.contact || '—'}</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder('${c.id}')">📦 Заказ</button><button class="btn-small btn-secondary" onclick="quickSale('${c.id}')">💰 Продажа</button><button class="btn-small btn-danger" onclick="deleteClient('${c.id}')">🗑️</button></div></div>
+            `).join('') || '<div class="empty-state">Нет клиентов</div>';
         }
 
-        window.quickSale = (clientId) => {
-            showModal('newSaleModal');
-            setTimeout(() => {
-                document.getElementById('saleClient').value = clientId;
-            }, 100);
-        };
-
-        window.deleteClient = (id) => {
-            if (confirm('Удалить клиента?')) {
-                clients = clients.filter(c => c.id !== id);
-                saveToLocalStorage();
-                renderClients();
-                fillSelectors();
-            }
-        };
-
-        window.filterClients = () => {
-            renderClients(document.getElementById('clientSearch').value);
-        };
+        window.quickOrder = (id) => { showModal('newOrderModal'); setTimeout(() => { document.getElementById('orderClient').value = id; }, 100); };
+        window.quickSale = (id) => { showModal('newSaleModal'); setTimeout(() => { document.getElementById('saleClient').value = id; }, 100); };
+        window.deleteClient = (id) => { if (confirm('Удалить клиента?')) { clients = clients.filter(c => c.id !== id); saveData(); renderClients(); fillSelectors(); } };
+        window.filterClients = () => renderClients(document.getElementById('clientSearch').value);
 
         function renderExpenses() {
-            const weekExpenses = getWeekExpenses();
-            const monthExpenses = getMonthExpenses();
-            const totalExpenses = getTotalExpenses();
-            
-            document.getElementById('expensesStats').innerHTML = `
-                <div class="finance-card"><div class="finance-amount">${weekExpenses}₽</div><div class="finance-period">За неделю</div></div>
-                <div class="finance-card"><div class="finance-amount">${monthExpenses}₽</div><div class="finance-period">За месяц</div></div>`;
-            
-            const sortedExpenses = [...expenses].reverse();
-            document.getElementById('expensesList').innerHTML = sortedExpenses.map(e => `
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">💸 ${e.name}</span>
-                        <span class="status status-pending">${e.category}</span>
-                    </div>
-                    <div class="card-details">📅 ${e.date} • ${e.amount}₽</div>
-                    <div class="flex-btns">
-                        <button class="btn-small btn-danger" onclick="deleteExpense('${e.id}')">🗑️ Удалить</button>
-                    </div>
-                </div>
-            `).join('');
+            const container = document.getElementById('expensesList');
+            container.innerHTML = expenses.length ? expenses.slice().reverse().map(e => `
+                <div class="card"><div class="card-header"><span class="card-title">💸 ${e.name}</span><span class="status status-pending">${e.category}</span></div><div class="card-details">📅 ${e.date} • ${e.amount}₽</div><div class="flex-btns"><button class="btn-small btn-danger" onclick="deleteExpense('${e.id}')">🗑️</button></div></div>
+            `).join('') : '<div class="empty-state">Нет расходов</div>';
         }
 
-        window.deleteExpense = (id) => {
-            if (confirm('Удалить расход?')) {
-                expenses = expenses.filter(e => e.id !== id);
-                saveToLocalStorage();
-                renderDashboard();
-                renderExpenses();
-            }
-        };
+        window.deleteExpense = (id) => { if (confirm('Удалить расход?')) { expenses = expenses.filter(e => e.id !== id); saveData(); renderDashboard(); renderExpenses(); } };
 
         function renderAchievements() {
-            const sortedAchievements = [...achievements].reverse();
-            document.getElementById('achievementsList').innerHTML = sortedAchievements.map(a => `
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">🏆 ${a.description}</span>
-                        <button class="btn-small btn-danger" onclick="deleteAchievement('${a.id}')">🗑️</button>
-                    </div>
-                    <div class="card-details">📅 ${a.date} • ${a.category}</div>
-                </div>
-            `).join('') || '<div class="empty-state">Нет достижений</div>';
+            const container = document.getElementById('achievementsList');
+            container.innerHTML = achievements.length ? achievements.slice().reverse().map(a => `
+                <div class="card"><div class="card-header"><span class="card-title">🏆 ${a.description}</span><button class="btn-small btn-danger" onclick="deleteAchievement('${a.id}')">🗑️</button></div><div class="card-details">📅 ${a.date} • ${a.category}</div></div>
+            `).join('') : '<div class="empty-state">Нет достижений</div>';
         }
 
-        window.deleteAchievement = (id) => {
-            if (confirm('Удалить достижение?')) {
-                achievements = achievements.filter(a => a.id !== id);
-                saveToLocalStorage();
-                renderAchievements();
-            }
-        };
+        window.deleteAchievement = (id) => { if (confirm('Удалить?')) { achievements = achievements.filter(a => a.id !== id); saveData(); renderAchievements(); } };
 
-        function renderParties() {
-            document.getElementById('partiesList').innerHTML = parties.length ? parties.map(p => `
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">🌱 ${p.culture}</span>
-                    </div>
-                    <div class="card-details">${p.weight}г • Посев: ${p.date}</div>
-                    <div class="flex-btns">
-                        <button class="btn-small btn-danger" onclick="deleteParty('${p.id}')">🗑️</button>
-                    </div>
-                </div>
-            `).join('') : '<div class="empty-state">Нет партий</div>';
+        function renderLibrary() {
+            const container = document.getElementById('culturesList');
+            container.innerHTML = Object.keys(CULTURES).map(name => {
+                const c = CULTURES[name];
+                return `<div class="card"><div class="card-header"><span class="card-title">🌱 ${name.toUpperCase()}</span></div><div class="card-details"><strong>📊 Параметры:</strong><br>• Тип: ${c.type === 'microgreen' ? 'Микрозелень' : 'Проростки'}<br>• Норма 15×11: ${c.norm15}г • Норма 8×5: ${c.norm8}г<br>• Цена семян: ${c.seedPrice} ₽/г<br>• Дней до готовности: ${c.daysToReady}</div><details><summary>📖 Полная инструкция</summary><div class="card-details" style="white-space: pre-line; margin-top: 8px;">${c.instructions}</div></details></div>`;
+            }).join('');
         }
 
-        window.deleteParty = (id) => {
-            if (confirm('Удалить партию?')) {
-                parties = parties.filter(p => p.id !== id);
-                saveToLocalStorage();
-                renderParties();
-            }
-        };
-
+        // Формы
         function fillSelectors() {
-            const clientSelect = document.getElementById('saleClient');
-            if (clientSelect) {
-                clientSelect.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            const clientSelects = ['orderClient', 'saleClient'];
+            clientSelects.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel) sel.innerHTML = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            });
+            const cultureSelect = document.getElementById('partyCulture');
+            if (cultureSelect) cultureSelect.innerHTML = Object.keys(CULTURES).map(c => `<option value="${c}">${c}</option>`).join('');
+        }
+
+        function updateWeightHint() {
+            const culture = document.getElementById('partyCulture').value;
+            const container = document.getElementById('partyContainer').value;
+            const cult = CULTURES[culture];
+            if (cult) {
+                let norm = container === '15x11' ? cult.norm15 : container === '8x5' ? cult.norm8 : cult.normPro;
+                document.getElementById('partyWeightHint').innerHTML = `📌 Рекомендация: ${norm}г для ${container === '15x11' ? '15×11' : container === '8x5' ? '8×5' : 'проращивателя'}`;
+                document.getElementById('partyWeight').placeholder = norm;
             }
         }
 
-        // ==================== ФОРМЫ ====================
+        // Обработчики форм
+        document.getElementById('newPartyForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            parties.push({
+                id: `p${Date.now()}`,
+                culture: document.getElementById('partyCulture').value,
+                container: document.getElementById('partyContainer').value,
+                weight: parseInt(document.getElementById('partyWeight').value),
+                dateSown: document.getElementById('partyDate').value,
+                notes: document.getElementById('partyNotes').value,
+                currentStage: 'zomachivanie',
+                createdAt: new Date().toISOString()
+            });
+            saveData();
+            hideModal('newPartyModal');
+            document.getElementById('newPartyForm').reset();
+            renderDashboard();
+            renderParties();
+            alert('✅ Партия создана!');
+        });
+
+        document.getElementById('newOrderForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            orders.push({
+                id: `o${Date.now()}`,
+                clientId: document.getElementById('orderClient').value,
+                date: document.getElementById('orderDate').value,
+                culture: document.getElementById('orderCulture').value,
+                weight: parseInt(document.getElementById('orderWeight').value),
+                container: document.getElementById('orderContainer').value,
+                notes: document.getElementById('orderNotes').value,
+                createdAt: new Date().toISOString()
+            });
+            saveData();
+            hideModal('newOrderModal');
+            document.getElementById('newOrderForm').reset();
+            renderOrders();
+            renderDashboard();
+            alert('✅ Заказ создан!');
+        });
+
         document.getElementById('newSaleForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newSale = {
+            sales.push({
                 id: `s${Date.now()}`,
                 clientId: document.getElementById('saleClient').value,
                 date: document.getElementById('saleDate').value,
                 culture: document.getElementById('saleCulture').value,
                 weight: parseInt(document.getElementById('saleWeight').value),
                 amount: parseInt(document.getElementById('saleAmount').value),
-                paid: document.getElementById('salePaid').value === 'true'
-            };
-            sales.push(newSale);
-            saveToLocalStorage();
+                paid: document.getElementById('salePaid').value === 'true',
+                createdAt: new Date().toISOString()
+            });
+            saveData();
             hideModal('newSaleModal');
             document.getElementById('newSaleForm').reset();
             renderDashboard();
@@ -731,34 +849,15 @@
             alert('✅ Продажа записана!');
         });
 
-        document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newExpense = {
-                id: `e${Date.now()}`,
-                date: document.getElementById('expenseDate').value,
-                name: document.getElementById('expenseName').value,
-                amount: parseInt(document.getElementById('expenseAmount').value),
-                category: document.getElementById('expenseCategory').value
-            };
-            expenses.push(newExpense);
-            saveToLocalStorage();
-            hideModal('newExpenseModal');
-            document.getElementById('newExpenseForm').reset();
-            renderDashboard();
-            renderExpenses();
-            alert('✅ Расход добавлен!');
-        });
-
         document.getElementById('newClientForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newClient = {
+            clients.push({
                 id: `c${Date.now()}`,
                 name: document.getElementById('clientName').value,
                 place: document.getElementById('clientPlace').value,
                 contact: document.getElementById('clientContact').value
-            };
-            clients.push(newClient);
-            saveToLocalStorage();
+            });
+            saveData();
             hideModal('newClientModal');
             document.getElementById('newClientForm').reset();
             renderClients();
@@ -766,46 +865,86 @@
             alert('✅ Клиент добавлен!');
         });
 
+        document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            expenses.push({
+                id: `e${Date.now()}`,
+                date: document.getElementById('expenseDate').value,
+                name: document.getElementById('expenseName').value,
+                amount: parseInt(document.getElementById('expenseAmount').value),
+                category: document.getElementById('expenseCategory').value
+            });
+            saveData();
+            hideModal('newExpenseModal');
+            document.getElementById('newExpenseForm').reset();
+            renderDashboard();
+            renderExpenses();
+            alert('✅ Расход добавлен!');
+        });
+
         document.getElementById('newAchievementForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const newAchievement = {
+            achievements.push({
                 id: `a${Date.now()}`,
                 date: document.getElementById('achievementDate').value,
                 description: document.getElementById('achievementDesc').value,
                 category: document.getElementById('achievementCategory').value
-            };
-            achievements.push(newAchievement);
-            saveToLocalStorage();
+            });
+            saveData();
             hideModal('newAchievementModal');
             document.getElementById('newAchievementForm').reset();
             renderAchievements();
             alert('✅ Достижение добавлено!');
         });
 
-        document.getElementById('newPartyForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newParty = {
-                id: `p${Date.now()}`,
-                culture: document.getElementById('partyCulture').value,
-                weight: parseInt(document.getElementById('partyWeight').value),
-                date: document.getElementById('partyDate').value
-            };
-            parties.push(newParty);
-            saveToLocalStorage();
-            hideModal('newPartyModal');
-            document.getElementById('newPartyForm').reset();
-            renderParties();
-            alert('✅ Партия создана!');
-        });
+        // Редактирование планов
+        let currentTasks = null;
+        window.showEditPlans = () => {
+            const tasks = generateTasks();
+            currentTasks = tasks;
+            const container = document.getElementById('editPlansContainer');
+            container.innerHTML = `
+                <div class="plan-section">
+                    <div class="plan-time">🌅 УТРО (7:00) - Сегодня</div>
+                    ${tasks.todayTasks.morning.map((t, i) => `<div class="task-item"><input type="text" class="task-text" value="${t}" data-type="todayMorning" data-idx="${i}" style="flex:1; padding:8px;"><button class="btn-small btn-danger" onclick="removeTask('todayMorning', ${i})">🗑️</button></div>`).join('')}
+                    <button class="btn-small btn-secondary" onclick="addTask('todayMorning')">➕ Добавить задачу</button>
+                    <div class="plan-time">🌙 ВЕЧЕР (20:00) - Сегодня</div>
+                    ${tasks.todayTasks.evening.map((t, i) => `<div class="task-item"><input type="text" class="task-text" value="${t}" data-type="todayEvening" data-idx="${i}" style="flex:1; padding:8px;"><button class="btn-small btn-danger" onclick="removeTask('todayEvening', ${i})">🗑️</button></div>`).join('')}
+                    <button class="btn-small btn-secondary" onclick="addTask('todayEvening')">➕ Добавить задачу</button>
+                </div>`;
+            showModal('editPlansModal');
+        };
 
-        // ==================== НАВИГАЦИЯ ====================
-        window.showModal = (id) => {
-            fillSelectors();
-            document.getElementById(id).style.display = 'block';
+        window.addTask = (type) => {
+            const tasks = generateTasks();
+            if (type === 'todayMorning') tasks.todayTasks.morning.push('Новая задача');
+            if (type === 'todayEvening') tasks.todayTasks.evening.push('Новая задача');
+            currentTasks = tasks;
+            window.showEditPlans();
         };
-        window.hideModal = (id) => {
-            document.getElementById(id).style.display = 'none';
+
+        window.removeTask = (type, idx) => {
+            if (type === 'todayMorning') currentTasks.todayTasks.morning.splice(idx, 1);
+            if (type === 'todayEvening') currentTasks.todayTasks.evening.splice(idx, 1);
+            window.showEditPlans();
         };
+
+        window.savePlans = () => {
+            const inputs = document.querySelectorAll('#editPlansContainer .task-text');
+            inputs.forEach(input => {
+                const type = input.dataset.type;
+                const idx = parseInt(input.dataset.idx);
+                if (type === 'todayMorning' && currentTasks.todayTasks.morning[idx]) currentTasks.todayTasks.morning[idx] = input.value;
+                if (type === 'todayEvening' && currentTasks.todayTasks.evening[idx]) currentTasks.todayTasks.evening[idx] = input.value;
+            });
+            hideModal('editPlansModal');
+            renderPlans('today', currentTasks);
+            alert('✅ Планы сохранены!');
+        };
+
+        // Навигация и модалки
+        window.showModal = (id) => { fillSelectors(); document.getElementById(id).style.display = 'block'; };
+        window.hideModal = (id) => document.getElementById(id).style.display = 'none';
 
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -815,41 +954,48 @@
                 const sec = this.getAttribute('data-section');
                 document.getElementById(sec).classList.add('active');
                 if (sec === 'dashboard') renderDashboard();
+                if (sec === 'parties') renderParties();
+                if (sec === 'orders') renderOrders();
                 if (sec === 'sales') renderSales();
                 if (sec === 'clients') renderClients();
                 if (sec === 'expenses') renderExpenses();
                 if (sec === 'achievements') renderAchievements();
-                if (sec === 'parties') renderParties();
+                if (sec === 'library') renderLibrary();
+            });
+        });
+
+        document.querySelectorAll('.plan-tab').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (this.id === 'editPlansBtn') { window.showEditPlans(); return; }
+                document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const type = this.getAttribute('data-plan');
+                renderPlans(type);
             });
         });
 
         document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('partyCulture')?.addEventListener('change', updateWeightHint);
+        document.getElementById('partyContainer')?.addEventListener('change', updateWeightHint);
         document.getElementById('saleDate').valueAsDate = new Date();
+        document.getElementById('orderDate').valueAsDate = new Date();
         document.getElementById('expenseDate').valueAsDate = new Date();
         document.getElementById('achievementDate').valueAsDate = new Date();
 
-        // ЗАГРУЗКА
-        loadFromLocalStorage();
-        if (sales.length === 0) sales = [...ALL_SALES];
-        if (clients.length === 0) clients = [...ALL_CLIENTS];
-        if (achievements.length === 0) achievements = [...ALL_ACHIEVEMENTS];
-        if (expenses.length === 0) expenses = [...ALL_EXPENSES];
-        saveToLocalStorage();
-        
+        loadData();
         renderDashboard();
+        renderParties();
+        renderOrders();
         renderSales();
         renderClients();
         renderExpenses();
         renderAchievements();
-        renderParties();
+        renderLibrary();
         fillSelectors();
         
-        console.log('✅ VITARAY ЗАГРУЖЕН!');
-        console.log(`📊 Продаж: ${sales.length}, Доход: ${getTotalIncome()}₽`);
-        console.log(`💸 Расходов: ${expenses.length}, Всего: ${getTotalExpenses()}₽`);
-        console.log(`💎 Баланс: ${getTotalIncome() - getTotalExpenses()}₽`);
-        console.log(`👥 Клиентов: ${clients.length}`);
-        console.log(`🏆 Достижений: ${achievements.length}`);
+        console.log('✅ VITARAY загружен!');
+        const fin = getFinancialStats();
+        console.log(`💰 Доход: ${fin.totalIncome}₽, Расход: ${fin.totalExpenses}₽, Баланс: ${fin.currentBalance}₽`);
     </script>
 </body>
 </html>
