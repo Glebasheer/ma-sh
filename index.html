@@ -123,6 +123,15 @@
             line-height: 1.4;
         }
 
+        .notes-text {
+            background: #F9F9F9;
+            padding: 6px;
+            border-radius: 8px;
+            font-size: 11px;
+            color: #888;
+            margin-top: 6px;
+        }
+
         .progress-bar {
             background: #E8F5E9;
             border-radius: 20px;
@@ -559,6 +568,7 @@
         <div class="form-group"><label>Дата *</label><input type="date" id="orderDate" required></div>
         <div id="orderItemsContainer"></div>
         <button type="button" class="btn-small btn-add" onclick="window.addOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+        <div class="form-group"><label>Заметки</label><textarea id="orderNotes" rows="2" placeholder="Дополнительная информация по заказу..."></textarea></div>
         <div class="total-amount" id="orderTotalAmount">Итого: 0 ₽</div>
         <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать заказ</button></div>
     </form></div></div>
@@ -570,6 +580,7 @@
         <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate"></div>
         <div id="editOrderItemsContainer"></div>
         <button type="button" class="btn-small btn-add" onclick="window.addEditOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+        <div class="form-group"><label>Заметки</label><textarea id="editOrderNotes" rows="2"></textarea></div>
         <div class="total-amount" id="editOrderTotalAmount">Итого: 0 ₽</div>
         <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
     </form></div></div>
@@ -580,6 +591,7 @@
         <div class="form-group"><label>Дата *</label><input type="date" id="saleDate" required></div>
         <div id="saleItemsContainer"></div>
         <button type="button" class="btn-small btn-add" onclick="window.addSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+        <div class="form-group"><label>Заметки</label><textarea id="saleNotes" rows="2" placeholder="Дополнительная информация по продаже..."></textarea></div>
         <div class="total-amount" id="saleTotalAmount">Итого: 0 ₽</div>
         <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать продажу</button></div>
     </form></div></div>
@@ -591,6 +603,7 @@
         <div class="form-group"><label>Дата</label><input type="date" id="editSaleDate"></div>
         <div id="editSaleItemsContainer"></div>
         <button type="button" class="btn-small btn-add" onclick="window.addEditSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+        <div class="form-group"><label>Заметки</label><textarea id="editSaleNotes" rows="2"></textarea></div>
         <div class="total-amount" id="editSaleTotalAmount">Итого: 0 ₽</div>
         <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
     </form></div></div>
@@ -612,6 +625,7 @@
     <div class="form-group"><label>Категория *</label><select id="expenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option><option>Упаковка</option></select></div>
     <div class="form-group"><label>Наименование *</label><input type="text" id="expenseName" required></div>
     <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="expenseAmount" required></div>
+    <div class="form-group"><label>Заметки</label><textarea id="expenseDetails" rows="2"></textarea></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
     <div id="editExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ РАСХОД</h3><button class="close-btn" onclick="window.hideModal('editExpenseModal')">×</button></div>
@@ -619,6 +633,7 @@
     <div class="form-group"><label>Категория</label><select id="editExpenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option><option>Упаковка</option></select></div>
     <div class="form-group"><label>Наименование</label><input type="text" id="editExpenseName"></div>
     <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editExpenseAmount"></div>
+    <div class="form-group"><label>Заметки</label><textarea id="editExpenseDetails" rows="2"></textarea></div>
     <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
     <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="window.hideModal('newAchievementModal')">×</button></div>
@@ -840,8 +855,6 @@
         let currentEditSaleItems = [];
         
         function addOrderItem() {
-            const container = document.getElementById('orderItemsContainer');
-            const idx = currentOrderItems.length;
             currentOrderItems.push({ culture: Object.keys(cultures)[0] || 'горох', weight: 100, price: 100 });
             renderOrderItems();
         }
@@ -865,7 +878,6 @@
                 </div>
             `).join('');
             
-            // Привязываем события
             document.querySelectorAll('#orderItemsContainer .item-culture').forEach(sel => {
                 const idx = parseInt(sel.dataset.idx);
                 sel.value = currentOrderItems[idx].culture;
@@ -1182,6 +1194,7 @@
                         </div>
                         <div class="card-details">${itemsHtml}</div>
                         <div class="card-details">📅 ${formatDate(o.date)} • 💰 ${o.total}₽</div>
+                        ${o.notes ? `<div class="notes-text">📝 ${o.notes}</div>` : ''}
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ ${o.paid ? 'Снять оплату' : 'Оплатить'}</button>
                             <button class="btn-small btn-secondary" onclick="toggleOrderDelivered('${o.id}')">📦 ${o.delivered ? 'Отменить' : 'Выдать'}</button>
@@ -1207,6 +1220,7 @@
                         </div>
                         <div class="card-details">${itemsHtml}</div>
                         <div class="card-details">📅 ${formatDate(s.date)} • 💰 ${s.total}₽</div>
+                        ${s.notes ? `<div class="notes-text">📝 ${s.notes}</div>` : ''}
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ ${s.paid ? 'Снять оплату' : 'Оплатить'}</button>
                             <button class="btn-small btn-secondary" onclick="editSale('${s.id}')">✏️</button>
@@ -1253,6 +1267,7 @@
                         <span class="status status-pending">${e.category}</span>
                     </div>
                     <div class="card-details">📅 ${formatDate(e.date)} • ${e.amount}₽</div>
+                    ${e.details ? `<div class="notes-text">📝 ${e.details}</div>` : ''}
                     <div class="flex-btns">
                         <button class="btn-small btn-secondary" onclick="editExpense('${e.id}')">✏️</button>
                         <button class="btn-small btn-danger" onclick="deleteExpense('${e.id}')">🗑️</button>
@@ -1383,17 +1398,21 @@
         window.convertOrderToSale = function(id) {
             const order = orders.find(o => o.id === id);
             if (order) {
-                sales.push({
+                const newSale = {
                     id: 's' + Date.now(),
                     clientId: order.clientId,
                     date: new Date().toISOString().slice(0, 10),
                     items: JSON.parse(JSON.stringify(order.items)),
                     total: order.total,
-                    paid: order.paid
-                });
+                    paid: order.paid,
+                    notes: order.notes ? `Скопировано из заказа: ${order.notes}` : 'Скопировано из заказа'
+                };
+                sales.push(newSale);
                 saveData();
                 renderAll();
                 alert('✅ Заказ скопирован в продажи!');
+            } else {
+                alert('❌ Ошибка: заказ не найден');
             }
         };
         
@@ -1402,6 +1421,7 @@
             if (order) {
                 document.getElementById('editOrderId').value = order.id;
                 document.getElementById('editOrderDate').value = order.date;
+                document.getElementById('editOrderNotes').value = order.notes || '';
                 const clientSelect = document.getElementById('editOrderClient');
                 clientSelect.innerHTML = clients.map(c => `<option ${c.id === order.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
                 currentEditOrderItems = JSON.parse(JSON.stringify(order.items));
@@ -1438,6 +1458,7 @@
             if (sale) {
                 document.getElementById('editSaleId').value = sale.id;
                 document.getElementById('editSaleDate').value = sale.date;
+                document.getElementById('editSaleNotes').value = sale.notes || '';
                 const clientSelect = document.getElementById('editSaleClient');
                 clientSelect.innerHTML = clients.map(c => `<option ${c.id === sale.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
                 currentEditSaleItems = JSON.parse(JSON.stringify(sale.items));
@@ -1469,8 +1490,8 @@
             if (!client) return;
             const clientOrders = orders.filter(o => o.clientId === id);
             const clientSales = sales.filter(s => s.clientId === id);
-            const ordersHtml = clientOrders.map(o => `<div class="card"><div class="card-header">📦 ${formatDate(o.date)}<span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span></div><div class="card-details">${o.items.map(i => `${i.culture} ${i.weight}г = ${i.price}₽`).join('<br>')}</div><div>💰 ${o.total}₽</div></div>`).join('');
-            const salesHtml = clientSales.map(s => `<div class="card"><div class="card-header">💰 ${formatDate(s.date)}<span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.items.map(i => `${i.culture} ${i.weight}г = ${i.amount}₽`).join('<br>')}</div><div>💰 ${s.total}₽</div></div>`).join('');
+            const ordersHtml = clientOrders.map(o => `<div class="card"><div class="card-header">📦 ${formatDate(o.date)}<span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span></div><div class="card-details">${o.items.map(i => `${i.culture} ${i.weight}г = ${i.price}₽`).join('<br>')}</div><div>💰 ${o.total}₽</div>${o.notes ? `<div class="notes-text">📝 ${o.notes}</div>` : ''}</div>`).join('');
+            const salesHtml = clientSales.map(s => `<div class="card"><div class="card-header">💰 ${formatDate(s.date)}<span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.items.map(i => `${i.culture} ${i.weight}г = ${i.amount}₽`).join('<br>')}</div><div>💰 ${s.total}₽</div>${s.notes ? `<div class="notes-text">📝 ${s.notes}</div>` : ''}</div>`).join('');
             const debt = getClientDebt(id);
             document.getElementById('clientHistoryContent').innerHTML = `<div class="card"><div class="card-title">👤 ${client.name}</div><div class="card-details">📍 ${client.place || '—'}</div><div class="card-details">📞 ${client.contact || '—'}</div><div class="card-details">💰 Долг: ${debt}₽</div></div><h4>📦 Заказы</h4>${ordersHtml || '<div class="empty-state">Нет заказов</div>'}<h4>💰 Продажи</h4>${salesHtml || '<div class="empty-state">Нет продаж</div>'}`;
             showModal('clientHistoryModal');
@@ -1520,6 +1541,7 @@
                 document.getElementById('editExpenseCategory').value = expense.category;
                 document.getElementById('editExpenseName').value = expense.name;
                 document.getElementById('editExpenseAmount').value = expense.amount;
+                document.getElementById('editExpenseDetails').value = expense.details || '';
                 showModal('editExpenseModal');
             }
         };
@@ -1762,9 +1784,10 @@
             e.preventDefault();
             const clientId = document.getElementById('orderClient').value;
             const date = document.getElementById('orderDate').value;
+            const notes = document.getElementById('orderNotes').value;
             if (!clientId || !date || currentOrderItems.length === 0) { alert('Заполните все поля и добавьте хотя бы одну позицию'); return; }
             const total = currentOrderItems.reduce((sum, item) => sum + (item.price || 0), 0);
-            orders.push({ id: 'o' + Date.now(), clientId, date, items: [...currentOrderItems], total, paid: false, delivered: false });
+            orders.push({ id: 'o' + Date.now(), clientId, date, items: [...currentOrderItems], total, paid: false, delivered: false, notes: notes || '' });
             currentOrderItems = [];
             saveData();
             hideModal('newOrderModal');
@@ -1781,6 +1804,7 @@
                 order.date = document.getElementById('editOrderDate').value;
                 order.items = [...currentEditOrderItems];
                 order.total = currentEditOrderItems.reduce((sum, item) => sum + (item.price || 0), 0);
+                order.notes = document.getElementById('editOrderNotes').value;
                 saveData();
                 hideModal('editOrderModal');
                 renderAll();
@@ -1791,9 +1815,10 @@
             e.preventDefault();
             const clientId = document.getElementById('saleClient').value;
             const date = document.getElementById('saleDate').value;
+            const notes = document.getElementById('saleNotes').value;
             if (!clientId || !date || currentSaleItems.length === 0) { alert('Заполните все поля и добавьте хотя бы одну позицию'); return; }
             const total = currentSaleItems.reduce((sum, item) => sum + (item.amount || 0), 0);
-            sales.push({ id: 's' + Date.now(), clientId, date, items: [...currentSaleItems], total, paid: false });
+            sales.push({ id: 's' + Date.now(), clientId, date, items: [...currentSaleItems], total, paid: false, notes: notes || '' });
             currentSaleItems = [];
             saveData();
             hideModal('newSaleModal');
@@ -1810,6 +1835,7 @@
                 sale.date = document.getElementById('editSaleDate').value;
                 sale.items = [...currentEditSaleItems];
                 sale.total = currentEditSaleItems.reduce((sum, item) => sum + (item.amount || 0), 0);
+                sale.notes = document.getElementById('editSaleNotes').value;
                 saveData();
                 hideModal('editSaleModal');
                 renderAll();
@@ -1843,7 +1869,7 @@
         
         document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            expenses.push({ id: 'e' + Date.now(), date: document.getElementById('expenseDate').value, category: document.getElementById('expenseCategory').value, name: document.getElementById('expenseName').value, amount: parseInt(document.getElementById('expenseAmount').value), details: '' });
+            expenses.push({ id: 'e' + Date.now(), date: document.getElementById('expenseDate').value, category: document.getElementById('expenseCategory').value, name: document.getElementById('expenseName').value, amount: parseInt(document.getElementById('expenseAmount').value), details: document.getElementById('expenseDetails').value || '' });
             saveData();
             hideModal('newExpenseModal');
             renderAll();
@@ -1859,6 +1885,7 @@
                 expense.category = document.getElementById('editExpenseCategory').value;
                 expense.name = document.getElementById('editExpenseName').value;
                 expense.amount = parseInt(document.getElementById('editExpenseAmount').value);
+                expense.details = document.getElementById('editExpenseDetails').value;
                 saveData();
                 hideModal('editExpenseModal');
                 renderAll();
@@ -1918,12 +1945,14 @@
             if (id === 'newPartyModal') document.getElementById('partyDate').value = new Date().toISOString().slice(0, 10);
             if (id === 'newOrderModal') {
                 document.getElementById('orderDate').value = new Date().toISOString().slice(0, 10);
+                document.getElementById('orderNotes').value = '';
                 currentOrderItems = [];
                 renderOrderItems();
                 if (currentOrderItems.length === 0) addOrderItem();
             }
             if (id === 'newSaleModal') {
                 document.getElementById('saleDate').value = new Date().toISOString().slice(0, 10);
+                document.getElementById('saleNotes').value = '';
                 currentSaleItems = [];
                 renderSaleItems();
                 if (currentSaleItems.length === 0) addSaleItem();
