@@ -3,39 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
-    <meta name="theme-color" content="#2E7D32">
-    <title>🌱 VITARAY PRO</title>
+    <title>🌱 VITARAY</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #F5FBF5; color: #1A3A1A; padding: 0 12px 80px; }
-        .header { background: linear-gradient(135deg, #2E7D32, #4CAF50); margin: 0 -12px 16px -12px; padding: 20px 16px; border-radius: 0 0 28px 28px; color: white; }
-        .header h1 { font-size: 24px; display: flex; justify-content: space-between; align-items: center; }
-        .notify-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 12px; border-radius: 30px; font-size: 11px; cursor: pointer; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #F5FBF5;
+            color: #1A3A1A;
+            padding: 0 12px 80px;
+        }
+        .header {
+            background: linear-gradient(135deg, #2E7D32, #4CAF50);
+            margin: 0 -12px 16px -12px;
+            padding: 20px 16px;
+            border-radius: 0 0 28px 28px;
+            color: white;
+        }
+        .header h1 { font-size: 24px; }
         .date-display { font-size: 13px; opacity: 0.9; margin-top: 6px; }
-        .nav { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; padding-bottom: 4px; }
-        .nav-btn { background: white; border: none; padding: 8px 14px; border-radius: 40px; font-size: 12px; font-weight: 600; color: #2E7D32; white-space: nowrap; cursor: pointer; }
-        .nav-btn.active { background: linear-gradient(135deg, #2E7D32, #4CAF50); color: white; }
+        .nav { display: flex; gap: 6px; margin-bottom: 20px; overflow-x: auto; }
+        .nav-btn {
+            background: white; border: none; padding: 8px 14px; border-radius: 40px;
+            font-size: 12px; font-weight: 600; color: #2E7D32; cursor: pointer;
+        }
+        .nav-btn.active { background: #2E7D32; color: white; }
         .section { display: none; }
-        .section.active { display: block; animation: fadeIn 0.3s; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .card { background: white; border-radius: 20px; padding: 14px; margin-bottom: 12px; border: 1px solid #E8F5E9; }
-        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
+        .section.active { display: block; }
+        .card {
+            background: white; border-radius: 20px; padding: 14px; margin-bottom: 12px;
+            border: 1px solid #E8F5E9;
+        }
+        .card-header { display: flex; justify-content: space-between; margin-bottom: 8px; flex-wrap: wrap; gap: 6px; }
         .card-title { font-weight: 700; font-size: 15px; }
-        .card-details { font-size: 12px; color: #666; margin: 4px 0; line-height: 1.4; }
+        .card-details { font-size: 12px; color: #666; margin: 4px 0; }
         .progress-bar { background: #E8F5E9; border-radius: 20px; height: 6px; margin: 8px 0; overflow: hidden; }
-        .progress-fill { background: linear-gradient(90deg, #2E7D32, #4CAF50); width: 0%; height: 100%; transition: width 0.3s; }
+        .progress-fill { background: #2E7D32; width: 0%; height: 100%; }
         .status { padding: 3px 8px; border-radius: 30px; font-size: 9px; font-weight: 600; display: inline-block; }
         .status-paid { background: #C8E6C9; color: #1B5E20; }
         .status-unpaid { background: #FFEBEE; color: #C62828; }
         .status-delivered { background: #E0F2FE; color: #0369a1; }
         .status-pending { background: #FFF3E0; color: #EF6C00; }
-        .status-zomachivanie { background: #E3F2FD; color: #1976D2; }
-        .status-posev { background: #E8F5E9; color: #2E7D32; }
-        .status-v_temi { background: #F3E5F5; color: #7B1FA2; }
-        .status-pod_lampoy { background: #FFF3E0; color: #EF6C00; }
-        .status-srezka { background: #FCE4EC; color: #C2185B; }
-        .status-sbor { background: #C8E6C9; color: #1B5E20; }
-        .btn { background: linear-gradient(135deg, #2E7D32, #4CAF50); color: white; border: none; padding: 12px; border-radius: 40px; font-size: 14px; font-weight: 600; width: 100%; cursor: pointer; margin: 6px 0; }
+        .btn {
+            background: #2E7D32; color: white; border: none; padding: 12px;
+            border-radius: 40px; font-size: 14px; font-weight: 600; width: 100%; cursor: pointer; margin: 6px 0;
+        }
         .btn-secondary { background: white; color: #2E7D32; border: 1px solid #C8E6C9; }
         .btn-small { padding: 5px 10px; font-size: 10px; width: auto; margin: 0; }
         .btn-danger { background: #FFEBEE; color: #C62828; border: 1px solid #FFCDD2; }
@@ -43,13 +54,8 @@
         .stats-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .stat-card { background: white; border-radius: 16px; padding: 10px; text-align: center; flex: 1; }
         .stat-number { font-size: 18px; font-weight: 800; color: #2E7D32; }
-        .stat-label { font-size: 9px; color: #81C784; }
-        .balance-card { background: linear-gradient(135deg, #2E7D32, #4CAF50); border-radius: 16px; padding: 10px; text-align: center; margin-bottom: 12px; color: white; }
+        .balance-card { background: #2E7D32; border-radius: 16px; padding: 10px; text-align: center; margin-bottom: 12px; color: white; }
         .balance-amount { font-size: 20px; font-weight: 800; }
-        .filter-row { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
-        .filter-btn { background: white; border: 1px solid #E8F5E9; padding: 5px 10px; border-radius: 20px; font-size: 11px; cursor: pointer; }
-        .filter-btn.active { background: #2E7D32; color: white; }
-        .search-input { width: 100%; padding: 8px 12px; border: 1px solid #E8F5E9; border-radius: 30px; margin-bottom: 10px; font-size: 13px; }
         .plans-tabs { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
         .plan-tab { background: white; border: 1px solid #E8F5E9; padding: 6px 12px; border-radius: 30px; font-size: 12px; cursor: pointer; }
         .plan-tab.active { background: #2E7D32; color: white; }
@@ -58,24 +64,25 @@
         .task-item { background: white; border-radius: 12px; padding: 8px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .task-checkbox { width: 18px; height: 18px; }
         .task-text { flex: 1; font-size: 12px; }
-        .add-item-btn { background: #E8F5E9; border: 1px dashed #81C784; padding: 6px; border-radius: 10px; width: 100%; color: #2E7D32; font-size: 11px; cursor: pointer; margin: 6px 0; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 1000; padding: 20px; overflow-y: auto; }
-        .modal-content { background: white; border-radius: 24px; padding: 20px; max-width: 500px; margin: 40px auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #999; }
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; padding: 20px; overflow-y: auto;
+        }
+        .modal-content {
+            background: white; border-radius: 24px; padding: 20px; max-width: 500px; margin: 40px auto;
+        }
+        .modal-header { display: flex; justify-content: space-between; margin-bottom: 16px; }
+        .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 11px; font-weight: 600; margin-bottom: 4px; color: #2E7D32; }
         input, select, textarea { width: 100%; padding: 8px; border: 1px solid #E8F5E9; border-radius: 12px; font-size: 13px; }
-        .item-row { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
-        .item-row select { width: 100px; }
-        .item-row input { width: 80px; }
-        .empty-state { text-align: center; padding: 30px; color: #81C784; font-size: 12px; }
+        .empty-state { text-align: center; padding: 30px; color: #81C784; }
         .total-amount { font-weight: 700; text-align: right; margin-top: 8px; padding-top: 6px; border-top: 1px solid #E8F5E9; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🌱 VITARAY <button class="notify-btn" id="notifyBtn">🔔 Уведомления</button></h1>
+        <h1>🌱 VITARAY</h1>
         <div class="date-display" id="currentDate"></div>
     </div>
 
@@ -92,18 +99,16 @@
 
     <section id="dashboard" class="section active">
         <div class="stats-row" id="incomeStats"></div>
-        <div class="balance-card"><div class="balance-amount" id="currentBalance">0₽</div><div>Текущий баланс</div></div>
-        <div class="stats-row"><div class="stat-card"><div class="stat-number" id="totalIncome">0₽</div><div>Всего доход</div></div><div class="stat-card"><div class="stat-number" id="totalExpenses">0₽</div><div>Всего расход</div></div></div>
+        <div class="balance-card"><div class="balance-amount" id="currentBalance">0₽</div><div>Баланс</div></div>
+        <div class="stats-row"><div class="stat-card"><div class="stat-number" id="totalIncome">0₽</div><div>Доход</div></div><div class="stat-card"><div class="stat-number" id="totalExpenses">0₽</div><div>Расход</div></div></div>
         
         <div class="plans-tabs">
-            <button class="plan-tab active" data-plan="today">📅 Сегодня</button>
-            <button class="plan-tab" data-plan="tomorrow">📅 Завтра</button>
-            <button class="plan-tab" data-plan="week">📅 Неделя</button>
-            <button class="plan-tab" id="editPlansBtn">✏️ Редактировать</button>
+            <button class="plan-tab active" data-plan="today">Сегодня</button>
+            <button class="plan-tab" data-plan="tomorrow">Завтра</button>
         </div>
         <div id="plansContainer"></div>
         
-        <h3 style="font-size:13px; margin:10px 0 6px;">🌱 АКТИВНЫЕ ПАРТИИ</h3>
+        <h3 style="font-size:13px;">Активные партии</h3>
         <div id="activePartiesList"></div>
         
         <div class="flex-btns">
@@ -113,148 +118,57 @@
         </div>
     </section>
 
-    <section id="parties" class="section">
-        <button class="btn" onclick="showModal('newPartyModal')">🌱 Создать партию</button>
-        <div id="partiesList"></div>
-    </section>
+    <section id="parties" class="section"><button class="btn" onclick="showModal('newPartyModal')">Создать партию</button><div id="partiesList"></div></section>
+    <section id="orders" class="section"><button class="btn" onclick="showModal('newOrderModal')">Создать заказ</button><div id="ordersList"></div></section>
+    <section id="sales" class="section"><button class="btn" onclick="showModal('newSaleModal')">Записать продажу</button><div id="salesList"></div></section>
+    <section id="clients" class="section"><button class="btn" onclick="showModal('newClientModal')">Добавить клиента</button><input type="text" id="clientSearch" class="search-input" placeholder="Поиск..." onkeyup="filterClients()"><div id="clientsList"></div></section>
+    <section id="expenses" class="section"><button class="btn" onclick="showModal('newExpenseModal')">Добавить расход</button><div id="expensesList"></div></section>
+    <section id="achievements" class="section"><button class="btn" onclick="showModal('newAchievementModal')">Добавить достижение</button><div id="achievementsList"></div></section>
+    <section id="library" class="section"><div id="culturesList"></div></section>
 
-    <section id="orders" class="section">
-        <button class="btn" onclick="showModal('newOrderModal')">📋 Создать заказ</button>
-        <div id="ordersList"></div>
-    </section>
-
-    <section id="sales" class="section">
-        <button class="btn" onclick="showModal('newSaleModal')">💰 Записать продажу</button>
-        <div id="salesList"></div>
-    </section>
-
-    <section id="clients" class="section">
-        <button class="btn" onclick="showModal('newClientModal')">👥 Добавить клиента</button>
-        <input type="text" id="clientSearch" class="search-input" placeholder="🔍 Поиск..." onkeyup="filterClients()">
-        <div id="clientsList"></div>
-    </section>
-
-    <section id="expenses" class="section">
-        <button class="btn" onclick="showModal('newExpenseModal')">💸 Добавить расход</button>
-        <div id="expensesList"></div>
-    </section>
-
-    <section id="achievements" class="section">
-        <button class="btn" onclick="showModal('newAchievementModal')">🏆 Добавить достижение</button>
-        <div id="achievementsList"></div>
-    </section>
-
-    <section id="library" class="section">
-        <button class="btn btn-secondary" onclick="showModal('newCultureModal')">➕ Добавить культуру</button>
-        <div id="culturesList"></div>
-    </section>
-
-    <!-- Модальные окна (сокращены для длины, но функциональны) -->
-    <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ ПАРТИЯ</h3><button class="close-btn" onclick="hideModal('newPartyModal')">×</button></div>
-    <form id="newPartyForm"><div class="form-group"><label>Культура</label><select id="partyCulture" required></select></div>
-    <div class="form-group"><label>Вес (г)</label><input type="number" id="partyWeight" required><div id="partyWeightHint" style="font-size:10px;color:#81C784;"></div></div>
+    <!-- Модальные окна -->
+    <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новая партия</h3><button class="close-btn" onclick="hideModal('newPartyModal')">×</button></div>
+    <form id="newPartyForm"><div class="form-group"><label>Культура</label><select id="partyCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="partyWeight" required></div>
     <div class="form-group"><label>Дата посева</label><input type="date" id="partyDate" required></div>
-    <div class="form-group"><label>Контейнер</label><select id="partyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
+    <div class="form-group"><label>Контейнер</label><select id="partyContainer"><option>15x11</option><option>8x5</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newPartyModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
 
-    <div id="editPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПАРТИЮ</h3><button class="close-btn" onclick="hideModal('editPartyModal')">×</button></div>
-    <form id="editPartyForm"><input type="hidden" id="editPartyId"><div class="form-group"><label>Культура</label><select id="editPartyCulture"></select></div>
-    <div class="form-group"><label>Вес (г)</label><input type="number" id="editPartyWeight"></div>
-    <div class="form-group"><label>Дата посева</label><input type="date" id="editPartyDate"></div>
-    <div class="form-group"><label>Контейнер</label><select id="editPartyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
-    <div class="form-group"><label>Этап</label><select id="editPartyStage"></select></div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deletePartyFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editPartyModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 НОВЫЙ ЗАКАЗ</h3><button class="close-btn" onclick="hideModal('newOrderModal')">×</button></div>
-    <form id="newOrderForm"><div class="form-group"><label>Клиент</label><select id="orderClient" required></select></div>
+    <div id="newOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новый заказ</h3><button class="close-btn" onclick="hideModal('newOrderModal')">×</button></div>
+    <form id="newOrderForm"><div class="form-group"><label>Клиент</label><select id="orderClient"></select></div>
     <div class="form-group"><label>Дата</label><input type="date" id="orderDate" required></div>
-    <div id="orderItemsContainer"></div><button type="button" class="add-item-btn" onclick="addOrderItem()">➕ Добавить товар</button>
-    <div class="total-amount" id="orderTotalAmount">Итого: 0 ₽</div>
+    <div class="form-group"><label>Культура</label><select id="orderCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="orderWeight" required></div>
+    <div class="form-group"><label>Цена (₽)</label><input type="number" id="orderPrice" required></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
 
-    <div id="editOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ЗАКАЗ</h3><button class="close-btn" onclick="hideModal('editOrderModal')">×</button></div>
-    <form id="editOrderForm"><input type="hidden" id="editOrderId"><div class="form-group"><label>Клиент</label><select id="editOrderClient"></select></div>
-    <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate"></div>
-    <div id="editOrderItemsContainer"></div><button type="button" class="add-item-btn" onclick="addEditOrderItem()">➕ Добавить товар</button>
-    <div class="total-amount" id="editOrderTotalAmount">Итого: 0 ₽</div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💰 НОВАЯ ПРОДАЖА</h3><button class="close-btn" onclick="hideModal('newSaleModal')">×</button></div>
-    <form id="newSaleForm"><div class="form-group"><label>Клиент</label><select id="saleClient" required></select></div>
+    <div id="newSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новая продажа</h3><button class="close-btn" onclick="hideModal('newSaleModal')">×</button></div>
+    <form id="newSaleForm"><div class="form-group"><label>Клиент</label><select id="saleClient"></select></div>
     <div class="form-group"><label>Дата</label><input type="date" id="saleDate" required></div>
-    <div id="saleItemsContainer"></div><button type="button" class="add-item-btn" onclick="addSaleItem()">➕ Добавить товар</button>
-    <div class="total-amount" id="saleTotalAmount">Итого: 0 ₽</div>
+    <div class="form-group"><label>Культура</label><select id="saleCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="saleWeight" required></div>
+    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="saleAmount" required></div>
+    <div class="form-group"><label>Оплачено</label><select id="salePaid"><option value="true">Да</option><option value="false">Нет</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать</button></div></form></div></div>
 
-    <div id="editSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПРОДАЖУ</h3><button class="close-btn" onclick="hideModal('editSaleModal')">×</button></div>
-    <form id="editSaleForm"><input type="hidden" id="editSaleId"><div class="form-group"><label>Клиент</label><select id="editSaleClient"></select></div>
-    <div class="form-group"><label>Дата</label><input type="date" id="editSaleDate"></div>
-    <div id="editSaleItemsContainer"></div><button type="button" class="add-item-btn" onclick="addEditSaleItem()">➕ Добавить товар</button>
-    <div class="total-amount" id="editSaleTotalAmount">Итого: 0 ₽</div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>👥 НОВЫЙ КЛИЕНТ</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
+    <div id="newClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новый клиент</h3><button class="close-btn" onclick="hideModal('newClientModal')">×</button></div>
     <form id="newClientForm"><div class="form-group"><label>Имя</label><input type="text" id="clientName" required></div>
     <div class="form-group"><label>Место</label><input type="text" id="clientPlace"></div>
     <div class="form-group"><label>Контакт</label><input type="text" id="clientContact"></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="editClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ КЛИЕНТА</h3><button class="close-btn" onclick="hideModal('editClientModal')">×</button></div>
-    <form id="editClientForm"><input type="hidden" id="editClientId"><div class="form-group"><label>Имя</label><input type="text" id="editClientName"></div>
-    <div class="form-group"><label>Место</label><input type="text" id="editClientPlace"></div>
-    <div class="form-group"><label>Контакт</label><input type="text" id="editClientContact"></div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteClientFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editClientModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💸 НОВЫЙ РАСХОД</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
+    <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новый расход</h3><button class="close-btn" onclick="hideModal('newExpenseModal')">×</button></div>
     <form id="newExpenseForm"><div class="form-group"><label>Дата</label><input type="date" id="expenseDate" required></div>
-    <div class="form-group"><label>Категория</label><select id="expenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option><option>Упаковка</option></select></div>
+    <div class="form-group"><label>Категория</label><select id="expenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option></select></div>
     <div class="form-group"><label>Наименование</label><input type="text" id="expenseName" required></div>
     <div class="form-group"><label>Сумма (₽)</label><input type="number" id="expenseAmount" required></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="editExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ РАСХОД</h3><button class="close-btn" onclick="hideModal('editExpenseModal')">×</button></div>
-    <form id="editExpenseForm"><input type="hidden" id="editExpenseId"><div class="form-group"><label>Дата</label><input type="date" id="editExpenseDate"></div>
-    <div class="form-group"><label>Категория</label><select id="editExpenseCategory"></select></div>
-    <div class="form-group"><label>Наименование</label><input type="text" id="editExpenseName"></div>
-    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editExpenseAmount"></div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
+    <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>Новое достижение</h3><button class="close-btn" onclick="hideModal('newAchievementModal')">×</button></div>
     <form id="newAchievementForm"><div class="form-group"><label>Дата</label><input type="date" id="achievementDate" required></div>
     <div class="form-group"><label>Описание</label><input type="text" id="achievementDesc" required></div>
     <div class="form-group"><label>Категория</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
-
-    <div id="editAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="hideModal('editAchievementModal')">×</button></div>
-    <form id="editAchievementForm"><input type="hidden" id="editAchievementId"><div class="form-group"><label>Дата</label><input type="date" id="editAchievementDate"></div>
-    <div class="form-group"><label>Описание</label><input type="text" id="editAchievementDesc"></div>
-    <div class="form-group"><label>Категория</label><select id="editAchievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteAchievementFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editAchievementModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="newCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ КУЛЬТУРА</h3><button class="close-btn" onclick="hideModal('newCultureModal')">×</button></div>
-    <form id="newCultureForm"><div class="form-group"><label>Название</label><input type="text" id="cultureName" required></div>
-    <div class="form-group"><label>Тип</label><select id="cultureType"><option value="microgreen">Микрозелень (5 этапов)</option><option value="sprouts">Проростки (3 этапа)</option></select></div>
-    <div class="form-group"><label>Норма 15×11 (г)</label><input type="number" id="cultureNorm15" value="25"></div>
-    <div class="form-group"><label>Норма 8×5 (г)</label><input type="number" id="cultureNorm8" value="4"></div>
-    <div class="form-group"><label>Дней до готовности</label><input type="number" id="cultureDays" value="7"></div>
-    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" step="0.01" id="cultureSeedPrice" value="1"></div>
-    <div class="form-group"><label>Инструкция</label><textarea id="cultureInstructions" rows="3"></textarea></div>
-    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="hideModal('newCultureModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
-
-    <div id="editCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ КУЛЬТУРУ</h3><button class="close-btn" onclick="hideModal('editCultureModal')">×</button></div>
-    <form id="editCultureForm"><input type="hidden" id="editCultureName"><div class="form-group"><label>Тип</label><select id="editCultureType"><option value="microgreen">Микрозелень</option><option value="sprouts">Проростки</option></select></div>
-    <div class="form-group"><label>Норма 15×11 (г)</label><input type="number" id="editCultureNorm15"></div>
-    <div class="form-group"><label>Норма 8×5 (г)</label><input type="number" id="editCultureNorm8"></div>
-    <div class="form-group"><label>Дней до готовности</label><input type="number" id="editCultureDays"></div>
-    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" step="0.01" id="editCultureSeedPrice"></div>
-    <div class="form-group"><label>Инструкция</label><textarea id="editCultureInstructions" rows="3"></textarea></div>
-    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="deleteCultureFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="hideModal('editCultureModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
-
-    <div id="clientHistoryModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📋 ИСТОРИЯ КЛИЕНТА</h3><button class="close-btn" onclick="hideModal('clientHistoryModal')">×</button></div>
-    <div id="clientHistoryContent"></div></div></div>
-
-    <div id="editPlansModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПЛАНЫ</h3><button class="close-btn" onclick="hideModal('editPlansModal')">×</button></div>
-    <div id="editPlansContainer"></div><div class="flex-btns"><button class="btn-secondary btn-small" onclick="savePlans()">💾 Сохранить</button></div></div></div>
 
     <script>
         // ==================== ДАННЫЕ ====================
@@ -262,7 +176,14 @@
         let orders = [];
         let sales = [];
         let expenses = [];
-        let achievements = [];
+        let achievements = [
+            {id:'a1',date:'2025-11-06',description:'Рождение бизнес-идеи по производству маша',category:'Производство'},
+            {id:'a2',date:'2025-11-07',description:'Приобрела первый маш',category:'Производство'},
+            {id:'a3',date:'2025-11-29',description:'Написала ресторану и отдала пробную порцию',category:'Продажи'},
+            {id:'a4',date:'2025-12-07',description:'ЯМАНАСИ заказали еще 200г. 6 тысяч за месяц!',category:'Продажи'},
+            {id:'a5',date:'2025-12-11',description:'Придумала идею! Буду делать готовые чипсы!',category:'Производство'}
+        ];
+        
         let clients = [
             {id:'c1',name:'ЯМАНАСИ',place:'Ул красных Партизан 1/4к9',contact:'Анатолий'},
             {id:'c2',name:'Казарян',place:'МОН',contact:'305'},{id:'c3',name:'Денисова',place:'МОН',contact:'305'},
@@ -271,38 +192,22 @@
             {id:'c8',name:'Ежкин кот',place:'КП 1/4к9',contact:'+7 989 228 4153'},{id:'c9',name:'Карибова',place:'МОН',contact:'315'},
             {id:'c10',name:'Савченко',place:'МОН',contact:'311'},{id:'c11',name:'Кирьян Света',place:'МОН',contact:'304'},
             {id:'c12',name:'Рыбина',place:'МОН',contact:'404'},{id:'c13',name:'Журавлева',place:'МОН',contact:'404'},
-            {id:'c14',name:'Тоня',place:'МОН',contact:'403'},{id:'c15',name:'Екатерина',place:'Дальний проезд 3',contact:'89182860856'},
-            {id:'c16',name:'Полихраниди',place:'МОН',contact:'304'},{id:'c17',name:'Бескаравайная',place:'МОН',contact:'311'},
-            {id:'c18',name:'Глебова',place:'МОН',contact:'206'},{id:'c19',name:'Фатима',place:'МОН',contact:'403'},
-            {id:'c20',name:'Берестова',place:'МОН',contact:'205'},{id:'c21',name:'Олар',place:'МОН',contact:'205'},
-            {id:'c22',name:'Лопин',place:'МОН',contact:'205'},{id:'c23',name:'Токарева',place:'МОН',contact:'205'},
-            {id:'c24',name:'Буробина',place:'МОН',contact:'315'},{id:'c25',name:'Пустовойт',place:'МОН',contact:'410'}
+            {id:'c14',name:'Тоня',place:'МОН',contact:'403'},{id:'c15',name:'Екатерина',place:'Дальний проезд 3',contact:'89182860856'}
         ];
         
         let cultures = {
-            "горох":{type:"microgreen",norm15:25,norm8:4,daysToReady:10,seedPrice:0.163,instructions:"1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день"},
-            "редис":{type:"microgreen",norm15:4,norm8:2,daysToReady:8,seedPrice:3.92,instructions:"1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день"},
-            "маш":{type:"sprouts",norm15:25,norm8:4,daysToReady:6,seedPrice:0.204,instructions:"1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день"},
-            "нут":{type:"sprouts",norm15:30,norm8:5,daysToReady:5,seedPrice:0.116,instructions:"1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день"},
-            "соя":{type:"sprouts",norm15:30,norm8:5,daysToReady:6,seedPrice:0.44,instructions:"1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день"},
-            "горчица":{type:"microgreen",norm15:6,norm8:1.5,daysToReady:7,seedPrice:0.258,instructions:"1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день"}
+            "горох":{type:"microgreen",norm15:25,norm8:4,daysToReady:10},
+            "редис":{type:"microgreen",norm15:4,norm8:2,daysToReady:8},
+            "маш":{type:"sprouts",norm15:25,norm8:4,daysToReady:6},
+            "нут":{type:"sprouts",norm15:30,norm8:5,daysToReady:5},
+            "соя":{type:"sprouts",norm15:30,norm8:5,daysToReady:6}
         };
         
         let defaultSales = [
-            {id:'s1',clientId:'c1',date:'2026-03-20',items:[{culture:'маш',weight:1170,price:1170}],total:1170,paid:true},
-            {id:'s2',clientId:'c2',date:'2026-03-17',items:[{culture:'маш',weight:150,price:150}],total:150,paid:true}
+            {id:'s1',clientId:'c1',date:'2026-03-20',culture:'маш',weight:1170,amount:1170,paid:true},
+            {id:'s2',clientId:'c2',date:'2026-03-17',culture:'маш',weight:150,amount:150,paid:true}
         ];
-        
-        let defaultAchievements = [
-            {id:'a1',date:'2025-11-06',description:'Рождение бизнес-идеи по производству маша',category:'Производство'},
-            {id:'a2',date:'2025-11-07',description:'Приобрела первый маш',category:'Производство'},
-            {id:'a3',date:'2025-11-29',description:'Написала ресторану и отдала пробную порцию',category:'Продажи'},
-            {id:'a4',date:'2025-12-07',description:'ЯМАНАСИ заказали еще 200г. 6 тысяч за месяц!',category:'Продажи'},
-            {id:'a5',date:'2025-12-11',description:'Придумала идею! Буду делать готовые чипсы!',category:'Производство'}
-        ];
-        
-        let customPlans = {todayMorning: [], todayEvening: []};
-        
+
         function loadData() {
             let p = localStorage.getItem('vitaray_parties'); if(p) parties = JSON.parse(p);
             let o = localStorage.getItem('vitaray_orders'); if(o) orders = JSON.parse(o);
@@ -310,13 +215,9 @@
             let c = localStorage.getItem('vitaray_clients'); if(c) clients = JSON.parse(c);
             let e = localStorage.getItem('vitaray_expenses'); if(e) expenses = JSON.parse(e);
             let a = localStorage.getItem('vitaray_achievements'); if(a) achievements = JSON.parse(a);
-            let cu = localStorage.getItem('vitaray_cultures'); if(cu) cultures = JSON.parse(cu);
-            let cp = localStorage.getItem('vitaray_customPlans'); if(cp) customPlans = JSON.parse(cp);
             if(sales.length === 0) sales = defaultSales;
-            if(achievements.length === 0) achievements = defaultAchievements;
             saveData();
         }
-        
         function saveData() {
             localStorage.setItem('vitaray_parties', JSON.stringify(parties));
             localStorage.setItem('vitaray_orders', JSON.stringify(orders));
@@ -324,160 +225,62 @@
             localStorage.setItem('vitaray_clients', JSON.stringify(clients));
             localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
             localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
-            localStorage.setItem('vitaray_cultures', JSON.stringify(cultures));
-            localStorage.setItem('vitaray_customPlans', JSON.stringify(customPlans));
         }
-        
+
         function getClientName(id) { let c = clients.find(c => c.id === id); return c ? c.name : 'Клиент'; }
-        function getStageName(stage) { let n = {zomachivanie:'Замачивание',posev:'Посев',v_temi:'В тени',pod_lampoy:'Под лампой',srezka:'Срезка',sbor:'Сбор'}; return n[stage] || stage; }
-        function getStages(culture) { return cultures[culture]?.type === 'microgreen' ? ['zomachivanie','posev','v_temi','pod_lampoy','srezka'] : ['zomachivanie','posev','sbor']; }
-        function getProgress(party) { let s = getStages(party.culture); let i = s.indexOf(party.currentStage); return ((i+1)/s.length)*100; }
+        function getStageName(s) { let n = {zomachivanie:'Замачивание',posev:'Посев',v_temi:'В тени',pod_lampoy:'Под лампой',srezka:'Срезка',sbor:'Сбор'}; return n[s] || s; }
+        function getStages(c) { return cultures[c]?.type === 'microgreen' ? ['zomachivanie','posev','v_temi','pod_lampoy','srezka'] : ['zomachivanie','posev','sbor']; }
+        function getProgress(p) { let s = getStages(p.culture); let i = s.indexOf(p.currentStage); return ((i+1)/s.length)*100; }
         
         function getFinancialStats() {
-            let paid = sales.filter(s => s.paid).reduce((s,i) => s + i.total, 0);
+            let paid = sales.filter(s => s.paid).reduce((s,i) => s + i.amount, 0);
             let exp = expenses.reduce((s,e) => s + e.amount, 0);
             let today = new Date().toISOString().slice(0,10);
-            let week = new Date(Date.now() - 7 * 86400000).toISOString().slice(0,10);
+            let week = new Date(Date.now() - 7*86400000).toISOString().slice(0,10);
             return {
                 totalIncome: paid, totalExpenses: exp, currentBalance: paid - exp,
-                dayIncome: sales.filter(s => s.paid && s.date === today).reduce((s,i) => s + i.total, 0),
-                weekIncome: sales.filter(s => s.paid && s.date >= week).reduce((s,i) => s + i.total, 0)
+                dayIncome: sales.filter(s => s.paid && s.date === today).reduce((s,i) => s + i.amount, 0),
+                weekIncome: sales.filter(s => s.paid && s.date >= week).reduce((s,i) => s + i.amount, 0)
             };
         }
-        
-        // ==================== ТОВАРЫ ====================
-        let orderItems = [], saleItems = [], editOrderItems = [], editSaleItems = [];
-        
-        function addOrderItem() { addItemToContainer('order', orderItems, 'orderItemsContainer'); }
-        function addSaleItem() { addItemToContainer('sale', saleItems, 'saleItemsContainer'); }
-        function addEditOrderItem() { addItemToContainer('editOrder', editOrderItems, 'editOrderItemsContainer'); }
-        function addEditSaleItem() { addItemToContainer('editSale', editSaleItems, 'editSaleItemsContainer'); }
-        
-        function addItemToContainer(type, items, containerId) {
-            let container = document.getElementById(containerId);
-            if(!container) return;
-            let idx = items.length;
-            let options = Object.keys(cultures).map(c => '<option>' + c + '</option>').join('');
-            let html = '<div class="item-row" data-idx="' + idx + '">' +
-                '<select class="item-culture" data-type="' + type + '" data-idx="' + idx + '">' + options + '</select>' +
-                '<input type="number" class="item-weight" data-type="' + type + '" data-idx="' + idx + '" value="100" placeholder="г" style="width:70px">' +
-                '<input type="number" class="item-price" data-type="' + type + '" data-idx="' + idx + '" value="100" placeholder="₽" style="width:70px">' +
-                '<button type="button" class="btn-small btn-danger" onclick="removeItemFromList(\'' + type + '\',' + idx + ')">🗑️</button>' +
-                '</div>';
-            container.insertAdjacentHTML('beforeend', html);
-            items.push({culture:'горох', weight:100, price:100});
-            updateTotalForType(type, items);
-        }
-        
-        function removeItemFromList(type, idx) {
-            let items = (type === 'order') ? orderItems : (type === 'sale') ? saleItems : (type === 'editOrder') ? editOrderItems : editSaleItems;
-            items.splice(idx, 1);
-            let containerId = type + 'ItemsContainer';
-            let container = document.getElementById(containerId);
-            if(container) container.innerHTML = '';
-            for(let i = 0; i < items.length; i++) {
-                let options = Object.keys(cultures).map(c => '<option ' + (items[i].culture === c ? 'selected' : '') + '>' + c + '</option>').join('');
-                let html = '<div class="item-row" data-idx="' + i + '">' +
-                    '<select class="item-culture" data-type="' + type + '" data-idx="' + i + '">' + options + '</select>' +
-                    '<input type="number" class="item-weight" data-type="' + type + '" data-idx="' + i + '" value="' + items[i].weight + '" style="width:70px">' +
-                    '<input type="number" class="item-price" data-type="' + type + '" data-idx="' + i + '" value="' + items[i].price + '" style="width:70px">' +
-                    '<button type="button" class="btn-small btn-danger" onclick="removeItemFromList(\'' + type + '\',' + i + ')">🗑️</button>' +
-                    '</div>';
-                container.insertAdjacentHTML('beforeend', html);
-            }
-            updateTotalForType(type, items);
-        }
-        
-        function updateTotalForType(type, items) {
-            let total = items.reduce(function(s,i) { return s + i.price; }, 0);
-            let el = document.getElementById(type + 'TotalAmount');
-            if(el) el.innerHTML = 'Итого: ' + total + ' ₽';
-        }
-        
-        function collectItemsFromDOM(type) {
-            let items = [];
-            let rows = document.querySelectorAll('#' + type + 'ItemsContainer .item-row');
-            rows.forEach(row => {
-                let culture = row.querySelector('.item-culture')?.value;
-                let weight = parseInt(row.querySelector('.item-weight')?.value) || 0;
-                let price = parseInt(row.querySelector('.item-price')?.value) || 0;
-                if(culture && weight && price) items.push({culture, weight, price});
-            });
-            return items;
-        }
-        
-        // ==================== ПЛАНЫ ====================
+
         function generateTasks() {
             let today = new Date().toISOString().slice(0,10);
-            let tasks = {
-                todayMorning: [...customPlans.todayMorning],
-                todayEvening: [...customPlans.todayEvening],
-                tomorrowMorning: [],
-                tomorrowEvening: [],
-                weekTasks: []
-            };
-            parties.forEach(function(p) {
-                if(p.currentStage === 'zomachivanie' && p.createdAt) {
+            let morning = [], evening = [];
+            parties.forEach(p => {
+                if(p.currentStage === 'zomachivanie') {
                     let soak = new Date(p.createdAt);
-                    let ready = new Date(soak.getTime() + 12 * 3600000);
-                    if(ready.toISOString().slice(0,10) === today) {
-                        tasks.todayEvening.push('🌱 Посеять ' + p.culture + ' #' + p.id.slice(-4));
-                    }
+                    let ready = new Date(soak.getTime() + 12*3600000);
+                    if(ready.toISOString().slice(0,10) === today) evening.push('🌱 Посеять ' + p.culture);
                 }
                 if(p.currentStage === 'posev' || p.currentStage === 'v_temi' || p.currentStage === 'pod_lampoy') {
-                    tasks.todayMorning.push('🌱 Проветрить ' + p.culture + ' #' + p.id.slice(-4));
-                    tasks.todayEvening.push('🌱 Проветрить ' + p.culture + ' #' + p.id.slice(-4));
-                    if(cultures[p.culture] && cultures[p.culture].type === 'sprouts') {
-                        tasks.todayMorning.push('💧 Промыть ' + p.culture + ' #' + p.id.slice(-4));
-                        tasks.todayEvening.push('💧 Промыть ' + p.culture + ' #' + p.id.slice(-4));
+                    morning.push('🌱 Проветрить ' + p.culture);
+                    evening.push('🌱 Проветрить ' + p.culture);
+                    if(cultures[p.culture]?.type === 'sprouts') {
+                        morning.push('💧 Промыть ' + p.culture);
+                        evening.push('💧 Промыть ' + p.culture);
                     }
                 }
-                if(p.currentStage === 'srezka' || p.currentStage === 'sbor') {
-                    tasks.todayMorning.push('✂️ Срезать ' + p.culture + ' #' + p.id.slice(-4));
-                }
+                if(p.currentStage === 'srezka' || p.currentStage === 'sbor') morning.push('✂️ Срезать ' + p.culture);
             });
-            orders.filter(o => o.date === today).forEach(o => {
-                tasks.todayMorning.push('📦 Отдать заказ ' + getClientName(o.clientId) + ' на ' + o.total + '₽');
-            });
-            let schedule = {"ПН":["маш 100г","нут 100г"],"ВТ":["редис 6г"],"СР":["соя 100г","горох 25г"],"ЧТ":["маш 100г"],"ПТ":["нут 100г","горчица 6г"],"СБ":["редис 6г","соя 100г"],"ВС":["горох 25г"]};
-            let days = ['ВС','ПН','ВТ','СР','ЧТ','ПТ','СБ'];
-            let todayWeek = days[new Date().getDay()];
-            if(schedule[todayWeek]) schedule[todayWeek].forEach(t => tasks.todayEvening.push('🌱 Замочить ' + t + ' по графику'));
-            let tomorrowWeek = days[(new Date().getDay() + 1) % 7];
-            if(schedule[tomorrowWeek]) schedule[tomorrowWeek].forEach(t => tasks.tomorrowEvening.push('🌱 Замочить ' + t + ' по графику'));
-            days.forEach(d => { if(schedule[d]) tasks.weekTasks.push({day: d, tasks: schedule[d].map(t => '🌱 Замочить ' + t)}); });
-            return tasks;
+            orders.filter(o => o.date === today).forEach(o => morning.push('📦 Отдать заказ ' + getClientName(o.clientId)));
+            return { morning, evening };
         }
-        
-        // ==================== РЕНДЕР ====================
+
         function renderDashboard() {
             let fin = getFinancialStats();
-            document.getElementById('incomeStats').innerHTML = 
-                '<div class="stat-card"><div class="stat-number">' + fin.dayIncome + '₽</div><div>За день</div></div>' +
-                '<div class="stat-card"><div class="stat-number">' + fin.weekIncome + '₽</div><div>За неделю</div></div>' +
-                '<div class="stat-card"><div class="stat-number">' + clients.length + '</div><div>Клиенты</div></div>';
+            document.getElementById('incomeStats').innerHTML = '<div class="stat-card"><div class="stat-number">' + fin.dayIncome + '₽</div><div>За день</div></div><div class="stat-card"><div class="stat-number">' + fin.weekIncome + '₽</div><div>За неделю</div></div><div class="stat-card"><div class="stat-number">' + clients.length + '</div><div>Клиенты</div></div>';
             document.getElementById('totalIncome').textContent = fin.totalIncome + '₽';
             document.getElementById('totalExpenses').textContent = fin.totalExpenses + '₽';
             document.getElementById('currentBalance').textContent = fin.currentBalance + '₽';
+            
             let tasks = generateTasks();
-            let morningHtml = tasks.todayMorning.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-            let eveningHtml = tasks.todayEvening.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-            document.getElementById('plansContainer').innerHTML = 
-                '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (morningHtml || '<div class="empty-state">✨ Нет задач</div>') +
-                '<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (eveningHtml || '<div class="empty-state">✨ Нет задач</div>') + '</div>';
+            document.getElementById('plansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (tasks.morning.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('') || '<div class="empty-state">Нет задач</div>') + '<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (tasks.evening.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('') || '<div class="empty-state">Нет задач</div>') + '</div>';
+            
             let active = parties.filter(p => p.currentStage !== 'srezka' && p.currentStage !== 'sbor').slice(0,3);
-            let activeHtml = active.map(p => {
-                let harvest = new Date(p.dateSown);
-                harvest.setDate(harvest.getDate() + (cultures[p.culture] ? cultures[p.culture].daysToReady : 7));
-                return '<div class="card"><div class="card-header"><span>🌱 ' + p.culture + ' #' + p.id.slice(-4) + '</span><span class="status status-' + p.currentStage + '">' + getStageName(p.currentStage) + '</span></div>' +
-                    '<div class="progress-bar"><div class="progress-fill" style="width:' + getProgress(p) + '%"></div></div>' +
-                    '<div class="card-details">' + p.container + ' • ' + p.weight + 'г • Посев: ' + p.dateSown + ' • Сбор: ' + harvest.toLocaleDateString() + '</div>' +
-                    '<div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage(\'' + p.id + '\')">➡️ Следующий этап</button>' +
-                    '<button class="btn-small btn-secondary" onclick="editParty(\'' + p.id + '\')">✏️</button></div></div>';
-            }).join('');
-            document.getElementById('activePartiesList').innerHTML = activeHtml || '<div class="empty-state">Нет активных партий</div>';
+            document.getElementById('activePartiesList').innerHTML = active.map(p => '<div class="card"><div class="card-header"><span>🌱 ' + p.culture + ' #' + p.id.slice(-4) + '</span><span class="status status-' + p.currentStage + '">' + getStageName(p.currentStage) + '</span></div><div class="progress-bar"><div class="progress-fill" style="width:' + getProgress(p) + '%"></div></div><div class="card-details">' + p.container + ' • ' + p.weight + 'г • ' + p.dateSown + '</div><button class="btn-small btn-secondary" onclick="nextStage(\'' + p.id + '\')">Следующий этап</button></div>').join('') || '<div class="empty-state">Нет партий</div>';
         }
-        
+
         window.nextStage = function(id) {
             let p = parties.find(p => p.id === id);
             if(p) {
@@ -485,415 +288,168 @@
                 let idx = stages.indexOf(p.currentStage);
                 if(idx < stages.length - 1) {
                     p.currentStage = stages[idx + 1];
-                    if(!p.stages) p.stages = {};
-                    p.stages[p.currentStage] = new Date().toISOString();
                     saveData();
                     renderDashboard();
                     renderParties();
-                } else alert('🎉 Партия завершена!');
+                } else alert('Партия завершена!');
             }
         };
-        
-        window.editParty = function(id) {
-            let p = parties.find(p => p.id === id);
-            if(p) {
-                document.getElementById('editPartyId').value = p.id;
-                document.getElementById('editPartyCulture').value = p.culture;
-                document.getElementById('editPartyWeight').value = p.weight;
-                document.getElementById('editPartyDate').value = p.dateSown;
-                document.getElementById('editPartyContainer').value = p.container;
-                let stages = getStages(p.culture);
-                let sel = document.getElementById('editPartyStage');
-                sel.innerHTML = stages.map(s => '<option ' + (p.currentStage === s ? 'selected' : '') + ' value="' + s + '">' + getStageName(s) + '</option>').join('');
-                showModal('editPartyModal');
-            }
-        };
-        
-        window.deletePartyFromModal = function() {
-            if(confirm('Удалить партию?')) {
-                let id = document.getElementById('editPartyId').value;
-                parties = parties.filter(p => p.id !== id);
-                saveData();
-                hideModal('editPartyModal');
-                renderDashboard();
-                renderParties();
-            }
-        };
-        
+
         function renderParties() {
             let list = document.getElementById('partiesList');
-            let html = parties.slice().reverse().map(p => {
-                let harvest = new Date(p.dateSown);
-                harvest.setDate(harvest.getDate() + (cultures[p.culture] ? cultures[p.culture].daysToReady : 7));
-                return '<div class="card"><div class="card-header"><span>🌱 ' + p.culture + ' #' + p.id.slice(-4) + '</span><span class="status status-' + p.currentStage + '">' + getStageName(p.currentStage) + '</span></div>' +
-                    '<div class="progress-bar"><div class="progress-fill" style="width:' + getProgress(p) + '%"></div></div>' +
-                    '<div class="card-details">' + p.container + ' • ' + p.weight + 'г • Посев: ' + p.dateSown + ' • Сбор: ' + harvest.toLocaleDateString() + '</div>' +
-                    '<div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage(\'' + p.id + '\')">➡️</button>' +
-                    '<button class="btn-small btn-secondary" onclick="editParty(\'' + p.id + '\')">✏️</button>' +
-                    '<button class="btn-small btn-danger" onclick="deleteParty(\'' + p.id + '\')">🗑️</button></div></div>';
-            }).join('');
-            list.innerHTML = html || '<div class="empty-state">Нет партий</div>';
+            list.innerHTML = parties.slice().reverse().map(p => '<div class="card"><div class="card-header"><span>🌱 ' + p.culture + ' #' + p.id.slice(-4) + '</span><span class="status status-' + p.currentStage + '">' + getStageName(p.currentStage) + '</span></div><div class="progress-bar"><div class="progress-fill" style="width:' + getProgress(p) + '%"></div></div><div class="card-details">' + p.container + ' • ' + p.weight + 'г • ' + p.dateSown + '</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="nextStage(\'' + p.id + '\')">➡️</button><button class="btn-small btn-danger" onclick="deleteParty(\'' + p.id + '\')">🗑️</button></div></div>').join('') || '<div class="empty-state">Нет партий</div>';
         }
-        
-        window.deleteParty = function(id) {
-            if(confirm('Удалить партию?')) { parties = parties.filter(p => p.id !== id); saveData(); renderDashboard(); renderParties(); }
-        };
-        
+        window.deleteParty = function(id) { if(confirm('Удалить?')) { parties = parties.filter(p => p.id !== id); saveData(); renderDashboard(); renderParties(); } };
+
         function renderOrders() {
             let list = document.getElementById('ordersList');
-            let html = orders.slice().reverse().map(o => {
-                let itemsHtml = o.items.map(i => i.culture + ' ' + i.weight + 'г = ' + i.price + '₽').join('<br>');
-                return '<div class="card"><div class="card-header"><span>📦 ' + getClientName(o.clientId) + '</span>' +
-                    '<div><span class="status ' + (o.paid ? 'status-paid' : 'status-unpaid') + '">' + (o.paid ? 'Оплачен' : 'Не оплачен') + '</span>' +
-                    '<span class="status ' + (o.delivered ? 'status-delivered' : 'status-pending') + '">' + (o.delivered ? 'Выдан' : 'Не выдан') + '</span></div></div>' +
-                    '<div class="card-details">' + itemsHtml + '</div>' +
-                    '<div class="card-details">📅 ' + o.date + ' • 💰 ' + o.total + '₽</div>' +
-                    '<div class="flex-btns"><button class="btn-small btn-secondary" onclick="toggleOrderPaid(\'' + o.id + '\')">✅ ' + (o.paid ? 'Снять оплату' : 'Оплатить') + '</button>' +
-                    '<button class="btn-small btn-secondary" onclick="toggleOrderDelivered(\'' + o.id + '\')">📦 ' + (o.delivered ? 'Отменить' : 'Выдать') + '</button>' +
-                    '<button class="btn-small btn-secondary" onclick="convertOrderToSale(\'' + o.id + '\')">🔄 В продажу</button>' +
-                    '<button class="btn-small btn-secondary" onclick="editOrder(\'' + o.id + '\')">✏️</button>' +
-                    '<button class="btn-small btn-danger" onclick="deleteOrder(\'' + o.id + '\')">🗑️</button></div></div>';
-            }).join('');
-            list.innerHTML = html || '<div class="empty-state">Нет заказов</div>';
+            list.innerHTML = orders.slice().reverse().map(o => '<div class="card"><div class="card-header"><span>📦 ' + getClientName(o.clientId) + '</span><div><span class="status ' + (o.paid ? 'status-paid' : 'status-unpaid') + '">' + (o.paid ? 'Оплачен' : 'Не оплачен') + '</span><span class="status ' + (o.delivered ? 'status-delivered' : 'status-pending') + '">' + (o.delivered ? 'Выдан' : 'Не выдан') + '</span></div></div><div class="card-details">' + o.culture + ' • ' + o.weight + 'г = ' + o.price + '₽</div><div class="card-details">📅 ' + o.date + '</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="toggleOrderPaid(\'' + o.id + '\')">' + (o.paid ? 'Снять оплату' : 'Оплатить') + '</button><button class="btn-small btn-secondary" onclick="toggleOrderDelivered(\'' + o.id + '\')">' + (o.delivered ? 'Отменить' : 'Выдать') + '</button><button class="btn-small btn-danger" onclick="deleteOrder(\'' + o.id + '\')">🗑️</button></div></div>').join('') || '<div class="empty-state">Нет заказов</div>';
         }
-        
         window.toggleOrderPaid = function(id) { let o = orders.find(o => o.id === id); if(o) { o.paid = !o.paid; saveData(); renderOrders(); renderDashboard(); } };
         window.toggleOrderDelivered = function(id) { let o = orders.find(o => o.id === id); if(o) { o.delivered = !o.delivered; saveData(); renderOrders(); } };
-        window.convertOrderToSale = function(id) {
-            let o = orders.find(o => o.id === id);
-            if(o) { sales.push({id:'s' + Date.now(), clientId:o.clientId, date:o.date, items:JSON.parse(JSON.stringify(o.items)), total:o.total, paid:false}); saveData(); renderDashboard(); renderSales(); alert('Заказ скопирован в продажи!'); }
-        };
-        window.editOrder = function(id) {
-            let o = orders.find(o => o.id === id);
-            if(o) {
-                editOrderItems = JSON.parse(JSON.stringify(o.items));
-                document.getElementById('editOrderId').value = o.id;
-                document.getElementById('editOrderDate').value = o.date;
-                let sel = document.getElementById('editOrderClient');
-                sel.innerHTML = clients.map(c => '<option ' + (c.id === o.clientId ? 'selected' : '') + ' value="' + c.id + '">' + c.name + '</option>').join('');
-                document.getElementById('editOrderItemsContainer').innerHTML = '';
-                for(let i = 0; i < editOrderItems.length; i++) {
-                    let options = Object.keys(cultures).map(c => '<option ' + (editOrderItems[i].culture === c ? 'selected' : '') + '>' + c + '</option>').join('');
-                    let html = '<div class="item-row"><select class="item-culture">' + options + '</select>' +
-                        '<input type="number" class="item-weight" value="' + editOrderItems[i].weight + '" style="width:70px">' +
-                        '<input type="number" class="item-price" value="' + editOrderItems[i].price + '" style="width:70px">' +
-                        '<button type="button" class="btn-small btn-danger" onclick="this.parentElement.remove(); updateEditOrderTotal()">🗑️</button></div>';
-                    document.getElementById('editOrderItemsContainer').insertAdjacentHTML('beforeend', html);
-                }
-                updateEditOrderTotal();
-                showModal('editOrderModal');
-            }
-        };
-        function updateEditOrderTotal() { let total = 0; document.querySelectorAll('#editOrderItemsContainer .item-row').forEach(row => { let price = parseInt(row.querySelector('.item-price')?.value) || 0; total += price; }); document.getElementById('editOrderTotalAmount').innerHTML = 'Итого: ' + total + ' ₽'; }
-        window.deleteOrder = function(id) { if(confirm('Удалить заказ?')) { orders = orders.filter(o => o.id !== id); saveData(); renderOrders(); renderDashboard(); } };
-        window.deleteOrderFromModal = function() { let id = document.getElementById('editOrderId').value; orders = orders.filter(o => o.id !== id); saveData(); hideModal('editOrderModal'); renderOrders(); renderDashboard(); };
-        
+        window.deleteOrder = function(id) { if(confirm('Удалить?')) { orders = orders.filter(o => o.id !== id); saveData(); renderOrders(); renderDashboard(); } };
+
         function renderSales() {
             let list = document.getElementById('salesList');
-            let html = sales.slice().reverse().map(s => {
-                let itemsHtml = s.items.map(i => i.culture + ' ' + i.weight + 'г = ' + i.price + '₽').join('<br>');
-                return '<div class="card"><div class="card-header"><span>💰 ' + getClientName(s.clientId) + '</span>' +
-                    '<span class="status ' + (s.paid ? 'status-paid' : 'status-unpaid') + '">' + (s.paid ? 'Оплачено' : 'Не оплачено') + '</span></div>' +
-                    '<div class="card-details">' + itemsHtml + '</div>' +
-                    '<div class="card-details">📅 ' + s.date + ' • 💰 ' + s.total + '₽</div>' +
-                    '<div class="flex-btns"><button class="btn-small btn-secondary" onclick="toggleSalePaid(\'' + s.id + '\')">✅ ' + (s.paid ? 'Снять оплату' : 'Оплатить') + '</button>' +
-                    '<button class="btn-small btn-secondary" onclick="editSale(\'' + s.id + '\')">✏️</button>' +
-                    '<button class="btn-small btn-danger" onclick="deleteSale(\'' + s.id + '\')">🗑️</button></div></div>';
-            }).join('');
-            list.innerHTML = html || '<div class="empty-state">Нет продаж</div>';
+            list.innerHTML = sales.slice().reverse().map(s => '<div class="card"><div class="card-header"><span>💰 ' + getClientName(s.clientId) + '</span><span class="status ' + (s.paid ? 'status-paid' : 'status-unpaid') + '">' + (s.paid ? 'Оплачено' : 'Не оплачено') + '</span></div><div class="card-details">' + s.culture + ' • ' + s.weight + 'г • ' + s.amount + '₽</div><div class="card-details">📅 ' + s.date + '</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="toggleSalePaid(\'' + s.id + '\')">' + (s.paid ? 'Снять оплату' : 'Оплатить') + '</button><button class="btn-small btn-danger" onclick="deleteSale(\'' + s.id + '\')">🗑️</button></div></div>').join('') || '<div class="empty-state">Нет продаж</div>';
         }
-        
         window.toggleSalePaid = function(id) { let s = sales.find(s => s.id === id); if(s) { s.paid = !s.paid; saveData(); renderDashboard(); renderSales(); } };
-        window.editSale = function(id) {
-            let s = sales.find(s => s.id === id);
-            if(s) {
-                editSaleItems = JSON.parse(JSON.stringify(s.items));
-                document.getElementById('editSaleId').value = s.id;
-                document.getElementById('editSaleDate').value = s.date;
-                let sel = document.getElementById('editSaleClient');
-                sel.innerHTML = clients.map(c => '<option ' + (c.id === s.clientId ? 'selected' : '') + ' value="' + c.id + '">' + c.name + '</option>').join('');
-                document.getElementById('editSaleItemsContainer').innerHTML = '';
-                for(let i = 0; i < editSaleItems.length; i++) {
-                    let options = Object.keys(cultures).map(c => '<option ' + (editSaleItems[i].culture === c ? 'selected' : '') + '>' + c + '</option>').join('');
-                    let html = '<div class="item-row"><select class="item-culture">' + options + '</select>' +
-                        '<input type="number" class="item-weight" value="' + editSaleItems[i].weight + '" style="width:70px">' +
-                        '<input type="number" class="item-price" value="' + editSaleItems[i].price + '" style="width:70px">' +
-                        '<button type="button" class="btn-small btn-danger" onclick="this.parentElement.remove(); updateEditSaleTotal()">🗑️</button></div>';
-                    document.getElementById('editSaleItemsContainer').insertAdjacentHTML('beforeend', html);
-                }
-                updateEditSaleTotal();
-                showModal('editSaleModal');
-            }
-        };
-        function updateEditSaleTotal() { let total = 0; document.querySelectorAll('#editSaleItemsContainer .item-row').forEach(row => { let price = parseInt(row.querySelector('.item-price')?.value) || 0; total += price; }); document.getElementById('editSaleTotalAmount').innerHTML = 'Итого: ' + total + ' ₽'; }
-        window.deleteSale = function(id) { if(confirm('Удалить продажу?')) { sales = sales.filter(s => s.id !== id); saveData(); renderDashboard(); renderSales(); } };
-        window.deleteSaleFromModal = function() { let id = document.getElementById('editSaleId').value; sales = sales.filter(s => s.id !== id); saveData(); hideModal('editSaleModal'); renderDashboard(); renderSales(); };
-        
+        window.deleteSale = function(id) { if(confirm('Удалить?')) { sales = sales.filter(s => s.id !== id); saveData(); renderDashboard(); renderSales(); } };
+
         function renderClients(filter) {
             filter = filter || '';
-            let list = document.getElementById('clientsList');
             let filtered = filter ? clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase())) : clients;
-            let html = filtered.map(c => {
-                let clientOrders = orders.filter(o => o.clientId === c.id);
-                let totalUnpaid = clientOrders.filter(o => !o.paid).reduce((s,o) => s + o.total, 0);
-                return '<div class="card"><div class="card-header"><span>👤 ' + c.name + '</span></div>' +
-                    '<div class="card-details">📍 ' + (c.place || '—') + ' • 📞 ' + (c.contact || '—') + '</div>' +
-                    '<div class="card-details">💰 Долг: ' + totalUnpaid + '₽ • Заказов: ' + clientOrders.length + '</div>' +
-                    '<div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(\'' + c.id + '\')">📦 Заказ</button>' +
-                    '<button class="btn-small btn-secondary" onclick="quickSale(\'' + c.id + '\')">💰 Продажа</button>' +
-                    '<button class="btn-small btn-secondary" onclick="showClientHistory(\'' + c.id + '\')">📋 История</button>' +
-                    '<button class="btn-small btn-secondary" onclick="editClient(\'' + c.id + '\')">✏️</button>' +
-                    '<button class="btn-small btn-danger" onclick="deleteClient(\'' + c.id + '\')">🗑️</button></div></div>';
-            }).join('');
-            list.innerHTML = html || '<div class="empty-state">Нет клиентов</div>';
+            document.getElementById('clientsList').innerHTML = filtered.map(c => '<div class="card"><div class="card-header"><span>👤 ' + c.name + '</span></div><div class="card-details">📍 ' + (c.place || '—') + ' • 📞 ' + (c.contact || '—') + '</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="quickOrder(\'' + c.id + '\')">📦 Заказ</button><button class="btn-small btn-secondary" onclick="quickSale(\'' + c.id + '\')">💰 Продажа</button><button class="btn-small btn-danger" onclick="deleteClient(\'' + c.id + '\')">🗑️</button></div></div>').join('') || '<div class="empty-state">Нет клиентов</div>';
         }
-        
-        window.showClientHistory = function(id) {
-            let c = clients.find(c => c.id === id);
-            let clientOrders = orders.filter(o => o.clientId === id);
-            let ordersHtml = clientOrders.map(o => '<div class="card"><div class="card-header">📅 ' + o.date + '<span class="status ' + (o.paid ? 'status-paid' : 'status-unpaid') + '">' + (o.paid ? 'Оплачен' : 'Не оплачен') + '</span></div><div class="card-details">' + o.items.map(i => i.culture + ' ' + i.weight + 'г = ' + i.price + '₽').join('<br>') + '</div><div>💰 ' + o.total + '₽</div></div>').join('');
-            document.getElementById('clientHistoryContent').innerHTML = '<div class="card"><div class="card-title">' + c.name + '</div><div class="card-details">📍 ' + (c.place || '—') + ' • 📞 ' + (c.contact || '—') + '</div>' + (ordersHtml || '<div class="empty-state">Нет заказов</div>') + '</div>';
-            showModal('clientHistoryModal');
-        };
-        
-        window.quickOrder = function(id) { showModal('newOrderModal'); setTimeout(() => { document.getElementById('orderClient').value = id; }, 100); };
-        window.quickSale = function(id) { showModal('newSaleModal'); setTimeout(() => { document.getElementById('saleClient').value = id; }, 100); };
-        window.editClient = function(id) {
-            let c = clients.find(c => c.id === id);
-            if(c) {
-                document.getElementById('editClientId').value = c.id;
-                document.getElementById('editClientName').value = c.name;
-                document.getElementById('editClientPlace').value = c.place || '';
-                document.getElementById('editClientContact').value = c.contact || '';
-                showModal('editClientModal');
-            }
-        };
-        window.deleteClient = function(id) { if(confirm('Удалить клиента?')) { clients = clients.filter(c => c.id !== id); saveData(); renderClients(); fillSelectors(); } };
-        window.deleteClientFromModal = function() { let id = document.getElementById('editClientId').value; clients = clients.filter(c => c.id !== id); saveData(); hideModal('editClientModal'); renderClients(); fillSelectors(); };
+        window.quickOrder = function(id) { showModal('newOrderModal'); setTimeout(() => document.getElementById('orderClient').value = id, 100); };
+        window.quickSale = function(id) { showModal('newSaleModal'); setTimeout(() => document.getElementById('saleClient').value = id, 100); };
+        window.deleteClient = function(id) { if(confirm('Удалить?')) { clients = clients.filter(c => c.id !== id); saveData(); renderClients(); fillSelectors(); } };
         window.filterClients = function() { renderClients(document.getElementById('clientSearch').value); };
-        
+
         function renderExpenses() {
-            let list = document.getElementById('expensesList');
-            let html = expenses.slice().reverse().map(e => '<div class="card"><div class="card-header"><span>💸 ' + e.name + '</span><span class="status status-pending">' + e.category + '</span></div><div class="card-details">📅 ' + e.date + ' • ' + e.amount + '₽</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="editExpense(\'' + e.id + '\')">✏️</button><button class="btn-small btn-danger" onclick="deleteExpense(\'' + e.id + '\')">🗑️</button></div></div>').join('');
-            list.innerHTML = html || '<div class="empty-state">Нет расходов</div>';
+            document.getElementById('expensesList').innerHTML = expenses.slice().reverse().map(e => '<div class="card"><div class="card-header"><span>💸 ' + e.name + '</span><span class="status status-pending">' + e.category + '</span></div><div class="card-details">📅 ' + e.date + ' • ' + e.amount + '₽</div><div class="flex-btns"><button class="btn-small btn-danger" onclick="deleteExpense(\'' + e.id + '\')">🗑️</button></div></div>').join('') || '<div class="empty-state">Нет расходов</div>';
         }
-        
-        window.editExpense = function(id) {
-            let e = expenses.find(e => e.id === id);
-            if(e) {
-                document.getElementById('editExpenseId').value = e.id;
-                document.getElementById('editExpenseDate').value = e.date;
-                document.getElementById('editExpenseCategory').value = e.category;
-                document.getElementById('editExpenseName').value = e.name;
-                document.getElementById('editExpenseAmount').value = e.amount;
-                showModal('editExpenseModal');
-            }
-        };
-        window.deleteExpense = function(id) { if(confirm('Удалить расход?')) { expenses = expenses.filter(e => e.id !== id); saveData(); renderExpenses(); renderDashboard(); } };
-        window.deleteExpenseFromModal = function() { let id = document.getElementById('editExpenseId').value; expenses = expenses.filter(e => e.id !== id); saveData(); hideModal('editExpenseModal'); renderExpenses(); renderDashboard(); };
-        
+        window.deleteExpense = function(id) { if(confirm('Удалить?')) { expenses = expenses.filter(e => e.id !== id); saveData(); renderExpenses(); renderDashboard(); } };
+
         function renderAchievements() {
-            let list = document.getElementById('achievementsList');
-            let html = achievements.slice().reverse().map(a => '<div class="card"><div class="card-header"><span>🏆 ' + a.description + '</span><button class="btn-small btn-danger" onclick="deleteAchievement(\'' + a.id + '\')">🗑️</button></div><div class="card-details">📅 ' + a.date + ' • ' + a.category + '</div></div>').join('');
-            list.innerHTML = html || '<div class="empty-state">Нет достижений</div>';
+            document.getElementById('achievementsList').innerHTML = achievements.slice().reverse().map(a => '<div class="card"><div class="card-header"><span>🏆 ' + a.description + '</span><button class="btn-small btn-danger" onclick="deleteAchievement(\'' + a.id + '\')">🗑️</button></div><div class="card-details">📅 ' + a.date + ' • ' + a.category + '</div></div>').join('') || '<div class="empty-state">Нет достижений</div>';
         }
-        window.deleteAchievement = function(id) { if(confirm('Удалить достижение?')) { achievements = achievements.filter(a => a.id !== id); saveData(); renderAchievements(); } };
-        
+        window.deleteAchievement = function(id) { if(confirm('Удалить?')) { achievements = achievements.filter(a => a.id !== id); saveData(); renderAchievements(); } };
+
         function renderLibrary() {
-            let list = document.getElementById('culturesList');
-            let html = Object.keys(cultures).map(name => {
-                let c = cultures[name];
-                return '<div class="card"><div class="card-header"><span>🌱 ' + name.toUpperCase() + '</span><div><button class="btn-small btn-secondary" onclick="editCulture(\'' + name + '\')">✏️</button><button class="btn-small btn-danger" onclick="deleteCulture(\'' + name + '\')">🗑️</button></div></div>' +
-                    '<div class="card-details"><strong>Тип:</strong> ' + (c.type === 'microgreen' ? 'Микрозелень' : 'Проростки') + '<br><strong>Норма 8×5:</strong> ' + c.norm8 + 'г<br><strong>Дней:</strong> ' + c.daysToReady + '<br><strong>Цена семян:</strong> ' + c.seedPrice + '₽/г</div>' +
-                    '<details><summary>📖 Инструкция</summary><div class="card-details">' + (c.instructions || 'Нет инструкции') + '</div></details></div>';
-            }).join('');
-            list.innerHTML = html;
+            document.getElementById('culturesList').innerHTML = Object.keys(cultures).map(name => '<div class="card"><div class="card-header"><span>🌱 ' + name.toUpperCase() + '</span></div><div class="card-details">Тип: ' + (cultures[name].type === 'microgreen' ? 'Микрозелень' : 'Проростки') + '<br>Норма 8×5: ' + cultures[name].norm8 + 'г<br>Дней: ' + cultures[name].daysToReady + '</div></div>').join('');
         }
-        
-        window.editCulture = function(name) {
-            let c = cultures[name];
-            if(c) {
-                document.getElementById('editCultureName').value = name;
-                document.getElementById('editCultureType').value = c.type;
-                document.getElementById('editCultureNorm15').value = c.norm15;
-                document.getElementById('editCultureNorm8').value = c.norm8;
-                document.getElementById('editCultureDays').value = c.daysToReady;
-                document.getElementById('editCultureSeedPrice').value = c.seedPrice;
-                document.getElementById('editCultureInstructions').value = c.instructions || '';
-                showModal('editCultureModal');
-            }
-        };
-        window.deleteCulture = function(name) { if(confirm('Удалить культуру "' + name + '"?')) { delete cultures[name]; saveData(); renderLibrary(); fillSelectors(); } };
-        window.deleteCultureFromModal = function() { let name = document.getElementById('editCultureName').value; delete cultures[name]; saveData(); hideModal('editCultureModal'); renderLibrary(); fillSelectors(); };
-        
+
         function fillSelectors() {
             let cult = document.getElementById('partyCulture');
             if(cult) cult.innerHTML = Object.keys(cultures).map(c => '<option>' + c + '</option>').join('');
-            let selects = ['orderClient', 'saleClient', 'editOrderClient', 'editSaleClient'];
-            selects.forEach(id => { let sel = document.getElementById(id); if(sel) sel.innerHTML = clients.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join(''); });
+            document.getElementById('orderCulture').innerHTML = Object.keys(cultures).map(c => '<option>' + c + '</option>').join('');
+            document.getElementById('saleCulture').innerHTML = Object.keys(cultures).map(c => '<option>' + c + '</option>').join('');
+            document.getElementById('orderClient').innerHTML = clients.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join('');
+            document.getElementById('saleClient').innerHTML = clients.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join('');
         }
-        
-        function updateWeightHint() {
-            let cult = document.getElementById('partyCulture').value;
-            let cont = document.getElementById('partyContainer').value;
-            let c = cultures[cult];
-            if(c) {
-                let norm = cont.includes('15') ? c.norm15 : c.norm8;
-                document.getElementById('partyWeightHint').innerHTML = '📌 Рекомендация: ' + norm + 'г';
-            }
-        }
-        
-        // ==================== ФОРМЫ ====================
-        document.getElementById('newPartyForm')?.addEventListener('submit', e => {
+
+        document.getElementById('newPartyForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            parties.push({id:'p' + Date.now(), culture: document.getElementById('partyCulture').value, container: document.getElementById('partyContainer').value, weight: parseInt(document.getElementById('partyWeight').value), dateSown: document.getElementById('partyDate').value, currentStage: 'zomachivanie', createdAt: new Date().toISOString(), stages: {zomachivanie: new Date().toISOString()}});
+            parties.push({id:'p' + Date.now(), culture: document.getElementById('partyCulture').value, container: document.getElementById('partyContainer').value, weight: parseInt(document.getElementById('partyWeight').value), dateSown: document.getElementById('partyDate').value, currentStage: 'zomachivanie', createdAt: new Date().toISOString()});
             saveData();
             hideModal('newPartyModal');
-            renderDashboard(); renderParties();
-            alert('✅ Партия создана!');
+            renderDashboard();
+            renderParties();
+            alert('Партия создана!');
         });
-        
-        document.getElementById('editPartyForm')?.addEventListener('submit', e => {
+        document.getElementById('newOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            let id = document.getElementById('editPartyId').value;
-            let p = parties.find(p => p.id === id);
-            if(p) { p.culture = document.getElementById('editPartyCulture').value; p.weight = parseInt(document.getElementById('editPartyWeight').value); p.dateSown = document.getElementById('editPartyDate').value; p.container = document.getElementById('editPartyContainer').value; p.currentStage = document.getElementById('editPartyStage').value; saveData(); hideModal('editPartyModal'); renderDashboard(); renderParties(); }
-        });
-        
-        document.getElementById('newOrderForm')?.addEventListener('submit', e => {
-            e.preventDefault();
-            let items = collectItemsFromDOM('order');
-            let total = items.reduce((s,i) => s + i.price, 0);
-            orders.push({id:'o' + Date.now(), clientId: document.getElementById('orderClient').value, date: document.getElementById('orderDate').value, items: items, total: total, paid: false, delivered: false});
+            orders.push({id:'o' + Date.now(), clientId: document.getElementById('orderClient').value, date: document.getElementById('orderDate').value, culture: document.getElementById('orderCulture').value, weight: parseInt(document.getElementById('orderWeight').value), price: parseInt(document.getElementById('orderPrice').value), paid: false, delivered: false});
             saveData();
             hideModal('newOrderModal');
-            renderOrders(); renderDashboard();
-            alert('✅ Заказ создан!');
+            renderOrders();
+            renderDashboard();
+            alert('Заказ создан!');
         });
-        
-        document.getElementById('editOrderForm')?.addEventListener('submit', e => {
+        document.getElementById('newSaleForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            let id = document.getElementById('editOrderId').value;
-            let items = [];
-            document.querySelectorAll('#editOrderItemsContainer .item-row').forEach(row => {
-                let culture = row.querySelector('.item-culture')?.value;
-                let weight = parseInt(row.querySelector('.item-weight')?.value) || 0;
-                let price = parseInt(row.querySelector('.item-price')?.value) || 0;
-                if(culture && weight) items.push({culture, weight, price});
-            });
-            let total = items.reduce((s,i) => s + i.price, 0);
-            let o = orders.find(o => o.id === id);
-            if(o) { o.clientId = document.getElementById('editOrderClient').value; o.date = document.getElementById('editOrderDate').value; o.items = items; o.total = total; saveData(); hideModal('editOrderModal'); renderOrders(); renderDashboard(); }
-        });
-        
-        document.getElementById('newSaleForm')?.addEventListener('submit', e => {
-            e.preventDefault();
-            let items = collectItemsFromDOM('sale');
-            let total = items.reduce((s,i) => s + i.price, 0);
-            sales.push({id:'s' + Date.now(), clientId: document.getElementById('saleClient').value, date: document.getElementById('saleDate').value, items: items, total: total, paid: true});
+            sales.push({id:'s' + Date.now(), clientId: document.getElementById('saleClient').value, date: document.getElementById('saleDate').value, culture: document.getElementById('saleCulture').value, weight: parseInt(document.getElementById('saleWeight').value), amount: parseInt(document.getElementById('saleAmount').value), paid: document.getElementById('salePaid').value === 'true'});
             saveData();
             hideModal('newSaleModal');
-            renderDashboard(); renderSales();
-            alert('✅ Продажа записана!');
+            renderDashboard();
+            renderSales();
+            alert('Продажа записана!');
         });
-        
-        document.getElementById('editSaleForm')?.addEventListener('submit', e => {
+        document.getElementById('newClientForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            let id = document.getElementById('editSaleId').value;
-            let items = [];
-            document.querySelectorAll('#editSaleItemsContainer .item-row').forEach(row => {
-                let culture = row.querySelector('.item-culture')?.value;
-                let weight = parseInt(row.querySelector('.item-weight')?.value) || 0;
-                let price = parseInt(row.querySelector('.item-price')?.value) || 0;
-                if(culture && weight) items.push({culture, weight, price});
+            clients.push({id:'c' + Date.now(), name: document.getElementById('clientName').value, place: document.getElementById('clientPlace').value, contact: document.getElementById('clientContact').value});
+            saveData();
+            hideModal('newClientModal');
+            renderClients();
+            fillSelectors();
+            alert('Клиент добавлен!');
+        });
+        document.getElementById('newExpenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            expenses.push({id:'e' + Date.now(), date: document.getElementById('expenseDate').value, name: document.getElementById('expenseName').value, amount: parseInt(document.getElementById('expenseAmount').value), category: document.getElementById('expenseCategory').value});
+            saveData();
+            hideModal('newExpenseModal');
+            renderExpenses();
+            renderDashboard();
+            alert('Расход добавлен!');
+        });
+        document.getElementById('newAchievementForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            achievements.push({id:'a' + Date.now(), date: document.getElementById('achievementDate').value, description: document.getElementById('achievementDesc').value, category: document.getElementById('achievementCategory').value});
+            saveData();
+            hideModal('newAchievementModal');
+            renderAchievements();
+            alert('Достижение добавлено!');
+        });
+
+        window.showModal = function(id) { fillSelectors(); document.getElementById(id).style.display = 'block'; };
+        window.hideModal = function(id) { document.getElementById(id).style.display = 'none'; };
+
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                let sec = this.getAttribute('data-section');
+                document.getElementById(sec).classList.add('active');
+                if(sec === 'dashboard') renderDashboard();
+                if(sec === 'parties') renderParties();
+                if(sec === 'orders') renderOrders();
+                if(sec === 'sales') renderSales();
+                if(sec === 'clients') renderClients();
+                if(sec === 'expenses') renderExpenses();
+                if(sec === 'achievements') renderAchievements();
+                if(sec === 'library') renderLibrary();
             });
-            let total = items.reduce((s,i) => s + i.price, 0);
-            let s = sales.find(s => s.id === id);
-            if(s) { s.clientId = document.getElementById('editSaleClient').value; s.date = document.getElementById('editSaleDate').value; s.items = items; s.total = total; saveData(); hideModal('editSaleModal'); renderDashboard(); renderSales(); }
         });
         
-        document.getElementById('newClientForm')?.addEventListener('submit', e => { e.preventDefault(); clients.push({id:'c' + Date.now(), name: document.getElementById('clientName').value, place: document.getElementById('clientPlace').value, contact: document.getElementById('clientContact').value}); saveData(); hideModal('newClientModal'); renderClients(); fillSelectors(); alert('✅ Клиент добавлен!'); });
-        document.getElementById('editClientForm')?.addEventListener('submit', e => { e.preventDefault(); let id = document.getElementById('editClientId').value; let c = clients.find(c => c.id === id); if(c) { c.name = document.getElementById('editClientName').value; c.place = document.getElementById('editClientPlace').value; c.contact = document.getElementById('editClientContact').value; saveData(); hideModal('editClientModal'); renderClients(); fillSelectors(); } });
-        document.getElementById('newExpenseForm')?.addEventListener('submit', e => { e.preventDefault(); expenses.push({id:'e' + Date.now(), date: document.getElementById('expenseDate').value, name: document.getElementById('expenseName').value, amount: parseInt(document.getElementById('expenseAmount').value), category: document.getElementById('expenseCategory').value}); saveData(); hideModal('newExpenseModal'); renderExpenses(); renderDashboard(); alert('✅ Расход добавлен!'); });
-        document.getElementById('editExpenseForm')?.addEventListener('submit', e => { e.preventDefault(); let id = document.getElementById('editExpenseId').value; let e = expenses.find(e => e.id === id); if(e) { e.date = document.getElementById('editExpenseDate').value; e.name = document.getElementById('editExpenseName').value; e.amount = parseInt(document.getElementById('editExpenseAmount').value); e.category = document.getElementById('editExpenseCategory').value; saveData(); hideModal('editExpenseModal'); renderExpenses(); renderDashboard(); } });
-        document.getElementById('newAchievementForm')?.addEventListener('submit', e => { e.preventDefault(); achievements.push({id:'a' + Date.now(), date: document.getElementById('achievementDate').value, description: document.getElementById('achievementDesc').value, category: document.getElementById('achievementCategory').value}); saveData(); hideModal('newAchievementModal'); renderAchievements(); alert('✅ Достижение добавлено!'); });
-        document.getElementById('newCultureForm')?.addEventListener('submit', e => { e.preventDefault(); let name = document.getElementById('cultureName').value.toLowerCase(); if(cultures[name]) { alert('Такая культура уже есть'); return; } cultures[name] = {type: document.getElementById('cultureType').value, norm15: parseInt(document.getElementById('cultureNorm15').value), norm8: parseInt(document.getElementById('cultureNorm8').value), daysToReady: parseInt(document.getElementById('cultureDays').value), seedPrice: parseFloat(document.getElementById('cultureSeedPrice').value), instructions: document.getElementById('cultureInstructions').value}; saveData(); hideModal('newCultureModal'); renderLibrary(); fillSelectors(); alert('✅ Культура добавлена!'); });
-        document.getElementById('editCultureForm')?.addEventListener('submit', e => { e.preventDefault(); let name = document.getElementById('editCultureName').value; cultures[name] = {type: document.getElementById('editCultureType').value, norm15: parseInt(document.getElementById('editCultureNorm15').value), norm8: parseInt(document.getElementById('editCultureNorm8').value), daysToReady: parseInt(document.getElementById('editCultureDays').value), seedPrice: parseFloat(document.getElementById('editCultureSeedPrice').value), instructions: document.getElementById('editCultureInstructions').value}; saveData(); hideModal('editCultureModal'); renderLibrary(); fillSelectors(); alert('✅ Культура сохранена!'); });
-        
-        // ==================== ПЛАНЫ (РЕДАКТИРОВАНИЕ) ====================
-        let currentTasks = null;
-        window.showEditPlans = function() {
-            let tasks = generateTasks();
-            currentTasks = tasks;
-            let morningHtml = tasks.todayMorning.map((t,i) => '<div class="task-item"><input type="text" class="task-text" value="' + t.replace(/"/g, '&quot;') + '" data-type="todayMorning" data-idx="' + i + '" style="flex:1;"><button class="btn-small btn-danger" onclick="removePlanTask(\'todayMorning\',' + i + ')">🗑️</button></div>').join('');
-            let eveningHtml = tasks.todayEvening.map((t,i) => '<div class="task-item"><input type="text" class="task-text" value="' + t.replace(/"/g, '&quot;') + '" data-type="todayEvening" data-idx="' + i + '" style="flex:1;"><button class="btn-small btn-danger" onclick="removePlanTask(\'todayEvening\',' + i + ')">🗑️</button></div>').join('');
-            document.getElementById('editPlansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (morningHtml || '<div class="empty-state">✨ Нет задач</div>') + '<button class="btn-small btn-secondary" onclick="addPlanTask(\'todayMorning\')">➕ Добавить</button><div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (eveningHtml || '<div class="empty-state">✨ Нет задач</div>') + '<button class="btn-small btn-secondary" onclick="addPlanTask(\'todayEvening\')">➕ Добавить</button></div>';
-            showModal('editPlansModal');
-        };
-        window.addPlanTask = function(type) { if(type === 'todayMorning') currentTasks.todayMorning.push('Новая задача'); else currentTasks.todayEvening.push('Новая задача'); window.showEditPlans(); };
-        window.removePlanTask = function(type, idx) { if(type === 'todayMorning') currentTasks.todayMorning.splice(idx, 1); else currentTasks.todayEvening.splice(idx, 1); window.showEditPlans(); };
-        window.savePlans = function() {
-            let inputs = document.querySelectorAll('#editPlansContainer .task-text');
-            inputs.forEach(i => { let type = i.dataset.type; let idx = parseInt(i.dataset.idx); if(type === 'todayMorning' && currentTasks.todayMorning[idx]) currentTasks.todayMorning[idx] = i.value; if(type === 'todayEvening' && currentTasks.todayEvening[idx]) currentTasks.todayEvening[idx] = i.value; });
-            customPlans.todayMorning = currentTasks.todayMorning; customPlans.todayEvening = currentTasks.todayEvening; saveData(); hideModal('editPlansModal'); renderDashboard(); alert('✅ Планы сохранены!');
-        };
-        
-        // ==================== НАВИГАЦИЯ ====================
-        window.showModal = function(id) {
-            fillSelectors();
-            if(id === 'newOrderModal') { orderItems = []; document.getElementById('orderItemsContainer').innerHTML = ''; addOrderItem(); }
-            if(id === 'newSaleModal') { saleItems = []; document.getElementById('saleItemsContainer').innerHTML = ''; addSaleItem(); }
-            if(id === 'editOrderModal') { let sel = document.getElementById('editOrderClient'); if(sel && sel.innerHTML === '') sel.innerHTML = clients.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join(''); }
-            if(id === 'editSaleModal') { let sel = document.getElementById('editSaleClient'); if(sel && sel.innerHTML === '') sel.innerHTML = clients.map(c => '<option value="' + c.id + '">' + c.name + '</option>').join(''); }
-            document.getElementById(id).style.display = 'block';
-        };
-        window.hideModal = function(id) { document.getElementById(id).style.display = 'none'; };
-        
-        document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', function() {
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            this.classList.add('active');
-            let sec = this.getAttribute('data-section');
-            document.getElementById(sec).classList.add('active');
-            if(sec === 'dashboard') renderDashboard();
-            if(sec === 'parties') renderParties();
-            if(sec === 'orders') renderOrders();
-            if(sec === 'sales') renderSales();
-            if(sec === 'clients') renderClients();
-            if(sec === 'expenses') renderExpenses();
-            if(sec === 'achievements') renderAchievements();
-            if(sec === 'library') renderLibrary();
-        }));
-        
-        document.querySelectorAll('.plan-tab').forEach(btn => btn.addEventListener('click', function() {
-            if(this.id === 'editPlansBtn') { window.showEditPlans(); return; }
-            document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-            let tasks = generateTasks();
-            let type = this.getAttribute('data-plan');
-            if(type === 'today') {
-                let morningHtml = tasks.todayMorning.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-                let eveningHtml = tasks.todayEvening.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-                document.getElementById('plansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (morningHtml || '<div class="empty-state">✨ Нет задач</div>') + '<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (eveningHtml || '<div class="empty-state">✨ Нет задач</div>') + '</div>';
-            }
-            if(type === 'tomorrow') {
-                let morningHtml = tasks.tomorrowMorning.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-                let eveningHtml = tasks.tomorrowEvening.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('');
-                document.getElementById('plansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (morningHtml || '<div class="empty-state">✨ Нет задач</div>') + '<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (eveningHtml || '<div class="empty-state">✨ Нет задач</div>') + '</div>';
-            }
-            if(type === 'week') {
-                let weekHtml = tasks.weekTasks.map(d => '<div class="day-plan"><div class="day-title">📅 ' + d.day + '</div>' + d.tasks.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('') + '</div>').join('');
-                document.getElementById('plansContainer').innerHTML = '<div class="weekly-plan">' + weekHtml + '</div>';
-            }
-        }));
-        
-        document.getElementById('notifyBtn')?.addEventListener('click', () => { if(Notification.permission === 'granted') new Notification('VITARAY', {body: 'Проверьте планы на сегодня!'}); else if(Notification.permission !== 'denied') Notification.requestPermission(); });
+        document.querySelectorAll('.plan-tab').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                let tasks = generateTasks();
+                let type = this.getAttribute('data-plan');
+                if(type === 'today') {
+                    document.getElementById('plansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>' + (tasks.morning.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('') || '<div class="empty-state">Нет задач</div>') + '<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>' + (tasks.evening.map(t => '<div class="task-item"><input type="checkbox"><span class="task-text">' + t + '</span></div>').join('') || '<div class="empty-state">Нет задач</div>') + '</div>';
+                } else {
+                    document.getElementById('plansContainer').innerHTML = '<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div><div class="empty-state">Планы на завтра появятся вечером</div><div class="plan-time">🌙 ВЕЧЕР (20:00)</div><div class="empty-state">Планы на завтра появятся вечером</div></div>';
+                }
+            });
+        });
+
         document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', {day:'numeric', month:'long', year:'numeric'});
-        document.getElementById('partyCulture')?.addEventListener('change', updateWeightHint);
-        document.getElementById('partyContainer')?.addEventListener('change', updateWeightHint);
         
         loadData();
-        renderDashboard(); renderParties(); renderOrders(); renderSales(); renderClients(); renderExpenses(); renderAchievements(); renderLibrary(); fillSelectors();
+        renderDashboard();
+        renderParties();
+        renderOrders();
+        renderSales();
+        renderClients();
+        renderExpenses();
+        renderAchievements();
+        renderLibrary();
+        fillSelectors();
     </script>
 </body>
 </html>
