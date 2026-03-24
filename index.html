@@ -72,11 +72,16 @@
             white-space: nowrap;
             cursor: pointer;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.2s;
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
+        }
+
+        .nav-btn:active {
+            transform: scale(0.96);
         }
 
         .section {
@@ -177,6 +182,11 @@
             width: 100%;
             cursor: pointer;
             margin: 6px 0;
+            transition: all 0.2s;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
         }
 
         .btn-secondary {
@@ -196,6 +206,7 @@
             font-size: 10px;
             width: auto;
             margin: 0;
+            cursor: pointer;
         }
 
         .btn-add {
@@ -204,6 +215,7 @@
             border: 1px dashed #81C784;
             padding: 8px;
             font-size: 12px;
+            cursor: pointer;
         }
 
         .flex-btns {
@@ -270,6 +282,7 @@
             border-radius: 30px;
             font-size: 12px;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
         .plan-tab.active {
@@ -304,6 +317,7 @@
         .task-checkbox {
             width: 18px;
             height: 18px;
+            cursor: pointer;
         }
 
         .task-text {
@@ -354,6 +368,7 @@
             font-size: 24px;
             cursor: pointer;
             color: #999;
+            padding: 0 8px;
         }
 
         .form-group {
@@ -374,6 +389,11 @@
             border: 1px solid #E8F5E9;
             border-radius: 12px;
             font-size: 13px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
         }
 
         .empty-state {
@@ -440,6 +460,10 @@
             border-top: 1px solid #E8F5E9;
             font-size: 14px;
             color: #2E7D32;
+        }
+
+        .mt-2 {
+            margin-top: 8px;
         }
     </style>
 </head>
@@ -541,10 +565,16 @@
             <div class="card-details">Внимание! Сброс данных удалит всю информацию.</div>
             <button class="btn reset-btn" id="resetAllDataBtn">🗑️ Сбросить ВСЕ данные</button>
             <button class="btn btn-secondary" id="exportDataBtn">📤 Экспорт данных</button>
+            <button class="btn btn-secondary" id="importDataBtn">📥 Импорт данных</button>
+        </div>
+        <div class="card">
+            <div class="card-title">📊 Примеры для тестирования</div>
+            <div class="card-details">Добавить тестовые данные для проверки работы</div>
+            <button class="btn btn-secondary" id="addTestDataBtn">🧪 Добавить тестовые данные</button>
         </div>
     </section>
 
-    <!-- Modals for CRUD operations -->
+    <!-- Modals (сокращено для длины, но все модальные окна есть в полной версии) -->
     <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ ПАРТИЯ</h3><button class="close-btn" onclick="window.hideModal('newPartyModal')">×</button></div>
     <form id="newPartyForm"><div class="form-group"><label>Культура *</label><select id="partyCulture" required></select></div>
     <div class="form-group"><label>Вес семян (г) *</label><input type="number" id="partyWeight" required><div id="partyWeightHint" class="recommendation"></div></div>
@@ -563,50 +593,40 @@
     <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deletePartyFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editPartyModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
     <div id="newOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 НОВЫЙ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('newOrderModal')">×</button></div>
-    <form id="newOrderForm">
-        <div class="form-group"><label>Клиент *</label><select id="orderClient" required></select></div>
-        <div class="form-group"><label>Дата *</label><input type="date" id="orderDate" required></div>
-        <div id="orderItemsContainer"></div>
-        <button type="button" class="btn-small btn-add" onclick="window.addOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
-        <div class="form-group"><label>Заметки</label><textarea id="orderNotes" rows="2" placeholder="Дополнительная информация по заказу..."></textarea></div>
-        <div class="total-amount" id="orderTotalAmount">Итого: 0 ₽</div>
-        <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать заказ</button></div>
-    </form></div></div>
+    <form id="newOrderForm"><div class="form-group"><label>Клиент *</label><select id="orderClient" required></select></div>
+    <div class="form-group"><label>Дата *</label><input type="date" id="orderDate" required></div>
+    <div id="orderItemsContainer"></div>
+    <button type="button" class="btn-small btn-add" onclick="window.addOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+    <div class="form-group"><label>Заметки</label><textarea id="orderNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
+    <div class="total-amount" id="orderTotalAmount">Итого: 0 ₽</div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать заказ</button></div></form></div></div>
 
     <div id="editOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('editOrderModal')">×</button></div>
-    <form id="editOrderForm">
-        <input type="hidden" id="editOrderId">
-        <div class="form-group"><label>Клиент</label><select id="editOrderClient"></select></div>
-        <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate"></div>
-        <div id="editOrderItemsContainer"></div>
-        <button type="button" class="btn-small btn-add" onclick="window.addEditOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
-        <div class="form-group"><label>Заметки</label><textarea id="editOrderNotes" rows="2"></textarea></div>
-        <div class="total-amount" id="editOrderTotalAmount">Итого: 0 ₽</div>
-        <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
-    </form></div></div>
+    <form id="editOrderForm"><input type="hidden" id="editOrderId"><div class="form-group"><label>Клиент</label><select id="editOrderClient"></select></div>
+    <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate"></div>
+    <div id="editOrderItemsContainer"></div>
+    <button type="button" class="btn-small btn-add" onclick="window.addEditOrderItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+    <div class="form-group"><label>Заметки</label><textarea id="editOrderNotes" rows="2"></textarea></div>
+    <div class="total-amount" id="editOrderTotalAmount">Итого: 0 ₽</div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
     <div id="newSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💰 НОВАЯ ПРОДАЖА</h3><button class="close-btn" onclick="window.hideModal('newSaleModal')">×</button></div>
-    <form id="newSaleForm">
-        <div class="form-group"><label>Клиент *</label><select id="saleClient" required></select></div>
-        <div class="form-group"><label>Дата *</label><input type="date" id="saleDate" required></div>
-        <div id="saleItemsContainer"></div>
-        <button type="button" class="btn-small btn-add" onclick="window.addSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
-        <div class="form-group"><label>Заметки</label><textarea id="saleNotes" rows="2" placeholder="Дополнительная информация по продаже..."></textarea></div>
-        <div class="total-amount" id="saleTotalAmount">Итого: 0 ₽</div>
-        <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать продажу</button></div>
-    </form></div></div>
+    <form id="newSaleForm"><div class="form-group"><label>Клиент *</label><select id="saleClient" required></select></div>
+    <div class="form-group"><label>Дата *</label><input type="date" id="saleDate" required></div>
+    <div id="saleItemsContainer"></div>
+    <button type="button" class="btn-small btn-add" onclick="window.addSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+    <div class="form-group"><label>Заметки</label><textarea id="saleNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
+    <div class="total-amount" id="saleTotalAmount">Итого: 0 ₽</div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать продажу</button></div></form></div></div>
 
     <div id="editSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПРОДАЖУ</h3><button class="close-btn" onclick="window.hideModal('editSaleModal')">×</button></div>
-    <form id="editSaleForm">
-        <input type="hidden" id="editSaleId">
-        <div class="form-group"><label>Клиент</label><select id="editSaleClient"></select></div>
-        <div class="form-group"><label>Дата</label><input type="date" id="editSaleDate"></div>
-        <div id="editSaleItemsContainer"></div>
-        <button type="button" class="btn-small btn-add" onclick="window.addEditSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
-        <div class="form-group"><label>Заметки</label><textarea id="editSaleNotes" rows="2"></textarea></div>
-        <div class="total-amount" id="editSaleTotalAmount">Итого: 0 ₽</div>
-        <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div>
-    </form></div></div>
+    <form id="editSaleForm"><input type="hidden" id="editSaleId"><div class="form-group"><label>Клиент</label><select id="editSaleClient"></select></div>
+    <div class="form-group"><label>Дата</label><input type="date" id="editSaleDate"></div>
+    <div id="editSaleItemsContainer"></div>
+    <button type="button" class="btn-small btn-add" onclick="window.addEditSaleItem()" style="width:100%; margin: 8px 0;">➕ Добавить позицию</button>
+    <div class="form-group"><label>Заметки</label><textarea id="editSaleNotes" rows="2"></textarea></div>
+    <div class="total-amount" id="editSaleTotalAmount">Итого: 0 ₽</div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
     <div id="newClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>👥 НОВЫЙ КЛИЕНТ</h3><button class="close-btn" onclick="window.hideModal('newClientModal')">×</button></div>
     <form id="newClientForm"><div class="form-group"><label>Имя *</label><input type="text" id="clientName" required></div>
@@ -694,52 +714,96 @@
         // ==================== РАБОТА С ХРАНИЛИЩЕМ ====================
         
         function loadData() {
-            let p = localStorage.getItem('vitaray_parties');
-            parties = p ? JSON.parse(p) : [];
-            
-            let o = localStorage.getItem('vitaray_orders');
-            orders = o ? JSON.parse(o) : [];
-            
-            let s = localStorage.getItem('vitaray_sales');
-            sales = s ? JSON.parse(s) : [];
-            
-            let c = localStorage.getItem('vitaray_clients');
-            clients = c ? JSON.parse(c) : [];
-            
-            let e = localStorage.getItem('vitaray_expenses');
-            expenses = e ? JSON.parse(e) : [];
-            
-            let a = localStorage.getItem('vitaray_achievements');
-            achievements = a ? JSON.parse(a) : [];
-            
-            let cu = localStorage.getItem('vitaray_cultures');
-            if (cu) cultures = JSON.parse(cu);
-            
-            let cp = localStorage.getItem('vitaray_customPlans');
-            if (cp) customPlans = JSON.parse(cp);
-            
-            if (Object.keys(cultures).length === 0) {
-                cultures = {
-                    "горох": { type: "microgreen", norm15: 25, norm8: 4, daysToReady: 10, seedPrice: 0.163, instructions: "1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день" },
-                    "редис": { type: "microgreen", norm15: 4, norm8: 2, daysToReady: 8, seedPrice: 3.92, instructions: "1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день" },
-                    "маш": { type: "sprouts", norm15: 25, norm8: 4, daysToReady: 6, seedPrice: 0.204, instructions: "1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
-                    "нут": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 5, seedPrice: 0.116, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день" },
-                    "соя": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 6, seedPrice: 0.44, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
-                    "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, daysToReady: 7, seedPrice: 0.258, instructions: "1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день" }
-                };
-                saveData();
+            try {
+                let p = localStorage.getItem('vitaray_parties');
+                parties = p ? JSON.parse(p) : [];
+                
+                let o = localStorage.getItem('vitaray_orders');
+                orders = o ? JSON.parse(o) : [];
+                
+                let s = localStorage.getItem('vitaray_sales');
+                sales = s ? JSON.parse(s) : [];
+                
+                let c = localStorage.getItem('vitaray_clients');
+                clients = c ? JSON.parse(c) : [];
+                
+                let e = localStorage.getItem('vitaray_expenses');
+                expenses = e ? JSON.parse(e) : [];
+                
+                let a = localStorage.getItem('vitaray_achievements');
+                achievements = a ? JSON.parse(a) : [];
+                
+                let cu = localStorage.getItem('vitaray_cultures');
+                if (cu) cultures = JSON.parse(cu);
+                
+                let cp = localStorage.getItem('vitaray_customPlans');
+                if (cp) customPlans = JSON.parse(cp);
+                
+                if (Object.keys(cultures).length === 0) {
+                    cultures = {
+                        "горох": { type: "microgreen", norm15: 25, norm8: 4, daysToReady: 10, seedPrice: 0.163, instructions: "1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день" },
+                        "редис": { type: "microgreen", norm15: 4, norm8: 2, daysToReady: 8, seedPrice: 3.92, instructions: "1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день" },
+                        "маш": { type: "sprouts", norm15: 25, norm8: 4, daysToReady: 6, seedPrice: 0.204, instructions: "1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
+                        "нут": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 5, seedPrice: 0.116, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день" },
+                        "соя": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 6, seedPrice: 0.44, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
+                        "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, daysToReady: 7, seedPrice: 0.258, instructions: "1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день" }
+                    };
+                    saveData();
+                }
+            } catch (e) {
+                console.error('Ошибка загрузки данных:', e);
             }
         }
         
         function saveData() {
-            localStorage.setItem('vitaray_parties', JSON.stringify(parties));
-            localStorage.setItem('vitaray_orders', JSON.stringify(orders));
-            localStorage.setItem('vitaray_sales', JSON.stringify(sales));
-            localStorage.setItem('vitaray_clients', JSON.stringify(clients));
-            localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
-            localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
-            localStorage.setItem('vitaray_cultures', JSON.stringify(cultures));
-            localStorage.setItem('vitaray_customPlans', JSON.stringify(customPlans));
+            try {
+                localStorage.setItem('vitaray_parties', JSON.stringify(parties));
+                localStorage.setItem('vitaray_orders', JSON.stringify(orders));
+                localStorage.setItem('vitaray_sales', JSON.stringify(sales));
+                localStorage.setItem('vitaray_clients', JSON.stringify(clients));
+                localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
+                localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
+                localStorage.setItem('vitaray_cultures', JSON.stringify(cultures));
+                localStorage.setItem('vitaray_customPlans', JSON.stringify(customPlans));
+            } catch (e) {
+                console.error('Ошибка сохранения данных:', e);
+            }
+        }
+        
+        function addTestData() {
+            if (confirm('Добавить тестовые данные для проверки?')) {
+                // Добавляем тестового клиента
+                if (clients.length === 0) {
+                    clients.push({ id: 'c1', name: 'Тестовый клиент', place: 'Москва', contact: '+7 999 123-45-67' });
+                }
+                
+                // Добавляем тестовый заказ
+                orders.push({
+                    id: 'o_test_' + Date.now(),
+                    clientId: clients[0]?.id || 'c1',
+                    date: new Date().toISOString().slice(0, 10),
+                    items: [{ culture: 'горох', weight: 200, price: 200 }],
+                    total: 200,
+                    paid: false,
+                    delivered: false,
+                    notes: 'Тестовый заказ'
+                });
+                
+                // Добавляем тестовую продажу
+                sales.push({
+                    id: 's_test_' + Date.now(),
+                    clientId: clients[0]?.id || 'c1',
+                    date: new Date().toISOString().slice(0, 10),
+                    items: [{ culture: 'горох', weight: 150, amount: 150 }],
+                    total: 150,
+                    paid: false,
+                    notes: 'Тестовая продажа'
+                });
+                
+                saveData();
+                renderAll();
+                alert('✅ Тестовые данные добавлены!');
+            }
         }
         
         function resetAllData() {
@@ -780,12 +844,47 @@
             alert('📁 Данные экспортированы!');
         }
         
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const data = JSON.parse(evt.target.result);
+                        if (data.parties) parties = data.parties;
+                        if (data.orders) orders = data.orders;
+                        if (data.sales) sales = data.sales;
+                        if (data.clients) clients = data.clients;
+                        if (data.expenses) expenses = data.expenses;
+                        if (data.achievements) achievements = data.achievements;
+                        if (data.cultures) cultures = data.cultures;
+                        if (data.customPlans) customPlans = data.customPlans;
+                        saveData();
+                        renderAll();
+                        alert('✅ Данные импортированы!');
+                    } catch (err) {
+                        alert('❌ Ошибка импорта: неверный формат файла');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+        
         // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
         
         function formatDate(dateStr) {
             if (!dateStr) return '';
-            let date = new Date(dateStr);
-            return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            try {
+                let date = new Date(dateStr);
+                if (isNaN(date.getTime())) return dateStr;
+                return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+            } catch (e) {
+                return dateStr;
+            }
         }
         
         function getClientName(id) {
@@ -819,24 +918,25 @@
         }
         
         function getFinancialStats() {
-            const paidSales = sales.filter(s => s.paid).reduce((sum, s) => sum + s.total, 0);
-            const paidOrders = orders.filter(o => o.paid).reduce((sum, o) => sum + o.total, 0);
-            const totalIncome = paidSales + paidOrders;
-            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            // Безопасное суммирование с проверкой на NaN
+            const paidSales = sales.filter(s => s.paid).reduce((sum, s) => sum + (typeof s.total === 'number' ? s.total : 0), 0);
+            const paidOrders = orders.filter(o => o.paid).reduce((sum, o) => sum + (typeof o.total === 'number' ? o.total : 0), 0);
+            const totalIncome = (paidSales || 0) + (paidOrders || 0);
+            const totalExpenses = expenses.reduce((sum, e) => sum + (typeof e.amount === 'number' ? e.amount : 0), 0);
             const currentBalance = totalIncome - totalExpenses;
             
             const today = new Date().toISOString().slice(0, 10);
             const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
             const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10);
             
-            const dayIncome = sales.filter(s => s.paid && s.date === today).reduce((sum, s) => sum + s.total, 0) +
-                              orders.filter(o => o.paid && o.date === today).reduce((sum, o) => sum + o.total, 0);
+            const dayIncome = sales.filter(s => s.paid && s.date === today).reduce((sum, s) => sum + (s.total || 0), 0) +
+                              orders.filter(o => o.paid && o.date === today).reduce((sum, o) => sum + (o.total || 0), 0);
             
-            const weekIncome = sales.filter(s => s.paid && s.date >= weekAgo).reduce((sum, s) => sum + s.total, 0) +
-                               orders.filter(o => o.paid && o.date >= weekAgo).reduce((sum, o) => sum + o.total, 0);
+            const weekIncome = sales.filter(s => s.paid && s.date >= weekAgo).reduce((sum, s) => sum + (s.total || 0), 0) +
+                               orders.filter(o => o.paid && o.date >= weekAgo).reduce((sum, o) => sum + (o.total || 0), 0);
             
-            const monthIncome = sales.filter(s => s.paid && s.date >= monthAgo).reduce((sum, s) => sum + s.total, 0) +
-                                orders.filter(o => o.paid && o.date >= monthAgo).reduce((sum, o) => sum + o.total, 0);
+            const monthIncome = sales.filter(s => s.paid && s.date >= monthAgo).reduce((sum, s) => sum + (s.total || 0), 0) +
+                                orders.filter(o => o.paid && o.date >= monthAgo).reduce((sum, o) => sum + (o.total || 0), 0);
             
             return { totalIncome, totalExpenses, currentBalance, dayIncome, weekIncome, monthIncome };
         }
@@ -844,7 +944,7 @@
         function getClientDebt(clientId) {
             const unpaidOrders = orders.filter(o => o.clientId === clientId && !o.paid);
             const unpaidSales = sales.filter(s => s.clientId === clientId && !s.paid);
-            return unpaidOrders.reduce((sum, o) => sum + o.total, 0) + unpaidSales.reduce((sum, s) => sum + s.total, 0);
+            return unpaidOrders.reduce((sum, o) => sum + (o.total || 0), 0) + unpaidSales.reduce((sum, s) => sum + (s.total || 0), 0);
         }
         
         // ==================== РАБОТА С ТОВАРАМИ В ЗАКАЗАХ ====================
@@ -855,7 +955,8 @@
         let currentEditSaleItems = [];
         
         function addOrderItem() {
-            currentOrderItems.push({ culture: Object.keys(cultures)[0] || 'горох', weight: 100, price: 100 });
+            const firstCulture = Object.keys(cultures)[0] || 'горох';
+            currentOrderItems.push({ culture: firstCulture, weight: 100, price: 100 });
             renderOrderItems();
         }
         
@@ -880,18 +981,18 @@
             
             document.querySelectorAll('#orderItemsContainer .item-culture').forEach(sel => {
                 const idx = parseInt(sel.dataset.idx);
-                sel.value = currentOrderItems[idx].culture;
-                sel.onchange = () => { currentOrderItems[idx].culture = sel.value; updateOrderTotal(); };
+                sel.value = currentOrderItems[idx]?.culture || '';
+                sel.onchange = () => { if (currentOrderItems[idx]) { currentOrderItems[idx].culture = sel.value; updateOrderTotal(); } };
             });
             document.querySelectorAll('#orderItemsContainer .item-weight').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentOrderItems[idx].weight;
-                inp.oninput = () => { currentOrderItems[idx].weight = parseInt(inp.value) || 0; updateOrderTotal(); };
+                inp.value = currentOrderItems[idx]?.weight || 0;
+                inp.oninput = () => { if (currentOrderItems[idx]) { currentOrderItems[idx].weight = parseInt(inp.value) || 0; updateOrderTotal(); } };
             });
             document.querySelectorAll('#orderItemsContainer .item-price').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentOrderItems[idx].price;
-                inp.oninput = () => { currentOrderItems[idx].price = parseInt(inp.value) || 0; updateOrderTotal(); };
+                inp.value = currentOrderItems[idx]?.price || 0;
+                inp.oninput = () => { if (currentOrderItems[idx]) { currentOrderItems[idx].price = parseInt(inp.value) || 0; updateOrderTotal(); } };
             });
             
             updateOrderTotal();
@@ -909,7 +1010,8 @@
         }
         
         function addSaleItem() {
-            currentSaleItems.push({ culture: Object.keys(cultures)[0] || 'горох', weight: 100, amount: 100 });
+            const firstCulture = Object.keys(cultures)[0] || 'горох';
+            currentSaleItems.push({ culture: firstCulture, weight: 100, amount: 100 });
             renderSaleItems();
         }
         
@@ -934,18 +1036,18 @@
             
             document.querySelectorAll('#saleItemsContainer .item-culture').forEach(sel => {
                 const idx = parseInt(sel.dataset.idx);
-                sel.value = currentSaleItems[idx].culture;
-                sel.onchange = () => { currentSaleItems[idx].culture = sel.value; updateSaleTotal(); };
+                sel.value = currentSaleItems[idx]?.culture || '';
+                sel.onchange = () => { if (currentSaleItems[idx]) { currentSaleItems[idx].culture = sel.value; updateSaleTotal(); } };
             });
             document.querySelectorAll('#saleItemsContainer .item-weight').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentSaleItems[idx].weight;
-                inp.oninput = () => { currentSaleItems[idx].weight = parseInt(inp.value) || 0; updateSaleTotal(); };
+                inp.value = currentSaleItems[idx]?.weight || 0;
+                inp.oninput = () => { if (currentSaleItems[idx]) { currentSaleItems[idx].weight = parseInt(inp.value) || 0; updateSaleTotal(); } };
             });
             document.querySelectorAll('#saleItemsContainer .item-amount').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentSaleItems[idx].amount;
-                inp.oninput = () => { currentSaleItems[idx].amount = parseInt(inp.value) || 0; updateSaleTotal(); };
+                inp.value = currentSaleItems[idx]?.amount || 0;
+                inp.oninput = () => { if (currentSaleItems[idx]) { currentSaleItems[idx].amount = parseInt(inp.value) || 0; updateSaleTotal(); } };
             });
             
             updateSaleTotal();
@@ -964,7 +1066,8 @@
         
         // Редактирование заказа
         function addEditOrderItem() {
-            currentEditOrderItems.push({ culture: Object.keys(cultures)[0] || 'горох', weight: 100, price: 100 });
+            const firstCulture = Object.keys(cultures)[0] || 'горох';
+            currentEditOrderItems.push({ culture: firstCulture, weight: 100, price: 100 });
             renderEditOrderItems();
         }
         
@@ -989,18 +1092,18 @@
             
             document.querySelectorAll('#editOrderItemsContainer .item-culture').forEach(sel => {
                 const idx = parseInt(sel.dataset.idx);
-                sel.value = currentEditOrderItems[idx].culture;
-                sel.onchange = () => { currentEditOrderItems[idx].culture = sel.value; updateEditOrderTotal(); };
+                sel.value = currentEditOrderItems[idx]?.culture || '';
+                sel.onchange = () => { if (currentEditOrderItems[idx]) { currentEditOrderItems[idx].culture = sel.value; updateEditOrderTotal(); } };
             });
             document.querySelectorAll('#editOrderItemsContainer .item-weight').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentEditOrderItems[idx].weight;
-                inp.oninput = () => { currentEditOrderItems[idx].weight = parseInt(inp.value) || 0; updateEditOrderTotal(); };
+                inp.value = currentEditOrderItems[idx]?.weight || 0;
+                inp.oninput = () => { if (currentEditOrderItems[idx]) { currentEditOrderItems[idx].weight = parseInt(inp.value) || 0; updateEditOrderTotal(); } };
             });
             document.querySelectorAll('#editOrderItemsContainer .item-price').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentEditOrderItems[idx].price;
-                inp.oninput = () => { currentEditOrderItems[idx].price = parseInt(inp.value) || 0; updateEditOrderTotal(); };
+                inp.value = currentEditOrderItems[idx]?.price || 0;
+                inp.oninput = () => { if (currentEditOrderItems[idx]) { currentEditOrderItems[idx].price = parseInt(inp.value) || 0; updateEditOrderTotal(); } };
             });
             
             updateEditOrderTotal();
@@ -1019,7 +1122,8 @@
         
         // Редактирование продажи
         function addEditSaleItem() {
-            currentEditSaleItems.push({ culture: Object.keys(cultures)[0] || 'горох', weight: 100, amount: 100 });
+            const firstCulture = Object.keys(cultures)[0] || 'горох';
+            currentEditSaleItems.push({ culture: firstCulture, weight: 100, amount: 100 });
             renderEditSaleItems();
         }
         
@@ -1044,18 +1148,18 @@
             
             document.querySelectorAll('#editSaleItemsContainer .item-culture').forEach(sel => {
                 const idx = parseInt(sel.dataset.idx);
-                sel.value = currentEditSaleItems[idx].culture;
-                sel.onchange = () => { currentEditSaleItems[idx].culture = sel.value; updateEditSaleTotal(); };
+                sel.value = currentEditSaleItems[idx]?.culture || '';
+                sel.onchange = () => { if (currentEditSaleItems[idx]) { currentEditSaleItems[idx].culture = sel.value; updateEditSaleTotal(); } };
             });
             document.querySelectorAll('#editSaleItemsContainer .item-weight').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentEditSaleItems[idx].weight;
-                inp.oninput = () => { currentEditSaleItems[idx].weight = parseInt(inp.value) || 0; updateEditSaleTotal(); };
+                inp.value = currentEditSaleItems[idx]?.weight || 0;
+                inp.oninput = () => { if (currentEditSaleItems[idx]) { currentEditSaleItems[idx].weight = parseInt(inp.value) || 0; updateEditSaleTotal(); } };
             });
             document.querySelectorAll('#editSaleItemsContainer .item-amount').forEach(inp => {
                 const idx = parseInt(inp.dataset.idx);
-                inp.value = currentEditSaleItems[idx].amount;
-                inp.oninput = () => { currentEditSaleItems[idx].amount = parseInt(inp.value) || 0; updateEditSaleTotal(); };
+                inp.value = currentEditSaleItems[idx]?.amount || 0;
+                inp.oninput = () => { if (currentEditSaleItems[idx]) { currentEditSaleItems[idx].amount = parseInt(inp.value) || 0; updateEditSaleTotal(); } };
             });
             
             updateEditSaleTotal();
@@ -1112,27 +1216,40 @@
         
         function renderDashboard() {
             const fin = getFinancialStats();
-            document.getElementById('incomeStats').innerHTML = `
-                <div class="stat-card"><div class="stat-number">${fin.dayIncome}₽</div><div>За день</div></div>
-                <div class="stat-card"><div class="stat-number">${fin.weekIncome}₽</div><div>За неделю</div></div>
-                <div class="stat-card"><div class="stat-number">${fin.monthIncome}₽</div><div>За месяц</div></div>
-            `;
-            document.getElementById('totalIncome').textContent = fin.totalIncome + '₽';
-            document.getElementById('totalExpenses').textContent = fin.totalExpenses + '₽';
-            document.getElementById('currentBalance').textContent = fin.currentBalance + '₽';
+            
+            const incomeStats = document.getElementById('incomeStats');
+            if (incomeStats) {
+                incomeStats.innerHTML = `
+                    <div class="stat-card"><div class="stat-number">${fin.dayIncome}₽</div><div>За день</div></div>
+                    <div class="stat-card"><div class="stat-number">${fin.weekIncome}₽</div><div>За неделю</div></div>
+                    <div class="stat-card"><div class="stat-number">${fin.monthIncome}₽</div><div>За месяц</div></div>
+                `;
+            }
+            
+            const totalIncome = document.getElementById('totalIncome');
+            if (totalIncome) totalIncome.textContent = (fin.totalIncome || 0) + '₽';
+            
+            const totalExpenses = document.getElementById('totalExpenses');
+            if (totalExpenses) totalExpenses.textContent = (fin.totalExpenses || 0) + '₽';
+            
+            const currentBalance = document.getElementById('currentBalance');
+            if (currentBalance) currentBalance.textContent = (fin.currentBalance || 0) + '₽';
             
             const tasks = generateTasks();
             const morningHtml = tasks.todayMorning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
             const eveningHtml = tasks.todayEvening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
             
-            document.getElementById('plansContainer').innerHTML = `
-                <div class="plan-section">
-                    <div class="plan-time">🌅 УТРО (7:00)</div>
-                    ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
-                    <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
-                    ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
-                </div>
-            `;
+            const plansContainer = document.getElementById('plansContainer');
+            if (plansContainer) {
+                plansContainer.innerHTML = `
+                    <div class="plan-section">
+                        <div class="plan-time">🌅 УТРО (7:00)</div>
+                        ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
+                        <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
+                        ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
+                    </div>
+                `;
+            }
             
             const activeParties = parties.filter(p => p.currentStage !== 'srezka' && p.currentStage !== 'sbor').slice(0, 5);
             const activeHtml = activeParties.map(p => {
@@ -1152,11 +1269,17 @@
                     </div>
                 `;
             }).join('');
-            document.getElementById('activePartiesList').innerHTML = activeHtml || '<div class="empty-state">Нет активных партий</div>';
+            
+            const activePartiesList = document.getElementById('activePartiesList');
+            if (activePartiesList) {
+                activePartiesList.innerHTML = activeHtml || '<div class="empty-state">Нет активных партий</div>';
+            }
         }
         
         function renderParties() {
             const list = document.getElementById('partiesList');
+            if (!list) return;
+            
             const html = parties.slice().reverse().map(p => {
                 const harvest = getHarvestDate(p);
                 return `
@@ -1181,6 +1304,8 @@
         
         function renderOrders() {
             const list = document.getElementById('ordersList');
+            if (!list) return;
+            
             const html = orders.slice().reverse().map(o => {
                 const itemsHtml = o.items.map(i => `${i.culture} ${i.weight}г = ${i.price}₽`).join('<br>');
                 return `
@@ -1193,7 +1318,7 @@
                             </div>
                         </div>
                         <div class="card-details">${itemsHtml}</div>
-                        <div class="card-details">📅 ${formatDate(o.date)} • 💰 ${o.total}₽</div>
+                        <div class="card-details">📅 ${formatDate(o.date)} • 💰 ${o.total || 0}₽</div>
                         ${o.notes ? `<div class="notes-text">📝 ${o.notes}</div>` : ''}
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ ${o.paid ? 'Снять оплату' : 'Оплатить'}</button>
@@ -1210,6 +1335,8 @@
         
         function renderSales() {
             const list = document.getElementById('salesList');
+            if (!list) return;
+            
             const html = sales.slice().reverse().map(s => {
                 const itemsHtml = s.items.map(i => `${i.culture} ${i.weight}г = ${i.amount}₽`).join('<br>');
                 return `
@@ -1219,7 +1346,7 @@
                             <span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span>
                         </div>
                         <div class="card-details">${itemsHtml}</div>
-                        <div class="card-details">📅 ${formatDate(s.date)} • 💰 ${s.total}₽</div>
+                        <div class="card-details">📅 ${formatDate(s.date)} • 💰 ${s.total || 0}₽</div>
                         ${s.notes ? `<div class="notes-text">📝 ${s.notes}</div>` : ''}
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ ${s.paid ? 'Снять оплату' : 'Оплатить'}</button>
@@ -1234,6 +1361,8 @@
         
         function renderClients(filter = '') {
             const list = document.getElementById('clientsList');
+            if (!list) return;
+            
             const filtered = filter ? clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase())) : clients;
             const html = filtered.map(c => {
                 const debt = getClientDebt(c.id);
@@ -1259,14 +1388,16 @@
         
         function renderExpenses() {
             const list = document.getElementById('expensesList');
-            const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+            if (!list) return;
+            
+            const total = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
             const html = expenses.slice().reverse().map(e => `
                 <div class="card">
                     <div class="card-header">
                         <span>💸 ${e.name}</span>
                         <span class="status status-pending">${e.category}</span>
                     </div>
-                    <div class="card-details">📅 ${formatDate(e.date)} • ${e.amount}₽</div>
+                    <div class="card-details">📅 ${formatDate(e.date)} • ${e.amount || 0}₽</div>
                     ${e.details ? `<div class="notes-text">📝 ${e.details}</div>` : ''}
                     <div class="flex-btns">
                         <button class="btn-small btn-secondary" onclick="editExpense('${e.id}')">✏️</button>
@@ -1282,6 +1413,8 @@
         
         function renderAchievements() {
             const list = document.getElementById('achievementsList');
+            if (!list) return;
+            
             const html = achievements.slice().reverse().map(a => `
                 <div class="card">
                     <div class="card-header">
@@ -1299,6 +1432,8 @@
         
         function renderLibrary() {
             const list = document.getElementById('culturesList');
+            if (!list) return;
+            
             const html = Object.keys(cultures).map(name => {
                 const c = cultures[name];
                 return `
@@ -1343,6 +1478,8 @@
                 const idx = stages.indexOf(party.currentStage);
                 if (idx < stages.length - 1) {
                     party.currentStage = stages[idx + 1];
+                    if (!party.stages) party.stages = {};
+                    party.stages[party.currentStage] = new Date().toISOString();
                     saveData();
                     renderAll();
                 } else {
@@ -1362,7 +1499,9 @@
                 document.getElementById('editPartyNotes').value = party.notes || '';
                 const stages = getStages(party.culture);
                 const stageSelect = document.getElementById('editPartyStage');
-                stageSelect.innerHTML = stages.map(s => `<option ${party.currentStage === s ? 'selected' : ''} value="${s}">${getStageName(s)}</option>`).join('');
+                if (stageSelect) {
+                    stageSelect.innerHTML = stages.map(s => `<option ${party.currentStage === s ? 'selected' : ''} value="${s}">${getStageName(s)}</option>`).join('');
+                }
                 showModal('editPartyModal');
             }
         };
@@ -1387,12 +1526,20 @@
         
         window.toggleOrderPaid = function(id) {
             const order = orders.find(o => o.id === id);
-            if (order) { order.paid = !order.paid; saveData(); renderAll(); }
+            if (order) {
+                order.paid = !order.paid;
+                saveData();
+                renderAll();
+            }
         };
         
         window.toggleOrderDelivered = function(id) {
             const order = orders.find(o => o.id === id);
-            if (order) { order.delivered = !order.delivered; saveData(); renderAll(); }
+            if (order) {
+                order.delivered = !order.delivered;
+                saveData();
+                renderAll();
+            }
         };
         
         window.convertOrderToSale = function(id) {
@@ -1402,7 +1549,11 @@
                     id: 's' + Date.now(),
                     clientId: order.clientId,
                     date: new Date().toISOString().slice(0, 10),
-                    items: JSON.parse(JSON.stringify(order.items)),
+                    items: order.items.map(item => ({
+                        culture: item.culture,
+                        weight: item.weight,
+                        amount: item.price
+                    })),
                     total: order.total,
                     paid: order.paid,
                     notes: order.notes ? `Скопировано из заказа: ${order.notes}` : 'Скопировано из заказа'
@@ -1423,7 +1574,9 @@
                 document.getElementById('editOrderDate').value = order.date;
                 document.getElementById('editOrderNotes').value = order.notes || '';
                 const clientSelect = document.getElementById('editOrderClient');
-                clientSelect.innerHTML = clients.map(c => `<option ${c.id === order.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
+                if (clientSelect) {
+                    clientSelect.innerHTML = clients.map(c => `<option ${c.id === order.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
+                }
                 currentEditOrderItems = JSON.parse(JSON.stringify(order.items));
                 renderEditOrderItems();
                 showModal('editOrderModal');
@@ -1450,7 +1603,11 @@
         
         window.toggleSalePaid = function(id) {
             const sale = sales.find(s => s.id === id);
-            if (sale) { sale.paid = !sale.paid; saveData(); renderAll(); }
+            if (sale) {
+                sale.paid = !sale.paid;
+                saveData();
+                renderAll();
+            }
         };
         
         window.editSale = function(id) {
@@ -1460,7 +1617,9 @@
                 document.getElementById('editSaleDate').value = sale.date;
                 document.getElementById('editSaleNotes').value = sale.notes || '';
                 const clientSelect = document.getElementById('editSaleClient');
-                clientSelect.innerHTML = clients.map(c => `<option ${c.id === sale.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
+                if (clientSelect) {
+                    clientSelect.innerHTML = clients.map(c => `<option ${c.id === sale.clientId ? 'selected' : ''} value="${c.id}">${c.name}</option>`).join('');
+                }
                 currentEditSaleItems = JSON.parse(JSON.stringify(sale.items));
                 renderEditSaleItems();
                 showModal('editSaleModal');
@@ -1490,15 +1649,31 @@
             if (!client) return;
             const clientOrders = orders.filter(o => o.clientId === id);
             const clientSales = sales.filter(s => s.clientId === id);
-            const ordersHtml = clientOrders.map(o => `<div class="card"><div class="card-header">📦 ${formatDate(o.date)}<span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span></div><div class="card-details">${o.items.map(i => `${i.culture} ${i.weight}г = ${i.price}₽`).join('<br>')}</div><div>💰 ${o.total}₽</div>${o.notes ? `<div class="notes-text">📝 ${o.notes}</div>` : ''}</div>`).join('');
-            const salesHtml = clientSales.map(s => `<div class="card"><div class="card-header">💰 ${formatDate(s.date)}<span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.items.map(i => `${i.culture} ${i.weight}г = ${i.amount}₽`).join('<br>')}</div><div>💰 ${s.total}₽</div>${s.notes ? `<div class="notes-text">📝 ${s.notes}</div>` : ''}</div>`).join('');
+            const ordersHtml = clientOrders.map(o => `<div class="card"><div class="card-header">📦 ${formatDate(o.date)}<span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span></div><div class="card-details">${o.items.map(i => `${i.culture} ${i.weight}г = ${i.price}₽`).join('<br>')}</div><div>💰 ${o.total || 0}₽</div>${o.notes ? `<div class="notes-text">📝 ${o.notes}</div>` : ''}</div>`).join('');
+            const salesHtml = clientSales.map(s => `<div class="card"><div class="card-header">💰 ${formatDate(s.date)}<span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span></div><div class="card-details">${s.items.map(i => `${i.culture} ${i.weight}г = ${i.amount}₽`).join('<br>')}</div><div>💰 ${s.total || 0}₽</div>${s.notes ? `<div class="notes-text">📝 ${s.notes}</div>` : ''}</div>`).join('');
             const debt = getClientDebt(id);
-            document.getElementById('clientHistoryContent').innerHTML = `<div class="card"><div class="card-title">👤 ${client.name}</div><div class="card-details">📍 ${client.place || '—'}</div><div class="card-details">📞 ${client.contact || '—'}</div><div class="card-details">💰 Долг: ${debt}₽</div></div><h4>📦 Заказы</h4>${ordersHtml || '<div class="empty-state">Нет заказов</div>'}<h4>💰 Продажи</h4>${salesHtml || '<div class="empty-state">Нет продаж</div>'}`;
+            const content = document.getElementById('clientHistoryContent');
+            if (content) {
+                content.innerHTML = `<div class="card"><div class="card-title">👤 ${client.name}</div><div class="card-details">📍 ${client.place || '—'}</div><div class="card-details">📞 ${client.contact || '—'}</div><div class="card-details">💰 Долг: ${debt}₽</div></div><h4>📦 Заказы</h4>${ordersHtml || '<div class="empty-state">Нет заказов</div>'}<h4>💰 Продажи</h4>${salesHtml || '<div class="empty-state">Нет продаж</div>'}`;
+            }
             showModal('clientHistoryModal');
         };
         
-        window.quickOrder = function(clientId) { showModal('newOrderModal'); setTimeout(() => { document.getElementById('orderClient').value = clientId; }, 100); };
-        window.quickSale = function(clientId) { showModal('newSaleModal'); setTimeout(() => { document.getElementById('saleClient').value = clientId; }, 100); };
+        window.quickOrder = function(clientId) { 
+            showModal('newOrderModal'); 
+            setTimeout(() => { 
+                const clientSelect = document.getElementById('orderClient');
+                if (clientSelect) clientSelect.value = clientId;
+            }, 100); 
+        };
+        
+        window.quickSale = function(clientId) { 
+            showModal('newSaleModal'); 
+            setTimeout(() => { 
+                const clientSelect = document.getElementById('saleClient');
+                if (clientSelect) clientSelect.value = clientId;
+            }, 100); 
+        };
         
         window.editClient = function(id) {
             const client = clients.find(c => c.id === id);
@@ -1531,7 +1706,10 @@
             }
         };
         
-        window.filterClients = function() { renderClients(document.getElementById('clientSearch').value); };
+        window.filterClients = function() { 
+            const searchInput = document.getElementById('clientSearch');
+            if (searchInput) renderClients(searchInput.value); 
+        };
         
         window.editExpense = function(id) {
             const expense = expenses.find(e => e.id === id);
@@ -1643,22 +1821,25 @@
             const tomorrowMorningHtml = currentEditTasks.tomorrowMorning.map((t, i) => `<div class="task-item"><input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="tomorrowMorning" data-idx="${i}"><button class="btn-small btn-danger" onclick="removePlanTask('tomorrowMorning', ${i})">🗑️</button></div>`).join('');
             const tomorrowEveningHtml = currentEditTasks.tomorrowEvening.map((t, i) => `<div class="task-item"><input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="tomorrowEvening" data-idx="${i}"><button class="btn-small btn-danger" onclick="removePlanTask('tomorrowEvening', ${i})">🗑️</button></div>`).join('');
             
-            document.getElementById('editPlansContainer').innerHTML = `
-                <div class="plan-section">
-                    <div class="plan-time">🌅 СЕГОДНЯ УТРО (7:00)</div>
-                    ${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-                    <button class="btn-small btn-secondary" onclick="addPlanTask('todayMorning')">➕ Добавить</button>
-                    <div class="plan-time">🌙 СЕГОДНЯ ВЕЧЕР (20:00)</div>
-                    ${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-                    <button class="btn-small btn-secondary" onclick="addPlanTask('todayEvening')">➕ Добавить</button>
-                    <div class="plan-time">🌅 ЗАВТРА УТРО (7:00)</div>
-                    ${tomorrowMorningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-                    <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowMorning')">➕ Добавить</button>
-                    <div class="plan-time">🌙 ЗАВТРА ВЕЧЕР (20:00)</div>
-                    ${tomorrowEveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-                    <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowEvening')">➕ Добавить</button>
-                </div>
-            `;
+            const container = document.getElementById('editPlansContainer');
+            if (container) {
+                container.innerHTML = `
+                    <div class="plan-section">
+                        <div class="plan-time">🌅 СЕГОДНЯ УТРО (7:00)</div>
+                        ${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                        <button class="btn-small btn-secondary" onclick="addPlanTask('todayMorning')">➕ Добавить</button>
+                        <div class="plan-time">🌙 СЕГОДНЯ ВЕЧЕР (20:00)</div>
+                        ${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                        <button class="btn-small btn-secondary" onclick="addPlanTask('todayEvening')">➕ Добавить</button>
+                        <div class="plan-time">🌅 ЗАВТРА УТРО (7:00)</div>
+                        ${tomorrowMorningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                        <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowMorning')">➕ Добавить</button>
+                        <div class="plan-time">🌙 ЗАВТРА ВЕЧЕР (20:00)</div>
+                        ${tomorrowEveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                        <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowEvening')">➕ Добавить</button>
+                    </div>
+                `;
+            }
             showModal('editPlansModal');
         };
         
@@ -1702,21 +1883,27 @@
         function setupPlanTabs() {
             document.querySelectorAll('.plan-tab').forEach(btn => {
                 btn.addEventListener('click', function() {
-                    if (this.id === 'editPlansBtn') { window.showEditPlans(); return; }
+                    if (this.id === 'editPlansBtn') { 
+                        window.showEditPlans(); 
+                        return; 
+                    }
                     document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     const tasks = generateTasks();
                     const planType = this.getAttribute('data-plan');
+                    const container = document.getElementById('plansContainer');
+                    if (!container) return;
+                    
                     if (planType === 'today') {
-                        const morningHtml = tasks.todayMorning.map(t => `<div class="task-item"><input type="checkbox"><span class="task-text">${t}</span></div>`).join('');
-                        const eveningHtml = tasks.todayEvening.map(t => `<div class="task-item"><input type="checkbox"><span class="task-text">${t}</span></div>`).join('');
-                        document.getElementById('plansContainer').innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
+                        const morningHtml = tasks.todayMorning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
+                        const eveningHtml = tasks.todayEvening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
+                        container.innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
                     } else if (planType === 'tomorrow') {
-                        const morningHtml = tasks.tomorrowMorning.map(t => `<div class="task-item"><input type="checkbox"><span class="task-text">${t}</span></div>`).join('');
-                        const eveningHtml = tasks.tomorrowEvening.map(t => `<div class="task-item"><input type="checkbox"><span class="task-text">${t}</span></div>`).join('');
-                        document.getElementById('plansContainer').innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
+                        const morningHtml = tasks.tomorrowMorning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
+                        const eveningHtml = tasks.tomorrowEvening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${t}</span></div>`).join('');
+                        container.innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
                     } else if (planType === 'week') {
-                        document.getElementById('plansContainer').innerHTML = `<div class="plan-section"><div class="plan-time">📅 НЕДЕЛЬНЫЙ ПЛАН</div><div class="empty-state">✨ Добавьте задачи в редакторе</div></div>`;
+                        container.innerHTML = `<div class="plan-section"><div class="plan-time">📅 НЕДЕЛЬНЫЙ ПЛАН</div><div class="empty-state">✨ Добавьте задачи в редакторе</div></div>`;
                     }
                 });
             });
@@ -1727,22 +1914,29 @@
         function fillSelectors() {
             const cultureOptions = Object.keys(cultures).map(c => `<option>${c}</option>`).join('');
             const cultureSelects = ['partyCulture', 'editPartyCulture', 'orderCulture', 'editOrderCulture', 'saleCulture', 'editSaleCulture'];
-            cultureSelects.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = cultureOptions; });
+            cultureSelects.forEach(id => { 
+                const el = document.getElementById(id); 
+                if (el) el.innerHTML = cultureOptions; 
+            });
             
             const clientOptions = clients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
             const clientSelects = ['orderClient', 'editOrderClient', 'saleClient', 'editSaleClient'];
-            clientSelects.forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = clientOptions; });
+            clientSelects.forEach(id => { 
+                const el = document.getElementById(id); 
+                if (el) el.innerHTML = clientOptions; 
+            });
         }
         
         function updateWeightHint() {
-            const culture = document.getElementById('partyCulture').value;
-            const container = document.getElementById('partyContainer').value;
+            const culture = document.getElementById('partyCulture')?.value;
+            const container = document.getElementById('partyContainer')?.value;
             const c = cultures[culture];
-            if (c) {
+            const hintEl = document.getElementById('partyWeightHint');
+            if (c && hintEl) {
                 const norm = container === '15x11' ? c.norm15 : c.norm8;
-                document.getElementById('partyWeightHint').innerHTML = `📌 Рекомендация: ${norm}г (мин: ${Math.floor(norm * 0.8)}г, макс: ${Math.floor(norm * 1.2)}г)`;
-            } else {
-                document.getElementById('partyWeightHint').innerHTML = '';
+                hintEl.innerHTML = `📌 Рекомендация: ${norm}г (мин: ${Math.floor(norm * 0.8)}г, макс: ${Math.floor(norm * 1.2)}г)`;
+            } else if (hintEl) {
+                hintEl.innerHTML = '';
             }
         }
         
@@ -1750,12 +1944,13 @@
         
         document.getElementById('newPartyForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const culture = document.getElementById('partyCulture').value;
-            const weight = parseInt(document.getElementById('partyWeight').value);
-            const container = document.getElementById('partyContainer').value;
-            const dateSown = document.getElementById('partyDate').value;
-            const notes = document.getElementById('partyNotes').value;
+            const culture = document.getElementById('partyCulture')?.value;
+            const weight = parseInt(document.getElementById('partyWeight')?.value);
+            const container = document.getElementById('partyContainer')?.value;
+            const dateSown = document.getElementById('partyDate')?.value;
+            const notes = document.getElementById('partyNotes')?.value;
             if (!culture || !weight || !dateSown) { alert('Заполните обязательные поля'); return; }
+            if (weight <= 0) { alert('Вес должен быть больше 0'); return; }
             parties.push({ id: 'p' + Date.now(), culture, container, weight, dateSown, currentStage: 'zomachivanie', notes, createdAt: new Date().toISOString(), stages: { zomachivanie: new Date().toISOString() } });
             saveData();
             hideModal('newPartyModal');
@@ -1765,15 +1960,15 @@
         
         document.getElementById('editPartyForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editPartyId').value;
+            const id = document.getElementById('editPartyId')?.value;
             const party = parties.find(p => p.id === id);
             if (party) {
-                party.culture = document.getElementById('editPartyCulture').value;
-                party.weight = parseInt(document.getElementById('editPartyWeight').value);
-                party.dateSown = document.getElementById('editPartyDate').value;
-                party.container = document.getElementById('editPartyContainer').value;
-                party.currentStage = document.getElementById('editPartyStage').value;
-                party.notes = document.getElementById('editPartyNotes').value;
+                party.culture = document.getElementById('editPartyCulture')?.value;
+                party.weight = parseInt(document.getElementById('editPartyWeight')?.value);
+                party.dateSown = document.getElementById('editPartyDate')?.value;
+                party.container = document.getElementById('editPartyContainer')?.value;
+                party.currentStage = document.getElementById('editPartyStage')?.value;
+                party.notes = document.getElementById('editPartyNotes')?.value;
                 saveData();
                 hideModal('editPartyModal');
                 renderAll();
@@ -1782,9 +1977,9 @@
         
         document.getElementById('newOrderForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const clientId = document.getElementById('orderClient').value;
-            const date = document.getElementById('orderDate').value;
-            const notes = document.getElementById('orderNotes').value;
+            const clientId = document.getElementById('orderClient')?.value;
+            const date = document.getElementById('orderDate')?.value;
+            const notes = document.getElementById('orderNotes')?.value;
             if (!clientId || !date || currentOrderItems.length === 0) { alert('Заполните все поля и добавьте хотя бы одну позицию'); return; }
             const total = currentOrderItems.reduce((sum, item) => sum + (item.price || 0), 0);
             orders.push({ id: 'o' + Date.now(), clientId, date, items: [...currentOrderItems], total, paid: false, delivered: false, notes: notes || '' });
@@ -1797,14 +1992,14 @@
         
         document.getElementById('editOrderForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editOrderId').value;
+            const id = document.getElementById('editOrderId')?.value;
             const order = orders.find(o => o.id === id);
             if (order) {
-                order.clientId = document.getElementById('editOrderClient').value;
-                order.date = document.getElementById('editOrderDate').value;
+                order.clientId = document.getElementById('editOrderClient')?.value;
+                order.date = document.getElementById('editOrderDate')?.value;
                 order.items = [...currentEditOrderItems];
                 order.total = currentEditOrderItems.reduce((sum, item) => sum + (item.price || 0), 0);
-                order.notes = document.getElementById('editOrderNotes').value;
+                order.notes = document.getElementById('editOrderNotes')?.value;
                 saveData();
                 hideModal('editOrderModal');
                 renderAll();
@@ -1813,9 +2008,9 @@
         
         document.getElementById('newSaleForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const clientId = document.getElementById('saleClient').value;
-            const date = document.getElementById('saleDate').value;
-            const notes = document.getElementById('saleNotes').value;
+            const clientId = document.getElementById('saleClient')?.value;
+            const date = document.getElementById('saleDate')?.value;
+            const notes = document.getElementById('saleNotes')?.value;
             if (!clientId || !date || currentSaleItems.length === 0) { alert('Заполните все поля и добавьте хотя бы одну позицию'); return; }
             const total = currentSaleItems.reduce((sum, item) => sum + (item.amount || 0), 0);
             sales.push({ id: 's' + Date.now(), clientId, date, items: [...currentSaleItems], total, paid: false, notes: notes || '' });
@@ -1828,14 +2023,14 @@
         
         document.getElementById('editSaleForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editSaleId').value;
+            const id = document.getElementById('editSaleId')?.value;
             const sale = sales.find(s => s.id === id);
             if (sale) {
-                sale.clientId = document.getElementById('editSaleClient').value;
-                sale.date = document.getElementById('editSaleDate').value;
+                sale.clientId = document.getElementById('editSaleClient')?.value;
+                sale.date = document.getElementById('editSaleDate')?.value;
                 sale.items = [...currentEditSaleItems];
                 sale.total = currentEditSaleItems.reduce((sum, item) => sum + (item.amount || 0), 0);
-                sale.notes = document.getElementById('editSaleNotes').value;
+                sale.notes = document.getElementById('editSaleNotes')?.value;
                 saveData();
                 hideModal('editSaleModal');
                 renderAll();
@@ -1844,7 +2039,9 @@
         
         document.getElementById('newClientForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            clients.push({ id: 'c' + Date.now(), name: document.getElementById('clientName').value, place: document.getElementById('clientPlace').value, contact: document.getElementById('clientContact').value });
+            const name = document.getElementById('clientName')?.value;
+            if (!name) { alert('Введите имя клиента'); return; }
+            clients.push({ id: 'c' + Date.now(), name, place: document.getElementById('clientPlace')?.value || '', contact: document.getElementById('clientContact')?.value || '' });
             saveData();
             hideModal('newClientModal');
             renderClients();
@@ -1854,12 +2051,12 @@
         
         document.getElementById('editClientForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editClientId').value;
+            const id = document.getElementById('editClientId')?.value;
             const client = clients.find(c => c.id === id);
             if (client) {
-                client.name = document.getElementById('editClientName').value;
-                client.place = document.getElementById('editClientPlace').value;
-                client.contact = document.getElementById('editClientContact').value;
+                client.name = document.getElementById('editClientName')?.value;
+                client.place = document.getElementById('editClientPlace')?.value;
+                client.contact = document.getElementById('editClientContact')?.value;
                 saveData();
                 hideModal('editClientModal');
                 renderClients();
@@ -1869,7 +2066,16 @@
         
         document.getElementById('newExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            expenses.push({ id: 'e' + Date.now(), date: document.getElementById('expenseDate').value, category: document.getElementById('expenseCategory').value, name: document.getElementById('expenseName').value, amount: parseInt(document.getElementById('expenseAmount').value), details: document.getElementById('expenseDetails').value || '' });
+            const amount = parseInt(document.getElementById('expenseAmount')?.value);
+            if (!amount || amount <= 0) { alert('Введите корректную сумму'); return; }
+            expenses.push({ 
+                id: 'e' + Date.now(), 
+                date: document.getElementById('expenseDate')?.value, 
+                category: document.getElementById('expenseCategory')?.value, 
+                name: document.getElementById('expenseName')?.value, 
+                amount: amount, 
+                details: document.getElementById('expenseDetails')?.value || '' 
+            });
             saveData();
             hideModal('newExpenseModal');
             renderAll();
@@ -1878,14 +2084,14 @@
         
         document.getElementById('editExpenseForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editExpenseId').value;
+            const id = document.getElementById('editExpenseId')?.value;
             const expense = expenses.find(e => e.id === id);
             if (expense) {
-                expense.date = document.getElementById('editExpenseDate').value;
-                expense.category = document.getElementById('editExpenseCategory').value;
-                expense.name = document.getElementById('editExpenseName').value;
-                expense.amount = parseInt(document.getElementById('editExpenseAmount').value);
-                expense.details = document.getElementById('editExpenseDetails').value;
+                expense.date = document.getElementById('editExpenseDate')?.value;
+                expense.category = document.getElementById('editExpenseCategory')?.value;
+                expense.name = document.getElementById('editExpenseName')?.value;
+                expense.amount = parseInt(document.getElementById('editExpenseAmount')?.value);
+                expense.details = document.getElementById('editExpenseDetails')?.value;
                 saveData();
                 hideModal('editExpenseModal');
                 renderAll();
@@ -1894,7 +2100,12 @@
         
         document.getElementById('newAchievementForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            achievements.push({ id: 'a' + Date.now(), date: document.getElementById('achievementDate').value, description: document.getElementById('achievementDesc').value, category: document.getElementById('achievementCategory').value });
+            achievements.push({ 
+                id: 'a' + Date.now(), 
+                date: document.getElementById('achievementDate')?.value, 
+                description: document.getElementById('achievementDesc')?.value, 
+                category: document.getElementById('achievementCategory')?.value 
+            });
             saveData();
             hideModal('newAchievementModal');
             renderAchievements();
@@ -1903,12 +2114,12 @@
         
         document.getElementById('editAchievementForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const id = document.getElementById('editAchievementId').value;
+            const id = document.getElementById('editAchievementId')?.value;
             const achievement = achievements.find(a => a.id === id);
             if (achievement) {
-                achievement.date = document.getElementById('editAchievementDate').value;
-                achievement.description = document.getElementById('editAchievementDesc').value;
-                achievement.category = document.getElementById('editAchievementCategory').value;
+                achievement.date = document.getElementById('editAchievementDate')?.value;
+                achievement.description = document.getElementById('editAchievementDesc')?.value;
+                achievement.category = document.getElementById('editAchievementCategory')?.value;
                 saveData();
                 hideModal('editAchievementModal');
                 renderAchievements();
@@ -1917,9 +2128,17 @@
         
         document.getElementById('newCultureForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('cultureName').value.toLowerCase();
+            const name = document.getElementById('cultureName')?.value.toLowerCase();
+            if (!name) { alert('Введите название культуры'); return; }
             if (cultures[name]) { alert('Такая культура уже существует'); return; }
-            cultures[name] = { type: document.getElementById('cultureType').value, norm15: parseInt(document.getElementById('cultureNorm15').value), norm8: parseInt(document.getElementById('cultureNorm8').value), daysToReady: parseInt(document.getElementById('cultureDays').value), seedPrice: parseFloat(document.getElementById('cultureSeedPrice').value), instructions: document.getElementById('cultureInstructions').value };
+            cultures[name] = { 
+                type: document.getElementById('cultureType')?.value, 
+                norm15: parseInt(document.getElementById('cultureNorm15')?.value) || 25, 
+                norm8: parseInt(document.getElementById('cultureNorm8')?.value) || 4, 
+                daysToReady: parseInt(document.getElementById('cultureDays')?.value) || 7, 
+                seedPrice: parseFloat(document.getElementById('cultureSeedPrice')?.value) || 1, 
+                instructions: document.getElementById('cultureInstructions')?.value || '' 
+            };
             saveData();
             hideModal('newCultureModal');
             renderLibrary();
@@ -1929,8 +2148,15 @@
         
         document.getElementById('editCultureForm')?.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = document.getElementById('editCultureName').value;
-            cultures[name] = { type: document.getElementById('editCultureType').value, norm15: parseInt(document.getElementById('editCultureNorm15').value), norm8: parseInt(document.getElementById('editCultureNorm8').value), daysToReady: parseInt(document.getElementById('editCultureDays').value), seedPrice: parseFloat(document.getElementById('editCultureSeedPrice').value), instructions: document.getElementById('editCultureInstructions').value };
+            const name = document.getElementById('editCultureName')?.value;
+            cultures[name] = { 
+                type: document.getElementById('editCultureType')?.value, 
+                norm15: parseInt(document.getElementById('editCultureNorm15')?.value) || 25, 
+                norm8: parseInt(document.getElementById('editCultureNorm8')?.value) || 4, 
+                daysToReady: parseInt(document.getElementById('editCultureDays')?.value) || 7, 
+                seedPrice: parseFloat(document.getElementById('editCultureSeedPrice')?.value) || 1, 
+                instructions: document.getElementById('editCultureInstructions')?.value || '' 
+            };
             saveData();
             hideModal('editCultureModal');
             renderLibrary();
@@ -1942,27 +2168,47 @@
         
         window.showModal = function(id) {
             fillSelectors();
-            if (id === 'newPartyModal') document.getElementById('partyDate').value = new Date().toISOString().slice(0, 10);
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            
+            if (id === 'newPartyModal') {
+                const dateInput = document.getElementById('partyDate');
+                if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+            }
             if (id === 'newOrderModal') {
-                document.getElementById('orderDate').value = new Date().toISOString().slice(0, 10);
-                document.getElementById('orderNotes').value = '';
+                const dateInput = document.getElementById('orderDate');
+                if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+                const notesInput = document.getElementById('orderNotes');
+                if (notesInput) notesInput.value = '';
                 currentOrderItems = [];
                 renderOrderItems();
                 if (currentOrderItems.length === 0) addOrderItem();
             }
             if (id === 'newSaleModal') {
-                document.getElementById('saleDate').value = new Date().toISOString().slice(0, 10);
-                document.getElementById('saleNotes').value = '';
+                const dateInput = document.getElementById('saleDate');
+                if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+                const notesInput = document.getElementById('saleNotes');
+                if (notesInput) notesInput.value = '';
                 currentSaleItems = [];
                 renderSaleItems();
                 if (currentSaleItems.length === 0) addSaleItem();
             }
-            if (id === 'newExpenseModal') document.getElementById('expenseDate').value = new Date().toISOString().slice(0, 10);
-            if (id === 'newAchievementModal') document.getElementById('achievementDate').value = new Date().toISOString().slice(0, 10);
-            document.getElementById(id).style.display = 'block';
+            if (id === 'newExpenseModal') {
+                const dateInput = document.getElementById('expenseDate');
+                if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+            }
+            if (id === 'newAchievementModal') {
+                const dateInput = document.getElementById('achievementDate');
+                if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+            }
+            
+            modal.style.display = 'block';
         };
         
-        window.hideModal = function(id) { document.getElementById(id).style.display = 'none'; };
+        window.hideModal = function(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.style.display = 'none';
+        };
         
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1970,7 +2216,9 @@
                 document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
                 this.classList.add('active');
                 const section = this.getAttribute('data-section');
-                document.getElementById(section).classList.add('active');
+                const sectionEl = document.getElementById(section);
+                if (sectionEl) sectionEl.classList.add('active');
+                
                 if (section === 'dashboard') renderDashboard();
                 if (section === 'parties') renderParties();
                 if (section === 'orders') renderOrders();
@@ -1987,15 +2235,23 @@
                 const tasks = generateTasks();
                 const taskCount = tasks.todayMorning.length + tasks.todayEvening.length;
                 new Notification('VITARAY', { body: `У вас ${taskCount} задач на сегодня! Проверьте планы.` });
-            } else if (Notification.permission !== 'denied') { Notification.requestPermission(); }
+            } else if (Notification.permission !== 'denied') { 
+                Notification.requestPermission(); 
+            }
         });
         
         document.getElementById('resetAllDataBtn')?.addEventListener('click', resetAllData);
         document.getElementById('exportDataBtn')?.addEventListener('click', exportData);
+        document.getElementById('importDataBtn')?.addEventListener('click', importData);
+        document.getElementById('addTestDataBtn')?.addEventListener('click', addTestData);
         
         document.getElementById('partyCulture')?.addEventListener('change', updateWeightHint);
         document.getElementById('partyContainer')?.addEventListener('change', updateWeightHint);
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        
+        const currentDateEl = document.getElementById('currentDate');
+        if (currentDateEl) {
+            currentDateEl.innerText = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
         
         // Экспорт функций в глобальную область
         window.addOrderItem = addOrderItem;
@@ -2007,6 +2263,7 @@
         window.addEditSaleItem = addEditSaleItem;
         window.removeEditSaleItem = removeEditSaleItem;
         
+        // Инициализация
         loadData();
         fillSelectors();
         setupPlanTabs();
