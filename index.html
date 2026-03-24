@@ -20,7 +20,6 @@
             padding: 0 12px 80px;
         }
 
-        /* Header */
         .header {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             margin: 0 -12px 16px -12px;
@@ -45,11 +44,6 @@
             border-radius: 30px;
             font-size: 11px;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .notify-btn:active {
-            background: rgba(255,255,255,0.3);
         }
 
         .date-display {
@@ -58,7 +52,6 @@
             margin-top: 6px;
         }
 
-        /* Navigation */
         .nav {
             display: flex;
             gap: 6px;
@@ -78,21 +71,14 @@
             color: #2E7D32;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.2s;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .nav-btn.active {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
-            box-shadow: 0 2px 8px rgba(46,125,50,0.3);
         }
 
-        .nav-btn:active {
-            transform: scale(0.96);
-        }
-
-        /* Sections */
         .section {
             display: none;
             animation: fadeIn 0.3s;
@@ -107,7 +93,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Cards */
         .card {
             background: white;
             border-radius: 20px;
@@ -115,11 +100,6 @@
             margin-bottom: 12px;
             border: 1px solid #E8F5E9;
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            transition: transform 0.1s;
-        }
-
-        .card:active {
-            transform: scale(0.99);
         }
 
         .card-header {
@@ -143,7 +123,6 @@
             line-height: 1.4;
         }
 
-        /* Progress bar */
         .progress-bar {
             background: #E8F5E9;
             border-radius: 20px;
@@ -159,7 +138,6 @@
             transition: width 0.3s;
         }
 
-        /* Status badges */
         .status {
             padding: 3px 8px;
             border-radius: 30px;
@@ -179,7 +157,6 @@
         .status-srezka { background: #FCE4EC; color: #C2185B; }
         .status-sbor { background: #C8E6C9; color: #1B5E20; }
 
-        /* Buttons */
         .btn {
             background: linear-gradient(135deg, #2E7D32, #4CAF50);
             color: white;
@@ -191,12 +168,6 @@
             width: 100%;
             cursor: pointer;
             margin: 6px 0;
-            transition: all 0.2s;
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-            opacity: 0.9;
         }
 
         .btn-secondary {
@@ -225,7 +196,6 @@
             flex-wrap: wrap;
         }
 
-        /* Stats */
         .stats-row {
             display: flex;
             gap: 10px;
@@ -238,18 +208,12 @@
             padding: 10px;
             text-align: center;
             flex: 1;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .stat-number {
             font-size: 18px;
             font-weight: 800;
             color: #2E7D32;
-        }
-
-        .stat-label {
-            font-size: 9px;
-            color: #81C784;
         }
 
         .balance-card {
@@ -266,7 +230,6 @@
             font-weight: 800;
         }
 
-        /* Search */
         .search-input {
             width: 100%;
             padding: 8px 12px;
@@ -274,10 +237,8 @@
             border-radius: 30px;
             margin-bottom: 10px;
             font-size: 13px;
-            background: white;
         }
 
-        /* Plans tabs */
         .plans-tabs {
             display: flex;
             gap: 6px;
@@ -292,13 +253,11 @@
             border-radius: 30px;
             font-size: 12px;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .plan-tab.active {
             background: #2E7D32;
             color: white;
-            border-color: #2E7D32;
         }
 
         .plan-section {
@@ -335,7 +294,14 @@
             font-size: 12px;
         }
 
-        /* Modal */
+        .task-edit-input {
+            flex: 1;
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 1px solid #C8E6C9;
+            border-radius: 8px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -356,12 +322,6 @@
             padding: 20px;
             max-width: 500px;
             margin: 40px auto;
-            animation: slideUp 0.3s;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
 
         .modal-header {
@@ -377,10 +337,8 @@
             font-size: 24px;
             cursor: pointer;
             color: #999;
-            padding: 0 8px;
         }
 
-        /* Forms */
         .form-group {
             margin-bottom: 12px;
         }
@@ -399,12 +357,6 @@
             border: 1px solid #E8F5E9;
             border-radius: 12px;
             font-size: 13px;
-            background: white;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #4CAF50;
         }
 
         .empty-state {
@@ -414,33 +366,22 @@
             font-size: 12px;
         }
 
-        /* Utility */
-        .text-right {
-            text-align: right;
-        }
-
-        .mt-2 {
-            margin-top: 8px;
-        }
-
-        .mb-2 {
-            margin-bottom: 8px;
+        .recommendation {
+            font-size: 10px;
+            color: #81C784;
+            margin-top: 4px;
         }
 
         .reset-btn {
             background: #FFEBEE;
             color: #C62828;
             border: 1px solid #FFCDD2;
-            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>
-            🌱 VITARAY 
-            <button class="notify-btn" id="notifyBtn">🔔 Уведомления</button>
-        </h1>
+        <h1>🌱 VITARAY <button class="notify-btn" id="notifyBtn">🔔</button></h1>
         <div class="date-display" id="currentDate"></div>
     </div>
 
@@ -472,6 +413,7 @@
             <button class="plan-tab active" data-plan="today">📅 Сегодня</button>
             <button class="plan-tab" data-plan="tomorrow">📅 Завтра</button>
             <button class="plan-tab" data-plan="week">📅 Неделя</button>
+            <button class="plan-tab" id="editPlansBtn">✏️ Редактировать</button>
         </div>
         <div id="plansContainer"></div>
         
@@ -538,536 +480,120 @@
         </div>
     </section>
 
-    <!-- Modals -->
-    <div id="newPartyModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🌱 НОВАЯ ПАРТИЯ</h3>
-                <button class="close-btn" onclick="window.hideModal('newPartyModal')">×</button>
-            </div>
-            <form id="newPartyForm">
-                <div class="form-group">
-                    <label>Культура *</label>
-                    <select id="partyCulture" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес семян (г) *</label>
-                    <input type="number" id="partyWeight" required>
-                    <div id="partyWeightHint" style="font-size:10px;color:#81C784;"></div>
-                </div>
-                <div class="form-group">
-                    <label>Дата посева *</label>
-                    <input type="date" id="partyDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Контейнер</label>
-                    <select id="partyContainer">
-                        <option>15x11</option>
-                        <option>8x5</option>
-                        <option>Проращиватель</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки</label>
-                    <textarea id="partyNotes" rows="2"></textarea>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newPartyModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Создать</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <!-- Modals for CRUD operations -->
+    <div id="newPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ ПАРТИЯ</h3><button class="close-btn" onclick="window.hideModal('newPartyModal')">×</button></div>
+    <form id="newPartyForm"><div class="form-group"><label>Культура *</label><select id="partyCulture" required></select></div>
+    <div class="form-group"><label>Вес семян (г) *</label><input type="number" id="partyWeight" required><div id="partyWeightHint" class="recommendation"></div></div>
+    <div class="form-group"><label>Дата посева *</label><input type="date" id="partyDate" required></div>
+    <div class="form-group"><label>Контейнер</label><select id="partyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
+    <div class="form-group"><label>Заметки</label><textarea id="partyNotes" rows="2"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newPartyModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
 
-    <div id="editPartyModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ ПАРТИЮ</h3>
-                <button class="close-btn" onclick="window.hideModal('editPartyModal')">×</button>
-            </div>
-            <form id="editPartyForm">
-                <input type="hidden" id="editPartyId">
-                <div class="form-group">
-                    <label>Культура</label>
-                    <select id="editPartyCulture"></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес (г)</label>
-                    <input type="number" id="editPartyWeight">
-                </div>
-                <div class="form-group">
-                    <label>Дата посева</label>
-                    <input type="date" id="editPartyDate">
-                </div>
-                <div class="form-group">
-                    <label>Контейнер</label>
-                    <select id="editPartyContainer">
-                        <option>15x11</option>
-                        <option>8x5</option>
-                        <option>Проращиватель</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Этап</label>
-                    <select id="editPartyStage"></select>
-                </div>
-                <div class="form-group">
-                    <label>Заметки</label>
-                    <textarea id="editPartyNotes" rows="2"></textarea>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deletePartyFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editPartyModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editPartyModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПАРТИЮ</h3><button class="close-btn" onclick="window.hideModal('editPartyModal')">×</button></div>
+    <form id="editPartyForm"><input type="hidden" id="editPartyId"><div class="form-group"><label>Культура</label><select id="editPartyCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="editPartyWeight"></div>
+    <div class="form-group"><label>Дата посева</label><input type="date" id="editPartyDate"></div>
+    <div class="form-group"><label>Контейнер</label><select id="editPartyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
+    <div class="form-group"><label>Этап</label><select id="editPartyStage"></select></div>
+    <div class="form-group"><label>Заметки</label><textarea id="editPartyNotes" rows="2"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deletePartyFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editPartyModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newOrderModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📦 НОВЫЙ ЗАКАЗ</h3>
-                <button class="close-btn" onclick="window.hideModal('newOrderModal')">×</button>
-            </div>
-            <form id="newOrderForm">
-                <div class="form-group">
-                    <label>Клиент *</label>
-                    <select id="orderClient" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Дата *</label>
-                    <input type="date" id="orderDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Культура *</label>
-                    <select id="orderCulture" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес (г) *</label>
-                    <input type="number" id="orderWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Цена (₽) *</label>
-                    <input type="number" id="orderPrice" required>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newOrderModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Создать</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 НОВЫЙ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('newOrderModal')">×</button></div>
+    <form id="newOrderForm"><div class="form-group"><label>Клиент *</label><select id="orderClient" required></select></div>
+    <div class="form-group"><label>Дата *</label><input type="date" id="orderDate" required></div>
+    <div class="form-group"><label>Культура *</label><select id="orderCulture" required></select></div>
+    <div class="form-group"><label>Вес (г) *</label><input type="number" id="orderWeight" required></div>
+    <div class="form-group"><label>Цена (₽) *</label><input type="number" id="orderPrice" required></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newOrderModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
 
-    <div id="editOrderModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ ЗАКАЗ</h3>
-                <button class="close-btn" onclick="window.hideModal('editOrderModal')">×</button>
-            </div>
-            <form id="editOrderForm">
-                <input type="hidden" id="editOrderId">
-                <div class="form-group">
-                    <label>Клиент</label>
-                    <select id="editOrderClient"></select>
-                </div>
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input type="date" id="editOrderDate">
-                </div>
-                <div class="form-group">
-                    <label>Культура</label>
-                    <select id="editOrderCulture"></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес (г)</label>
-                    <input type="number" id="editOrderWeight">
-                </div>
-                <div class="form-group">
-                    <label>Цена (₽)</label>
-                    <input type="number" id="editOrderPrice">
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteOrderFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editOrderModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editOrderModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('editOrderModal')">×</button></div>
+    <form id="editOrderForm"><input type="hidden" id="editOrderId"><div class="form-group"><label>Клиент</label><select id="editOrderClient"></select></div>
+    <div class="form-group"><label>Дата</label><input type="date" id="editOrderDate"></div>
+    <div class="form-group"><label>Культура</label><select id="editOrderCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="editOrderWeight"></div>
+    <div class="form-group"><label>Цена (₽)</label><input type="number" id="editOrderPrice"></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteOrderFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editOrderModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>💰 НОВАЯ ПРОДАЖА</h3>
-                <button class="close-btn" onclick="window.hideModal('newSaleModal')">×</button>
-            </div>
-            <form id="newSaleForm">
-                <div class="form-group">
-                    <label>Клиент *</label>
-                    <select id="saleClient" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Дата *</label>
-                    <input type="date" id="saleDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Культура *</label>
-                    <select id="saleCulture" required></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес (г) *</label>
-                    <input type="number" id="saleWeight" required>
-                </div>
-                <div class="form-group">
-                    <label>Сумма (₽) *</label>
-                    <input type="number" id="saleAmount" required>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newSaleModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Записать</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💰 НОВАЯ ПРОДАЖА</h3><button class="close-btn" onclick="window.hideModal('newSaleModal')">×</button></div>
+    <form id="newSaleForm"><div class="form-group"><label>Клиент *</label><select id="saleClient" required></select></div>
+    <div class="form-group"><label>Дата *</label><input type="date" id="saleDate" required></div>
+    <div class="form-group"><label>Культура *</label><select id="saleCulture" required></select></div>
+    <div class="form-group"><label>Вес (г) *</label><input type="number" id="saleWeight" required></div>
+    <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="saleAmount" required></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newSaleModal')">Отмена</button><button type="submit" class="btn-small">Записать</button></div></form></div></div>
 
-    <div id="editSaleModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ ПРОДАЖУ</h3>
-                <button class="close-btn" onclick="window.hideModal('editSaleModal')">×</button>
-            </div>
-            <form id="editSaleForm">
-                <input type="hidden" id="editSaleId">
-                <div class="form-group">
-                    <label>Клиент</label>
-                    <select id="editSaleClient"></select>
-                </div>
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input type="date" id="editSaleDate">
-                </div>
-                <div class="form-group">
-                    <label>Культура</label>
-                    <select id="editSaleCulture"></select>
-                </div>
-                <div class="form-group">
-                    <label>Вес (г)</label>
-                    <input type="number" id="editSaleWeight">
-                </div>
-                <div class="form-group">
-                    <label>Сумма (₽)</label>
-                    <input type="number" id="editSaleAmount">
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteSaleFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editSaleModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editSaleModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПРОДАЖУ</h3><button class="close-btn" onclick="window.hideModal('editSaleModal')">×</button></div>
+    <form id="editSaleForm"><input type="hidden" id="editSaleId"><div class="form-group"><label>Клиент</label><select id="editSaleClient"></select></div>
+    <div class="form-group"><label>Дата</label><input type="date" id="editSaleDate"></div>
+    <div class="form-group"><label>Культура</label><select id="editSaleCulture"></select></div>
+    <div class="form-group"><label>Вес (г)</label><input type="number" id="editSaleWeight"></div>
+    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editSaleAmount"></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteSaleFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editSaleModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newClientModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>👥 НОВЫЙ КЛИЕНТ</h3>
-                <button class="close-btn" onclick="window.hideModal('newClientModal')">×</button>
-            </div>
-            <form id="newClientForm">
-                <div class="form-group">
-                    <label>Имя *</label>
-                    <input type="text" id="clientName" required>
-                </div>
-                <div class="form-group">
-                    <label>Место</label>
-                    <input type="text" id="clientPlace">
-                </div>
-                <div class="form-group">
-                    <label>Контакт</label>
-                    <input type="text" id="clientContact">
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newClientModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Добавить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>👥 НОВЫЙ КЛИЕНТ</h3><button class="close-btn" onclick="window.hideModal('newClientModal')">×</button></div>
+    <form id="newClientForm"><div class="form-group"><label>Имя *</label><input type="text" id="clientName" required></div>
+    <div class="form-group"><label>Место</label><input type="text" id="clientPlace"></div>
+    <div class="form-group"><label>Контакт</label><input type="text" id="clientContact"></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newClientModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="editClientModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ КЛИЕНТА</h3>
-                <button class="close-btn" onclick="window.hideModal('editClientModal')">×</button>
-            </div>
-            <form id="editClientForm">
-                <input type="hidden" id="editClientId">
-                <div class="form-group">
-                    <label>Имя</label>
-                    <input type="text" id="editClientName">
-                </div>
-                <div class="form-group">
-                    <label>Место</label>
-                    <input type="text" id="editClientPlace">
-                </div>
-                <div class="form-group">
-                    <label>Контакт</label>
-                    <input type="text" id="editClientContact">
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteClientFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editClientModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editClientModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ КЛИЕНТА</h3><button class="close-btn" onclick="window.hideModal('editClientModal')">×</button></div>
+    <form id="editClientForm"><input type="hidden" id="editClientId"><div class="form-group"><label>Имя</label><input type="text" id="editClientName"></div>
+    <div class="form-group"><label>Место</label><input type="text" id="editClientPlace"></div>
+    <div class="form-group"><label>Контакт</label><input type="text" id="editClientContact"></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteClientFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editClientModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newExpenseModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>💸 НОВЫЙ РАСХОД</h3>
-                <button class="close-btn" onclick="window.hideModal('newExpenseModal')">×</button>
-            </div>
-            <form id="newExpenseForm">
-                <div class="form-group">
-                    <label>Дата *</label>
-                    <input type="date" id="expenseDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Категория *</label>
-                    <select id="expenseCategory">
-                        <option>Семена</option>
-                        <option>Контейнеры</option>
-                        <option>Субстрат</option>
-                        <option>Оборудование</option>
-                        <option>Упаковка</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Наименование *</label>
-                    <input type="text" id="expenseName" required>
-                </div>
-                <div class="form-group">
-                    <label>Сумма (₽) *</label>
-                    <input type="number" id="expenseAmount" required>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newExpenseModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Добавить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>💸 НОВЫЙ РАСХОД</h3><button class="close-btn" onclick="window.hideModal('newExpenseModal')">×</button></div>
+    <form id="newExpenseForm"><div class="form-group"><label>Дата *</label><input type="date" id="expenseDate" required></div>
+    <div class="form-group"><label>Категория *</label><select id="expenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option><option>Упаковка</option></select></div>
+    <div class="form-group"><label>Наименование *</label><input type="text" id="expenseName" required></div>
+    <div class="form-group"><label>Сумма (₽) *</label><input type="number" id="expenseAmount" required></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newExpenseModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="editExpenseModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ РАСХОД</h3>
-                <button class="close-btn" onclick="window.hideModal('editExpenseModal')">×</button>
-            </div>
-            <form id="editExpenseForm">
-                <input type="hidden" id="editExpenseId">
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input type="date" id="editExpenseDate">
-                </div>
-                <div class="form-group">
-                    <label>Категория</label>
-                    <select id="editExpenseCategory">
-                        <option>Семена</option>
-                        <option>Контейнеры</option>
-                        <option>Субстрат</option>
-                        <option>Оборудование</option>
-                        <option>Упаковка</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Наименование</label>
-                    <input type="text" id="editExpenseName">
-                </div>
-                <div class="form-group">
-                    <label>Сумма (₽)</label>
-                    <input type="number" id="editExpenseAmount">
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteExpenseFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editExpenseModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editExpenseModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ РАСХОД</h3><button class="close-btn" onclick="window.hideModal('editExpenseModal')">×</button></div>
+    <form id="editExpenseForm"><input type="hidden" id="editExpenseId"><div class="form-group"><label>Дата</label><input type="date" id="editExpenseDate"></div>
+    <div class="form-group"><label>Категория</label><select id="editExpenseCategory"><option>Семена</option><option>Контейнеры</option><option>Субстрат</option><option>Оборудование</option><option>Упаковка</option></select></div>
+    <div class="form-group"><label>Наименование</label><input type="text" id="editExpenseName"></div>
+    <div class="form-group"><label>Сумма (₽)</label><input type="number" id="editExpenseAmount"></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteExpenseFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editExpenseModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newAchievementModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3>
-                <button class="close-btn" onclick="window.hideModal('newAchievementModal')">×</button>
-            </div>
-            <form id="newAchievementForm">
-                <div class="form-group">
-                    <label>Дата *</label>
-                    <input type="date" id="achievementDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Описание *</label>
-                    <textarea id="achievementDesc" rows="2" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Категория *</label>
-                    <select id="achievementCategory">
-                        <option>Продажи</option>
-                        <option>Производство</option>
-                        <option>Клиенты</option>
-                    </select>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newAchievementModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Добавить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🏆 НОВОЕ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="window.hideModal('newAchievementModal')">×</button></div>
+    <form id="newAchievementForm"><div class="form-group"><label>Дата *</label><input type="date" id="achievementDate" required></div>
+    <div class="form-group"><label>Описание *</label><textarea id="achievementDesc" rows="2" required></textarea></div>
+    <div class="form-group"><label>Категория *</label><select id="achievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newAchievementModal')">Отмена</button><button type="submit" class="btn-small">Добавить</button></div></form></div></div>
 
-    <div id="editAchievementModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ ДОСТИЖЕНИЕ</h3>
-                <button class="close-btn" onclick="window.hideModal('editAchievementModal')">×</button>
-            </div>
-            <form id="editAchievementForm">
-                <input type="hidden" id="editAchievementId">
-                <div class="form-group">
-                    <label>Дата</label>
-                    <input type="date" id="editAchievementDate">
-                </div>
-                <div class="form-group">
-                    <label>Описание</label>
-                    <textarea id="editAchievementDesc" rows="2"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Категория</label>
-                    <select id="editAchievementCategory">
-                        <option>Продажи</option>
-                        <option>Производство</option>
-                        <option>Клиенты</option>
-                    </select>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteAchievementFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editAchievementModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editAchievementModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ДОСТИЖЕНИЕ</h3><button class="close-btn" onclick="window.hideModal('editAchievementModal')">×</button></div>
+    <form id="editAchievementForm"><input type="hidden" id="editAchievementId"><div class="form-group"><label>Дата</label><input type="date" id="editAchievementDate"></div>
+    <div class="form-group"><label>Описание</label><textarea id="editAchievementDesc" rows="2"></textarea></div>
+    <div class="form-group"><label>Категория</label><select id="editAchievementCategory"><option>Продажи</option><option>Производство</option><option>Клиенты</option></select></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteAchievementFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editAchievementModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="newCultureModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>🌱 НОВАЯ КУЛЬТУРА</h3>
-                <button class="close-btn" onclick="window.hideModal('newCultureModal')">×</button>
-            </div>
-            <form id="newCultureForm">
-                <div class="form-group">
-                    <label>Название *</label>
-                    <input type="text" id="cultureName" required>
-                </div>
-                <div class="form-group">
-                    <label>Тип *</label>
-                    <select id="cultureType">
-                        <option value="microgreen">Микрозелень (5 этапов)</option>
-                        <option value="sprouts">Проростки (3 этапа)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Норма 15×11 (г)</label>
-                    <input type="number" id="cultureNorm15" value="25">
-                </div>
-                <div class="form-group">
-                    <label>Норма 8×5 (г)</label>
-                    <input type="number" id="cultureNorm8" value="4">
-                </div>
-                <div class="form-group">
-                    <label>Дней до готовности</label>
-                    <input type="number" id="cultureDays" value="7">
-                </div>
-                <div class="form-group">
-                    <label>Цена семян (₽/г)</label>
-                    <input type="number" step="0.01" id="cultureSeedPrice" value="1">
-                </div>
-                <div class="form-group">
-                    <label>Инструкция</label>
-                    <textarea id="cultureInstructions" rows="3"></textarea>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newCultureModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Создать</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="newCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>🌱 НОВАЯ КУЛЬТУРА</h3><button class="close-btn" onclick="window.hideModal('newCultureModal')">×</button></div>
+    <form id="newCultureForm"><div class="form-group"><label>Название *</label><input type="text" id="cultureName" required></div>
+    <div class="form-group"><label>Тип *</label><select id="cultureType"><option value="microgreen">Микрозелень (5 этапов)</option><option value="sprouts">Проростки (3 этапа)</option></select></div>
+    <div class="form-group"><label>Норма 15×11 (г)</label><input type="number" id="cultureNorm15" value="25"></div>
+    <div class="form-group"><label>Норма 8×5 (г)</label><input type="number" id="cultureNorm8" value="4"></div>
+    <div class="form-group"><label>Дней до готовности</label><input type="number" id="cultureDays" value="7"></div>
+    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" step="0.01" id="cultureSeedPrice" value="1"></div>
+    <div class="form-group"><label>Инструкция</label><textarea id="cultureInstructions" rows="3"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('newCultureModal')">Отмена</button><button type="submit" class="btn-small">Создать</button></div></form></div></div>
 
-    <div id="editCultureModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>✏️ РЕДАКТИРОВАТЬ КУЛЬТУРУ</h3>
-                <button class="close-btn" onclick="window.hideModal('editCultureModal')">×</button>
-            </div>
-            <form id="editCultureForm">
-                <input type="hidden" id="editCultureName">
-                <div class="form-group">
-                    <label>Тип</label>
-                    <select id="editCultureType">
-                        <option value="microgreen">Микрозелень</option>
-                        <option value="sprouts">Проростки</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Норма 15×11 (г)</label>
-                    <input type="number" id="editCultureNorm15">
-                </div>
-                <div class="form-group">
-                    <label>Норма 8×5 (г)</label>
-                    <input type="number" id="editCultureNorm8">
-                </div>
-                <div class="form-group">
-                    <label>Дней до готовности</label>
-                    <input type="number" id="editCultureDays">
-                </div>
-                <div class="form-group">
-                    <label>Цена семян (₽/г)</label>
-                    <input type="number" step="0.01" id="editCultureSeedPrice">
-                </div>
-                <div class="form-group">
-                    <label>Инструкция</label>
-                    <textarea id="editCultureInstructions" rows="3"></textarea>
-                </div>
-                <div class="flex-btns">
-                    <button type="button" class="btn-danger btn-small" onclick="window.deleteCultureFromModal()">🗑️ Удалить</button>
-                    <button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editCultureModal')">Отмена</button>
-                    <button type="submit" class="btn-small">Сохранить</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="editCultureModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ КУЛЬТУРУ</h3><button class="close-btn" onclick="window.hideModal('editCultureModal')">×</button></div>
+    <form id="editCultureForm"><input type="hidden" id="editCultureName"><div class="form-group"><label>Тип</label><select id="editCultureType"><option value="microgreen">Микрозелень</option><option value="sprouts">Проростки</option></select></div>
+    <div class="form-group"><label>Норма 15×11 (г)</label><input type="number" id="editCultureNorm15"></div>
+    <div class="form-group"><label>Норма 8×5 (г)</label><input type="number" id="editCultureNorm8"></div>
+    <div class="form-group"><label>Дней до готовности</label><input type="number" id="editCultureDays"></div>
+    <div class="form-group"><label>Цена семян (₽/г)</label><input type="number" step="0.01" id="editCultureSeedPrice"></div>
+    <div class="form-group"><label>Инструкция</label><textarea id="editCultureInstructions" rows="3"></textarea></div>
+    <div class="flex-btns"><button type="button" class="btn-danger btn-small" onclick="window.deleteCultureFromModal()">🗑️ Удалить</button><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('editCultureModal')">Отмена</button><button type="submit" class="btn-small">Сохранить</button></div></form></div></div>
 
-    <div id="clientHistoryModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📋 ИСТОРИЯ КЛИЕНТА</h3>
-                <button class="close-btn" onclick="window.hideModal('clientHistoryModal')">×</button>
-            </div>
-            <div id="clientHistoryContent"></div>
-        </div>
-    </div>
+    <div id="editPlansModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>✏️ РЕДАКТИРОВАТЬ ПЛАНЫ</h3><button class="close-btn" onclick="window.hideModal('editPlansModal')">×</button></div>
+    <div id="editPlansContainer"></div><div class="flex-btns"><button class="btn-secondary btn-small" onclick="window.savePlans()">💾 Сохранить</button></div></div></div>
+
+    <div id="clientHistoryModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📋 ИСТОРИЯ КЛИЕНТА</h3><button class="close-btn" onclick="window.hideModal('clientHistoryModal')">×</button></div><div id="clientHistoryContent"></div></div></div>
 
     <script>
-        // ==================== ИНИЦИАЛИЗАЦИЯ ДАННЫХ ====================
-        
-        // Основные хранилища
+        // ==================== ДАННЫЕ (ПУСТЫЕ) ====================
         let parties = [];
         let orders = [];
         let sales = [];
@@ -1075,170 +601,57 @@
         let achievements = [];
         let clients = [];
         
-        // Библиотека культур (начальные данные)
-        let cultures = {
-            "горох": {
-                type: "microgreen",
-                norm15: 25,
-                norm8: 4,
-                daysToReady: 10,
-                seedPrice: 0.163,
-                instructions: "1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день"
-            },
-            "редис": {
-                type: "microgreen",
-                norm15: 4,
-                norm8: 2,
-                daysToReady: 8,
-                seedPrice: 3.92,
-                instructions: "1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день"
-            },
-            "маш": {
-                type: "sprouts",
-                norm15: 25,
-                norm8: 4,
-                daysToReady: 6,
-                seedPrice: 0.204,
-                instructions: "1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день"
-            },
-            "нут": {
-                type: "sprouts",
-                norm15: 30,
-                norm8: 5,
-                daysToReady: 5,
-                seedPrice: 0.116,
-                instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день"
-            },
-            "соя": {
-                type: "sprouts",
-                norm15: 30,
-                norm8: 5,
-                daysToReady: 6,
-                seedPrice: 0.44,
-                instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день"
-            },
-            "горчица": {
-                type: "microgreen",
-                norm15: 6,
-                norm8: 1.5,
-                daysToReady: 7,
-                seedPrice: 0.258,
-                instructions: "1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день"
-            }
+        // Базовая библиотека культур (можно добавить свои)
+        let cultures = {};
+        
+        // Кастомные планы (редактируемые)
+        let customPlans = {
+            todayMorning: [],
+            todayEvening: [],
+            tomorrowMorning: [],
+            tomorrowEvening: [],
+            weekTasks: {}
         };
-        
-        // Начальные данные клиентов (25 человек)
-        const defaultClients = [
-            { id: "c1", name: "ЯМАНАСИ", place: "Ул красных Партизан 1/4к9", contact: "Анатолий" },
-            { id: "c2", name: "Ежкин кот", place: "КП 1/4к9", contact: "+7 989 228 4153, Елизавета" },
-            { id: "c3", name: "Казарян", place: "МОН", contact: "305" },
-            { id: "c4", name: "Денисова", place: "МОН", contact: "305" },
-            { id: "c5", name: "Наташа", place: "МОН", contact: "403" },
-            { id: "c6", name: "Терещенко", place: "МОН", contact: "305" },
-            { id: "c7", name: "Карибова", place: "МОН", contact: "315" },
-            { id: "c8", name: "Савченко", place: "МОН", contact: "311" },
-            { id: "c9", name: "Кирьян Света", place: "МОН", contact: "304" },
-            { id: "c10", name: "Валерия", place: "МОН", contact: "303" },
-            { id: "c11", name: "Настена", place: "МОН", contact: "406" },
-            { id: "c12", name: "Полихраниди", place: "МОН", contact: "304" },
-            { id: "c13", name: "Бескаравайная", place: "МОН", contact: "311" },
-            { id: "c14", name: "Рыбина", place: "МОН", contact: "404" },
-            { id: "c15", name: "Журавлева", place: "МОН", contact: "404" },
-            { id: "c16", name: "Глебова", place: "МОН", contact: "206" },
-            { id: "c17", name: "Фатима", place: "МОН", contact: "403" },
-            { id: "c18", name: "Берестова", place: "МОН", contact: "205" },
-            { id: "c19", name: "Олар", place: "МОН", contact: "205" },
-            { id: "c20", name: "Лопин", place: "МОН", contact: "205" },
-            { id: "c21", name: "Токарева", place: "МОН", contact: "205" },
-            { id: "c22", name: "Тоня", place: "МОН", contact: "403" },
-            { id: "c23", name: "Буробина", place: "МОН", contact: "315" },
-            { id: "c24", name: "Пустовойт", place: "МОН", contact: "410" },
-            { id: "c25", name: "Екатерина", place: "Дальний проезд 3", contact: "89182860856" }
-        ];
-        
-        // Начальные данные достижений (9 штук)
-        const defaultAchievements = [
-            { id: "a1", date: "2025-11-06", description: "Рождение бизнес-идеи по производству маша", category: "Производство" },
-            { id: "a2", date: "2025-11-07", description: "Приобрела первый маш (нашла в Фермере)", category: "Производство" },
-            { id: "a3", date: "2025-11-29", description: "Написала небольшому ресторану и отдала пробную порцию!", category: "Продажи" },
-            { id: "a4", date: "2025-11-29", description: "Встала напротив пекарни и предлагала людям продегустировать", category: "Клиенты" },
-            { id: "a5", date: "2025-12-05", description: "Отдала 425г по Министерству нут. Заказали 700г на понедельник!", category: "Продажи" },
-            { id: "a6", date: "2025-12-06", description: "Взяла контактный номер управляющего ресторана!", category: "Клиенты" },
-            { id: "a7", date: "2025-12-07", description: "ЯМАНАСИ заказали еще 200г. Сделала за месяц 6 тысяч рублей!!!", category: "Продажи" },
-            { id: "a8", date: "2025-12-11", description: "Придумала идею! Я буду делать готовые чипсы!", category: "Производство" },
-            { id: "a9", date: "2026-03-21", description: "Возможно буду сотрудничать с зоомагазином «Ежкин кот». Отдала солянку из нута, гороха и редиса.", category: "Клиенты" }
-        ];
-        
-        // Начальные данные расходов (18 штук)
-        const defaultExpenses = [
-            { id: "e1", date: "2025-11-07", category: "Семена", name: "Маш 1кг", amount: 220, details: "" },
-            { id: "e2", date: "2025-11-10", category: "Семена", name: "Нут 1кг", amount: 150, details: "" },
-            { id: "e3", date: "2025-11-15", category: "Контейнеры", name: "Контейнеры 15×11 (10шт)", amount: 450, details: "" },
-            { id: "e4", date: "2025-11-20", category: "Оборудование", name: "Фитосветильник", amount: 1200, details: "" },
-            { id: "e5", date: "2025-11-25", category: "Семена", name: "Горох 1кг", amount: 180, details: "" },
-            { id: "e6", date: "2025-11-28", category: "Субстрат", name: "Джутовые коврики (5шт)", amount: 350, details: "" },
-            { id: "e7", date: "2025-12-01", category: "Семена", name: "Редис 200г", amount: 800, details: "" },
-            { id: "e8", date: "2025-12-05", category: "Упаковка", name: "Наклейки", amount: 300, details: "" },
-            { id: "e9", date: "2025-12-10", category: "Семена", name: "Соя 500г", amount: 250, details: "" },
-            { id: "e10", date: "2025-12-15", category: "Контейнеры", name: "Контейнеры 8×5 (20шт)", amount: 400, details: "" },
-            { id: "e11", date: "2025-12-20", category: "Оборудование", name: "Пульверизатор", amount: 150, details: "" },
-            { id: "e12", date: "2025-12-25", category: "Семена", name: "Горчица 200г", amount: 520, details: "" },
-            { id: "e13", date: "2026-01-05", category: "Семена", name: "Маш 2кг", amount: 440, details: "" },
-            { id: "e14", date: "2026-01-15", category: "Субстрат", name: "Джутовые коврики (10шт)", amount: 700, details: "" },
-            { id: "e15", date: "2026-02-01", category: "Оборудование", name: "Весы кухонные", amount: 500, details: "" },
-            { id: "e16", date: "2026-02-10", category: "Семена", name: "Нут 2кг", amount: 300, details: "" },
-            { id: "e17", date: "2026-02-20", category: "Упаковка", name: "Пакеты для упаковки", amount: 250, details: "" },
-            { id: "e18", date: "2026-03-01", category: "Семена", name: "Горох 2кг", amount: 360, details: "" }
-        ];
-        
-        // Начальные данные продаж (упрощенные, 96 штук - создадим несколько примеров)
-        const defaultSales = [
-            { id: "s1", clientId: "c1", date: "2025-12-05", culture: "нут", weight: 425, amount: 425, paid: true },
-            { id: "s2", clientId: "c1", date: "2025-12-07", culture: "горох", weight: 200, amount: 200, paid: true },
-            { id: "s3", clientId: "c2", date: "2025-12-10", culture: "маш", weight: 150, amount: 150, paid: true },
-            { id: "s4", clientId: "c3", date: "2025-12-12", culture: "редис", weight: 80, amount: 240, paid: true },
-            { id: "s5", clientId: "c4", date: "2025-12-15", culture: "соя", weight: 100, amount: 100, paid: true },
-            { id: "s6", clientId: "c5", date: "2025-12-18", culture: "горох", weight: 150, amount: 150, paid: true },
-            { id: "s7", clientId: "c1", date: "2025-12-20", culture: "нут", weight: 300, amount: 300, paid: true },
-            { id: "s8", clientId: "c6", date: "2025-12-22", culture: "маш", weight: 200, amount: 200, paid: false },
-            { id: "s9", clientId: "c7", date: "2025-12-25", culture: "горчица", weight: 50, amount: 150, paid: true },
-            { id: "s10", clientId: "c8", date: "2025-12-28", culture: "соя", weight: 120, amount: 120, paid: true }
-        ];
-        
-        // Начальные данные заказов
-        const defaultOrders = [
-            { id: "o1", clientId: "c1", date: "2025-12-07", culture: "горох", weight: 200, price: 200, paid: true, delivered: true },
-            { id: "o2", clientId: "c1", date: "2025-12-20", culture: "нут", weight: 300, price: 300, paid: true, delivered: true },
-            { id: "o3", clientId: "c3", date: "2025-12-12", culture: "редис", weight: 80, price: 240, paid: true, delivered: true }
-        ];
         
         // ==================== РАБОТА С ХРАНИЛИЩЕМ ====================
         
         function loadData() {
-            // Загрузка данных из localStorage или инициализация по умолчанию
             let p = localStorage.getItem('vitaray_parties');
             parties = p ? JSON.parse(p) : [];
             
             let o = localStorage.getItem('vitaray_orders');
-            orders = o ? JSON.parse(o) : [...defaultOrders];
+            orders = o ? JSON.parse(o) : [];
             
             let s = localStorage.getItem('vitaray_sales');
-            sales = s ? JSON.parse(s) : [...defaultSales];
+            sales = s ? JSON.parse(s) : [];
             
             let c = localStorage.getItem('vitaray_clients');
-            clients = c ? JSON.parse(c) : [...defaultClients];
+            clients = c ? JSON.parse(c) : [];
             
             let e = localStorage.getItem('vitaray_expenses');
-            expenses = e ? JSON.parse(e) : [...defaultExpenses];
+            expenses = e ? JSON.parse(e) : [];
             
             let a = localStorage.getItem('vitaray_achievements');
-            achievements = a ? JSON.parse(a) : [...defaultAchievements];
+            achievements = a ? JSON.parse(a) : [];
             
             let cu = localStorage.getItem('vitaray_cultures');
             if (cu) cultures = JSON.parse(cu);
             
-            // Автоматическое обновление этапов партий по датам
-            updatePartiesStages();
+            let cp = localStorage.getItem('vitaray_customPlans');
+            if (cp) customPlans = JSON.parse(cp);
+            
+            // Если библиотека пустая, добавляем базовые культуры
+            if (Object.keys(cultures).length === 0) {
+                cultures = {
+                    "горох": { type: "microgreen", norm15: 25, norm8: 4, daysToReady: 10, seedPrice: 0.163, instructions: "1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день" },
+                    "редис": { type: "microgreen", norm15: 4, norm8: 2, daysToReady: 8, seedPrice: 3.92, instructions: "1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день" },
+                    "маш": { type: "sprouts", norm15: 25, norm8: 4, daysToReady: 6, seedPrice: 0.204, instructions: "1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
+                    "нут": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 5, seedPrice: 0.116, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день" },
+                    "соя": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 6, seedPrice: 0.44, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
+                    "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, daysToReady: 7, seedPrice: 0.258, instructions: "1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день" }
+                };
+                saveData();
+            }
         }
         
         function saveData() {
@@ -1249,58 +662,37 @@
             localStorage.setItem('vitaray_expenses', JSON.stringify(expenses));
             localStorage.setItem('vitaray_achievements', JSON.stringify(achievements));
             localStorage.setItem('vitaray_cultures', JSON.stringify(cultures));
+            localStorage.setItem('vitaray_customPlans', JSON.stringify(customPlans));
         }
         
         function resetAllData() {
-            if (confirm('⚠️ ВНИМАНИЕ! Это действие удалит ВСЕ данные (партии, заказы, продажи, клиентов, расходы, достижения).\n\nВы уверены?')) {
+            if (confirm('⚠️ ВНИМАНИЕ! Это действие удалит ВСЕ данные. Вы уверены?')) {
                 if (confirm('Последнее предупреждение! Данные будут удалены без возможности восстановления. Продолжить?')) {
-                    // Очищаем все хранилища
-                    localStorage.removeItem('vitaray_parties');
-                    localStorage.removeItem('vitaray_orders');
-                    localStorage.removeItem('vitaray_sales');
-                    localStorage.removeItem('vitaray_clients');
-                    localStorage.removeItem('vitaray_expenses');
-                    localStorage.removeItem('vitaray_achievements');
-                    localStorage.removeItem('vitaray_cultures');
-                    
-                    // Перезагружаем начальные данные
+                    localStorage.clear();
                     parties = [];
-                    orders = [...defaultOrders];
-                    sales = [...defaultSales];
-                    clients = [...defaultClients];
-                    expenses = [...defaultExpenses];
-                    achievements = [...defaultAchievements];
-                    
-                    // Сбрасываем культуры к начальным
-                    cultures = {
-                        "горох": { type: "microgreen", norm15: 25, norm8: 4, daysToReady: 10, seedPrice: 0.163, instructions: "1. Замочить 12ч с перекисью\n2. Посеять с грузом 1.5кг\n3. В темноте 3-4 дня\n4. Под лампу 14ч\n5. Срезка 7-10 день" },
-                        "редис": { type: "microgreen", norm15: 4, norm8: 2, daysToReady: 8, seedPrice: 3.92, instructions: "1. Замочить 5-6ч с перекисью\n2. Посеять без груза\n3. В темноте 2-3 дня\n4. Под лампу 12ч\n5. Срезка 7-9 день" },
-                        "маш": { type: "sprouts", norm15: 25, norm8: 4, daysToReady: 6, seedPrice: 0.204, instructions: "1. Замочить 8-10ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
-                        "нут": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 5, seedPrice: 0.116, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Промывать 2р/день\n4. Срезка 3-5 день" },
-                        "соя": { type: "sprouts", norm15: 30, norm8: 5, daysToReady: 6, seedPrice: 0.44, instructions: "1. Замочить 10-12ч с перекисью\n2. Посеять на сетку\n3. Полная темнота\n4. Промывать 2р/день\n5. Срезка 6-7 день" },
-                        "горчица": { type: "microgreen", norm15: 6, norm8: 1.5, daysToReady: 7, seedPrice: 0.258, instructions: "1. Замочить 3-4ч с перекисью\n2. Посеять на джут\n3. В темноте 1-2 дня\n4. Под лампу 12ч\n5. Срезка 5-8 день" }
+                    orders = [];
+                    sales = [];
+                    clients = [];
+                    expenses = [];
+                    achievements = [];
+                    cultures = {};
+                    customPlans = {
+                        todayMorning: [],
+                        todayEvening: [],
+                        tomorrowMorning: [],
+                        tomorrowEvening: [],
+                        weekTasks: {}
                     };
-                    
-                    saveData();
-                    alert('✅ Все данные сброшены к начальному состоянию!');
-                    
-                    // Обновляем все экраны
-                    renderDashboard();
-                    renderParties();
-                    renderOrders();
-                    renderSales();
-                    renderClients();
-                    renderExpenses();
-                    renderAchievements();
-                    renderLibrary();
-                    fillSelectors();
+                    loadData(); // Перезагружаем с базовыми культурами
+                    renderAll();
+                    alert('✅ Все данные сброшены!');
                 }
             }
         }
         
         function exportData() {
             const data = {
-                parties, orders, sales, clients, expenses, achievements, cultures,
+                parties, orders, sales, clients, expenses, achievements, cultures, customPlans,
                 exportDate: new Date().toISOString()
             };
             const dataStr = JSON.stringify(data, null, 2);
@@ -1315,6 +707,12 @@
         }
         
         // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
+        
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            let date = new Date(dateStr);
+            return date.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
         
         function getClientName(id) {
             let c = clients.find(c => c.id === id);
@@ -1355,49 +753,9 @@
             return date;
         }
         
-        function updatePartiesStages() {
-            // Автоматическое обновление этапов на основе дат
-            const today = new Date();
-            parties.forEach(party => {
-                const sownDate = new Date(party.dateSown);
-                const daysSinceSown = Math.floor((today - sownDate) / (1000 * 60 * 60 * 24));
-                const culture = cultures[party.culture];
-                
-                if (!culture) return;
-                
-                const stages = getStages(party.culture);
-                let newStage = party.currentStage;
-                
-                if (culture.type === 'microgreen') {
-                    if (daysSinceSown >= 0 && daysSinceSown < 1) newStage = 'zomachivanie';
-                    else if (daysSinceSown >= 1 && daysSinceSown < 2) newStage = 'posev';
-                    else if (daysSinceSown >= 2 && daysSinceSown < 5) newStage = 'v_temi';
-                    else if (daysSinceSown >= 5 && daysSinceSown < culture.daysToReady) newStage = 'pod_lampoy';
-                    else if (daysSinceSown >= culture.daysToReady) newStage = 'srezka';
-                } else {
-                    if (daysSinceSown >= 0 && daysSinceSown < 1) newStage = 'zomachivanie';
-                    else if (daysSinceSown >= 1 && daysSinceSown < 2) newStage = 'posev';
-                    else if (daysSinceSown >= 2 && daysSinceSown < culture.daysToReady) newStage = 'v_temi';
-                    else if (daysSinceSown >= culture.daysToReady) newStage = 'sbor';
-                }
-                
-                if (newStage !== party.currentStage) {
-                    party.currentStage = newStage;
-                    if (!party.stages) party.stages = {};
-                    party.stages[newStage] = new Date().toISOString();
-                }
-            });
-        }
-        
-        // ==================== ФИНАНСЫ ====================
-        
         function getFinancialStats() {
-            // Доход от оплаченных продаж
             const paidSales = sales.filter(s => s.paid).reduce((sum, s) => sum + s.amount, 0);
-            
-            // Доход от оплаченных заказов
             const paidOrders = orders.filter(o => o.paid).reduce((sum, o) => sum + o.price, 0);
-            
             const totalIncome = paidSales + paidOrders;
             const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
             const currentBalance = totalIncome - totalExpenses;
@@ -1421,9 +779,7 @@
         function getClientDebt(clientId) {
             const unpaidOrders = orders.filter(o => o.clientId === clientId && !o.paid);
             const unpaidSales = sales.filter(s => s.clientId === clientId && !s.paid);
-            const orderDebt = unpaidOrders.reduce((sum, o) => sum + o.price, 0);
-            const saleDebt = unpaidSales.reduce((sum, s) => sum + s.amount, 0);
-            return orderDebt + saleDebt;
+            return unpaidOrders.reduce((sum, o) => sum + o.price, 0) + unpaidSales.reduce((sum, s) => sum + s.amount, 0);
         }
         
         // ==================== ГЕНЕРАЦИЯ ЗАДАЧ ====================
@@ -1433,13 +789,13 @@
             const tomorrow = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
             
             const tasks = {
-                todayMorning: [],
-                todayEvening: [],
-                tomorrowMorning: [],
-                tomorrowEvening: []
+                todayMorning: [...customPlans.todayMorning],
+                todayEvening: [...customPlans.todayEvening],
+                tomorrowMorning: [...customPlans.tomorrowMorning],
+                tomorrowEvening: [...customPlans.tomorrowEvening]
             };
             
-            // Задачи по партиям
+            // Автоматические задачи по партиям
             parties.forEach(party => {
                 const stage = party.currentStage;
                 const partyId = party.id.slice(-4);
@@ -1465,33 +821,6 @@
                 tasks.todayMorning.push(`📦 Отдать заказ ${getClientName(order.clientId)} - ${order.culture} ${order.weight}г (${order.price}₽)`);
             });
             
-            // Замачивание по графику
-            const schedule = {
-                "ПН": ["маш 100г", "нут 100г"],
-                "ВТ": ["редис 6г"],
-                "СР": ["соя 100г", "горох 25г"],
-                "ЧТ": ["маш 100г"],
-                "ПТ": ["нут 100г", "горчица 6г"],
-                "СБ": ["редис 6г", "соя 100г"],
-                "ВС": ["горох 25г"]
-            };
-            
-            const days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-            const todayWeek = days[new Date().getDay()];
-            const tomorrowWeek = days[(new Date().getDay() + 1) % 7];
-            
-            if (schedule[todayWeek]) {
-                schedule[todayWeek].forEach(task => {
-                    tasks.todayEvening.push(`🌱 Замочить ${task} по графику`);
-                });
-            }
-            
-            if (schedule[tomorrowWeek]) {
-                schedule[tomorrowWeek].forEach(task => {
-                    tasks.tomorrowEvening.push(`🌱 Замочить ${task} по графику (завтра)`);
-                });
-            }
-            
             return tasks;
         }
         
@@ -1510,7 +839,7 @@
             document.getElementById('totalExpenses').textContent = fin.totalExpenses + '₽';
             document.getElementById('currentBalance').textContent = fin.currentBalance + '₽';
             
-            // Планы (по умолчанию показываем сегодня)
+            // Показываем сегодняшние планы
             const tasks = generateTasks();
             const morningHtml = tasks.todayMorning.map(t => `
                 <div class="task-item">
@@ -1548,7 +877,7 @@
                             <div class="progress-fill" style="width:${getProgress(p)}%"></div>
                         </div>
                         <div class="card-details">
-                            ${p.container} • ${p.weight}г • Посев: ${p.dateSown} • Сбор: ${harvest.toLocaleDateString()}
+                            ${p.container} • ${p.weight}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}
                         </div>
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">➡️ Следующий этап</button>
@@ -1575,7 +904,7 @@
                             <div class="progress-fill" style="width:${getProgress(p)}%"></div>
                         </div>
                         <div class="card-details">
-                            ${p.container} • ${p.weight}г • Посев: ${p.dateSown} • Сбор: ${harvest.toLocaleDateString()}
+                            ${p.container} • ${p.weight}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}
                         </div>
                         ${p.notes ? `<div class="card-details">📝 ${p.notes}</div>` : ''}
                         <div class="flex-btns">
@@ -1605,7 +934,7 @@
                             ${o.culture} • ${o.weight}г = ${o.price}₽
                         </div>
                         <div class="card-details">
-                            📅 ${o.date}
+                            📅 ${formatDate(o.date)}
                         </div>
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleOrderPaid('${o.id}')">✅ ${o.paid ? 'Снять оплату' : 'Оплатить'}</button>
@@ -1633,7 +962,7 @@
                             ${s.culture} • ${s.weight}г = ${s.amount}₽
                         </div>
                         <div class="card-details">
-                            📅 ${s.date}
+                            📅 ${formatDate(s.date)}
                         </div>
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="toggleSalePaid('${s.id}')">✅ ${s.paid ? 'Снять оплату' : 'Оплатить'}</button>
@@ -1651,7 +980,6 @@
             const filtered = filter ? clients.filter(c => c.name.toLowerCase().includes(filter.toLowerCase())) : clients;
             const html = filtered.map(c => {
                 const debt = getClientDebt(c.id);
-                const orderCount = orders.filter(o => o.clientId === c.id).length;
                 return `
                     <div class="card">
                         <div class="card-header">
@@ -1660,9 +988,6 @@
                         </div>
                         <div class="card-details">
                             📍 ${c.place || '—'} • 📞 ${c.contact || '—'}
-                        </div>
-                        <div class="card-details">
-                            📦 Заказов: ${orderCount}
                         </div>
                         <div class="flex-btns">
                             <button class="btn-small btn-secondary" onclick="quickOrder('${c.id}')">📦 Заказ</button>
@@ -1674,7 +999,7 @@
                     </div>
                 `;
             }).join('');
-            list.innerHTML = html || '<div class="empty-state">👥 Нет клиентов</div>';
+            list.innerHTML = html || '<div class="empty-state">👥 Нет клиентов. Добавьте первого!</div>';
         }
         
         function renderExpenses() {
@@ -1687,7 +1012,7 @@
                         <span class="status status-pending">${e.category}</span>
                     </div>
                     <div class="card-details">
-                        📅 ${e.date} • ${e.amount}₽
+                        📅 ${formatDate(e.date)} • ${e.amount}₽
                     </div>
                     <div class="flex-btns">
                         <button class="btn-small btn-secondary" onclick="editExpense('${e.id}')">✏️</button>
@@ -1696,7 +1021,6 @@
                 </div>
             `).join('');
             list.innerHTML = html || '<div class="empty-state">💸 Нет расходов</div>';
-            // Добавляем итог
             if (expenses.length > 0) {
                 list.innerHTML += `<div class="card"><div class="card-header"><span>📊 ИТОГО РАСХОДОВ</span><span>${total}₽</span></div></div>`;
             }
@@ -1714,7 +1038,7 @@
                         </div>
                     </div>
                     <div class="card-details">
-                        📅 ${a.date} • ${a.category}
+                        📅 ${formatDate(a.date)} • ${a.category}
                     </div>
                 </div>
             `).join('');
@@ -1744,7 +1068,18 @@
                     </div>
                 `;
             }).join('');
-            list.innerHTML = html || '<div class="empty-state">📚 Нет культур в библиотеке</div>';
+            list.innerHTML = html || '<div class="empty-state">📚 Нет культур в библиотеке. Добавьте первую!</div>';
+        }
+        
+        function renderAll() {
+            renderDashboard();
+            renderParties();
+            renderOrders();
+            renderSales();
+            renderClients();
+            renderExpenses();
+            renderAchievements();
+            renderLibrary();
         }
         
         // ==================== ДЕЙСТВИЯ С ПАРТИЯМИ ====================
@@ -1756,11 +1091,8 @@
                 const idx = stages.indexOf(party.currentStage);
                 if (idx < stages.length - 1) {
                     party.currentStage = stages[idx + 1];
-                    if (!party.stages) party.stages = {};
-                    party.stages[party.currentStage] = new Date().toISOString();
                     saveData();
-                    renderDashboard();
-                    renderParties();
+                    renderAll();
                 } else {
                     alert('🎉 Партия завершена! Можно срезать урожай.');
                 }
@@ -1789,8 +1121,7 @@
             if (confirm('Удалить партию?')) {
                 parties = parties.filter(p => p.id !== id);
                 saveData();
-                renderDashboard();
-                renderParties();
+                renderAll();
             }
         };
         
@@ -1800,8 +1131,7 @@
                 parties = parties.filter(p => p.id !== id);
                 saveData();
                 hideModal('editPartyModal');
-                renderDashboard();
-                renderParties();
+                renderAll();
             }
         };
         
@@ -1812,8 +1142,7 @@
             if (order) {
                 order.paid = !order.paid;
                 saveData();
-                renderOrders();
-                renderDashboard();
+                renderAll();
             }
         };
         
@@ -1822,7 +1151,7 @@
             if (order) {
                 order.delivered = !order.delivered;
                 saveData();
-                renderOrders();
+                renderAll();
             }
         };
         
@@ -1839,8 +1168,7 @@
                     paid: order.paid
                 });
                 saveData();
-                renderDashboard();
-                renderSales();
+                renderAll();
                 alert('✅ Заказ скопирован в продажи!');
             }
         };
@@ -1865,8 +1193,7 @@
             if (confirm('Удалить заказ?')) {
                 orders = orders.filter(o => o.id !== id);
                 saveData();
-                renderOrders();
-                renderDashboard();
+                renderAll();
             }
         };
         
@@ -1876,8 +1203,7 @@
                 orders = orders.filter(o => o.id !== id);
                 saveData();
                 hideModal('editOrderModal');
-                renderOrders();
-                renderDashboard();
+                renderAll();
             }
         };
         
@@ -1888,8 +1214,7 @@
             if (sale) {
                 sale.paid = !sale.paid;
                 saveData();
-                renderDashboard();
-                renderSales();
+                renderAll();
             }
         };
         
@@ -1913,8 +1238,7 @@
             if (confirm('Удалить продажу?')) {
                 sales = sales.filter(s => s.id !== id);
                 saveData();
-                renderDashboard();
-                renderSales();
+                renderAll();
             }
         };
         
@@ -1924,8 +1248,7 @@
                 sales = sales.filter(s => s.id !== id);
                 saveData();
                 hideModal('editSaleModal');
-                renderDashboard();
-                renderSales();
+                renderAll();
             }
         };
         
@@ -1941,7 +1264,7 @@
             const ordersHtml = clientOrders.map(o => `
                 <div class="card">
                     <div class="card-header">
-                        📦 ${o.date}
+                        📦 ${formatDate(o.date)}
                         <span class="status ${o.paid ? 'status-paid' : 'status-unpaid'}">${o.paid ? 'Оплачен' : 'Не оплачен'}</span>
                     </div>
                     <div class="card-details">${o.culture} • ${o.weight}г = ${o.price}₽</div>
@@ -1952,7 +1275,7 @@
             const salesHtml = clientSales.map(s => `
                 <div class="card">
                     <div class="card-header">
-                        💰 ${s.date}
+                        💰 ${formatDate(s.date)}
                         <span class="status ${s.paid ? 'status-paid' : 'status-unpaid'}">${s.paid ? 'Оплачено' : 'Не оплачено'}</span>
                     </div>
                     <div class="card-details">${s.culture} • ${s.weight}г = ${s.amount}₽</div>
@@ -2044,8 +1367,7 @@
             if (confirm('Удалить расход?')) {
                 expenses = expenses.filter(e => e.id !== id);
                 saveData();
-                renderExpenses();
-                renderDashboard();
+                renderAll();
             }
         };
         
@@ -2055,8 +1377,7 @@
                 expenses = expenses.filter(e => e.id !== id);
                 saveData();
                 hideModal('editExpenseModal');
-                renderExpenses();
-                renderDashboard();
+                renderAll();
             }
         };
         
@@ -2125,6 +1446,182 @@
             fillSelectors();
         };
         
+        // ==================== ПЛАНЫ (РЕДАКТИРОВАНИЕ) ====================
+        
+        let currentEditTasks = null;
+        
+        window.showEditPlans = function() {
+            const tasks = generateTasks();
+            currentEditTasks = {
+                todayMorning: [...tasks.todayMorning],
+                todayEvening: [...tasks.todayEvening],
+                tomorrowMorning: [...tasks.tomorrowMorning],
+                tomorrowEvening: [...tasks.tomorrowEvening]
+            };
+            
+            const morningHtml = currentEditTasks.todayMorning.map((t, i) => `
+                <div class="task-item">
+                    <input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="todayMorning" data-idx="${i}">
+                    <button class="btn-small btn-danger" onclick="removePlanTask('todayMorning', ${i})">🗑️</button>
+                </div>
+            `).join('');
+            
+            const eveningHtml = currentEditTasks.todayEvening.map((t, i) => `
+                <div class="task-item">
+                    <input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="todayEvening" data-idx="${i}">
+                    <button class="btn-small btn-danger" onclick="removePlanTask('todayEvening', ${i})">🗑️</button>
+                </div>
+            `).join('');
+            
+            const tomorrowMorningHtml = currentEditTasks.tomorrowMorning.map((t, i) => `
+                <div class="task-item">
+                    <input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="tomorrowMorning" data-idx="${i}">
+                    <button class="btn-small btn-danger" onclick="removePlanTask('tomorrowMorning', ${i})">🗑️</button>
+                </div>
+            `).join('');
+            
+            const tomorrowEveningHtml = currentEditTasks.tomorrowEvening.map((t, i) => `
+                <div class="task-item">
+                    <input type="text" class="task-edit-input" value="${t.replace(/"/g, '&quot;')}" data-type="tomorrowEvening" data-idx="${i}">
+                    <button class="btn-small btn-danger" onclick="removePlanTask('tomorrowEvening', ${i})">🗑️</button>
+                </div>
+            `).join('');
+            
+            document.getElementById('editPlansContainer').innerHTML = `
+                <div class="plan-section">
+                    <div class="plan-time">🌅 СЕГОДНЯ УТРО (7:00)</div>
+                    ${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                    <button class="btn-small btn-secondary" onclick="addPlanTask('todayMorning')">➕ Добавить</button>
+                    
+                    <div class="plan-time">🌙 СЕГОДНЯ ВЕЧЕР (20:00)</div>
+                    ${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                    <button class="btn-small btn-secondary" onclick="addPlanTask('todayEvening')">➕ Добавить</button>
+                    
+                    <div class="plan-time">🌅 ЗАВТРА УТРО (7:00)</div>
+                    ${tomorrowMorningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                    <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowMorning')">➕ Добавить</button>
+                    
+                    <div class="plan-time">🌙 ЗАВТРА ВЕЧЕР (20:00)</div>
+                    ${tomorrowEveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                    <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowEvening')">➕ Добавить</button>
+                </div>
+            `;
+            showModal('editPlansModal');
+        };
+        
+        window.addPlanTask = function(type) {
+            if (type === 'todayMorning') currentEditTasks.todayMorning.push('Новая задача');
+            else if (type === 'todayEvening') currentEditTasks.todayEvening.push('Новая задача');
+            else if (type === 'tomorrowMorning') currentEditTasks.tomorrowMorning.push('Новая задача');
+            else if (type === 'tomorrowEvening') currentEditTasks.tomorrowEvening.push('Новая задача');
+            window.showEditPlans();
+        };
+        
+        window.removePlanTask = function(type, idx) {
+            if (type === 'todayMorning') currentEditTasks.todayMorning.splice(idx, 1);
+            else if (type === 'todayEvening') currentEditTasks.todayEvening.splice(idx, 1);
+            else if (type === 'tomorrowMorning') currentEditTasks.tomorrowMorning.splice(idx, 1);
+            else if (type === 'tomorrowEvening') currentEditTasks.tomorrowEvening.splice(idx, 1);
+            window.showEditPlans();
+        };
+        
+        window.savePlans = function() {
+            const inputs = document.querySelectorAll('#editPlansContainer .task-edit-input');
+            inputs.forEach(input => {
+                const type = input.dataset.type;
+                const idx = parseInt(input.dataset.idx);
+                const value = input.value;
+                if (type === 'todayMorning' && currentEditTasks.todayMorning[idx]) currentEditTasks.todayMorning[idx] = value;
+                if (type === 'todayEvening' && currentEditTasks.todayEvening[idx]) currentEditTasks.todayEvening[idx] = value;
+                if (type === 'tomorrowMorning' && currentEditTasks.tomorrowMorning[idx]) currentEditTasks.tomorrowMorning[idx] = value;
+                if (type === 'tomorrowEvening' && currentEditTasks.tomorrowEvening[idx]) currentEditTasks.tomorrowEvening[idx] = value;
+            });
+            
+            customPlans.todayMorning = currentEditTasks.todayMorning;
+            customPlans.todayEvening = currentEditTasks.todayEvening;
+            customPlans.tomorrowMorning = currentEditTasks.tomorrowMorning;
+            customPlans.tomorrowEvening = currentEditTasks.tomorrowEvening;
+            saveData();
+            hideModal('editPlansModal');
+            renderDashboard();
+            alert('✅ Планы сохранены!');
+        };
+        
+        // ==================== ПЛАНЫ (ВКЛАДКИ) ====================
+        
+        function setupPlanTabs() {
+            document.querySelectorAll('.plan-tab').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.id === 'editPlansBtn') {
+                        window.showEditPlans();
+                        return;
+                    }
+                    
+                    document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tasks = generateTasks();
+                    const planType = this.getAttribute('data-plan');
+                    
+                    if (planType === 'today') {
+                        const morningHtml = tasks.todayMorning.map(t => `
+                            <div class="task-item">
+                                <input type="checkbox" class="task-checkbox">
+                                <span class="task-text">${t}</span>
+                            </div>
+                        `).join('');
+                        const eveningHtml = tasks.todayEvening.map(t => `
+                            <div class="task-item">
+                                <input type="checkbox" class="task-checkbox">
+                                <span class="task-text">${t}</span>
+                            </div>
+                        `).join('');
+                        
+                        document.getElementById('plansContainer').innerHTML = `
+                            <div class="plan-section">
+                                <div class="plan-time">🌅 УТРО (7:00)</div>
+                                ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
+                                <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
+                                ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
+                            </div>
+                        `;
+                    } else if (planType === 'tomorrow') {
+                        const morningHtml = tasks.tomorrowMorning.map(t => `
+                            <div class="task-item">
+                                <input type="checkbox" class="task-checkbox">
+                                <span class="task-text">${t}</span>
+                            </div>
+                        `).join('');
+                        const eveningHtml = tasks.tomorrowEvening.map(t => `
+                            <div class="task-item">
+                                <input type="checkbox" class="task-checkbox">
+                                <span class="task-text">${t}</span>
+                            </div>
+                        `).join('');
+                        
+                        document.getElementById('plansContainer').innerHTML = `
+                            <div class="plan-section">
+                                <div class="plan-time">🌅 УТРО (7:00)</div>
+                                ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
+                                <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
+                                ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
+                            </div>
+                        `;
+                    } else if (planType === 'week') {
+                        // Недельный план - можно добавить свои задачи
+                        const weekDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+                        const weekHtml = weekDays.map(day => `
+                            <div class="plan-section">
+                                <div class="plan-time">📅 ${day}</div>
+                                <div class="empty-state">✨ Добавьте задачи в редакторе</div>
+                            </div>
+                        `).join('');
+                        document.getElementById('plansContainer').innerHTML = weekHtml;
+                    }
+                });
+            });
+        }
+        
         // ==================== ЗАПОЛНЕНИЕ ВЫПАДАЮЩИХ СПИСКОВ ====================
         
         function fillSelectors() {
@@ -2142,13 +1639,6 @@
                 const el = document.getElementById(id);
                 if (el) el.innerHTML = clientOptions;
             });
-            
-            const stageSelect = document.getElementById('editPartyStage');
-            if (stageSelect && document.getElementById('editPartyCulture')) {
-                const culture = document.getElementById('editPartyCulture').value;
-                const stages = getStages(culture);
-                stageSelect.innerHTML = stages.map(s => `<option value="${s}">${getStageName(s)}</option>`).join('');
-            }
         }
         
         function updateWeightHint() {
@@ -2157,7 +1647,9 @@
             const c = cultures[culture];
             if (c) {
                 const norm = container === '15x11' ? c.norm15 : c.norm8;
-                document.getElementById('partyWeightHint').innerHTML = `📌 Рекомендация: ${norm}г (минимально ${Math.floor(norm * 0.8)}г, максимально ${Math.floor(norm * 1.2)}г)`;
+                document.getElementById('partyWeightHint').innerHTML = `📌 Рекомендация: ${norm}г (мин: ${Math.floor(norm * 0.8)}г, макс: ${Math.floor(norm * 1.2)}г)`;
+            } else {
+                document.getElementById('partyWeightHint').innerHTML = '';
             }
         }
         
@@ -2190,8 +1682,7 @@
             
             saveData();
             hideModal('newPartyModal');
-            renderDashboard();
-            renderParties();
+            renderAll();
             alert('✅ Партия создана!');
         });
         
@@ -2208,8 +1699,7 @@
                 party.notes = document.getElementById('editPartyNotes').value;
                 saveData();
                 hideModal('editPartyModal');
-                renderDashboard();
-                renderParties();
+                renderAll();
             }
         });
         
@@ -2239,8 +1729,7 @@
             
             saveData();
             hideModal('newOrderModal');
-            renderOrders();
-            renderDashboard();
+            renderAll();
             alert('✅ Заказ создан!');
         });
         
@@ -2256,8 +1745,7 @@
                 order.price = parseInt(document.getElementById('editOrderPrice').value);
                 saveData();
                 hideModal('editOrderModal');
-                renderOrders();
-                renderDashboard();
+                renderAll();
             }
         });
         
@@ -2281,13 +1769,12 @@
                 culture,
                 weight,
                 amount,
-                paid: false  // По умолчанию не оплачено
+                paid: false
             });
             
             saveData();
             hideModal('newSaleModal');
-            renderDashboard();
-            renderSales();
+            renderAll();
             alert('✅ Продажа записана!');
         });
         
@@ -2303,8 +1790,7 @@
                 sale.amount = parseInt(document.getElementById('editSaleAmount').value);
                 saveData();
                 hideModal('editSaleModal');
-                renderDashboard();
-                renderSales();
+                renderAll();
             }
         });
         
@@ -2366,8 +1852,7 @@
                 expense.amount = parseInt(document.getElementById('editExpenseAmount').value);
                 saveData();
                 hideModal('editExpenseModal');
-                renderExpenses();
-                renderDashboard();
+                renderAll();
             }
         });
         
@@ -2439,94 +1924,6 @@
             alert('✅ Культура сохранена!');
         });
         
-        // ==================== ПЛАНЫ (ВКЛАДКИ) ====================
-        
-        document.querySelectorAll('.plan-tab').forEach(btn => {
-            btn.addEventListener('click', function() {
-                if (this.id === 'editPlansBtn') return;
-                
-                document.querySelectorAll('.plan-tab').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                const tasks = generateTasks();
-                const planType = this.getAttribute('data-plan');
-                
-                if (planType === 'today') {
-                    const morningHtml = tasks.todayMorning.map(t => `
-                        <div class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">${t}</span>
-                        </div>
-                    `).join('');
-                    const eveningHtml = tasks.todayEvening.map(t => `
-                        <div class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">${t}</span>
-                        </div>
-                    `).join('');
-                    
-                    document.getElementById('plansContainer').innerHTML = `
-                        <div class="plan-section">
-                            <div class="plan-time">🌅 УТРО (7:00)</div>
-                            ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
-                            <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
-                            ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
-                        </div>
-                    `;
-                } else if (planType === 'tomorrow') {
-                    const morningHtml = tasks.tomorrowMorning.map(t => `
-                        <div class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">${t}</span>
-                        </div>
-                    `).join('');
-                    const eveningHtml = tasks.tomorrowEvening.map(t => `
-                        <div class="task-item">
-                            <input type="checkbox" class="task-checkbox">
-                            <span class="task-text">${t}</span>
-                        </div>
-                    `).join('');
-                    
-                    document.getElementById('plansContainer').innerHTML = `
-                        <div class="plan-section">
-                            <div class="plan-time">🌅 УТРО (7:00)</div>
-                            ${morningHtml || '<div class="empty-state">✨ Нет задач на утро</div>'}
-                            <div class="plan-time">🌙 ВЕЧЕР (20:00)</div>
-                            ${eveningHtml || '<div class="empty-state">✨ Нет задач на вечер</div>'}
-                        </div>
-                    `;
-                } else if (planType === 'week') {
-                    const schedule = {
-                        "ПН": ["маш 100г", "нут 100г"],
-                        "ВТ": ["редис 6г"],
-                        "СР": ["соя 100г", "горох 25г"],
-                        "ЧТ": ["маш 100г"],
-                        "ПТ": ["нут 100г", "горчица 6г"],
-                        "СБ": ["редис 6г", "соя 100г"],
-                        "ВС": ["горох 25г"]
-                    };
-                    
-                    const days = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
-                    const weekHtml = days.map(day => {
-                        const tasksForDay = schedule[day] || [];
-                        return `
-                            <div class="plan-section">
-                                <div class="plan-time">📅 ${day}</div>
-                                ${tasksForDay.map(t => `
-                                    <div class="task-item">
-                                        <input type="checkbox" class="task-checkbox">
-                                        <span class="task-text">🌱 Замочить ${t}</span>
-                                    </div>
-                                `).join('') || '<div class="empty-state">✨ Нет запланированных замачиваний</div>'}
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    document.getElementById('plansContainer').innerHTML = weekHtml;
-                }
-            });
-        });
-        
         // ==================== НАВИГАЦИЯ ====================
         
         window.showModal = function(id) {
@@ -2565,7 +1962,6 @@
                 const section = this.getAttribute('data-section');
                 document.getElementById(section).classList.add('active');
                 
-                // Обновляем данные при переключении
                 if (section === 'dashboard') renderDashboard();
                 if (section === 'parties') renderParties();
                 if (section === 'orders') renderOrders();
@@ -2584,8 +1980,7 @@
                 const tasks = generateTasks();
                 const taskCount = tasks.todayMorning.length + tasks.todayEvening.length;
                 new Notification('VITARAY', {
-                    body: `У вас ${taskCount} задач на сегодня! Проверьте планы.`,
-                    icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232E7D32"%3E%3Cpath d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/%3E%3C/svg%3E'
+                    body: `У вас ${taskCount} задач на сегодня! Проверьте планы.`
                 });
             } else if (Notification.permission !== 'denied') {
                 Notification.requestPermission();
@@ -2605,14 +2000,8 @@
         
         loadData();
         fillSelectors();
-        renderDashboard();
-        renderParties();
-        renderOrders();
-        renderSales();
-        renderClients();
-        renderExpenses();
-        renderAchievements();
-        renderLibrary();
+        setupPlanTabs();
+        renderAll();
     </script>
 </body>
 </html>
