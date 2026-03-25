@@ -514,8 +514,41 @@
 
        // ==================== ПЛАНЫ (ИСПРАВЛЕННЫЕ) ====================
 
+// ==================== ПЛАНЫ (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЕ) ====================
+
 let currentEditTasks = null;
 
+// Функция для отображения планов на главном экране
+function showPlan(type) {
+    const tasks = generateTasks();
+    const container = document.getElementById('plansContainer');
+    if (!container) return;
+    
+    if (type === 'today') {
+        const morningHtml = tasks.todayMorning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+        const eveningHtml = tasks.todayEvening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+        container.innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
+    } 
+    else if (type === 'tomorrow') {
+        const morningHtml = tasks.tomorrowMorning.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+        const eveningHtml = tasks.tomorrowEvening.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+        container.innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
+    } 
+    else if (type === 'week') {
+        // Недельный план — показываем задачи на каждый день
+        const weekDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
+        // Здесь можно добавить недельные задачи из customPlans, если нужно
+        const weekHtml = weekDays.map(day => `
+            <div class="plan-section">
+                <div class="plan-time">📅 ${day}</div>
+                <div class="empty-state">✨ Задачи можно добавить в редакторе</div>
+            </div>
+        `).join('');
+        container.innerHTML = weekHtml;
+    }
+}
+
+// Открытие модального окна редактирования планов
 window.showEditPlans = function() {
     const tasks = generateTasks();
     currentEditTasks = {
@@ -527,67 +560,68 @@ window.showEditPlans = function() {
     renderEditPlansModal();
 };
 
+// Рендер модального окна редактирования
 function renderEditPlansModal() {
     const morningHtml = currentEditTasks.todayMorning.map((t, i) => `
-        <div class="task-item" data-type="todayMorning" data-idx="${i}">
+        <div class="task-item">
             <input type="text" class="task-edit-input" value="${escapeHtml(t).replace(/"/g, '&quot;')}" data-type="todayMorning" data-idx="${i}">
-            <button class="btn-small btn-danger" onclick="window.removePlanTask('todayMorning', ${i})">🗑️</button>
+            <button class="btn-small btn-danger" onclick="removePlanTask('todayMorning', ${i})">🗑️</button>
         </div>
     `).join('');
     
     const eveningHtml = currentEditTasks.todayEvening.map((t, i) => `
-        <div class="task-item" data-type="todayEvening" data-idx="${i}">
+        <div class="task-item">
             <input type="text" class="task-edit-input" value="${escapeHtml(t).replace(/"/g, '&quot;')}" data-type="todayEvening" data-idx="${i}">
-            <button class="btn-small btn-danger" onclick="window.removePlanTask('todayEvening', ${i})">🗑️</button>
+            <button class="btn-small btn-danger" onclick="removePlanTask('todayEvening', ${i})">🗑️</button>
         </div>
     `).join('');
     
     const tomorrowMorningHtml = currentEditTasks.tomorrowMorning.map((t, i) => `
-        <div class="task-item" data-type="tomorrowMorning" data-idx="${i}">
+        <div class="task-item">
             <input type="text" class="task-edit-input" value="${escapeHtml(t).replace(/"/g, '&quot;')}" data-type="tomorrowMorning" data-idx="${i}">
-            <button class="btn-small btn-danger" onclick="window.removePlanTask('tomorrowMorning', ${i})">🗑️</button>
+            <button class="btn-small btn-danger" onclick="removePlanTask('tomorrowMorning', ${i})">🗑️</button>
         </div>
     `).join('');
     
     const tomorrowEveningHtml = currentEditTasks.tomorrowEvening.map((t, i) => `
-        <div class="task-item" data-type="tomorrowEvening" data-idx="${i}">
+        <div class="task-item">
             <input type="text" class="task-edit-input" value="${escapeHtml(t).replace(/"/g, '&quot;')}" data-type="tomorrowEvening" data-idx="${i}">
-            <button class="btn-small btn-danger" onclick="window.removePlanTask('tomorrowEvening', ${i})">🗑️</button>
+            <button class="btn-small btn-danger" onclick="removePlanTask('tomorrowEvening', ${i})">🗑️</button>
         </div>
     `).join('');
     
     document.getElementById('editPlansContainer').innerHTML = `
         <div class="plan-section">
-            <div class="plan-time">🌅 СЕГОДНЯ УТРО</div>
+            <div class="plan-time">🌅 СЕГОДНЯ УТРО (7:00)</div>
             ${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-            <button class="btn-small btn-secondary" onclick="window.addPlanTask('todayMorning')">➕ Добавить</button>
+            <button class="btn-small btn-secondary" onclick="addPlanTask('todayMorning')">➕ Добавить задачу</button>
             
-            <div class="plan-time">🌙 СЕГОДНЯ ВЕЧЕР</div>
+            <div class="plan-time">🌙 СЕГОДНЯ ВЕЧЕР (20:00)</div>
             ${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-            <button class="btn-small btn-secondary" onclick="window.addPlanTask('todayEvening')">➕ Добавить</button>
+            <button class="btn-small btn-secondary" onclick="addPlanTask('todayEvening')">➕ Добавить задачу</button>
             
-            <div class="plan-time">🌅 ЗАВТРА УТРО</div>
+            <div class="plan-time">🌅 ЗАВТРА УТРО (7:00)</div>
             ${tomorrowMorningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-            <button class="btn-small btn-secondary" onclick="window.addPlanTask('tomorrowMorning')">➕ Добавить</button>
+            <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowMorning')">➕ Добавить задачу</button>
             
-            <div class="plan-time">🌙 ЗАВТРА ВЕЧЕР</div>
+            <div class="plan-time">🌙 ЗАВТРА ВЕЧЕР (20:00)</div>
             ${tomorrowEveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
-            <button class="btn-small btn-secondary" onclick="window.addPlanTask('tomorrowEvening')">➕ Добавить</button>
+            <button class="btn-small btn-secondary" onclick="addPlanTask('tomorrowEvening')">➕ Добавить задачу</button>
         </div>
     `;
     
-    // Привязываем обработчики для всех input
+    // Привязываем обработчики для сохранения изменений при вводе текста
     document.querySelectorAll('#editPlansContainer .task-edit-input').forEach(input => {
         const type = input.dataset.type;
         const idx = parseInt(input.dataset.idx);
         input.addEventListener('input', function() {
-            if (type === 'todayMorning' && currentEditTasks.todayMorning[idx]) {
+            if (type === 'todayMorning' && currentEditTasks.todayMorning[idx] !== undefined) {
                 currentEditTasks.todayMorning[idx] = this.value;
-            } else if (type === 'todayEvening' && currentEditTasks.todayEvening[idx]) {
+            } else if (type === 'todayEvening' && currentEditTasks.todayEvening[idx] !== undefined) {
                 currentEditTasks.todayEvening[idx] = this.value;
-            } else if (type === 'tomorrowMorning' && currentEditTasks.tomorrowMorning[idx]) {
+            } else if (type === 'tomorrowMorning' && currentEditTasks.tomorrowMorning[idx] !== undefined) {
                 currentEditTasks.tomorrowMorning[idx] = this.value;
-            } else if (type === 'tomorrowEvening' && currentEditTasks.tomorrowEvening[idx]) {
+            } else if (type === 'tomorrowEvening' && currentEditTasks.tomorrowEvening[idx] !== undefined) {
                 currentEditTasks.tomorrowEvening[idx] = this.value;
             }
         });
@@ -596,6 +630,7 @@ function renderEditPlansModal() {
     showModal('editPlansModal');
 }
 
+// Добавление новой задачи
 window.addPlanTask = function(type) {
     if (type === 'todayMorning') {
         currentEditTasks.todayMorning.push('Новая задача');
@@ -609,6 +644,7 @@ window.addPlanTask = function(type) {
     renderEditPlansModal();  // Перерисовываем с новыми данными
 };
 
+// Удаление задачи
 window.removePlanTask = function(type, idx) {
     if (type === 'todayMorning') {
         currentEditTasks.todayMorning.splice(idx, 1);
@@ -622,17 +658,38 @@ window.removePlanTask = function(type, idx) {
     renderEditPlansModal();  // Перерисовываем после удаления
 };
 
+// СОХРАНЕНИЕ планов (исправлено!)
 window.savePlans = function() {
-    // Сохраняем текущие задачи
+    // Сохраняем текущие задачи из currentEditTasks в customPlans
     customPlans.todayMorning = [...currentEditTasks.todayMorning];
     customPlans.todayEvening = [...currentEditTasks.todayEvening];
     customPlans.tomorrowMorning = [...currentEditTasks.tomorrowMorning];
     customPlans.tomorrowEvening = [...currentEditTasks.tomorrowEvening];
-    saveData();
+    
+    saveData();  // Сохраняем в localStorage
+    
     hideModal('editPlansModal');
-    renderDashboard();
+    renderDashboard();  // Обновляем главный экран (показывает сегодня)
+    
+    // Показываем уведомление
     showToast('✅ Планы сохранены');
+    
+    // Сбрасываем активную вкладку на "Сегодня"
+    document.querySelectorAll('.plan-tab').forEach(tab => tab.classList.remove('active'));
+    const todayTab = document.querySelector('.plan-tab[data-plan="today"]');
+    if (todayTab) todayTab.classList.add('active');
 };
+
+// Функция для обновления планов после сохранения (дополнительно)
+function refreshPlans() {
+    const activeTab = document.querySelector('.plan-tab.active');
+    if (activeTab) {
+        const planType = activeTab.getAttribute('data-plan');
+        if (planType) showPlan(planType);
+    } else {
+        showPlan('today');
+    }
+}
         // ==================== ДЕЙСТВИЯ ====================
         window.prevStage = function(id) { const party = parties.find(p => p.id === id); if (party) { const stages = getStages(party.culture); const idx = stages.indexOf(party.currentStage); if (idx > 0) { party.currentStage = stages[idx - 1]; saveData(); renderAll(); showToast(`✅ Этап изменен на "${getStageName(party.currentStage)}"`); } else showToast('⛔ Это первый этап', 'info'); } };
         window.nextStage = function(id) { const party = parties.find(p => p.id === id); if (party) { const stages = getStages(party.culture); const idx = stages.indexOf(party.currentStage); if (idx < stages.length - 1) { party.currentStage = stages[idx + 1]; if (!party.stages) party.stages = {}; party.stages[party.currentStage] = new Date().toISOString(); saveData(); renderAll(); showToast(`✅ Этап изменен на "${getStageName(party.currentStage)}"`); } else showToast('🎉 Партия завершена!', 'info'); } };
