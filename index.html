@@ -512,8 +512,7 @@
         function setupClientSearch(inputId, dropdownId, hiddenId) { const input = document.getElementById(inputId); const dropdown = document.getElementById(dropdownId); const hidden = document.getElementById(hiddenId); if (!input || !dropdown) return; let debounceTimer; input.addEventListener('input', () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { const searchTerm = input.value.toLowerCase(); const filtered = clients.filter(c => c.name.toLowerCase().includes(searchTerm)); dropdown.innerHTML = filtered.map(c => `<div class="client-option" data-id="${c.id}">${escapeHtml(c.name)} ${c.place ? `(${escapeHtml(c.place)})` : ''}</div>`).join(''); dropdown.style.display = filtered.length > 0 ? 'block' : 'none'; document.querySelectorAll(`#${dropdownId} .client-option`).forEach(opt => { opt.addEventListener('click', () => { const id = opt.dataset.id; const client = clients.find(c => c.id === id); if (client) { input.value = client.name; if (hidden) hidden.value = client.id; dropdown.style.display = 'none'; } }); }); }, 300); }); document.addEventListener('click', (e) => { if (!dropdown.contains(e.target) && e.target !== input) dropdown.style.display = 'none'; }); }
         function updateClientSearch() { setupClientSearch('orderClientSearch', 'orderClientDropdown', 'orderClient'); setupClientSearch('saleClientSearch', 'saleClientDropdown', 'saleClient'); }
 
-       // ==================== ПЛАНЫ (ИСПРАВЛЕННЫЕ) ====================
-// ==================== ПЛАНЫ (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЕ) ====================
+       // ==================== ПЛАНЫ (ПОЛНОСТЬЮ ИСПРАВЛЕННЫЕ) ====================
 
 // Текущая выбранная вкладка (today, tomorrow, week)
 let currentPlanType = 'today';
@@ -536,35 +535,28 @@ function showPlan(type) {
         container.innerHTML = `<div class="plan-section"><div class="plan-time">🌅 УТРО (7:00)</div>${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}<div class="plan-time">🌙 ВЕЧЕР (20:00)</div>${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}</div>`;
     } 
     else if (type === 'week') {
-        // Недельный план — показываем дни
-        const weekDays = [
-            { name: 'ПН', morning: [], evening: [] },
-            { name: 'ВТ', morning: [], evening: [] },
-            { name: 'СР', morning: [], evening: [] },
-            { name: 'ЧТ', morning: [], evening: [] },
-            { name: 'ПТ', morning: [], evening: [] },
-            { name: 'СБ', morning: [], evening: [] },
-            { name: 'ВС', morning: [], evening: [] }
-        ];
+        // Недельный план — показываем дни с задачами
+        const weekDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
         
-        // Если есть сохраненные недельные планы, загружаем их
-        if (customPlans.weekTasks && Object.keys(customPlans.weekTasks).length > 0) {
-            weekDays.forEach(day => {
-                if (customPlans.weekTasks[day.name]) {
-                    day.morning = customPlans.weekTasks[day.name].morning || [];
-                    day.evening = customPlans.weekTasks[day.name].evening || [];
-                }
-            });
-        }
-        
-        const weekHtml = weekDays.map(day => `
-            <div class="plan-section">
-                <div class="plan-time">📅 ${day.name}</div>
-                <div class="task-item" style="background:#F0F7F0; justify-content:center;">
-                    <span style="color:#81C784;">✨ Редактируйте в режиме редактирования</span>
+        const weekHtml = weekDays.map(day => {
+            // Получаем задачи для дня из customPlans
+            const dayData = customPlans.weekTasks?.[day] || { morning: [], evening: [] };
+            const morningTasks = dayData.morning || [];
+            const eveningTasks = dayData.evening || [];
+            
+            const morningHtml = morningTasks.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+            const eveningHtml = eveningTasks.map(t => `<div class="task-item"><input type="checkbox" class="task-checkbox"><span class="task-text">${escapeHtml(t)}</span></div>`).join('');
+            
+            return `
+                <div class="plan-section">
+                    <div class="plan-time">📅 ${day}</div>
+                    <div class="plan-time" style="font-size:11px;">🌅 УТРО</div>
+                    ${morningHtml || '<div class="empty-state">✨ Нет задач</div>'}
+                    <div class="plan-time" style="font-size:11px;">🌙 ВЕЧЕР</div>
+                    ${eveningHtml || '<div class="empty-state">✨ Нет задач</div>'}
                 </div>
-            </div>
-        `).join('');
+            `;
+        }).join('');
         container.innerHTML = weekHtml;
     }
 }
@@ -588,14 +580,12 @@ window.showEditPlans = function() {
         };
     }
     else if (currentPlanType === 'week') {
-        // Для недели создаем структуру
         const weekDays = ['ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ', 'ВС'];
         currentEditTasks = {
             type: 'week',
             days: {}
         };
         
-        // Загружаем существующие недельные планы или создаем пустые
         weekDays.forEach(day => {
             if (customPlans.weekTasks && customPlans.weekTasks[day]) {
                 currentEditTasks.days[day] = {
@@ -793,8 +783,11 @@ window.savePlans = function() {
     saveData();
     hideModal('editPlansModal');
     
-    // Обновляем отображение в зависимости от текущей вкладки
+    // Обновляем отображение на дашборде в зависимости от текущей вкладки
     showPlan(currentPlanType);
+    
+    // Дополнительно обновляем дашборд (финансы, активные партии)
+    renderDashboard();
     
     showToast('✅ Планы сохранены');
 };
