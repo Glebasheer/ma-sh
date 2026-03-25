@@ -487,19 +487,66 @@
         function getHarvestDate(party) { const culture = cultures[party.culture]; const days = culture ? culture.daysToReady : 7; const date = new Date(party.dateSown); date.setDate(date.getDate() + days); return date; }
         function getFinancialStats() { const paidSalesTotal = sales.filter(s => s.paid).reduce((sum, s) => sum + safeNumber(s.total), 0); const paidOrdersTotal = orders.filter(o => o.paid).reduce((sum, o) => sum + safeNumber(o.total), 0); const totalIncome = safeNumber(paidSalesTotal) + safeNumber(paidOrdersTotal); const totalExpenses = expenses.reduce((sum, e) => sum + safeNumber(e.amount), 0); const today = new Date().toISOString().slice(0, 10); const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10); const monthAgo = new Date(Date.now() - 30 * 86400000).toISOString().slice(0, 10); const dayIncome = sales.filter(s => s.paid && s.date === today).reduce((sum, s) => sum + safeNumber(s.total), 0) + orders.filter(o => o.paid && o.date === today).reduce((sum, o) => sum + safeNumber(o.total), 0); const weekIncome = sales.filter(s => s.paid && s.date >= weekAgo).reduce((sum, s) => sum + safeNumber(s.total), 0) + orders.filter(o => o.paid && o.date >= weekAgo).reduce((sum, o) => sum + safeNumber(o.total), 0); const monthIncome = sales.filter(s => s.paid && s.date >= monthAgo).reduce((sum, s) => sum + safeNumber(s.total), 0) + orders.filter(o => o.paid && o.date >= monthAgo).reduce((sum, o) => sum + safeNumber(o.total), 0); return { totalIncome, totalExpenses, currentBalance: totalIncome - totalExpenses, dayIncome, weekIncome, monthIncome }; }
 
-        // ==================== ГЕНЕРАЦИЯ ЗАДАЧ ====================
+        // ==================== ГЕНЕРАЦИЯ ЗАДАЧ (ИСПРАВЛЕНА) ====================
         function generateTasks() {
             const today = new Date().toISOString().slice(0, 10);
-            const tasks = { todayMorning: [...customPlans.todayMorning], todayEvening: [...customPlans.todayEvening], tomorrowMorning: [...customPlans.tomorrowMorning], tomorrowEvening: [...customPlans.tomorrowEvening] };
+            const weekDays = ['ВС', 'ПН', 'ВТ', 'СР', 'ЧТ', 'ПТ', 'СБ'];
+            const todayWeekDay = weekDays[new Date().getDay()];
+            const tomorrowWeekDay = weekDays[(new Date().getDay() + 1) % 7];
+            
+            const tasks = { 
+                todayMorning: [...customPlans.todayMorning], 
+                todayEvening: [...customPlans.todayEvening], 
+                tomorrowMorning: [...customPlans.tomorrowMorning], 
+                tomorrowEvening: [...customPlans.tomorrowEvening] 
+            };
+            
+            // Задачи из недельного плана на сегодня
+            if (customPlans.weekTasks && customPlans.weekTasks[todayWeekDay]) {
+                const dayData = customPlans.weekTasks[todayWeekDay];
+                if (dayData.morning) {
+                    dayData.morning.forEach(task => { tasks.todayMorning.push(`🌱 ${task}`); });
+                }
+                if (dayData.evening) {
+                    dayData.evening.forEach(task => { tasks.todayEvening.push(`🌱 ${task}`); });
+                }
+            }
+            
+            // Задачи из недельного плана на завтра
+            if (customPlans.weekTasks && customPlans.weekTasks[tomorrowWeekDay]) {
+                const dayData = customPlans.weekTasks[tomorrowWeekDay];
+                if (dayData.morning) {
+                    dayData.morning.forEach(task => { tasks.tomorrowMorning.push(`🌱 ${task} (завтра)`); });
+                }
+                if (dayData.evening) {
+                    dayData.evening.forEach(task => { tasks.tomorrowEvening.push(`🌱 ${task} (завтра)`); });
+                }
+            }
+            
+            // Автоматические задачи по партиям
             parties.forEach(party => {
                 const stage = party.currentStage;
                 const cultureName = party.culture;
-                if (stage === 'v_temi' || stage === 'pod_lampoy') { tasks.todayMorning.push(`🌱 Проветрить ${cultureName}`); tasks.todayEvening.push(`🌱 Проветрить ${cultureName}`); }
-                if (cultures[party.culture]?.type === 'sprouts' && (stage === 'posev' || stage === 'v_temi')) { tasks.todayMorning.push(`💧 Промыть ${cultureName}`); tasks.todayEvening.push(`💧 Промыть ${cultureName}`); }
-                if (stage === 'srezka' || stage === 'sbor') tasks.todayMorning.push(`✂️ Срезать ${cultureName}`);
+                if (stage === 'v_temi' || stage === 'pod_lampoy') { 
+                    tasks.todayMorning.push(`🌱 Проветрить ${cultureName}`); 
+                    tasks.todayEvening.push(`🌱 Проветрить ${cultureName}`); 
+                }
+                if (cultures[party.culture]?.type === 'sprouts' && (stage === 'posev' || stage === 'v_temi')) { 
+                    tasks.todayMorning.push(`💧 Промыть ${cultureName}`); 
+                    tasks.todayEvening.push(`💧 Промыть ${cultureName}`); 
+                }
+                if (stage === 'srezka' || stage === 'sbor') {
+                    tasks.todayMorning.push(`✂️ Срезать ${cultureName}`);
+                }
             });
+            
+            // Заказы на сегодня
             const todayOrders = orders.filter(o => o.date === today && !o.delivered);
-            todayOrders.forEach(order => { const itemsText = order.items.map(i => `${i.culture} ${i.weight}г`).join(', '); tasks.todayMorning.push(`📦 Отдать заказ ${getClientName(order.clientId)} - ${itemsText} (${order.total}₽)`); });
+            todayOrders.forEach(order => { 
+                const itemsText = order.items.map(i => `${i.culture} ${i.weight}г`).join(', '); 
+                tasks.todayMorning.push(`📦 Отдать заказ ${getClientName(order.clientId)} - ${itemsText} (${order.total}₽)`); 
+            });
+            
             return tasks;
         }
 
@@ -532,7 +579,6 @@
         function setupClientSearch(inputId, dropdownId, hiddenId) { const input = document.getElementById(inputId); const dropdown = document.getElementById(dropdownId); const hidden = document.getElementById(hiddenId); if (!input || !dropdown) return; let debounceTimer; input.addEventListener('input', () => { clearTimeout(debounceTimer); debounceTimer = setTimeout(() => { const searchTerm = input.value.toLowerCase(); const filtered = clients.filter(c => c.name.toLowerCase().includes(searchTerm)); dropdown.innerHTML = filtered.map(c => `<div class="client-option" data-id="${c.id}">${escapeHtml(c.name)} ${c.place ? `(${escapeHtml(c.place)})` : ''}</div>`).join(''); dropdown.style.display = filtered.length > 0 ? 'block' : 'none'; document.querySelectorAll(`#${dropdownId} .client-option`).forEach(opt => { opt.addEventListener('click', () => { const id = opt.dataset.id; const client = clients.find(c => c.id === id); if (client) { input.value = client.name; if (hidden) hidden.value = client.id; dropdown.style.display = 'none'; } }); }); }, 300); }); document.addEventListener('click', (e) => { if (!dropdown.contains(e.target) && e.target !== input) dropdown.style.display = 'none'; }); }
         function updateClientSearch() { setupClientSearch('orderClientSearch', 'orderClientDropdown', 'orderClient'); setupClientSearch('saleClientSearch', 'saleClientDropdown', 'saleClient'); }
         
-        // Быстрое добавление клиента через модальное окно
         window.openQuickClientModal = function(target) {
             pendingClientTarget = target;
             document.getElementById('quickClientName').value = '';
@@ -634,6 +680,8 @@
                 }).join('');
             }
             document.getElementById('editPlansContainer').innerHTML = html;
+            
+            // Привязываем обработчики для ввода текста
             if (currentEditTasks.type === 'today' || currentEditTasks.type === 'tomorrow') {
                 document.querySelectorAll('#editPlansContainer .task-edit-input').forEach(input => {
                     const type = input.dataset.type;
@@ -674,7 +722,9 @@
             renderEditPlansModal();
         };
         window.removeWeekTask = function(day, timeSlot, idx) {
-            if (currentEditTasks.days[day] && currentEditTasks.days[day][timeSlot]) currentEditTasks.days[day][timeSlot].splice(idx, 1);
+            if (currentEditTasks.days[day] && currentEditTasks.days[day][timeSlot]) {
+                currentEditTasks.days[day][timeSlot].splice(idx, 1);
+            }
             renderEditPlansModal();
         };
         window.savePlans = function() {
