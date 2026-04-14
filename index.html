@@ -386,7 +386,7 @@
 
     <div id="partyYieldModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 ЗАПИСАТЬ ВЫХОД ПАРТИИ</h3><button class="close-btn" onclick="window.hideModal('partyYieldModal')">×</button></div>
     <form id="partyYieldForm"><input type="hidden" id="yieldPartyId"><div class="form-group"><label>Вес готовой продукции (г) *</label><input type="number" id="yieldWeight" step="1" value="100"></div>
-    <div class="form-group"><label>Заметки</label><textarea id="yieldNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
+    <div class="form-group"><label>Заметки</label><textarea id="yieldNotes" rows="2"></textarea></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('partyYieldModal')">Отмена</button><button type="submit" class="btn-small">Сохранить выход</button></div></form></div></div>
 
     <div id="deliverModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 ВЫДАТЬ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('deliverModal')">×</button></div>
@@ -508,7 +508,7 @@
         // ==================== ДАННЫЕ ====================
         let parties = [], orders = [], sales = [], expenses = [], achievements = [], clients = [];
         let cultures = {};
-        let stockSeeds = {}; // { culture: amount }
+        let stockSeeds = {};
         let stockTrays15 = 0;
         let stockTrays8 = 0;
         let currentOrderItems = [], currentEditOrderItems = [], currentSaleItems = [], currentEditSaleItems = [];
@@ -622,14 +622,6 @@
             stockSeeds[culture] = (stockSeeds[culture] || 0) + amount;
             saveData();
             renderStockManagement();
-        }
-        
-        function deductSeedStock(culture, amount) {
-            if (stockSeeds[culture]) {
-                stockSeeds[culture] -= amount;
-                saveData();
-                renderStockManagement();
-            }
         }
         
         function setSeedStockManual(culture, amount) {
