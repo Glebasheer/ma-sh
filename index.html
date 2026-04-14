@@ -368,7 +368,7 @@
     <form id="newPartyForm"><div class="form-group"><label>Культура *</label><select id="partyCulture" required></select></div>
     <div class="form-group"><label>Кол-во лотков *</label><input type="number" id="partyTrays" value="1" step="1" min="1" required></div>
     <div class="form-group"><label>Формат лотка</label><select id="partyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
-    <div class="form-group"><label>Вес семян на лоток (г) *</label><input type="number" id="partyNorm" step="1" required><div id="partyNormHint" class="recommendation"></div></div>
+    <div class="form-group"><label>Вес семян (г) *</label><input type="number" id="partyWeight" step="1" required></div>
     <div class="form-group"><label>Дата посева *</label><input type="date" id="partyDate" required></div>
     <div class="form-group"><label>Этап *</label><select id="partyStage"></select></div>
     <div class="form-group"><label>Заметки</label><textarea id="partyNotes" rows="2"></textarea></div>
@@ -378,7 +378,7 @@
     <form id="editPartyForm"><input type="hidden" id="editPartyId"><div class="form-group"><label>Культура</label><select id="editPartyCulture"></select></div>
     <div class="form-group"><label>Кол-во лотков</label><input type="number" id="editPartyTrays"></div>
     <div class="form-group"><label>Формат лотка</label><select id="editPartyContainer"><option>15x11</option><option>8x5</option><option>Проращиватель</option></select></div>
-    <div class="form-group"><label>Вес семян на лоток (г)</label><input type="number" id="editPartyNorm"></div>
+    <div class="form-group"><label>Вес семян (г)</label><input type="number" id="editPartyWeight"></div>
     <div class="form-group"><label>Дата посева</label><input type="date" id="editPartyDate"></div>
     <div class="form-group"><label>Этап</label><select id="editPartyStage"></select></div>
     <div class="form-group"><label>Заметки</label><textarea id="editPartyNotes" rows="2"></textarea></div>
@@ -386,7 +386,7 @@
 
     <div id="partyYieldModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 ЗАПИСАТЬ ВЫХОД ПАРТИИ</h3><button class="close-btn" onclick="window.hideModal('partyYieldModal')">×</button></div>
     <form id="partyYieldForm"><input type="hidden" id="yieldPartyId"><div class="form-group"><label>Вес готовой продукции (г) *</label><input type="number" id="yieldWeight" step="1" value="100"></div>
-    <div class="form-group"><label>Заметки</label><textarea id="yieldNotes" rows="2"></textarea></div>
+    <div class="form-group"><label>Заметки</label><textarea id="yieldNotes" rows="2" placeholder="Дополнительная информация..."></textarea></div>
     <div class="flex-btns"><button type="button" class="btn-secondary btn-small" onclick="window.hideModal('partyYieldModal')">Отмена</button><button type="submit" class="btn-small">Сохранить выход</button></div></form></div></div>
 
     <div id="deliverModal" class="modal"><div class="modal-content"><div class="modal-header"><h3>📦 ВЫДАТЬ ЗАКАЗ</h3><button class="close-btn" onclick="window.hideModal('deliverModal')">×</button></div>
@@ -599,8 +599,8 @@
         
         function updateSeedStockFromParties() {
             parties.forEach(p => {
-                if (p.traysCount && p.normPerTray) {
-                    const usedSeeds = p.traysCount * p.normPerTray;
+                if (p.traysCount && p.weight) {
+                    const usedSeeds = p.traysCount * p.weight;
                     const culture = p.culture;
                     if (stockSeeds[culture]) {
                         stockSeeds[culture] -= usedSeeds;
@@ -637,7 +637,7 @@
             document.getElementById('totalExpenses').textContent = fin.totalExpenses + '₽';
             document.getElementById('currentBalance').textContent = fin.currentBalance + '₽';
             const activeParties = parties.filter(p => p.currentStage !== 'srezka' && p.currentStage !== 'sbor').sort((a, b) => new Date(b.dateSown) - new Date(a.dateSown)).slice(0, 5);
-            const activeHtml = activeParties.map(p => { const harvest = getHarvestDate(p); const progress = getProgressByDays(p); const totalSeeds = safeNumber(p.traysCount) * safeNumber(p.normPerTray); return `<div class="card"><div class="card-header"><span>🌱 ${escapeHtml(p.culture)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.traysCount} шт • ${p.normPerTray}г/лоток • Всего: ${totalSeeds}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="prevStage('${p.id}')">◀️ Предыдущий</button><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">Следующий ➡️</button><button class="btn-small btn-secondary" onclick="editParty('${p.id}')">✏️</button>${(p.currentStage === 'srezka' || p.currentStage === 'sbor') && !p.yieldData ? `<button class="btn-small btn-success" onclick="openYieldModal('${p.id}')">📦 Выход</button>` : ''}</div></div>`; }).join('');
+            const activeHtml = activeParties.map(p => { const harvest = getHarvestDate(p); const progress = getProgressByDays(p); const totalSeeds = safeNumber(p.traysCount) * safeNumber(p.weight); return `<div class="card"><div class="card-header"><span>🌱 ${escapeHtml(p.culture)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.traysCount} шт • ${p.weight}г/лоток • Всего: ${totalSeeds}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}</div><div class="flex-btns"><button class="btn-small btn-secondary" onclick="prevStage('${p.id}')">◀️ Предыдущий</button><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">Следующий ➡️</button><button class="btn-small btn-secondary" onclick="editParty('${p.id}')">✏️</button>${(p.currentStage === 'srezka' || p.currentStage === 'sbor') && !p.yieldData ? `<button class="btn-small btn-success" onclick="openYieldModal('${p.id}')">📦 Выход</button>` : ''}</div></div>`; }).join('');
             document.getElementById('activePartiesList').innerHTML = activeHtml || '<div class="empty-state">Нет активных партий</div>';
         }
         
@@ -651,12 +651,12 @@
             const html = sortedParties.map(p => { 
                 const harvest = getHarvestDate(p); 
                 const progress = getProgressByDays(p); 
-                const totalSeeds = safeNumber(p.traysCount) * safeNumber(p.normPerTray); 
+                const totalSeeds = safeNumber(p.traysCount) * safeNumber(p.weight); 
                 let yieldText = ''; 
                 if (p.yieldData) { 
                     yieldText = `📦 Выход: ${p.yieldData.value} г (${Math.round(p.yieldData.value / totalSeeds * 100)}%)`;
                 } 
-                return `<div class="card"><div class="card-header"><span>🌱 ${escapeHtml(p.culture)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.traysCount} шт • ${p.normPerTray}г/лоток • Всего: ${totalSeeds}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}</div>${p.notes ? `<div class="card-details">📝 ${escapeHtml(p.notes)}</div>` : ''}${yieldText ? `<div class="card-details">${yieldText}</div>` : ''}<div class="flex-btns"><button class="btn-small btn-secondary" onclick="prevStage('${p.id}')">◀️ Предыдущий</button><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">Следующий ➡️</button><button class="btn-small btn-secondary" onclick="editParty('${p.id}')">✏️</button><button class="btn-small btn-danger" onclick="deleteParty('${p.id}')">🗑️</button>${(p.currentStage === 'srezka' || p.currentStage === 'sbor') && !p.yieldData ? `<button class="btn-small btn-success" onclick="openYieldModal('${p.id}')">📦 Выход</button>` : ''}</div></div>`; }).join('');
+                return `<div class="card"><div class="card-header"><span>🌱 ${escapeHtml(p.culture)}</span><span class="status status-${p.currentStage}">${getStageName(p.currentStage)}</span></div><div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div><div class="card-details">${p.container} • ${p.traysCount} шт • ${p.weight}г/лоток • Всего: ${totalSeeds}г • Посев: ${formatDate(p.dateSown)} • Сбор: ${formatDate(harvest.toISOString().slice(0,10))}</div>${p.notes ? `<div class="card-details">📝 ${escapeHtml(p.notes)}</div>` : ''}${yieldText ? `<div class="card-details">${yieldText}</div>` : ''}<div class="flex-btns"><button class="btn-small btn-secondary" onclick="prevStage('${p.id}')">◀️ Предыдущий</button><button class="btn-small btn-secondary" onclick="nextStage('${p.id}')">Следующий ➡️</button><button class="btn-small btn-secondary" onclick="editParty('${p.id}')">✏️</button><button class="btn-small btn-danger" onclick="deleteParty('${p.id}')">🗑️</button>${(p.currentStage === 'srezka' || p.currentStage === 'sbor') && !p.yieldData ? `<button class="btn-small btn-success" onclick="openYieldModal('${p.id}')">📦 Выход</button>` : ''}</div></div>`; }).join('');
             document.getElementById('partiesList').innerHTML = html || '<div class="empty-state">🌱 Нет партий</div>';
             
             const cultureFilter = document.getElementById('partyCultureFilter');
@@ -875,7 +875,7 @@
             })).sort((a,b) => new Date(a.Дата.split('.').reverse().join('-')) - new Date(b.Дата.split('.').reverse().join('-')));
             
             const partiesData = filteredParties.map(p => {
-                const totalSeeds = p.traysCount * p.normPerTray;
+                const totalSeeds = p.traysCount * p.weight;
                 const daysCount = Math.floor((new Date(p.yieldData.date) - new Date(p.dateSown)) / (1000 * 60 * 60 * 24));
                 return {
                     'Культура': p.culture,
@@ -1024,34 +1024,18 @@
             if (stageSelect) { const culture = document.getElementById('partyCulture')?.value; const stages = getStages(culture); stageSelect.innerHTML = stages.map(s => `<option value="${s}">${getStageName(s)}</option>`).join(''); } 
         }
         
-        function updateWeightHint() { 
-            const culture = document.getElementById('partyCulture')?.value; 
-            const container = document.getElementById('partyContainer')?.value; 
-            const c = cultures[culture]; 
-            const hintEl = document.getElementById('partyNormHint'); 
-            if (c && hintEl) { 
-                const norm = container === '15x11' ? c.norm15 : c.norm8; 
-                hintEl.innerHTML = `📌 Рекомендация: ${norm}г (мин: ${Math.floor(norm * 0.8)}г, макс: ${Math.floor(norm * 1.2)}г)`; 
-            } else if (hintEl) hintEl.innerHTML = ''; 
-        }
-
         // ==================== ОБРАБОТЧИКИ ФОРМ ====================
         document.getElementById('newPartyForm')?.addEventListener('submit', (e) => { 
             e.preventDefault(); 
             const culture = document.getElementById('partyCulture').value; 
-            const norm = safeNumber(document.getElementById('partyNorm').value); 
-            let finalNorm = norm; 
-            if (norm === 0) { 
-                const container = document.getElementById('partyContainer').value; 
-                const c = cultures[culture]; 
-                if (c) finalNorm = container === '15x11' ? c.norm15 : c.norm8; 
-            } 
+            const weight = safeNumber(document.getElementById('partyWeight').value); 
+            const traysCount = safeNumber(document.getElementById('partyTrays').value);
             parties.push({ 
                 id: 'p' + Date.now(), 
                 culture: culture, 
-                traysCount: safeNumber(document.getElementById('partyTrays').value), 
+                traysCount: traysCount, 
                 container: document.getElementById('partyContainer').value, 
-                normPerTray: finalNorm, 
+                weight: weight, 
                 dateSown: document.getElementById('partyDate').value, 
                 currentStage: document.getElementById('partyStage').value, 
                 notes: document.getElementById('partyNotes').value, 
@@ -1071,7 +1055,7 @@
             if (party) { 
                 party.culture = document.getElementById('editPartyCulture').value; 
                 party.traysCount = safeNumber(document.getElementById('editPartyTrays').value); 
-                party.normPerTray = safeNumber(document.getElementById('editPartyNorm').value); 
+                party.weight = safeNumber(document.getElementById('editPartyWeight').value); 
                 party.dateSown = document.getElementById('editPartyDate').value; 
                 party.container = document.getElementById('editPartyContainer').value; 
                 party.currentStage = document.getElementById('editPartyStage').value; 
@@ -1342,7 +1326,6 @@
                 const stages = getStages(culture); 
                 const stageSelect = document.getElementById('partyStage'); 
                 if (stageSelect) stageSelect.innerHTML = stages.map(s => `<option value="${s}">${getStageName(s)}</option>`).join(''); 
-                updateWeightHint(); 
             } 
             if (id === 'newOrderModal') { 
                 document.getElementById('orderDate').value = new Date().toISOString().slice(0, 10); 
@@ -1351,6 +1334,7 @@
                 if (currentOrderItems.length === 0) addOrderItem(); 
                 document.getElementById('orderClientSearch').value = ''; 
                 document.getElementById('orderClient').value = ''; 
+                document.getElementById('orderNotes').value = '';
             } 
             if (id === 'newSaleModal') { 
                 document.getElementById('saleDate').value = new Date().toISOString().slice(0, 10); 
@@ -1359,13 +1343,19 @@
                 if (currentSaleItems.length === 0) addSaleItem(); 
                 document.getElementById('saleClientSearch').value = ''; 
                 document.getElementById('saleClient').value = ''; 
+                document.getElementById('saleNotes').value = '';
             } 
             if (id === 'newExpenseModal') { 
                 document.getElementById('expenseDate').value = new Date().toISOString().slice(0, 10); 
                 document.getElementById('expenseSeedGroup').style.display = 'none'; 
+                document.getElementById('expenseName').value = '';
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseSeedWeight').value = '';
+                document.getElementById('expenseDetails').value = '';
             } 
             if (id === 'newAchievementModal') { 
                 document.getElementById('achievementDate').value = new Date().toISOString().slice(0, 10); 
+                document.getElementById('achievementDesc').value = '';
             } 
             modal.style.display = 'block'; 
         };
@@ -1392,14 +1382,13 @@
         
         window.prevStage = function(id) { const party = parties.find(p => p.id === id); if (party) { const stages = getStages(party.culture); const idx = stages.indexOf(party.currentStage); if (idx > 0) { party.currentStage = stages[idx - 1]; saveData(); renderAll(); showToast(`✅ Этап изменен на "${getStageName(party.currentStage)}"`); } else showToast('⛔ Это первый этап', 'info'); } };
         window.nextStage = function(id) { const party = parties.find(p => p.id === id); if (party) { const stages = getStages(party.culture); const idx = stages.indexOf(party.currentStage); if (idx < stages.length - 1) { party.currentStage = stages[idx + 1]; if (!party.stages) party.stages = {}; party.stages[party.currentStage] = new Date().toISOString(); saveData(); renderAll(); showToast(`✅ Этап изменен на "${getStageName(party.currentStage)}"`); } else showToast('🎉 Партия завершена!', 'info'); } };
-        
         window.editParty = function(id) { 
             const party = parties.find(p => p.id === id); 
             if (party) { 
                 document.getElementById('editPartyId').value = party.id; 
                 document.getElementById('editPartyCulture').value = party.culture; 
                 document.getElementById('editPartyTrays').value = party.traysCount; 
-                document.getElementById('editPartyNorm').value = party.normPerTray; 
+                document.getElementById('editPartyWeight').value = party.weight; 
                 document.getElementById('editPartyDate').value = party.dateSown; 
                 document.getElementById('editPartyContainer').value = party.container; 
                 document.getElementById('editPartyNotes').value = party.notes || ''; 
@@ -1544,9 +1533,7 @@
             const stages = getStages(culture); 
             const stageSelect = document.getElementById('partyStage'); 
             if (stageSelect) stageSelect.innerHTML = stages.map(s => `<option value="${s}">${getStageName(s)}</option>`).join(''); 
-            updateWeightHint(); 
         });
-        document.getElementById('partyContainer')?.addEventListener('change', updateWeightHint);
         document.getElementById('partyCultureFilter')?.addEventListener('change', () => renderParties());
         document.getElementById('notifyBtn')?.addEventListener('click', () => { 
             if (Notification.permission === 'granted') { 
